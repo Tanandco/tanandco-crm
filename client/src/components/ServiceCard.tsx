@@ -20,7 +20,7 @@ export default function ServiceCard({ title, icon, onClick, disabled = false, cl
       className={`
         group relative h-[130px] w-[130px] sm:h-[140px] sm:w-[140px] md:h-[150px] md:w-[150px]
         bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
-        border border-primary/60 hover:border-primary 
+        border border-pink-400/60 hover:border-pink-400 
         rounded-md backdrop-blur-sm
         flex flex-col items-center justify-between pb-4
         transition-all duration-300 ease-in-out

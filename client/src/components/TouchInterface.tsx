@@ -56,7 +56,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
             className="
               group relative h-[60px] w-[120px]
               bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
-              border border-primary/60 hover:border-primary
+              border border-pink-400/60 hover:border-pink-400
               rounded-md backdrop-blur-sm
               flex items-center justify-center gap-2
               transition-all duration-300 ease-in-out
@@ -91,7 +91,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
             className="
               group relative h-[60px] w-[120px]
               bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
-              border border-primary/60 hover:border-primary
+              border border-pink-400/60 hover:border-pink-400
               rounded-md backdrop-blur-sm
               flex items-center justify-center gap-2
               transition-all duration-300 ease-in-out
@@ -144,7 +144,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
           className="
             group relative h-[80px] w-[280px]
             bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
-            border-2 border-primary/60 hover:border-primary
+            border-2 border-pink-400/60 hover:border-pink-400
             rounded-md backdrop-blur-sm
             flex items-center justify-center gap-4
             transition-all duration-300 ease-in-out
@@ -295,7 +295,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
           data-testid="button-home"
         >
           <Home 
-            className="text-white group-hover:text-primary transition-colors duration-300" 
+            className="text-white group-hover:text-pink-400 transition-colors duration-300" 
             size={20}
             style={{
               filter: 'drop-shadow(0 0 8px rgba(255, 255, 255, 0.3))'
@@ -321,7 +321,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
           data-testid="button-settings"
         >
           <Settings 
-            className="text-white group-hover:text-primary transition-colors duration-300" 
+            className="text-white group-hover:text-pink-400 transition-colors duration-300" 
             size={20}
             style={{
               filter: 'drop-shadow(0 0 8px rgba(255, 255, 255, 0.3))'
