@@ -56,7 +56,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
             className="
               group relative h-[60px] w-[120px]
               bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
-              border-2 border-gray-500 hover:border-gray-400
+              border border-primary/60 hover:border-primary
               rounded-md backdrop-blur-sm
               flex items-center justify-center gap-2
               transition-all duration-300 ease-in-out
@@ -91,7 +91,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
             className="
               group relative h-[60px] w-[120px]
               bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
-              border-2 border-gray-500 hover:border-gray-400
+              border border-primary/60 hover:border-primary
               rounded-md backdrop-blur-sm
               flex items-center justify-center gap-2
               transition-all duration-300 ease-in-out
