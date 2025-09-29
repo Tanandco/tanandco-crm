@@ -13,7 +13,7 @@ export default function Logo({ className = "", showGlow = true, showUnderline = 
         <img 
           src={logoImage}
           alt="Tan&Co. 24|7"
-          className="h-12 md:h-14 lg:h-16 object-contain"
+          className="h-24 md:h-32 lg:h-40 object-contain"
           style={{
             filter: showGlow ? 'drop-shadow(0 0 40px rgba(236, 72, 153, 0.9)) drop-shadow(0 0 80px rgba(147, 51, 234, 0.6))' : 'none'
           }}
@@ -22,7 +22,7 @@ export default function Logo({ className = "", showGlow = true, showUnderline = 
       </div>
       {showUnderline && (
         <div 
-          className="w-48 h-1 mt-3 rounded-full opacity-90"
+          className="w-64 md:w-80 h-1 mt-4 rounded-full opacity-90"
           style={{
             background: 'linear-gradient(to right, transparent, rgba(236, 72, 153, 0.9), rgba(147, 51, 234, 0.7), transparent)'
           }}

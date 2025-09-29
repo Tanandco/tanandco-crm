@@ -24,7 +24,6 @@ export default function ServiceCard({ title, icon, onClick, disabled = false, cl
         rounded-md backdrop-blur-sm
         flex flex-col items-center justify-center gap-2
         transition-all duration-300 ease-in-out
-        hover:scale-105 active:scale-95
         disabled:opacity-50 disabled:cursor-not-allowed
         hover-elevate active-elevate-2
         ${className}
@@ -50,7 +49,7 @@ export default function ServiceCard({ title, icon, onClick, disabled = false, cl
           );
         })()
       )}
-      <span className="text-sm font-medium text-white text-center font-hebrew px-2">
+      <span className="text-base md:text-lg font-medium text-white text-center font-hebrew px-2">
         {title}
       </span>
       

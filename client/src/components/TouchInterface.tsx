@@ -49,9 +49,9 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
       data-testid="touch-interface"
     >
       {/* Main Content */}
-      <div className="relative z-10 px-6 py-4 flex flex-col items-center justify-center flex-1">
+      <div className="relative z-10 mx-auto max-w-[1280px] w-full px-6 py-6 flex flex-col items-center flex-1">
         {/* Top Buttons - Search and Registration */}
-        <div className="flex gap-3 mb-4 w-full justify-center">
+        <div className="flex gap-4 mb-8 w-full justify-center">
           <button
             className="
               group relative h-[60px] w-[120px]
@@ -60,7 +60,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
               rounded-md backdrop-blur-sm
               flex items-center justify-center gap-2
               transition-all duration-300 ease-in-out
-              hover:scale-105 active:scale-95
+
               hover-elevate active-elevate-2
               px-4 text-sm font-medium
             "
@@ -95,7 +95,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
               rounded-md backdrop-blur-sm
               flex items-center justify-center gap-2
               transition-all duration-300 ease-in-out
-              hover:scale-105 active:scale-95
+
               hover-elevate active-elevate-2
               px-4 text-sm font-medium
             "
@@ -124,10 +124,10 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
         </div>
 
         {/* Logo */}
-        <Logo className="mb-6" showGlow={true} showUnderline={true} />
+        <Logo className="mb-8" showGlow={true} showUnderline={true} />
 
         {/* Service Cards - 6 in one row */}
-        <div className="flex gap-3 mb-6 justify-center flex-wrap">
+        <div className="flex gap-4 justify-center flex-wrap flex-1 max-w-6xl">
           {services.map((service) => (
             <ServiceCard
               key={service.id}
@@ -139,6 +139,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
         </div>
 
         {/* Self Service Button */}
+        <div className="mt-auto">
         <button
           className="
             group relative h-[80px] w-[280px]
@@ -177,6 +178,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
           {/* 3D highlight */}
           <div className="absolute inset-0 rounded-md border border-white/10 pointer-events-none" />
         </button>
+        </div>
       </div>
 
       {/* Corner Icons */}
