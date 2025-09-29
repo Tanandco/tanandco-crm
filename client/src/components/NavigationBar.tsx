@@ -53,7 +53,7 @@ export default function NavigationBar({ currentPath = '/', onNavigate }: Navigat
               data-testid={`nav-${item.path.replace('/', '') || 'home'}`}
             >
               {item.icon === 'alin' ? (
-                <Alin size={30} />
+                <Alin size={39} />
               ) : (
                 (() => {
                   const Icon = item.icon as React.ElementType;

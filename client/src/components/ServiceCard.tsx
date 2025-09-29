@@ -35,7 +35,7 @@ export default function ServiceCard({ title, icon, onClick, disabled = false, cl
       data-testid={`service-card-${title.replace(/\s+/g, '-').toLowerCase()}`}
     >
       {icon === 'alin' ? (
-        <Alin size={80} />
+        <Alin size={104} />
       ) : (
         (() => {
           const Icon = icon as LucideIcon;
