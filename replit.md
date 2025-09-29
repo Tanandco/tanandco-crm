@@ -69,11 +69,20 @@ Preferred communication style: Simple, everyday language.
   - Inbound/outbound webhooks configured
   - Customer engagement workflow automation
   - Purchase options, payment confirmations, onboarding links
+  - **Required Environment Variables:**
+    - `WA_PHONE_NUMBER_ID` - WhatsApp Business Phone Number ID
+    - `CLOUD_API_ACCESS_TOKEN` - Meta Cloud API Access Token
+    - `CLOUD_API_VERSION` - API Version (default: v21.0)
+    - `WA_VERIFY_TOKEN` - Webhook verification token
 - **Cardcom Payment Gateway** ✅: Full payment processing integration
   - Low Profile API for hosted payment pages
   - Webhook support for transaction notifications
   - Automatic membership and transaction updates
   - Invoice generation capabilities
+  - **Required Environment Variables:**
+    - `CARDCOM_TERMINAL_NUMBER` - Terminal number from Cardcom
+    - `CARDCOM_API_USERNAME` - API username
+    - `CARDCOM_API_PASSWORD` - API password (optional)
 - **BioStar 2** ✅: Facial recognition and access control
   - Face identification for customer check-in
   - Face registration during onboarding
@@ -83,6 +92,45 @@ Preferred communication style: Simple, everyday language.
     - `BIOSTAR_USERNAME` (admin username)
     - `BIOSTAR_PASSWORD` (admin password)
   - Optional: `BIOSTAR_ALLOW_SELF_SIGNED=true` for self-signed certificates
+
+### Social Media Automation ✅
+- **Meta Marketing API** (Facebook/Instagram Ads): Full automation suite
+  - Campaign creation and management
+  - Real-time performance monitoring
+  - Automatic budget optimization
+  - Custom audience syncing from CRM
+  - **Required Environment Variables:**
+    - `META_ACCESS_TOKEN` - Long-lived Meta Marketing API access token
+    - `META_AD_ACCOUNT_ID` - Facebook Ad Account ID (format: act_XXXXXXXXXX)
+- **Google Ads API**: Complete campaign automation
+  - Search campaign management
+  - Responsive search ads
+  - Automated bidding strategies
+  - Performance tracking
+  - **Required Environment Variables:**
+    - `GOOGLE_ADS_CLIENT_ID` - OAuth 2.0 Client ID
+    - `GOOGLE_ADS_CLIENT_SECRET` - OAuth 2.0 Client Secret
+    - `GOOGLE_ADS_REFRESH_TOKEN` - OAuth 2.0 Refresh Token
+    - `GOOGLE_ADS_DEVELOPER_TOKEN` - Google Ads API Developer Token
+    - `GOOGLE_ADS_CUSTOMER_ID` - Customer ID (format: XXX-XXX-XXXX)
+- **TikTok Ads API**: Video advertising automation
+  - Campaign and ad group management
+  - Video ad creation
+  - Audience targeting
+  - Performance analytics
+  - **Required Environment Variables:**
+    - `TIKTOK_ACCESS_TOKEN` - TikTok Marketing API access token
+    - `TIKTOK_ADVERTISER_ID` - TikTok Advertiser Account ID
+
+### Automation Engine Features
+- **Performance Monitoring**: Automated checks every 15 minutes
+- **Budget Optimization**: Automatic adjustments (±30-50%) based on performance
+- **A/B Testing**: Intelligent comparison and winner identification
+- **Budget Pacing**: Real-time spend rate monitoring with alerts
+- **Audience Syncing**: CRM customer data → ad platform custom audiences
+- **WhatsApp Alerts**: Real-time notifications for critical events
+- **General Settings:**
+  - `ADMIN_PHONE` - WhatsApp phone number for automation alerts (format: 972XXXXXXXXX)
 
 ### Planned Integrations
 - **Jotform**: Digital health forms and signature collection

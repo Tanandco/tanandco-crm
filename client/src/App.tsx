@@ -11,6 +11,7 @@ import FaceIdentification from "@/pages/FaceIdentification";
 import Services from "@/pages/Services";
 import ManualEntry from "@/pages/ManualEntry";
 import CustomerManagement from "@/pages/CustomerManagement";
+import AutomationDashboard from "@/pages/automation-dashboard";
 
 // Import component examples for preview
 import LogoExample from "@/components/examples/Logo";
@@ -28,6 +29,7 @@ function Router() {
       <Route path="/services" component={Services} />
       <Route path="/manual-entry" component={ManualEntry} />
       <Route path="/customers" component={CustomerManagement} />
+      <Route path="/automation" component={AutomationDashboard} />
       
       {/* Component Examples for Development/Preview */}
       <Route path="/examples/logo" component={LogoExample} />
