@@ -8,7 +8,19 @@ import {
   type Product,
   type InsertProduct,
   type Transaction,
-  type InsertTransaction
+  type InsertTransaction,
+  type AutomationSetting,
+  type InsertAutomationSetting,
+  type Campaign,
+  type InsertCampaign,
+  type AdSet,
+  type InsertAdSet,
+  type Ad,
+  type InsertAd,
+  type ContentQueue,
+  type InsertContentQueue,
+  type AutomationLog,
+  type InsertAutomationLog
 } from "@shared/schema";
 import { randomUUID } from "crypto";
 
@@ -52,6 +64,51 @@ export interface IStorage {
   getTransactionsByCustomer(customerId: string): Promise<Transaction[]>;
   createTransaction(transaction: InsertTransaction): Promise<Transaction>;
   updateTransaction(id: string, transaction: Partial<InsertTransaction>): Promise<Transaction | undefined>;
+
+  // Automation Settings operations
+  getAutomationSettings(): Promise<AutomationSetting[]>;
+  getAutomationSetting(settingKey: string): Promise<AutomationSetting | undefined>;
+  createAutomationSetting(setting: InsertAutomationSetting): Promise<AutomationSetting>;
+  updateAutomationSetting(settingKey: string, setting: Partial<InsertAutomationSetting>): Promise<AutomationSetting | undefined>;
+
+  // Campaign operations
+  getCampaigns(): Promise<Campaign[]>;
+  getCampaignsByPlatform(platform: string): Promise<Campaign[]>;
+  getCampaign(id: string): Promise<Campaign | undefined>;
+  createCampaign(campaign: InsertCampaign): Promise<Campaign>;
+  updateCampaign(id: string, campaign: Partial<InsertCampaign>): Promise<Campaign | undefined>;
+  deleteCampaign(id: string): Promise<void>;
+
+  // AdSet operations
+  getAdSets(): Promise<AdSet[]>;
+  getAdSetsByCampaign(campaignId: string): Promise<AdSet[]>;
+  getAdSet(id: string): Promise<AdSet | undefined>;
+  createAdSet(adSet: InsertAdSet): Promise<AdSet>;
+  updateAdSet(id: string, adSet: Partial<InsertAdSet>): Promise<AdSet | undefined>;
+  deleteAdSet(id: string): Promise<void>;
+
+  // Ad operations
+  getAds(): Promise<Ad[]>;
+  getAdsByAdSet(adSetId: string): Promise<Ad[]>;
+  getAd(id: string): Promise<Ad | undefined>;
+  createAd(ad: InsertAd): Promise<Ad>;
+  updateAd(id: string, ad: Partial<InsertAd>): Promise<Ad | undefined>;
+  deleteAd(id: string): Promise<void>;
+
+  // Content Queue operations
+  getContentQueue(): Promise<ContentQueue[]>;
+  getContentQueueByStatus(status: string): Promise<ContentQueue[]>;
+  getContentQueueByPlatform(platform: string): Promise<ContentQueue[]>;
+  getContentQueueItem(id: string): Promise<ContentQueue | undefined>;
+  createContentQueueItem(item: InsertContentQueue): Promise<ContentQueue>;
+  updateContentQueueItem(id: string, item: Partial<InsertContentQueue>): Promise<ContentQueue | undefined>;
+  deleteContentQueueItem(id: string): Promise<void>;
+
+  // Automation Log operations
+  getAutomationLogs(limit?: number): Promise<AutomationLog[]>;
+  getAutomationLogsByPlatform(platform: string, limit?: number): Promise<AutomationLog[]>;
+  getAutomationLogsByEntity(entity: string, entityId: string): Promise<AutomationLog[]>;
+  createAutomationLog(log: InsertAutomationLog): Promise<AutomationLog>;
 }
 
 export class MemStorage implements IStorage {
@@ -60,6 +117,12 @@ export class MemStorage implements IStorage {
   private memberships: Map<string, Membership>;
   private products: Map<string, Product>;
   private transactions: Map<string, Transaction>;
+  private automationSettings: Map<string, AutomationSetting>;
+  private campaigns: Map<string, Campaign>;
+  private adSets: Map<string, AdSet>;
+  private ads: Map<string, Ad>;
+  private contentQueue: Map<string, ContentQueue>;
+  private automationLogs: AutomationLog[];
 
   constructor() {
     this.users = new Map();
@@ -67,6 +130,12 @@ export class MemStorage implements IStorage {
     this.memberships = new Map();
     this.products = new Map();
     this.transactions = new Map();
+    this.automationSettings = new Map();
+    this.campaigns = new Map();
+    this.adSets = new Map();
+    this.ads = new Map();
+    this.contentQueue = new Map();
+    this.automationLogs = [];
   }
 
   async getUser(id: string): Promise<User | undefined> {
@@ -289,6 +358,250 @@ export class MemStorage implements IStorage {
     const updated = { ...transaction, ...updates };
     this.transactions.set(id, updated);
     return updated;
+  }
+
+  // Automation Settings operations
+  async getAutomationSettings(): Promise<AutomationSetting[]> {
+    return Array.from(this.automationSettings.values());
+  }
+
+  async getAutomationSetting(settingKey: string): Promise<AutomationSetting | undefined> {
+    return this.automationSettings.get(settingKey);
+  }
+
+  async createAutomationSetting(insertSetting: InsertAutomationSetting): Promise<AutomationSetting> {
+    const id = randomUUID();
+    const setting: AutomationSetting = {
+      ...insertSetting,
+      id,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.automationSettings.set(insertSetting.settingKey, setting);
+    return setting;
+  }
+
+  async updateAutomationSetting(settingKey: string, updates: Partial<InsertAutomationSetting>): Promise<AutomationSetting | undefined> {
+    const setting = this.automationSettings.get(settingKey);
+    if (!setting) return undefined;
+    
+    const updated = {
+      ...setting,
+      ...updates,
+      updatedAt: new Date()
+    };
+    this.automationSettings.set(settingKey, updated);
+    return updated;
+  }
+
+  // Campaign operations
+  async getCampaigns(): Promise<Campaign[]> {
+    return Array.from(this.campaigns.values());
+  }
+
+  async getCampaignsByPlatform(platform: string): Promise<Campaign[]> {
+    return Array.from(this.campaigns.values()).filter(c => c.platform === platform);
+  }
+
+  async getCampaign(id: string): Promise<Campaign | undefined> {
+    return this.campaigns.get(id);
+  }
+
+  async createCampaign(insertCampaign: InsertCampaign): Promise<Campaign> {
+    const id = randomUUID();
+    const campaign: Campaign = {
+      ...insertCampaign,
+      id,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.campaigns.set(id, campaign);
+    return campaign;
+  }
+
+  async updateCampaign(id: string, updates: Partial<InsertCampaign>): Promise<Campaign | undefined> {
+    const campaign = this.campaigns.get(id);
+    if (!campaign) return undefined;
+    
+    const updated = {
+      ...campaign,
+      ...updates,
+      updatedAt: new Date()
+    };
+    this.campaigns.set(id, updated);
+    return updated;
+  }
+
+  async deleteCampaign(id: string): Promise<void> {
+    this.campaigns.delete(id);
+  }
+
+  // AdSet operations
+  async getAdSets(): Promise<AdSet[]> {
+    return Array.from(this.adSets.values());
+  }
+
+  async getAdSetsByCampaign(campaignId: string): Promise<AdSet[]> {
+    return Array.from(this.adSets.values()).filter(a => a.campaignId === campaignId);
+  }
+
+  async getAdSet(id: string): Promise<AdSet | undefined> {
+    return this.adSets.get(id);
+  }
+
+  async createAdSet(insertAdSet: InsertAdSet): Promise<AdSet> {
+    const id = randomUUID();
+    const adSet: AdSet = {
+      ...insertAdSet,
+      id,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.adSets.set(id, adSet);
+    return adSet;
+  }
+
+  async updateAdSet(id: string, updates: Partial<InsertAdSet>): Promise<AdSet | undefined> {
+    const adSet = this.adSets.get(id);
+    if (!adSet) return undefined;
+    
+    const updated = {
+      ...adSet,
+      ...updates,
+      updatedAt: new Date()
+    };
+    this.adSets.set(id, updated);
+    return updated;
+  }
+
+  async deleteAdSet(id: string): Promise<void> {
+    this.adSets.delete(id);
+  }
+
+  // Ad operations
+  async getAds(): Promise<Ad[]> {
+    return Array.from(this.ads.values());
+  }
+
+  async getAdsByAdSet(adSetId: string): Promise<Ad[]> {
+    return Array.from(this.ads.values()).filter(a => a.adSetId === adSetId);
+  }
+
+  async getAd(id: string): Promise<Ad | undefined> {
+    return this.ads.get(id);
+  }
+
+  async createAd(insertAd: InsertAd): Promise<Ad> {
+    const id = randomUUID();
+    const ad: Ad = {
+      ...insertAd,
+      id,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.ads.set(id, ad);
+    return ad;
+  }
+
+  async updateAd(id: string, updates: Partial<InsertAd>): Promise<Ad | undefined> {
+    const ad = this.ads.get(id);
+    if (!ad) return undefined;
+    
+    const updated = {
+      ...ad,
+      ...updates,
+      updatedAt: new Date()
+    };
+    this.ads.set(id, updated);
+    return updated;
+  }
+
+  async deleteAd(id: string): Promise<void> {
+    this.ads.delete(id);
+  }
+
+  // Content Queue operations
+  async getContentQueue(): Promise<ContentQueue[]> {
+    return Array.from(this.contentQueue.values());
+  }
+
+  async getContentQueueByStatus(status: string): Promise<ContentQueue[]> {
+    return Array.from(this.contentQueue.values()).filter(c => c.status === status);
+  }
+
+  async getContentQueueByPlatform(platform: string): Promise<ContentQueue[]> {
+    return Array.from(this.contentQueue.values()).filter(c => c.platform === platform);
+  }
+
+  async getContentQueueItem(id: string): Promise<ContentQueue | undefined> {
+    return this.contentQueue.get(id);
+  }
+
+  async createContentQueueItem(insertItem: InsertContentQueue): Promise<ContentQueue> {
+    const id = randomUUID();
+    const item: ContentQueue = {
+      ...insertItem,
+      id,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.contentQueue.set(id, item);
+    return item;
+  }
+
+  async updateContentQueueItem(id: string, updates: Partial<InsertContentQueue>): Promise<ContentQueue | undefined> {
+    const item = this.contentQueue.get(id);
+    if (!item) return undefined;
+    
+    const updated = {
+      ...item,
+      ...updates,
+      updatedAt: new Date()
+    };
+    this.contentQueue.set(id, updated);
+    return updated;
+  }
+
+  async deleteContentQueueItem(id: string): Promise<void> {
+    this.contentQueue.delete(id);
+  }
+
+  // Automation Log operations
+  async getAutomationLogs(limit?: number): Promise<AutomationLog[]> {
+    const logs = [...this.automationLogs].sort((a, b) => 
+      b.timestamp.getTime() - a.timestamp.getTime()
+    );
+    return limit ? logs.slice(0, limit) : logs;
+  }
+
+  async getAutomationLogsByPlatform(platform: string, limit?: number): Promise<AutomationLog[]> {
+    const logs = this.automationLogs
+      .filter(l => l.platform === platform)
+      .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
+    return limit ? logs.slice(0, limit) : logs;
+  }
+
+  async getAutomationLogsByEntity(entity: string, entityId: string): Promise<AutomationLog[]> {
+    return this.automationLogs
+      .filter(l => l.entity === entity && l.entityId === entityId)
+      .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
+  }
+
+  async createAutomationLog(insertLog: InsertAutomationLog): Promise<AutomationLog> {
+    const id = randomUUID();
+    const log: AutomationLog = {
+      ...insertLog,
+      id,
+      timestamp: insertLog.timestamp || new Date()
+    };
+    this.automationLogs.push(log);
+    
+    // Keep only last 10000 logs in memory
+    if (this.automationLogs.length > 10000) {
+      this.automationLogs = this.automationLogs.slice(-10000);
+    }
+    
+    return log;
   }
 }
 
