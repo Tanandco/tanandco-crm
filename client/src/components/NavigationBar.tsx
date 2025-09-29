@@ -23,11 +23,11 @@ export default function NavigationBar({ currentPath = '/', onNavigate }: Navigat
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50">
+    <div className="fixed top-1/2 right-4 -translate-y-1/2 z-50">
       <div 
-        className="flex items-center justify-center gap-2 px-4 py-3 mx-4 mb-4 rounded-xl backdrop-blur-xl border border-slate-600/30"
+        className="flex flex-col items-center justify-center gap-2 px-3 py-4 rounded-xl backdrop-blur-xl border border-slate-600/30"
         style={{
-          background: 'linear-gradient(to right, rgba(51, 65, 85, 0.8), rgba(71, 85, 105, 0.8))'
+          background: 'linear-gradient(to bottom, rgba(51, 65, 85, 0.8), rgba(71, 85, 105, 0.8))'
         }}
         data-testid="navigation-bar"
       >
