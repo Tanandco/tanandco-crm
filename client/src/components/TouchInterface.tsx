@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import { Home, Palette, Scissors, Store, Sun, Droplets, Star, Search, UserPlus, Sparkles } from 'lucide-react';
+import { Home, Palette, Scissors, Store, Sun, Droplets, Star, Search, UserPlus, Sparkles, Settings } from 'lucide-react';
 import Logo from './Logo';
 import ServiceCard from './ServiceCard';
 import StatusDisplay from './StatusDisplay';
-import NavigationBar from './NavigationBar';
 import { Button } from '@/components/ui/button';
 
 interface TouchInterfaceProps {
@@ -180,11 +179,60 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
         </button>
       </div>
 
-      {/* Navigation */}
-      <NavigationBar 
-        currentPath={currentPath}
-        onNavigate={handleNavigation}
-      />
+      {/* Corner Icons */}
+      <div className="fixed top-4 right-4 z-50 flex gap-3">
+        <button
+          className="
+            group relative w-12 h-12
+            bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
+            border border-gray-500/60 hover:border-gray-400/80
+            rounded-lg backdrop-blur-sm
+            flex items-center justify-center
+            transition-all duration-300 ease-in-out
+            hover:scale-105 active:scale-95
+            hover-elevate active-elevate-2
+          "
+          style={{
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1)'
+          }}
+          onClick={() => handleNavigation('/')}
+          data-testid="button-home"
+        >
+          <Home 
+            className="text-white group-hover:text-primary transition-colors duration-300" 
+            size={20}
+            style={{
+              filter: 'drop-shadow(0 0 8px rgba(255, 255, 255, 0.3))'
+            }}
+          />
+        </button>
+        
+        <button
+          className="
+            group relative w-12 h-12
+            bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
+            border border-gray-500/60 hover:border-gray-400/80
+            rounded-lg backdrop-blur-sm
+            flex items-center justify-center
+            transition-all duration-300 ease-in-out
+            hover:scale-105 active:scale-95
+            hover-elevate active-elevate-2
+          "
+          style={{
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1)'
+          }}
+          onClick={() => handleNavigation('/settings')}
+          data-testid="button-settings"
+        >
+          <Settings 
+            className="text-white group-hover:text-primary transition-colors duration-300" 
+            size={20}
+            style={{
+              filter: 'drop-shadow(0 0 8px rgba(255, 255, 255, 0.3))'
+            }}
+          />
+        </button>
+      </div>
     </div>
   );
 }
