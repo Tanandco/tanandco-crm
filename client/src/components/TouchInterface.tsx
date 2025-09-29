@@ -56,17 +56,20 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
             className="
               group relative h-[60px] w-[120px]
               bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
-              border border-pink-400/60 hover:border-pink-400
+              border hover:border-2
               rounded-md backdrop-blur-sm
               flex items-center justify-center gap-2
               transition-all duration-300 ease-in-out
-
               hover-elevate active-elevate-2
               px-4 text-sm font-medium
             "
             style={{
+              borderColor: 'rgba(236, 72, 153, 0.6)',
               boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1)'
             }}
+            onMouseEnter={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 1)'}
+            onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.6)'}
+
             onClick={() => onNavigate?.('/search')}
             data-testid="button-search"
           >
@@ -91,17 +94,20 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
             className="
               group relative h-[60px] w-[120px]
               bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
-              border border-pink-400/60 hover:border-pink-400
+              border hover:border-2
               rounded-md backdrop-blur-sm
               flex items-center justify-center gap-2
               transition-all duration-300 ease-in-out
-
               hover-elevate active-elevate-2
               px-4 text-sm font-medium
             "
             style={{
+              borderColor: 'rgba(236, 72, 153, 0.6)',
               boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1)'
             }}
+            onMouseEnter={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 1)'}
+            onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.6)'}
+
             onClick={() => onNavigate?.('/register')}
             data-testid="button-register"
           >
@@ -144,20 +150,22 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
           className="
             group relative h-[80px] w-[280px]
             bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
-            border-2 border-pink-400/60 hover:border-pink-400
+            border-2
             rounded-md backdrop-blur-sm
             flex items-center justify-center gap-4
             transition-all duration-300 ease-in-out
-            hover:scale-105 active:scale-95
             hover-elevate active-elevate-2
             px-8 text-xl font-bold
             transform perspective-1000
           "
           style={{
+            borderColor: 'rgba(236, 72, 153, 0.6)',
             boxShadow: '0 8px 20px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.1)',
             transform: 'rotateX(5deg) rotateY(-2deg)',
             transformStyle: 'preserve-3d'
           }}
+          onMouseEnter={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 1)'}
+          onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.6)'}
           onClick={() => handleServiceClick('self-service')}
           data-testid="button-self-service"
         >

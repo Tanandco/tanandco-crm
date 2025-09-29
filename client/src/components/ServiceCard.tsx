@@ -20,7 +20,7 @@ export default function ServiceCard({ title, icon, onClick, disabled = false, cl
       className={`
         group relative h-[130px] w-[130px] sm:h-[140px] sm:w-[140px] md:h-[150px] md:w-[150px]
         bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
-        border border-pink-400/60 hover:border-pink-400 
+        border hover:border-2
         rounded-md backdrop-blur-sm
         flex flex-col items-center justify-between pb-4
         transition-all duration-300 ease-in-out
@@ -29,8 +29,11 @@ export default function ServiceCard({ title, icon, onClick, disabled = false, cl
         ${className}
       `}
       style={{
+        borderColor: 'rgba(236, 72, 153, 0.6)',
         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
       }}
+      onMouseEnter={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 1)'}
+      onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.6)'}
       data-testid={`service-card-${title.replace(/\s+/g, '-').toLowerCase()}`}
     >
       <div className="flex-1 flex items-center justify-center">
