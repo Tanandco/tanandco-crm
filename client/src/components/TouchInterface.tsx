@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Sun, Droplets, CreditCard, Plus, FileText, Headphones } from 'lucide-react';
+import { Bot, Home, Palette, Scissors, Hand, MapPin, Star, Search, UserPlus } from 'lucide-react';
 import Logo from './Logo';
 import ServiceCard from './ServiceCard';
 import StatusDisplay from './StatusDisplay';
 import NavigationBar from './NavigationBar';
+import { Button } from '@/components/ui/button';
 
 interface TouchInterfaceProps {
   onServiceSelect?: (service: string) => void;
@@ -16,12 +17,12 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
   const [currentPath, setCurrentPath] = useState('/');
 
   const services = [
-    { title: 'מיטות שיזוף UV', icon: Sun, id: 'uv-beds' },
-    { title: 'שיזוף בהתזה', icon: Droplets, id: 'spray-tan' },
-    { title: 'רכישת כרטיסיה', icon: CreditCard, id: 'buy-package' },
-    { title: 'טעינת יתרה', icon: Plus, id: 'add-credit' },
-    { title: 'טפסי בריאות', icon: FileText, id: 'health-forms' },
-    { title: 'שירות לקוחות', icon: Headphones, id: 'customer-service' },
+    { title: 'AI TAN', icon: Bot, id: 'ai-tan' },
+    { title: 'בתים', icon: Home, id: 'home' },
+    { title: 'קוסמטיקה', icon: Palette, id: 'cosmetics' },
+    { title: 'מספרה', icon: Scissors, id: 'hair-salon' },
+    { title: 'טיפולי גוף', icon: Hand, id: 'body-treatments' },
+    { title: 'כלונות אלקטרו', icon: MapPin, id: 'electro-devices' },
   ];
 
   const handleServiceClick = (serviceId: string) => {
@@ -45,46 +46,38 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
 
   return (
     <div 
-      className="min-h-screen text-white font-hebrew relative overflow-hidden"
-      style={{
-        background: 'linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--background)/0.95) 50%, hsl(var(--primary)/0.05) 100%)'
-      }}
+      className="min-h-screen bg-black text-white font-hebrew relative overflow-hidden"
       data-testid="touch-interface"
     >
-      {/* Animated background circles */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div 
-          className="absolute top-20 right-20 w-64 h-64 rounded-full opacity-10"
-          style={{
-            background: `radial-gradient(circle, hsl(var(--primary)) 0%, transparent 70%)`,
-            border: `2px solid hsl(var(--primary)/0.3)`,
-            animation: 'pulse 4s ease-in-out infinite'
-          }}
-        />
-        <div 
-          className="absolute bottom-20 left-20 w-48 h-48 rounded-full opacity-10"
-          style={{
-            background: `radial-gradient(circle, hsl(var(--primary)) 0%, transparent 70%)`,
-            border: `2px solid hsl(var(--primary)/0.3)`,
-            animation: 'pulse 6s ease-in-out infinite reverse'
-          }}
-        />
-      </div>
-
       {/* Main Content */}
-      <div className="relative z-10 px-6 py-8 pb-24">
+      <div className="relative z-10 px-6 py-8 flex flex-col items-center">
+        {/* Top Buttons - Search and Registration */}
+        <div className="flex gap-4 mb-12 w-full justify-center">
+          <Button 
+            variant="outline"
+            className="bg-slate-800/50 border-slate-600 hover:bg-slate-700/50 text-white px-8 py-6 text-lg"
+            onClick={() => onNavigate?.('/search')}
+            data-testid="button-search"
+          >
+            <Search className="ml-2" />
+            חיפוש
+          </Button>
+          <Button 
+            variant="outline"
+            className="bg-slate-800/50 border-slate-600 hover:bg-slate-700/50 text-white px-8 py-6 text-lg"
+            onClick={() => onNavigate?.('/register')}
+            data-testid="button-register"
+          >
+            <UserPlus className="ml-2" />
+            הרשמה
+          </Button>
+        </div>
+
         {/* Logo */}
-        <Logo className="mb-8" />
+        <Logo className="mb-16" showGlow={true} showUnderline={true} />
 
-        {/* Customer Status */}
-        <StatusDisplay 
-          customer={currentCustomer}
-          onScanQR={handleCustomerIdentification}
-          onPhoneLogin={handleCustomerIdentification}
-        />
-
-        {/* Service Cards Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 justify-items-center mb-8">
+        {/* Service Cards - 6 in one row */}
+        <div className="flex gap-6 mb-16 justify-center flex-wrap">
           {services.map((service) => (
             <ServiceCard
               key={service.id}
@@ -95,12 +88,18 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
           ))}
         </div>
 
-        {/* Brand Banner - todo: remove mock functionality */}
-        <div className="relative overflow-hidden rounded-lg bg-gradient-to-r from-slate-800/20 to-slate-700/20 p-3 border border-slate-600/30">
-          <div className="animate-scroll-horizontal whitespace-nowrap text-sm text-gray-300 font-hebrew">
-            ברוכים הבאים ל-Tan & Co - הסלון המתקדם ביותר לשיזוף בישראל
+        {/* Self Service Button */}
+        <Button 
+          className="bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-12 py-8 text-xl font-bold rounded-lg shadow-2xl border border-blue-400/30 relative overflow-hidden group"
+          onClick={() => handleServiceClick('self-service')}
+          data-testid="button-self-service"
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-cyan-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <div className="relative flex items-center gap-3">
+            <Star className="w-8 h-8 text-cyan-300" />
+            <span className="font-hebrew">שירות עצמי 24/7</span>
           </div>
-        </div>
+        </Button>
       </div>
 
       {/* Navigation */}
