@@ -1,0 +1,215 @@
+סגור. הנה תצורה מלאה ל**אוטומציה 100%** – בלי אישורים ידניים – עם בלמי בטיחות, ניטור, ורולבק. אתה יכול לתת את זה אחד-לאחד למפתח/ל-Make/n8n/LOVABLE/Replit ולהרים מערכת רצה מקצה לקצה.
+
+# 🎯 עקרונות
+
+* “Zero-touch”: אין אישורים ידניים. הכל תזמונים, חוקים, וריטריי.
+* “Guardrails”: בלמים אוטומטיים לכל החלטה (Thresholds, Caps, Pauses).
+* “Observable”: כל פעולה נרשמת (Logs) + התראות ל-WhatsApp.
+* “Reversible”: כל שינוי מתועד Before/After → אפשר לחזור אחורה.
+
+---
+
+## 🗂 סכמת נתונים (Airtable/Supabase – אמת מידה)
+
+**Settings** (ברירת מחדל גלובלית)
+
+* `PAUSE_RULES`: { minCTR, maxCPA, minROAS, minCVR, minSpendForDecision }
+* `BUDGET_RULES`: { dailyPacingTarget%, changeStep% (up/down), maxDailyChange% }
+* `AB_TEST_RULES`: { testShare%, minImpressions, testWindowHours }
+* `ALERTS`: { waNumber, email, quietHours }
+* `PLATFORMS`: flags ל-Meta/TikTok/Google (enabled=true/false)
+
+**Campaigns**
+
+* `Platform`, `Campaign_ID`, `Goal` (Leads/ROAS), `Daily_Budget`, `Status`, `Owner`
+* `Overrides` (JSON) – אם רוצים חוקים שונים לקמפיין ספציפי
+
+**AdSets/AdGroups**
+
+* מזהים + קהלים + תקציב מקומי + סטטוס
+
+**Ads/Creatives**
+
+* מזהה, טקסטים, מדיה, `Rolling_7d` KPIs, `Status`
+
+**Content_Queue** (ליצירה/תזמון אורגני)
+
+* `Platform`, `Caption`, `Media_URL(s)`, `Publish_At`, `Status` (approved/scheduled/published)
+
+**Logs**
+
+* `ts`, `platform`, `entity`, `entity_id`, `action`, `reason`, `before`, `after`, `ok/err`
+
+---
+
+## 🔁 תהליכי אוטומציה (Make/n8n) – ללא מגע יד אדם
+
+### 1) **ניטור ביצועים (כל 15 דקות)**
+
+**Trigger:** CRON 15m
+**Steps (לכל פלטפורמה – Meta/TikTok/Google):**
+
+1. Fetch KPIs לכל Campaign/AdSet/Ad (מידי פעם מפלחים לשעות עומס).
+2. Merge עם Overrides אם יש → מפיקים חוקים אפקטיביים.
+3. החלטה אוטומטית לפי כללים:
+
+   * אם `Spend ≥ minSpendForDecision` **וגם**
+
+     * `CTR < minCTR` **או** `CPA > maxCPA` **או** `ROAS < minROAS` → **Pause Ad**.
+     * מנצחים (`ROAS גבוה`, `CVR גבוה`, `CTR בטופ 25%`) → **Promote** (תקציב +10% עד מקסימום `maxDailyChange%`).
+4. כתיבת לוג מפורט + הודעת WhatsApp תמציתית (רק על שינויים).
+5. כישלון API → ריטריי X3 עם Backoff; אם נכשל → Alert + Log err.
+
+**Guardrails:**
+
+* לא יותר מ-`maxDailyChange%` שינוי תקציב לקמפיין ב-24 שעות.
+* Pause לא עוצר קמפיין שלם בלי לפחות 2 מודעות פעילות.
+
+---
+
+### 2) **Budget Pacing (פעמיים ביום – 10:00, 16:00)**
+
+**Trigger:** CRON 10:00 / 16:00
+
+1. חישוב Spend-to-Date מול `Daily_Budget`/יעד חודשי (`Pacing`).
+2. **Overpacing** → הורדת תקציב 10–20% (עד מינימום שמוגדר).
+3. **Underpacing** עם KPIs טובים → העלאת תקציב 10–15%.
+4. לוג + WA למנהל (רק אם שינוי בוצע).
+
+**Guardrails:**
+
+* לא חוצים `maxDailyChange%` מצטבר.
+* לא מעלים בתקופת quietHours אם מוגדר.
+
+---
+
+### 3) **A/B מתמשך לקריאייטיב/טקסט (יומי 11:00)**
+
+**Trigger:** CRON יומי
+
+1. לכל AdSet פעיל: אם אין מודעת Test → יוצרים אוטומטית וריאציה (טקסט/ויזואל) מתוך בנק ה-Creatives או GPT (לפי תבנית).
+2. נותנים למודעת Test `testShare%` מהתקציב (10–20%).
+3. אחרי `testWindowHours` (למשל 72 שעות) → בחירת מנצח לפי יעד (ROAS/CPA/CTR).
+4. Promoting למנצח + Pausing לחלשה + לוג + WA.
+
+**Guardrails:**
+
+* מינימום `minImpressions` לפני החלטה.
+* לא מריצים יותר מ-1 Test במקביל לאותו AdSet.
+
+---
+
+### 4) **סנכרון קהלים אוטומטי (לילה, 02:00)**
+
+**Trigger:** CRON יומי
+
+1. שליפת סגמנטים מה-CRM: רכשו 30D / נטשו עגלה / VIP / LTV>₪X.
+2. דחיפה ל-Custom Audiences (Meta/Google/TikTok) + יצירת Lookalike/Similar (אם מותר).
+3. לוג + ספירת גודל קהל + WA אם ירידה/עלייה חריגה.
+
+---
+
+### 5) **אורגני – יצירה/תזמון/פרסום פוסטים (כל בוקר 09:00)**
+
+**Trigger:** CRON יומי
+
+1. Generator יוצר פוסטים (2–3) לפי לוח תוכן (Topics/Angles) אוטומטית.
+2. יבחר מדיה מתאימה מה-Library (או יבקש אם חסר – שולח WA “חסר מדיה לפוסט {Queue_ID}”).
+3. מתזמן לפרסום באופטימום שעות (מודל פשוט: ביצועי עבר או כלל קבוע).
+4. אחרי פרסום: שמירת Permalink + משיכת מדדים אחרי 24/72 שעות → `Published_Posts`.
+
+---
+
+### 6) **התראות חכמות (Real-Time)**
+
+**Triggers:** Webhooks + CRON
+
+* מודעה נדחתה / תקלה ב-API / קפיצת Spend / ירידת ROAS חדה → WA מידי.
+* סיכום יומי 08:30: תקציב מול יעד, Top 3 מודעות, פעולות שבוצעו.
+* סיכום שבועי: מגמות + המלצות (נשלח שישי 13:00).
+
+---
+
+## 🧠 חוקים (ברירות מחדל – ניתן לכייל ב-Settings/Overrides)
+
+* Pause אם:
+
+  * `Spend ≥ ₪80` **וגם** `CTR < 0.6%` ליומיים רצופים; **או**
+  * `Spend ≥ ₪150` **וגם** `ROAS < 1.2` **או** `CPA > יעד`.
+* Promote אם:
+
+  * `ROAS ≥ 2.5` **וגם** `Spend ≥ ₪150` ב-72 שעות → `+15%` תקציב (פעם ביום).
+* Budget Pacing: סטייה >±10% מהיעד → תיקון 10–20% (עד Cap יומי).
+* AB Test: `testShare=15%`, `minImpressions=1,500`, `testWindow=72h`.
+
+---
+
+## 🔐 אבטחה/אמינות
+
+* כל מפתחות ב-`.env`/Secrets.
+* אימות חתימות Webhook (Meta/Google/TikTok).
+* Retries עם Exponential Backoff; Dead-Letter Queue (טבלת Errors).
+* Rate-limits לפלטפורמות (לא יורים יותר מדי בקשות).
+* Healthcheck לכל אינטגרציה; אם למטה → השבתת פעולות אוטומטיות לאותה פלטפורמה עד התאוששות.
+
+---
+
+## 🧾 דוגמאות התראות WhatsApp (אוטו’)
+
+* “Paused Ad (FB: 238…): CTR 0.41% תחת הסף 0.6% | Spend ₪96 | ROAS 0.8”
+* “Promoted AdSet (TT: 732…): ROAS 3.1 | +15% תקציב | שמרתי Cap יומי.”
+* “Under-pacing בגוגל: הקפצתי +10% ל-Search_City_Center.”
+* “חסר מדיה ל-Queue_ID Q-842 → העלה תמונה בלינק: …”
+
+---
+
+## ⚙️ מה לבנות בפועל (Make/n8n – תרשימי זרימה)
+
+**Scenario: monitor_performance_15m**
+
+* Nodes: `Get KPIs (Meta/TikTok/Google)` → `Merge Rules` → `Decide (Pause/Promote/None)` →
+  `Apply Change via API` → `Write Logs` → `Send WA Summary (only if changes)`.
+
+**Scenario: budget_pacing_twice_daily**
+
+* Nodes: `Get Spend to date` → `Compare to pacing` → `Adjust budgets` (bounded) → `Log + WA`.
+
+**Scenario: ab_test_daily**
+
+* Nodes: `Find eligible AdSets` → `Create Variant (use GPT for text if needed)` → `Limit budget` → `After 72h compare` → `Promote winner / Pause loser` → `Log + WA`.
+
+**Scenario: audiences_nightly**
+
+* Nodes: `Fetch CRM segments` → `Push to Platforms` → `Log + WA`.
+
+**Scenario: organic_auto_content_daily**
+
+* Nodes: `Pick topics` → `Generate captions + hashtags` → `Pick media` (or WA request) → `Schedule` → `After publish: fetch metrics` → `Write`.
+
+**Scenario: alerts_realtime**
+
+* Triggers: `Webhooks (policy/review/spend spikes)` → `WA Alert + Log`.
+
+---
+
+## 🔌 חיבורי API (לסיכום)
+
+* **Meta Marketing API:** read/write campaigns/adsets/ads, insights.
+* **TikTok Ads API:** equivalents.
+* **Google Ads API:** reporting + mutate budgets/status.
+* **WhatsApp Cloud API:** הודעות התראה.
+* **Airtable/Supabase:** נתונים, חוקים, לוגים.
+* **(אופציונלי) Looker Studio:** דשבורד יפה.
+
+---
+
+## ✅ Definition of Done
+
+* המערכת מעדכנת תקציבים, עוצרת/מקדמת מודעות, מריצה A/B, מתזמנת אורגני, מסנכרנת קהלים—**בלי מגע יד אדם**.
+* לוג מלא + התראות WA חכמות.
+* בלמי בטיחות פעילים.
+* דוחות יומיים/שבועיים נשלחים אוטומטית.
+
+---
+
+רוצה שאתרגם את זה עכשיו ל-**Blueprint מוכן** ל-Make/n8n (קובצי JSON שתוכל לייבא מיידית) + **CSV** לטבלאות Airtable (Settings/Campaigns/Logs וכו׳)?
