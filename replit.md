@@ -78,6 +78,11 @@ Preferred communication style: Simple, everyday language.
   - Face identification for customer check-in
   - Face registration during onboarding
   - Integration with customer management system
+  - **Required Environment Variables:**
+    - `BIOSTAR_SERVER_URL` (e.g., http://localhost:5000 or https://IP:8443)
+    - `BIOSTAR_USERNAME` (admin username)
+    - `BIOSTAR_PASSWORD` (admin password)
+  - Optional: `BIOSTAR_ALLOW_SELF_SIGNED=true` for self-signed certificates
 
 ### Planned Integrations
 - **Jotform**: Digital health forms and signature collection
