@@ -1,0 +1,385 @@
+# Tan & Co — מדריך מקצה לקצה: בניית CRM מלא ב‑LOVABLE (כולל חנות, שירות עצמי, אינטגרציות ועיצוב פרימיום)
+
+> מסמך מפורט בעברית + RTL. מיועד להקמה מסודרת מהתחלה ועד הסוף, כולל עיצוב, נתונים, אינטגרציות (Airtable/Make/n8n/Cardcom/Jotform/WhatsApp/BioStar), חנות מוצרים, וממשק שירות עצמי במסך טאץ׳.
+
+---
+
+## 0) מפת־על (Roadmap) ומה עושים קודם
+
+**שלבי־על (בדיוק לפי הסדר):**
+
+1. **הכנות וסביבה**: יצירת חשבונות/מפתחות, קובץ `.env`, בחירת בסיס נתונים (Airtable כ-DB ראשי + אופציונלי Supabase ל‑Auth/Edge Functions), פתיחת Workspace ב‑LOVABLE.
+2. **סכימת נתונים**: בניית טבלאות (לקוחות, כרטיסיות/מנויים, מוצרים, תשלומים, כניסות, חתימות, לוגים), מזהים אחידים (`Client_ID`).
+3. **אינטגרציות תשתית**:
+
+   * **Jotform** לטפסים וחתימות → Webhooks ל‑Make/n8n.
+   * **Cardcom** לסליקה → Webhook תשלום → עדכון זכאות והפקת קבלה.
+   * **WhatsApp Business API** דרך n8n → תרחישי שיחה, תזכורות, אישורי רכישה.
+   * **BioStar 2** לזיהוי פנים/פתיחת דלת → שירות גישור (Proxy/Function) עם קריאות API.
+4. **UI ב‑LOVABLE**: עמוד טאץ׳ ראשי, עמוד חנות, עמוד ניהול, עמוד שירות עצמי; העיצוב הפרימיום לפי המפרט.
+5. **אוטומציות Make/n8n**: סינכרון דו‑כיווני, תזכורות, ניהול סטטוסים, לוגים והתראות.
+6. **בדיקות E2E**: תרחישי רכישה, העברת הרשאה לביוסטאר, פתיחת דלת, קבלות, הודעות וואטסאפ.
+7. **הגירה מאופטימוס**: מיפוי שדות, בדיקות כפילויות, אימות יתרות כרטיסיות, סטטוס כרטיסיה.
+8. **השקה ורולבק**: תכנית מעקב 7 ימים, דוחות, ניטור, תוכנית חזרה אחורה.
+
+---
+
+## 1) הכנות וסביבה
+
+### 1.1 חשבונות וגישה
+
+* **LOVABLE**: פרויקט חדש + הרשאות Editor/Owner.
+* **Airtable**: Base חדש "Tan&Co_CRM" + API Key אישי + Access Token.
+* **Make** (או **n8n**): סביבת Production + כתובות Webhook יציבות.
+* **Cardcom**: מסופי בדיקה/Production + URL ל‑Webhook חיצוני + מפתחות.
+* **Jotform**: טפסים עם חתימה והעלאת תמונה + Webhook.
+* **WhatsApp Business API**: חשבון פעיל (או ספק מחבר) + טוקן + תבניות מאושרות.
+* **BioStar 2**: גישה לשרת מקומי (HTTP:5000 או HTTPS:8443), משתמש API.
+
+### 1.2 קובץ סודות `.env`
+
+שמור ב‑Make/n8n ובכל Function רלוונטית (אל תשתף בצ׳אט):
+
+```
+AIRTABLE_BASE_ID=...
+AIRTABLE_API_TOKEN=...
+CARDCOM_TERMINAL_ID=...
+CARDCOM_API_KEY=...
+CARDCOM_WEBHOOK_SECRET=...
+WHATSAPP_API_TOKEN=...
+WHATSAPP_PHONE_ID=...
+JOTFORM_TOKEN=...
+BIOSTAR_BASE_URL=http://localhost:5000
+BIOSTAR_API_USER=api_user
+BIOSTAR_API_PASS=********
+```
+
+---
+
+## 2) סכימת נתונים (Airtable — כ‑"אמת מידה")
+
+**טבלאות ושדות חובה (אפשר 1‑ל‑1 גם ב‑Supabase אם תרצה):**
+
+1. **Customers** (לקוחות)
+
+   * `Client_ID` (טקסט ייחודי — מזהה גלובלי)
+   * `Full_Name` (טקסט)
+   * `Phone` (מספר בינלאומי)
+   * `Email` (אימייל)
+   * `BioStar_UserId` (טקסט/מספר — מזהה בביוסטאר)
+   * `Face_Enrolled` (Boolean)
+   * `Card_Status` (בחירה: Active / Paused / Blocked / None)
+   * `Card_Balance` (מספר — יתרת כניסות/דקות)
+   * `Consent_HealthForm` (Attachment/URL/Date)
+   * `Created_At`, `Updated_At` (תאריכים)
+
+2. **Packages** (חבילות/כרטיסיות)
+
+   * `Package_ID` (מזהה)
+   * `Name`, `Type` (UV / Spray)
+   * `Entries_Included` / `Minutes_Included`
+   * `Price`
+   * `Is_Active`
+
+3. **Customer_Packages** (שיוך לקוח↔חבילה)
+
+   * `Client_ID` (קישור ל‑Customers)
+   * `Package_ID` (קישור ל‑Packages)
+   * `Balance_Entries` / `Balance_Minutes`
+   * `Start_Date`, `Expire_Date`
+   * `Status` (Active / Frozen / Consumed)
+
+4. **Products** (חנות)
+
+   * `SKU`, `Name`, `Description`, `Price`, `Inventory_Qty`, `Image_URL`, `Is_Active`
+
+5. **Payments**
+
+   * `Payment_ID`, `Client_ID`, `Amount`, `Method` (Cardcom), `Status` (Paid/Failed/Pending), `Cardcom_Tx_ID`, `Receipt_URL`, `Created_At`
+
+6. **Entries (Door_Logs)**
+
+   * `Client_ID`, `Door_ID`, `Timestamp`, `Result` (Granted/Denied), `Reason`
+
+7. **Health_Forms**
+
+   * `Client_ID`, `Form_URL`, `Signed_At`, `Selfie_URL`
+
+8. **WA_Messages (לוג וואטסאפ)**
+
+   * `Client_ID`, `Phone`, `Direction` (in/out), `Template/FreeText`, `Status`, `Message_ID`, `Created_At`
+
+> **מזהה אחיד**: `Client_ID` קיים בכל הטבלאות — זה המפתח הסטנדרטי בין כל המערכות.
+
+---
+
+## 3) אינטגרציות — הגדרות וזרימת נתונים
+
+### 3.1 Jotform → Make/n8n → Airtable
+
+* טופס בריאות: שדות חובה (שם, טלפון, הצהרות, חתימה, תמונת פנים).
+* ב‑Jotform: קבע **Webhook** ל‑Make/n8n.
+* תרחיש Make:
+
+  1. Trigger: Webhook (Jotform Submission)
+  2. Normalize: מיפוי שדות → `Client_ID` ע״פ טלפון
+  3. שמירת קבצים (Selfie) ל‑Storage (Airtable Attachment/Cloud)
+  4. עדכון `Consent_HealthForm` + `Face_Enrolled=false`
+  5. הודעת וואטסאפ תודה + הנחיות הבאות
+
+### 3.2 Cardcom → תשלום → זכאות
+
+* תשלום ב‑Cardcom (לינק אישי מ‑LOVABLE או עמוד Checkout בחנות):
+
+  * בכל תשלום להוסיף `Order/CustomField = Client_ID`.
+* Webhook מ‑Cardcom ל‑Make/n8n (Signature Verify):
+
+  1. אימות חתימה (`CARDCOM_WEBHOOK_SECRET`)
+  2. חיפוש `Client_ID`
+  3. יצירת `Payment` בטבלת Payments
+  4. העלאת `Balance_Entries/Minutes` בטבלת Customer_Packages
+  5. אם חבילה לשירות‑עצמי: טריגר הרשאת BioStar (ראה 3.4)
+  6. שליחת קבלה/אישור בוואטסאפ
+
+### 3.3 WhatsApp Business API דרך n8n
+
+**תרחישים מרכזיים:**
+
+* "לקוח חדש" → שליחת לינק לטופס בריאות + הנחיות.
+* אחרי תשלום → אישור + לינק לאקטיבציה (אם צריך Selfie/פנים).
+* תזכורת חכמה (Entries נמוכים / לקראת תפוגה).
+* ניהול שיח בסיסי + העברה לאדם חי.
+
+### 3.4 BioStar 2 — גישור API (שכבת Proxy/Function)
+
+**עקרון:** לא לעבוד ישירות מ‑LOVABLE לביוסטאר; לבנות שירות ביניים (לדוגמה: Function ב‑Supabase או שרת קטן ב‑Node/Python) שמרכז:
+
+* **Login** → קבלת `bs-session-id` (שומר בזיכרון/Cache מאובטח)
+* **Create/Update User**
+* **Assign Access Group/Zone**
+* **Face Enrollment (תהליך ידני או אימייל רישום)**
+* **Open Door / Check Permission** בעת כניסה
+
+**Endpoints מוצעים של ה‑Proxy (שלך):**
+
+* `POST /biostar/users/sync`
+  Body: `{ Client_ID, Full_Name, Phone }` → יוצר/מעודכן משתמש בביוסטאר, מחזיר `BioStar_UserId`.
+* `POST /biostar/access/grant`
+  Body: `{ Client_ID, Zone_ID, Valid_Until }` → משייך קבוצה/זכאות.
+* `POST /biostar/door/open`
+  Body: `{ Client_ID, Door_ID }` → ניסיון פתיחה (לשעת חירום/בדיקה).
+* `POST /biostar/face/enroll`
+  Body: `{ Client_ID, Selfie_URL }` → יוזם תהליך רישום פנים (אם נתמך אוטומטית; אחרת שומר לטיפול ידני).
+
+**מתי קוראים?**
+
+* אחרי **תשלום מאושר** (Cardcom) של חבילת שירות‑עצמי → `users/sync` → `access/grant`.
+* אחרי טופס בריאות חתום + Selfie → `face/enroll`.
+* בעת ניסיון כניסה → Proxy בודק ב‑Airtable יתרה/סטטוס → אם OK → `door/open` (או הלקוח פותח עם זיהוי פנים, ו‑Proxy רק רושם לוג).
+
+---
+
+## 4) UI ב‑LOVABLE — עמודים, זרימות ורכיבים
+
+### 4.1 עמוד מרכזי — TouchInterface (מסך טאץ׳ לשירות עצמי)
+
+**מבנה עיקרי:**
+
+* לוגו מרכזי עם זוהר + קו אור תחתיו
+* 4–6 כרטיסי שירות גדולים (מיטות שיזוף, שיזוף בהתזה, רכישת כרטיסיה, טעינת יתרה, טפסי בריאות, שירות לקוחות)
+* אזור סטטוס: "שלום דוד" / "סרוק QR" / "הזדהה לפי טלפון"
+* פס ניווט תחתון: בית, חנות, היסטוריה, עזרה
+
+**מפרט עיצוב (לפי הבקשה):**
+
+* **רקע ואפקטים**:
+  `bg-gradient-to-br from-background via-background/95 to-primary/5`
+  שני עיגולים דינמיים עם גבול לפי `state.colorPalette`
+* **באנר מותגים**: `animate-scroll-horizontal`
+* **לוגו**: `filter: drop-shadow(0 0 30px rgba(255,105,180,1))`
+* **קו אור**: `bg-gradient-to-r from-transparent via-[#ff69b4] to-transparent`
+* **כרטיסי שירות**:
+  רקע: `bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90`
+  גבול: `border-primary/60 hover:border-primary`
+  צל: `boxShadow: 0 4px 12px rgba(0,0,0,0.3)`
+  Hover: `group-hover:scale-105` + `backdrop-blur-sm`
+  גודל: `h-[140px] w-[140px]` (מותאם רספונסיבית)
+* **אייקונים**:
+  זוהר נאון: `filter: drop-shadow(0 0 20px hsl(var(--primary)/1))`
+  צבע: `text-primary group-hover:text-white`
+  ריפל: `radial-gradient`
+* **כפתורי ניווט**:
+  רקע: `bg-gradient-to-r from-slate-800/80 to-slate-700/80`
+  אפקטים: `backdrop-blur-xl border border-slate-600/30`
+  Hover: `hover:shadow-lg hover:shadow-primary/20`
+
+**התנהגות:**
+
+* RTL כברירת מחדל, גופנים קריאים (אלטרנטיבה: Assistant/Heebo/Noto Sans Hebrew).
+* רכיבי טאץ׳ גדולים (48–64px hit area).
+* מצבי שגיאה/עומס: שלדי טעינה, Toast בעברית.
+
+### 4.2 עמוד חנות — Store
+
+* גריד כרטיסי מוצר (תמונה, שם, מחיר, מלאי)
+* עגלת קניות צפה
+* Checkout → הפניית Cardcom + חזרה ל‑Success URL
+* אחרי אישור: הודעת וואטסאפ + עדכון Airtable
+
+### 4.3 עמוד ניהול — CRM Admin
+
+* חיפוש לקוח לפי טלפון/שם/Client_ID
+* כרטיס פרופיל: סטטוס כרטיסיה, יתרות, טפסים, לוג כניסות
+* פעולות מהירות: הוספת חבילה, הקפאה/ביטול, שליחת לינק טופס/תשלום
+
+### 4.4 עמוד שיזוף בהתזה — Booking
+
+* ללא כרטיסיה/פנים — רק טופס הנחיות DO/NOT TO DO + קביעת תור
+* תיאום מול WhatsApp/Calendaring (ב‑Make)
+
+---
+
+## 5) חיבורי Backend מ‑LOVABLE (קריאות HTTP)
+
+* יצירת **Service Layer** מרכזי (URL יחיד) מול ה‑Proxy/Make/n8n.
+* כל פעולה ב‑UI קוראת ל‑Endpoint ספציפי ומקבלת תשובה מתוייגת.
+
+**דוגמאות קריאות (מבנה כללי):**
+
+* `POST /api/payments/create` → מחזיר `payment_url` של Cardcom.
+* `POST /api/customers/find_or_create` → לפי טלפון.
+* `POST /api/biostar/users/sync` → יוצר/מעודכן ב‑BioStar.
+* `POST /api/biostar/access/grant` → משייך הרשאה.
+* `GET /api/customers/{Client_ID}/status` → יתרות, טפסים, הרשאות.
+
+---
+
+## 6) Make/n8n — תרחישים והיגיון עסקי
+
+**תרחישים מוכנים:**
+
+1. **Payment Webhook (Cardcom)** → אימות → עדכון Customer_Packages → הודעת וואטסאפ → טריגר `biostar/access/grant`.
+2. **Jotform Submission** → שמירת Selfie/חתימה → עדכון Health_Forms → הודעת וואטסאפ עם "קיבלנו".
+3. **Scheduled Watcher**: חבילות לקראת סיום/יתרות נמוכות → הודעות upsell.
+4. **Support Flow**: מילות מפתח בוואטסאפ → ניתוב לאדם חי/פתיחת טיקט (Airtable: WA_Messages).
+
+---
+
+## 7) אבטחה, לוגים וניטור
+
+* שמירת סודות רק ב‑Secrets Manager/Environment.
+* החתמת Webhooks (Cardcom/Jotform/WA) ובדיקת חתימה.
+* לוגים מפורטים לטבלה `Integration_Logs` (מקור, Endpoint, סטטוס, Payload מקוצר, זמן).
+* Rate Limits ובקרת שגיאות (Retry עם Backoff; Dead Letter Queue פשוט ב‑Airtable).
+
+---
+
+## 8) תרחישי בדיקות (E2E Checklist)
+
+1. **לקוח חדש**: הוספה → טופס בריאות → תשלום חבילה → הרשאת BioStar → כניסה מוצלחת.
+2. **יתרה אזלה**: ניסיון כניסה → חסימה + הודעת וואטסאפ.
+3. **שיזוף בהתזה**: קביעת תור → שליחת הנחיות → תיעוד ביומן.
+4. **חנות**: רכישת מוצר פיזי → מלאי יורד → קבלה בוואטסאפ.
+5. **כשל סליקה**: Webhook Failed → הודעה ידידותית + לינק תשלום חדש.
+
+---
+
+## 9) הגירה מאופטימוס (Import)
+
+* קובץ מקור: לקוחות + `מספר לקוח` + סטטוס כרטיסיה/יתרות.
+* מיפוי:
+
+  * `מספר לקוח` → `Client_ID`
+  * שם/טלפון/אימייל → שדות לקוח
+  * סטטוס/יתרה → `Customer_Packages`
+* בדיקת כפילויות טלפון → איחוד רשומות.
+* בדיקת רישום לקוחות פעילים מול BioStar (`users/sync`) לפני ההשקה.
+
+---
+
+## 10) עיצוב פרימיום — הנחיות ו‑Design Tokens
+
+* **צבעים**: `#9C4695, #863c7f, #c95abf, #e064d5, #d12fc6, #000000` (Primary + Accents)
+* **מצבי רקע**: מעברי גרדיאנט עדינים; נאון זוהר סביב לוגו/אייקונים; קווים דקים בהיילייט ורדרד.
+* **טיפוגרפיה**: כותרות Semibold; טקסט רגיל נוח; RTL מלא.
+* **כפתורים**: עגולים `rounded-2xl`, צללים רכים, אנימציות קצרות (150–200ms).
+* **נגישות**: קונטרסט מינ׳ 4.5:1; פוקוס נראה; מצבי מקלדת.
+
+---
+
+## 11) מסכי מפתח (Wireframes טקסטואליים)
+
+**TouchInterface.tsx**
+
+* Header לוגו + קו אור
+* Grid כרטיסי שירות (3×2)
+* Footer ניווט
+* Toast אזורי סטטוס
+
+**Store.tsx**
+
+* Grid מוצרים → Cart → Checkout
+
+**Admin.tsx**
+
+* חיפוש לקוח → כרטיס פרופיל → פעולות
+
+**BookingSprayTan.tsx**
+
+* בחירת תור → טופס הנחיות → אישור בוואטסאפ
+
+---
+
+## 12) תהליך השקה ורולבק
+
+* **T‑0**: השקה רכה ל‑10 לקוחות (פיילוט), ניטור צמוד 48 שעות.
+* **T‑2 ימים**: פתיחת כלל הלקוחות, צפייה בדוחות צריכה ותקלות.
+* **רולבק**: אם יש תקלה חמורה → ניתוק אוטומציות Cardcom/ביוסטאר, חזרה לעדכון ידני זמני + הודעת וואטסאפ לכל לקוח מושפע.
+
+---
+
+## 13) נספח — דוגמאות בקשות ל‑BioStar (שכבת Proxy)
+
+> **הערה**: אל תקרא ישירות מ‑LOVABLE לביוסטאר. תמיד דרך ה‑Proxy שלך.
+
+**Login** (פנימי, ב‑Proxy):
+
+```
+POST {BIOSTAR_BASE_URL}/api/login
+Body: {"User":{"login_id":"api_user","password":"******"}}
+=> Headers: bs-session-id
+```
+
+**List Devices**:
+
+```
+GET /api/devices  (Header: bs-session-id)
+```
+
+**Open Door (דוגמה)**:
+
+```
+POST /api/doors/{DOOR_ID}/unlock  (Header: bs-session-id)
+Body: {"reason":"crm_test"}
+```
+
+ל‑Proxy:
+
+```
+POST /biostar/access/grant
+{ Client_ID, Zone_ID, Valid_Until }
+```
+
+---
+
+## 14) צ׳קליסט יומי למנהל המערכת
+
+* כשלי Webhook (Cardcom/Jotform) — בדיקה ותיקון.
+* פערי נתונים Airtable ↔ BioStar — הרצת `users/sync` יזום לל״ק.
+* דוחות מכירות/יתרות/כניסות — סקירה בוקר/ערב.
+
+---
+
+### זהו. מכאן אפשר להרים את המערכת בביטחון, מסודר צעד‑אחר‑צעד.
+
+אם תרצה, אכין לך גם **תבניות מוכנות** ל‑Make/n8n (JSON Workflows), ומבנה קבצים ל‑LOVABLE (קומפוננטות, סטייט וניהול קריאות) — כך שתוכל להעתיק‑להדביק ולהריץ מיד.
