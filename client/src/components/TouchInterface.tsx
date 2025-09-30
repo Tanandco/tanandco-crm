@@ -62,36 +62,114 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
       {/* Main Content */}
       <div className="relative z-10 mx-auto max-w-[1280px] w-full px-6 py-6 flex flex-col items-center flex-1">
         {/* Top Buttons - Search and Registration */}
-        <div className="flex gap-3 mb-8 w-full justify-center">
-          <Button
-            variant="outline"
-            className="h-12 px-6 border-pink-500/30 hover:border-pink-500/60 bg-black/40 backdrop-blur-sm"
+        <div className="flex gap-4 mb-8 w-full justify-center">
+          <button
+            className="
+              group relative h-[48px] px-6
+              bg-gradient-to-br from-pink-900/90 via-pink-800/80 to-purple-800/90
+              border hover:border-2
+              rounded-md backdrop-blur-sm
+              flex items-center justify-center gap-2
+              transition-all duration-300 ease-in-out
+              hover-elevate active-elevate-2
+              text-sm font-medium
+            "
+            style={{
+              borderColor: 'rgba(236, 72, 153, 0.8)',
+              boxShadow: '0 4px 12px rgba(236, 72, 153, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1)'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 1)'}
+            onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.8)'}
             onClick={() => navigate('/customers')}
             data-testid="button-customer-management"
           >
-            <Users className="w-4 h-4 ml-2 text-pink-400" />
-            <span className="text-white font-hebrew">לקוחות</span>
-          </Button>
+            <Users 
+              className="text-transparent bg-gradient-to-r from-pink-200 to-white bg-clip-text group-hover:from-pink-100 group-hover:to-gray-100 transition-all duration-300" 
+              size={18}
+              style={{
+                filter: 'drop-shadow(2px 2px 4px rgba(236, 72, 153, 0.8)) drop-shadow(-1px -1px 2px rgba(255, 255, 255, 0.1))'
+              }}
+            />
+            <span className="text-transparent bg-gradient-to-r from-pink-200 to-white bg-clip-text font-hebrew group-hover:from-pink-100 group-hover:to-gray-100 transition-all duration-300" style={{
+              textShadow: '2px 2px 4px rgba(236, 72, 153, 0.8), -1px -1px 2px rgba(255, 255, 255, 0.1)'
+            }}>לקוחות</span>
+            
+            <div className="absolute inset-0 rounded-md overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-radial from-pink-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            </div>
+          </button>
 
-          <Button
-            variant="outline"
-            className="h-12 px-6 border-pink-500/30 hover:border-pink-500/60 bg-black/40 backdrop-blur-sm"
+          <button
+            className="
+              group relative h-[48px] px-6
+              bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
+              border hover:border-2
+              rounded-md backdrop-blur-sm
+              flex items-center justify-center gap-2
+              transition-all duration-300 ease-in-out
+              hover-elevate active-elevate-2
+              text-sm font-medium
+            "
+            style={{
+              borderColor: 'rgba(236, 72, 153, 0.6)',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1)'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 1)'}
+            onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.6)'}
             onClick={() => onNavigate?.('/search')}
             data-testid="button-search"
           >
-            <Search className="w-4 h-4 ml-2 text-pink-400" />
-            <span className="text-white font-hebrew">חיפוש</span>
-          </Button>
+            <Search 
+              className="text-transparent bg-gradient-to-r from-gray-200 to-white bg-clip-text group-hover:from-gray-300 group-hover:to-gray-100 transition-all duration-300" 
+              size={18}
+              style={{
+                filter: 'drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.8)) drop-shadow(-1px -1px 2px rgba(255, 255, 255, 0.1))'
+              }}
+            />
+            <span className="text-transparent bg-gradient-to-r from-gray-200 to-white bg-clip-text font-hebrew group-hover:from-gray-300 group-hover:to-gray-100 transition-all duration-300" style={{
+              textShadow: '2px 2px 4px rgba(0, 0, 0, 0.8), -1px -1px 2px rgba(255, 255, 255, 0.1)'
+            }}>חיפוש</span>
+            
+            <div className="absolute inset-0 rounded-md overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-radial from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            </div>
+          </button>
           
-          <Button
-            variant="outline"
-            className="h-12 px-6 border-pink-500/30 hover:border-pink-500/60 bg-black/40 backdrop-blur-sm"
+          <button
+            className="
+              group relative h-[48px] px-6
+              bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
+              border hover:border-2
+              rounded-md backdrop-blur-sm
+              flex items-center justify-center gap-2
+              transition-all duration-300 ease-in-out
+              hover-elevate active-elevate-2
+              text-sm font-medium
+            "
+            style={{
+              borderColor: 'rgba(236, 72, 153, 0.6)',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1)'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 1)'}
+            onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.6)'}
             onClick={() => onNavigate?.('/register')}
             data-testid="button-register"
           >
-            <UserPlus className="w-4 h-4 ml-2 text-pink-400" />
-            <span className="text-white font-hebrew">הרשמה</span>
-          </Button>
+            <UserPlus 
+              className="text-transparent bg-gradient-to-r from-gray-200 to-white bg-clip-text group-hover:from-gray-300 group-hover:to-gray-100 transition-all duration-300" 
+              size={18}
+              style={{
+                filter: 'drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.8)) drop-shadow(-1px -1px 2px rgba(255, 255, 255, 0.1))'
+              }}
+            />
+            <span className="text-transparent bg-gradient-to-r from-gray-200 to-white bg-clip-text font-hebrew group-hover:from-gray-300 group-hover:to-gray-100 transition-all duration-300" style={{
+              textShadow: '2px 2px 4px rgba(0, 0, 0, 0.8), -1px -1px 2px rgba(255, 255, 255, 0.1)'
+            }}>הרשמה</span>
+            
+            <div className="absolute inset-0 rounded-md overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-radial from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            </div>
+          </button>
         </div>
 
         {/* Logo */}
