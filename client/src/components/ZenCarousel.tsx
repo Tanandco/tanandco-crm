@@ -157,13 +157,13 @@ export default function ZenCarousel({ products, onAddToCart }: ZenCarouselProps)
             <p className="text-xs text-muted-foreground text-center mb-2 line-clamp-1">
               {product.category}
             </p>
-            <p 
-              className="text-xl font-bold text-center mb-2 bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent"
-              data-testid={`zen-price-${product.id}`}
-            >
-              ₪{product.price}
-            </p>
-            <div className="flex gap-2 w-full">
+            <div className="flex gap-2 w-full items-center">
+              <p 
+                className="text-xl font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent"
+                data-testid={`zen-price-${product.id}`}
+              >
+                ₪{product.price}
+              </p>
               <Button
                 size="sm"
                 className="flex-1 relative bg-[rgba(40,30,60,0.6)] text-pink-200 border-0 text-xs h-8 px-4
