@@ -1201,16 +1201,19 @@ export function registerRoutes(app: express.Application) {
   // Get all products (with optional filtering)
   app.get('/api/products', async (req, res) => {
     try {
-      const { category, brand, featured } = req.query;
+      const { category, brand, featured, isFeatured, tanningType } = req.query;
       let products;
       
-      if (category || brand || featured) {
+      if (category || brand || featured || isFeatured || tanningType) {
         // Get all products and filter
         const allProducts = await storage.getProducts();
         products = allProducts.filter((p: any) => {
           if (category && p.category !== category) return false;
           if (brand && p.brand !== brand) return false;
+          if (tanningType && p.tanningType !== tanningType && p.tanning_type !== tanningType) return false;
           if (featured === 'true' && !p.is_featured && !p.isFeatured) return false;
+          if (isFeatured === 'true' && !p.is_featured && !p.isFeatured) return false;
+          if (isFeatured === 'false' && (p.is_featured || p.isFeatured)) return false;
           return true;
         });
       } else {

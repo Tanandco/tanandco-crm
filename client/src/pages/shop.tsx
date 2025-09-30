@@ -31,12 +31,22 @@ export default function Shop() {
     },
   });
 
-  // Fetch self-tanning products
+  // Fetch self-tanning products (featured only for main display)
   const { data: selfTanningProducts, isLoading: loadingSelfTanning } = useQuery<any[]>({
-    queryKey: ['/api/products', { tanningType: 'self-tanning' }],
+    queryKey: ['/api/products', { tanningType: 'self-tanning', isFeatured: true }],
     queryFn: async () => {
-      const res = await fetch('/api/products?tanningType=self-tanning');
+      const res = await fetch('/api/products?tanningType=self-tanning&isFeatured=true');
       if (!res.ok) throw new Error('Failed to fetch self-tanning products');
+      return res.json();
+    },
+  });
+
+  // Fetch all non-featured products for additional section
+  const { data: additionalProducts, isLoading: loadingAdditional } = useQuery<any[]>({
+    queryKey: ['/api/products', { isFeatured: false }],
+    queryFn: async () => {
+      const res = await fetch('/api/products?isFeatured=false');
+      if (!res.ok) throw new Error('Failed to fetch additional products');
       return res.json();
     },
   });
@@ -52,7 +62,7 @@ export default function Shop() {
   })) || [];
 
   // Transform self-tanning products
-  const selfTanningItems = selfTanningProducts?.filter(p => p.isFeatured).map((p) => ({
+  const selfTanningItems = selfTanningProducts?.map((p) => ({
     id: p.id,
     name: p.nameHe || p.name,
     price: parseFloat(p.salePrice || p.price),
@@ -62,7 +72,18 @@ export default function Shop() {
     badge: p.badge,
   })) || [];
 
-  const isLoading = loadingBedBronzers || loadingSelfTanning;
+  // Transform additional products
+  const additionalItems = additionalProducts?.map((p) => ({
+    id: p.id,
+    name: p.nameHe || p.name,
+    price: parseFloat(p.salePrice || p.price),
+    image: p.images?.[0] || 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=500&q=80',
+    category: (p.brand && p.brand !== 'OTHER') ? p.brand : getCategoryLabel(p.category),
+    description: p.descriptionHe || p.description,
+    badge: p.badge,
+  })) || [];
+
+  const isLoading = loadingBedBronzers || loadingSelfTanning || loadingAdditional;
 
   function getCategoryLabel(category: string): string {
     const labels: Record<string, string> = {
@@ -145,7 +166,10 @@ export default function Shop() {
 
       {/* Bed Bronzers Carousel */}
       <section className="relative pt-2 pb-8">
-        <div className="container mx-auto">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-6 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            ברונזרים למיטות שיזוף
+          </h2>
           {bedBronzerProducts.length > 0 ? (
             <ZenCarousel 
               products={bedBronzerProducts} 
@@ -160,39 +184,40 @@ export default function Shop() {
         </div>
       </section>
 
-      {/* Self-Tanning Products - Simple Grid */}
-      {selfTanningItems.length > 0 && (
+      {/* Additional Products - Compact Grid */}
+      {additionalItems.length > 0 && (
         <section className="relative pb-12">
           <div className="container mx-auto px-4">
             <h2 className="text-2xl font-bold text-center mb-8 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-              תכשירים ביתיים לשיזוף עצמי
+              מוצרים מובילים לשיזוף עצמי
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {selfTanningItems.map((product) => (
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+              {additionalItems.map((product) => (
                 <div 
                   key={product.id}
-                  className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-xl p-4 border-0 transition-all shadow-[inset_-2px_-2px_4px_rgba(255,255,255,0.1),inset_2px_2px_4px_rgba(0,0,0,0.4),0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-[inset_-3px_-3px_6px_rgba(255,105,180,0.15),inset_3px_3px_6px_rgba(0,0,0,0.5),0_8px_30px_rgba(255,105,180,0.25)] hover:-translate-y-1"
+                  className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-lg p-3 border-0 transition-all shadow-[inset_-2px_-2px_4px_rgba(255,255,255,0.1),inset_2px_2px_4px_rgba(0,0,0,0.4),0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-[inset_-3px_-3px_6px_rgba(255,105,180,0.15),inset_3px_3px_6px_rgba(0,0,0,0.5),0_8px_30px_rgba(255,105,180,0.25)] hover:-translate-y-1"
                   data-testid={`product-card-${product.id}`}
                 >
                   <img 
                     src={product.image} 
                     alt={product.name}
-                    className="w-full h-80 object-contain mb-2"
+                    className="w-full h-32 object-contain mb-2"
                     data-testid={`product-image-${product.id}`}
                   />
-                  <h3 className="text-sm font-bold text-pink-200 mb-1 text-center line-clamp-1">
+                  <h3 className="text-xs font-bold text-pink-200 mb-1 text-center line-clamp-2">
                     {product.name}
                   </h3>
-                  <p className="text-lg font-bold text-center mb-2 bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+                  <p className="text-sm font-bold text-center mb-2 bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
                     ₪{product.price}
                   </p>
-                  <div className="flex gap-2">
+                  <div className="flex gap-1">
                     <Button
-                      className="flex-1 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600"
+                      size="sm"
+                      className="flex-1 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-xs"
                       onClick={() => handleAddToCart(product.id)}
                       data-testid={`add-to-cart-${product.id}`}
                     >
-                      <ShoppingCart className="w-4 h-4 ml-2" />
+                      <ShoppingCart className="w-3 h-3 ml-1" />
                       הוסף
                     </Button>
                     {product.description && (
@@ -200,11 +225,11 @@ export default function Shop() {
                         <DrawerTrigger asChild>
                           <Button 
                             variant="outline" 
-                            size="icon"
-                            className="border-pink-500/50 hover:border-pink-500"
+                            size="sm"
+                            className="border-pink-500/50 hover:border-pink-500 px-2"
                             data-testid={`info-${product.id}`}
                           >
-                            <Info className="w-4 h-4" />
+                            <Info className="w-3 h-3" />
                           </Button>
                         </DrawerTrigger>
                         <DrawerContent>
