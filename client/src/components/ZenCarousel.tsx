@@ -164,18 +164,17 @@ export default function ZenCarousel({ products, onAddToCart }: ZenCarouselProps)
                   shadow-[-3px_-3px_6px_rgba(80,60,100,0.4),3px_3px_6px_rgba(10,5,20,0.8)]
                   hover:shadow-[-2px_-2px_4px_rgba(80,60,100,0.3),2px_2px_4px_rgba(10,5,20,0.6)]
                   active:shadow-[inset_2px_2px_6px_rgba(10,5,20,0.9),inset_-2px_-2px_4px_rgba(80,60,100,0.3)]
-                  transition-all duration-200 ease-in-out"
+                  transition-all duration-200 ease-in-out flex items-center justify-center gap-2"
                 onClick={() => onAddToCart?.(product.id)}
                 data-testid={`zen-cart-btn-${product.id}`}
               >
                 <span 
-                  className="absolute -top-2 -right-2 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full"
+                  className="text-sm font-bold text-pink-200"
                   data-testid={`zen-price-${product.id}`}
                 >
                   ₪{product.price}
                 </span>
-                <ShoppingCart className="w-3 h-3 ml-1" />
-                הוסף
+                <ShoppingCart className="w-3 h-3 text-pink-200" />
               </Button>
               {product.description && (
                 <Drawer>
