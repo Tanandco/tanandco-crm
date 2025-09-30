@@ -3,9 +3,19 @@ import { useQuery } from '@tanstack/react-query';
 import ZenCarousel from '@/components/ZenCarousel';
 import Logo from '@/components/Logo';
 import { Button } from '@/components/ui/button';
-import { ShoppingCart, Package, Settings } from 'lucide-react';
+import { ShoppingCart, Package, Settings, Info } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Link } from 'wouter';
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 
 export default function Shop() {
   const { toast } = useToast();
@@ -48,6 +58,7 @@ export default function Shop() {
     price: parseFloat(p.salePrice || p.price),
     image: p.images?.[0] || 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=500&q=80',
     category: p.brand || getCategoryLabel(p.category),
+    description: p.descriptionHe || p.description,
     badge: p.badge,
   })) || [];
 
@@ -166,26 +177,52 @@ export default function Shop() {
                   <img 
                     src={product.image} 
                     alt={product.name}
-                    className="w-full h-48 object-contain mb-4"
+                    className="w-full h-64 object-contain mb-3"
                     data-testid={`product-image-${product.id}`}
                   />
-                  <h3 className="text-lg font-bold text-pink-200 mb-2 text-center line-clamp-2">
+                  <h3 className="text-base font-bold text-pink-200 mb-2 text-center line-clamp-1">
                     {product.name}
                   </h3>
-                  <p className="text-sm text-muted-foreground text-center mb-3">
-                    {product.category}
-                  </p>
-                  <p className="text-2xl font-bold text-center mb-4 bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+                  <p className="text-xl font-bold text-center mb-3 bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
                     ₪{product.price}
                   </p>
-                  <Button
-                    className="w-full bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600"
-                    onClick={() => handleAddToCart(product.id)}
-                    data-testid={`add-to-cart-${product.id}`}
-                  >
-                    <ShoppingCart className="w-4 h-4 ml-2" />
-                    הוסף לעגלה
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button
+                      className="flex-1 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600"
+                      onClick={() => handleAddToCart(product.id)}
+                      data-testid={`add-to-cart-${product.id}`}
+                    >
+                      <ShoppingCart className="w-4 h-4 ml-2" />
+                      הוסף
+                    </Button>
+                    {product.description && (
+                      <Drawer>
+                        <DrawerTrigger asChild>
+                          <Button 
+                            variant="outline" 
+                            size="icon"
+                            className="border-pink-500/50 hover:border-pink-500"
+                            data-testid={`info-${product.id}`}
+                          >
+                            <Info className="w-4 h-4" />
+                          </Button>
+                        </DrawerTrigger>
+                        <DrawerContent>
+                          <DrawerHeader>
+                            <DrawerTitle className="text-center text-pink-200">{product.name}</DrawerTitle>
+                            <DrawerDescription className="text-center">
+                              {product.description}
+                            </DrawerDescription>
+                          </DrawerHeader>
+                          <DrawerFooter>
+                            <DrawerClose asChild>
+                              <Button variant="outline">סגור</Button>
+                            </DrawerClose>
+                          </DrawerFooter>
+                        </DrawerContent>
+                      </Drawer>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
