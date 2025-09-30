@@ -171,7 +171,7 @@ export default function Shop() {
               {selfTanningItems.map((product) => (
                 <div 
                   key={product.id}
-                  className="bg-slate-900/40 backdrop-blur-sm rounded-xl p-4 border-0 transition-all shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_30px_rgba(255,105,180,0.25)] hover:-translate-y-1"
+                  className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-xl p-4 border-0 transition-all shadow-[inset_-2px_-2px_4px_rgba(255,255,255,0.1),inset_2px_2px_4px_rgba(0,0,0,0.4),0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-[inset_-3px_-3px_6px_rgba(255,105,180,0.15),inset_3px_3px_6px_rgba(0,0,0,0.5),0_8px_30px_rgba(255,105,180,0.25)] hover:-translate-y-1"
                   data-testid={`product-card-${product.id}`}
                 >
                   <img 
