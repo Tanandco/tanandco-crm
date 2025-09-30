@@ -72,16 +72,18 @@ export default function Shop() {
     badge: p.badge,
   })) || [];
 
-  // Transform additional products
-  const additionalItems = additionalProducts?.map((p) => ({
-    id: p.id,
-    name: p.nameHe || p.name,
-    price: parseFloat(p.salePrice || p.price),
-    image: p.images?.[0] || 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=500&q=80',
-    category: (p.brand && p.brand !== 'OTHER') ? p.brand : getCategoryLabel(p.category),
-    description: p.descriptionHe || p.description,
-    badge: p.badge,
-  })) || [];
+  // Transform additional products - exclude bed-bronzer products (they're in carousel)
+  const additionalItems = additionalProducts
+    ?.filter(p => p.tanningType !== 'bed-bronzer' && p.tanning_type !== 'bed-bronzer')
+    .map((p) => ({
+      id: p.id,
+      name: p.nameHe || p.name,
+      price: parseFloat(p.salePrice || p.price),
+      image: p.images?.[0] || 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=500&q=80',
+      category: (p.brand && p.brand !== 'OTHER') ? p.brand : getCategoryLabel(p.category),
+      description: p.descriptionHe || p.description,
+      badge: p.badge,
+    })) || [];
 
   const isLoading = loadingBedBronzers || loadingSelfTanning || loadingAdditional;
 
