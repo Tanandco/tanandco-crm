@@ -39,12 +39,21 @@ export default function ZenCarousel({ products, onAddToCart }: ZenCarouselProps)
           background: rgba(30, 20, 50, 0.4);
           backdrop-filter: blur(10px);
           border: none;
+          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 
+                      0 3px 10px rgba(0, 0, 0, 0.4),
+                      inset 0 1px 0 rgba(255, 255, 255, 0.15),
+                      inset 0 -1px 0 rgba(0, 0, 0, 0.3);
           transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .zen-carousel .swiper-slide-active {
           background: rgba(50, 30, 70, 0.6);
-          box-shadow: 0 15px 40px rgba(255, 105, 180, 0.3);
+          box-shadow: 0 20px 60px rgba(255, 105, 180, 0.4),
+                      0 10px 30px rgba(255, 105, 180, 0.3),
+                      0 5px 15px rgba(0, 0, 0, 0.5),
+                      inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                      inset 0 -1px 0 rgba(0, 0, 0, 0.4);
+          transform: translateY(-5px);
         }
 
         .zen-carousel .swiper-slide img {
