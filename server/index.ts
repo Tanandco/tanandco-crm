@@ -2,12 +2,8 @@ import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { bioStarStartup } from "./services/biostar-startup";
-import path from "path";
 
 const app = express();
-
-// Serve attached assets (product images, etc.)
-app.use('/attached_assets', express.static(path.resolve(import.meta.dirname, '..', 'attached_assets')));
 
 // Raw body middleware for WhatsApp webhook signature verification
 app.use('/api/webhooks/whatsapp', express.raw({ type: 'application/json' }));
