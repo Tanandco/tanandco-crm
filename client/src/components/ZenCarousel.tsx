@@ -58,6 +58,11 @@ export default function ZenCarousel({ products, onAddToCart }: ZenCarouselProps)
           transition: transform 0.3s ease;
         }
 
+        .zen-carousel .swiper-slide img[src*="tingle-bell"] {
+          width: 220px;
+          height: 260px;
+        }
+
         .zen-carousel .swiper-slide-active img {
           transform: scale(1.05);
         }
