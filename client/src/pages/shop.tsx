@@ -47,7 +47,7 @@ export default function Shop() {
     name: p.nameHe || p.name,
     price: parseFloat(p.salePrice || p.price),
     image: p.images?.[0] || 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=500&q=80',
-    category: p.brand || getCategoryLabel(p.category),
+    category: (p.brand && p.brand !== 'OTHER') ? p.brand : getCategoryLabel(p.category),
     badge: p.badge,
   })) || [];
 
@@ -57,7 +57,7 @@ export default function Shop() {
     name: p.nameHe || p.name,
     price: parseFloat(p.salePrice || p.price),
     image: p.images?.[0] || 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=500&q=80',
-    category: p.brand || getCategoryLabel(p.category),
+    category: (p.brand && p.brand !== 'OTHER') ? p.brand : getCategoryLabel(p.category),
     description: p.descriptionHe || p.description,
     badge: p.badge,
   })) || [];
