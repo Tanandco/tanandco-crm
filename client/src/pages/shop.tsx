@@ -160,7 +160,7 @@ export default function Shop() {
               {selfTanningItems.map((product) => (
                 <div 
                   key={product.id}
-                  className="bg-slate-900/40 backdrop-blur-sm rounded-xl p-4 border border-pink-500/20 hover:border-pink-500/50 transition-all"
+                  className="bg-slate-900/40 backdrop-blur-sm rounded-xl p-4 border-0 transition-all"
                   data-testid={`product-card-${product.id}`}
                 >
                   <img 

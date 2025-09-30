@@ -38,13 +38,12 @@ export default function ZenCarousel({ products, onAddToCart }: ZenCarouselProps)
           border-radius: 16px;
           background: rgba(30, 20, 50, 0.4);
           backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 105, 180, 0.2);
+          border: none;
           transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .zen-carousel .swiper-slide-active {
           background: rgba(50, 30, 70, 0.6);
-          border-color: rgba(255, 105, 180, 0.5);
           box-shadow: 0 15px 40px rgba(255, 105, 180, 0.3);
         }
 
@@ -68,7 +67,7 @@ export default function ZenCarousel({ products, onAddToCart }: ZenCarouselProps)
           width: 48px;
           height: 48px;
           border-radius: 50%;
-          border: 1px solid rgba(255, 105, 180, 0.3);
+          border: none;
           backdrop-filter: blur(8px);
         }
 
