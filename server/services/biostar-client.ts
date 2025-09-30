@@ -295,7 +295,8 @@ export class BioStarClient {
       
       const response = await fetch(url, {
         method: 'GET',
-        timeout: 5000
+        timeout: 5000,
+        agent: this.createHttpsAgent()
       });
 
       return response.ok;
