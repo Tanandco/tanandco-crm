@@ -177,13 +177,13 @@ export default function Shop() {
                   <img 
                     src={product.image} 
                     alt={product.name}
-                    className="w-full h-64 object-contain mb-3"
+                    className="w-full h-80 object-contain mb-2"
                     data-testid={`product-image-${product.id}`}
                   />
-                  <h3 className="text-base font-bold text-pink-200 mb-2 text-center line-clamp-1">
+                  <h3 className="text-sm font-bold text-pink-200 mb-1 text-center line-clamp-1">
                     {product.name}
                   </h3>
-                  <p className="text-xl font-bold text-center mb-3 bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+                  <p className="text-lg font-bold text-center mb-2 bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
                     ₪{product.price}
                   </p>
                   <div className="flex gap-2">
