@@ -36,16 +36,20 @@ export default function ZenCarousel({ products, onAddToCart }: ZenCarouselProps)
           justify-content: flex-start;
           padding: 16px;
           border-radius: 16px;
-          background: rgba(30, 20, 50, 0.4);
+          background: linear-gradient(135deg, rgba(51, 65, 85, 0.6), rgba(15, 23, 42, 0.6));
           backdrop-filter: blur(10px);
           border: none;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+          box-shadow: inset -2px -2px 4px rgba(255, 255, 255, 0.1),
+                      inset 2px 2px 4px rgba(0, 0, 0, 0.4),
+                      0 4px 20px rgba(0, 0, 0, 0.3);
           transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .zen-carousel .swiper-slide-active {
-          background: rgba(50, 30, 70, 0.6);
-          box-shadow: 0 8px 30px rgba(255, 105, 180, 0.25);
+          background: linear-gradient(135deg, rgba(71, 85, 105, 0.7), rgba(30, 41, 59, 0.7));
+          box-shadow: inset -3px -3px 6px rgba(255, 105, 180, 0.15),
+                      inset 3px 3px 6px rgba(0, 0, 0, 0.5),
+                      0 8px 30px rgba(255, 105, 180, 0.25);
           transform: translateY(-2px);
         }
 
