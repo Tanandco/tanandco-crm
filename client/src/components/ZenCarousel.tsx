@@ -147,13 +147,11 @@ export default function ZenCarousel({ products, onAddToCart }: ZenCarouselProps)
             </p>
             <Button
               size="sm"
-              className="relative bg-gradient-to-br from-pink-500 via-pink-600 to-purple-600 text-white border-0 text-xs h-8 px-4
-                shadow-[0_6px_0_0_rgba(147,51,234,0.8),0_8px_20px_rgba(236,72,153,0.6)]
-                hover:shadow-[0_4px_0_0_rgba(147,51,234,0.8),0_6px_15px_rgba(236,72,153,0.8)]
-                active:shadow-[0_2px_0_0_rgba(147,51,234,0.8),0_3px_10px_rgba(236,72,153,0.8)]
-                hover:translate-y-[2px] active:translate-y-[4px]
-                transition-all duration-150 ease-in-out
-                before:absolute before:inset-0 before:bg-gradient-to-t before:from-transparent before:to-white/20 before:rounded-md"
+              className="relative bg-[rgba(40,30,60,0.6)] text-pink-200 border-0 text-xs h-8 px-4
+                shadow-[-3px_-3px_6px_rgba(80,60,100,0.4),3px_3px_6px_rgba(10,5,20,0.8)]
+                hover:shadow-[-2px_-2px_4px_rgba(80,60,100,0.3),2px_2px_4px_rgba(10,5,20,0.6)]
+                active:shadow-[inset_2px_2px_6px_rgba(10,5,20,0.9),inset_-2px_-2px_4px_rgba(80,60,100,0.3)]
+                transition-all duration-200 ease-in-out"
               onClick={() => onAddToCart?.(product.id)}
               data-testid={`zen-cart-btn-${product.id}`}
             >
