@@ -14,6 +14,7 @@ import CustomerManagement from "@/pages/CustomerManagement";
 import AutomationDashboard from "@/pages/automation-dashboard";
 import Shop from "@/pages/shop";
 import ProductManagement from "@/pages/product-management";
+import BioStarTest from "@/pages/biostar-test";
 
 // Import component examples for preview
 import LogoExample from "@/components/examples/Logo";
@@ -34,6 +35,7 @@ function Router() {
       <Route path="/automation" component={AutomationDashboard} />
       <Route path="/shop" component={Shop} />
       <Route path="/products" component={ProductManagement} />
+      <Route path="/biostar-test" component={BioStarTest} />
       
       {/* Component Examples for Development/Preview */}
       <Route path="/examples/logo" component={LogoExample} />
