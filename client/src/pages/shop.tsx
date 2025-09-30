@@ -109,22 +109,8 @@ export default function Shop() {
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="relative py-20 px-4">
-        <div className="container mx-auto text-center">
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold mb-8">
-            <span className="bg-gradient-to-r from-pink-500 via-purple-500 to-pink-500 bg-clip-text text-transparent animate-gradient">
-              גלי את עולם היופי
-            </span>
-          </h1>
-          <p className="text-2xl md:text-3xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            מוצרי פרימיום לשיזוף, קוסמטיקה, אביזרים ועוד - הכל במקום אחד
-          </p>
-        </div>
-      </section>
-
-      {/* Featured Products Carousel */}
-      <section className="relative py-8 bg-slate-900/30">
+      {/* Featured Products Carousel - Hero */}
+      <section className="relative pt-8 pb-16">
         <div className="container mx-auto">
           {featuredProducts.length > 0 ? (
             <ProductCarousel3D 
