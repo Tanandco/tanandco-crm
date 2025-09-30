@@ -110,7 +110,7 @@ export default function Shop() {
       </header>
 
       {/* Featured Products Carousel - Hero */}
-      <section className="relative pt-8 pb-16">
+      <section className="relative pt-2 pb-8">
         <div className="container mx-auto">
           {featuredProducts.length > 0 ? (
             <ProductCarousel3D 
