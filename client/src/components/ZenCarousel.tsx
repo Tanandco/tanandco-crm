@@ -63,10 +63,17 @@ export default function ZenCarousel({ products, onAddToCart }: ZenCarouselProps)
             rgba(236, 72, 153, 0.1) 100%);
           backdrop-filter: blur(12px);
           border: 1px solid rgba(236, 72, 153, 0.6);
-          box-shadow: 0 25px 50px -12px rgba(236, 72, 153, 0.2);
+          box-shadow: 
+            0 10px 20px rgba(0, 0, 0, 0.3),
+            0 20px 40px rgba(236, 72, 153, 0.3),
+            0 30px 60px rgba(168, 85, 247, 0.2),
+            0 0 80px rgba(236, 72, 153, 0.1);
           position: relative;
           transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
           overflow: visible;
+          transform: translateY(0) rotateX(0deg);
+          transform-style: preserve-3d;
+          perspective: 1000px;
         }
 
         .zen-carousel .swiper-slide::before {
@@ -92,15 +99,35 @@ export default function ZenCarousel({ products, onAddToCart }: ZenCarouselProps)
           opacity: 0.7;
         }
 
+        .zen-carousel .swiper-slide::after {
+          content: '';
+          position: absolute;
+          inset: -10px;
+          border-radius: 24px;
+          background: radial-gradient(
+            circle at center,
+            rgba(236, 72, 153, 0.15),
+            rgba(168, 85, 247, 0.1),
+            transparent 70%
+          );
+          z-index: -2;
+          filter: blur(20px);
+          opacity: 0.6;
+        }
+
         .zen-carousel .swiper-slide-active {
           background: linear-gradient(135deg, 
             rgba(236, 72, 153, 0.3) 0%,
             rgba(168, 85, 247, 0.2) 50%,
             rgba(236, 72, 153, 0.15) 100%);
           backdrop-filter: blur(16px);
-          box-shadow: 0 25px 50px -12px rgba(236, 72, 153, 0.4),
-                      0 0 30px rgba(236, 72, 153, 0.3);
-          transform: scale(1.05);
+          box-shadow: 
+            0 20px 40px rgba(0, 0, 0, 0.5),
+            0 30px 60px rgba(236, 72, 153, 0.5),
+            0 40px 80px rgba(168, 85, 247, 0.4),
+            0 0 100px rgba(236, 72, 153, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+          transform: translateY(-10px) scale(1.05) rotateX(2deg);
           border-color: rgba(236, 72, 153, 0.8);
         }
 
@@ -115,6 +142,18 @@ export default function ZenCarousel({ products, onAddToCart }: ZenCarouselProps)
           );
           background-size: 200% 200%;
           animation: flow-gradient 3s linear infinite;
+          opacity: 1;
+        }
+
+        .zen-carousel .swiper-slide-active::after {
+          inset: -20px;
+          background: radial-gradient(
+            circle at center,
+            rgba(236, 72, 153, 0.3),
+            rgba(168, 85, 247, 0.2),
+            transparent 60%
+          );
+          filter: blur(30px);
           opacity: 1;
         }
 
