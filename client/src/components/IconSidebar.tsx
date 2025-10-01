@@ -1,10 +1,16 @@
 import { Link, useLocation } from 'wouter';
-import { MessageCircle, DoorOpen, Zap, Users } from 'lucide-react';
+import { MessageCircle, DoorOpen, Zap, UserPlus, Activity } from 'lucide-react';
 
 export default function IconSidebar() {
   const [location] = useLocation();
 
   const navItems = [
+    {
+      icon: UserPlus,
+      path: '/face-registration',
+      label: 'הרשמה',
+      testId: 'nav-registration'
+    },
     {
       icon: MessageCircle,
       path: '/chat',
@@ -19,15 +25,15 @@ export default function IconSidebar() {
     },
     {
       icon: Zap,
-      path: '/automation',
+      path: '/automation-dashboard',
       label: 'אוטומציה',
       testId: 'nav-automation'
     },
     {
-      icon: Users,
-      path: '/customers',
-      label: 'לקוחות',
-      testId: 'nav-customers'
+      icon: Activity,
+      path: '/biostar-test',
+      label: 'BioStar',
+      testId: 'nav-biostar'
     },
   ];
 

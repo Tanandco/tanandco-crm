@@ -5,15 +5,21 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest } from '@/lib/queryClient';
+import { useQuery } from '@tanstack/react-query';
 
 export default function FaceRegistration() {
   const [, navigate] = useLocation();
   const { toast } = useToast();
   
-  // Get customer ID from URL path
-  const pathname = window.location.pathname;
-  const customerId = pathname.split('/').pop() || null;
-  const customerName = 'לקוח יקר';
+  // Get customer ID from query params
+  const urlParams = new URLSearchParams(window.location.search);
+  const customerId = urlParams.get('customerId');
+  
+  // Fetch customer data
+  const { data: customer, isLoading: loadingCustomer } = useQuery<any>({
+    queryKey: [`/api/customers/${customerId}`],
+    enabled: !!customerId,
+  });
 
   const [registrationState, setRegistrationState] = useState<'idle' | 'uploading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState<string>('');
@@ -173,7 +179,7 @@ export default function FaceRegistration() {
     setRegistrationState('idle');
   };
 
-  if (!customerId) {
+  if (!customerId || (!loadingCustomer && !customer)) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center p-6" dir="rtl">
         <Card className="max-w-md">
@@ -191,6 +197,14 @@ export default function FaceRegistration() {
     );
   }
 
+  if (loadingCustomer) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center p-6" dir="rtl">
+        <Loader2 className="w-12 h-12 text-pink-500 animate-spin" />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6" dir="rtl">
       <div className="max-w-4xl mx-auto">
@@ -200,7 +214,7 @@ export default function FaceRegistration() {
             רישום זיהוי פנים
           </h1>
           <p className="text-xl text-gray-300">
-            שלום {customerName}! 👋
+            שלום {customer?.fullName || 'לקוח יקר'}! 👋
           </p>
           <p className="text-lg text-gray-400 mt-2">
             העלה תמונה ברורה שלך לרישום במערכת

@@ -38,11 +38,12 @@ function Router() {
       <Route path="/manual-entry" component={ManualEntry} />
       <Route path="/customers" component={CustomerManagement} />
       <Route path="/automation" component={AutomationDashboard} />
+      <Route path="/automation-dashboard" component={AutomationDashboard} />
       <Route path="/shop" component={Shop} />
       <Route path="/products" component={ProductManagement} />
       <Route path="/biostar-test" component={BioStarTest} />
       <Route path="/remote-door" component={RemoteDoor} />
-      <Route path="/face-registration/:customerId" component={FaceRegistration} />
+      <Route path="/face-registration" component={FaceRegistration} />
       <Route path="/health-form/:customerId" component={HealthForm} />
       <Route path="/chat" component={Chat} />
       
