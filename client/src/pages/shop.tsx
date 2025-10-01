@@ -131,50 +131,67 @@ export default function Shop() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950/30 to-slate-950" dir="rtl">
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-gradient-to-r from-slate-950/95 via-purple-950/40 to-slate-950/95 backdrop-blur-lg border-b border-pink-500/20">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Logo size="header" showGlow={false} showUnderline={false} />
-            </div>
-
-            <div className="flex gap-2">
-              <Link href="/products">
-                <Button 
-                  variant="outline" 
-                  size="icon"
-                  className="border-pink-500/50 hover:border-pink-500"
-                  data-testid="button-manage-products"
-                >
-                  <Settings className="w-5 h-5" />
-                </Button>
-              </Link>
-              
+      {/* Top Action Bar */}
+      <div className="sticky top-0 z-50 bg-gradient-to-r from-slate-950/95 via-purple-950/40 to-slate-950/95 backdrop-blur-lg border-b border-pink-500/20">
+        <div className="container mx-auto px-4 py-3">
+          <div className="flex justify-end gap-2">
+            <Link href="/products">
               <Button 
                 variant="outline" 
-                className="relative border-pink-500/50 hover:border-pink-500"
-                data-testid="button-cart"
+                size="icon"
+                className="border-pink-500/50 hover:border-pink-500"
+                data-testid="button-manage-products"
               >
-                <ShoppingCart className="w-5 h-5 ml-2" />
-                עגלה
-                {cartCount > 0 && (
-                  <span className="absolute -top-2 -left-2 w-6 h-6 bg-pink-500 text-white text-xs rounded-full flex items-center justify-center">
-                    {cartCount}
-                  </span>
-                )}
+                <Settings className="w-5 h-5" />
               </Button>
-            </div>
+            </Link>
+            
+            <Button 
+              variant="outline" 
+              className="relative border-pink-500/50 hover:border-pink-500"
+              data-testid="button-cart"
+            >
+              <ShoppingCart className="w-5 h-5 ml-2" />
+              עגלה
+              {cartCount > 0 && (
+                <span className="absolute -top-2 -left-2 w-6 h-6 bg-pink-500 text-white text-xs rounded-full flex items-center justify-center">
+                  {cartCount}
+                </span>
+              )}
+            </Button>
           </div>
         </div>
-      </header>
+      </div>
 
-      {/* Bed Bronzers Carousel */}
-      <section className="relative pt-2 pb-8">
+      {/* Hero Logo Section */}
+      <div className="relative py-16">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-6 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+          {/* Centered Logo with Neon Glow */}
+          <div className="flex justify-center mb-12">
+            <div className="relative p-8">
+              {/* Outer Glow Background */}
+              <div className="absolute inset-0 bg-gradient-to-r from-pink-500 via-purple-500 to-pink-500 blur-[100px] opacity-40 animate-pulse"></div>
+              
+              {/* Inner Glow */}
+              <div className="absolute inset-4 bg-gradient-to-br from-pink-400/20 via-purple-500/20 to-pink-400/20 blur-2xl"></div>
+              
+              {/* Logo Container - 2x size */}
+              <div className="relative scale-[2] transform-gpu">
+                <Logo size="header" showGlow={true} showUnderline={true} />
+              </div>
+            </div>
+          </div>
+
+          {/* Carousel Title - proportional to logo */}
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-8 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent animate-pulse" style={{ animationDuration: '3s' }}>
             ברונזרים למיטות שיזוף
           </h2>
+        </div>
+      </div>
+
+      {/* Bed Bronzers Carousel */}
+      <section className="relative pb-8">
+        <div className="container mx-auto px-4">
           {bedBronzerProducts.length > 0 ? (
             <ZenCarousel 
               products={bedBronzerProducts} 

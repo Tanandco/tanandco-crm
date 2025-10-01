@@ -25,7 +25,9 @@ export default function Logo({ className = "", showGlow = true, showUnderline = 
           alt="Tan&Co. 24|7"
           className={`${heightClass} object-contain`}
           style={{
-            filter: showGlow ? 'drop-shadow(0 0 40px rgba(236, 72, 153, 0.9)) drop-shadow(0 0 80px rgba(147, 51, 234, 0.6))' : 'none'
+            filter: showGlow 
+              ? 'brightness(1.3) contrast(1.2) saturate(1.5) drop-shadow(0 0 40px rgba(236, 72, 153, 0.9)) drop-shadow(0 0 80px rgba(147, 51, 234, 0.6)) drop-shadow(0 0 20px rgba(255, 105, 180, 1))' 
+              : 'brightness(1.3) contrast(1.2) saturate(1.5)'
           }}
           data-testid="logo-image"
         />
@@ -34,7 +36,8 @@ export default function Logo({ className = "", showGlow = true, showUnderline = 
         <div 
           className="w-64 md:w-80 h-1 mt-4 rounded-full opacity-90"
           style={{
-            background: 'linear-gradient(to right, transparent, rgba(236, 72, 153, 0.9), rgba(147, 51, 234, 0.7), transparent)'
+            background: 'linear-gradient(to right, transparent, rgba(236, 72, 153, 0.9), rgba(147, 51, 234, 0.7), transparent)',
+            boxShadow: '0 0 20px rgba(236, 72, 153, 0.8), 0 0 40px rgba(147, 51, 234, 0.5)'
           }}
           data-testid="logo-underline"
         />
