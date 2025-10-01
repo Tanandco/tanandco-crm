@@ -1,9 +1,8 @@
-import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import ZenCarousel from '@/components/ZenCarousel';
 import Logo from '@/components/Logo';
 import { Button } from '@/components/ui/button';
-import { ShoppingCart, Package, Settings, Info } from 'lucide-react';
+import { Search, Package, UserPlus, Info, Plus, RefreshCw } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Link } from 'wouter';
 import {
@@ -19,7 +18,6 @@ import {
 
 export default function Shop() {
   const { toast } = useToast();
-  const [cartCount, setCartCount] = useState(0);
 
   // Fetch bed bronzer products
   const { data: bedBronzers, isLoading: loadingBedBronzers } = useQuery<any[]>({
@@ -112,11 +110,10 @@ export default function Shop() {
   const handleAddToCart = (productId: string) => {
     const allProducts = [...bedBronzerProducts, ...selfTanningItems];
     const product = allProducts.find(p => p.id === productId);
-    setCartCount(prev => prev + 1);
     
     toast({
-      title: '✨ נוסף לעגלה!',
-      description: `${product?.name} נוסף לעגלת הקניות שלך`,
+      title: '✨ נוסף!',
+      description: `${product?.name} נוסף בהצלחה`,
       duration: 2000,
     });
   };
@@ -135,30 +132,25 @@ export default function Shop() {
       <div className="sticky top-0 z-50 bg-gradient-to-r from-slate-950/95 via-purple-950/40 to-slate-950/95 backdrop-blur-lg border-b border-pink-500/20">
         <div className="container mx-auto px-4 py-3">
           <div className="flex justify-end gap-2">
-            <Link href="/products">
-              <Button 
-                variant="outline" 
-                size="icon"
-                className="border-pink-500/50 hover:border-pink-500"
-                data-testid="button-manage-products"
-              >
-                <Settings className="w-5 h-5" />
-              </Button>
-            </Link>
-            
             <Button 
               variant="outline" 
-              className="relative border-pink-500/50 hover:border-pink-500"
-              data-testid="button-cart"
+              size="icon"
+              className="border-pink-500/50 hover:border-pink-500"
+              data-testid="button-search"
             >
-              <ShoppingCart className="w-5 h-5 ml-2" />
-              עגלה
-              {cartCount > 0 && (
-                <span className="absolute -top-2 -left-2 w-6 h-6 bg-pink-500 text-white text-xs rounded-full flex items-center justify-center">
-                  {cartCount}
-                </span>
-              )}
+              <Search className="w-5 h-5" />
             </Button>
+            
+            <Link href="/face-registration">
+              <Button 
+                variant="outline" 
+                className="border-pink-500/50 hover:border-pink-500"
+                data-testid="button-register"
+              >
+                <UserPlus className="w-5 h-5 ml-2" />
+                הרשמה
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
@@ -244,7 +236,7 @@ export default function Shop() {
                       onClick={() => handleAddToCart(product.id)}
                       data-testid={`add-to-cart-${product.id}`}
                     >
-                      <ShoppingCart className="w-3 h-3 ml-1" />
+                      <Plus className="w-3 h-3 ml-1" />
                       הוסף
                     </Button>
                     {product.description && (
@@ -314,7 +306,7 @@ export default function Shop() {
 
           <div className="text-center p-6 rounded-lg bg-slate-900/50 border border-pink-500/20">
             <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center">
-              <ShoppingCart className="w-8 h-8 text-white" />
+              <RefreshCw className="w-8 h-8 text-white" />
             </div>
             <h4 className="text-xl font-bold mb-2">החזרות בחינם</h4>
             <p className="text-muted-foreground">החזרה ללא עלות תוך 30 יום</p>
