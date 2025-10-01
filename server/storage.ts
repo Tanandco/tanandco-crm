@@ -54,6 +54,7 @@ export interface IStorage {
   createMembership(membership: InsertMembership): Promise<Membership>;
   updateMembership(id: string, membership: Partial<InsertMembership>): Promise<Membership | undefined>;
   deleteMembership(id: string): Promise<void>;
+  deductSession(membershipId: string): Promise<{ success: boolean; newBalance: number; membership?: Membership }>;
 
   // Product operations
   getProducts(): Promise<Product[]>;
@@ -276,6 +277,36 @@ export class MemStorage implements IStorage {
 
   async deleteMembership(id: string): Promise<void> {
     this.memberships.delete(id);
+  }
+
+  async deductSession(membershipId: string): Promise<{ success: boolean; newBalance: number; membership?: Membership }> {
+    const membership = this.memberships.get(membershipId);
+    
+    if (!membership) {
+      return { success: false, newBalance: 0 };
+    }
+
+    // Check if has remaining balance
+    if (membership.balance <= 0) {
+      return { success: false, newBalance: 0, membership };
+    }
+
+    // Deduct one session
+    const newBalance = membership.balance - 1;
+    const updatedMembership: Membership = {
+      ...membership,
+      balance: newBalance,
+      isActive: newBalance > 0, // Deactivate if balance reaches 0
+      updatedAt: new Date(),
+    };
+
+    this.memberships.set(membershipId, updatedMembership);
+    
+    return { 
+      success: true, 
+      newBalance, 
+      membership: updatedMembership 
+    };
   }
 
   // Product operations - Using PostgreSQL

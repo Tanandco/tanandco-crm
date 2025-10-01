@@ -122,9 +122,32 @@ export function registerRoutes(app: express.Application) {
           const memberships = await storage.getMembershipsByCustomer(customer.id);
           const activeMemberships = memberships.filter(m => m.isActive && m.balance > 0);
           
+          // Check if customer has active membership with balance
+          if (activeMemberships.length === 0) {
+            return res.status(403).json({
+              success: false,
+              error: 'אין חבילה פעילה או שהיתרה אפסה',
+              data: {
+                customer: {
+                  id: customer.id,
+                  fullName: customer.fullName,
+                  phone: customer.phone,
+                },
+                memberships: memberships.map(m => ({
+                  id: m.id,
+                  type: m.type,
+                  balance: m.balance,
+                  isActive: m.isActive,
+                })),
+              }
+            });
+          }
+          
           // AUTOMATIC DOOR OPENING AFTER SUCCESSFUL RECOGNITION
           let doorOpened = false;
           let doorError: string | undefined;
+          let sessionDeducted = false;
+          let deductionInfo: { membershipId?: string; previousBalance?: number; newBalance?: number } = {};
           
           try {
             console.log(`[Face Recognition] Customer ${customer.fullName} identified, opening door...`);
@@ -133,6 +156,42 @@ export function registerRoutes(app: express.Application) {
             
             if (doorResult) {
               console.log(`[Face Recognition] Door opened successfully for ${customer.fullName}`);
+              
+              // DEDUCT SESSION FROM ACTIVE MEMBERSHIP
+              // Use the first active membership (priority: sun-beds type)
+              const primaryMembership = activeMemberships.find(m => m.type === 'sun-beds') || activeMemberships[0];
+              
+              if (primaryMembership) {
+                const deductionResult = await storage.deductSession(primaryMembership.id);
+                
+                if (deductionResult.success) {
+                  sessionDeducted = true;
+                  deductionInfo = {
+                    membershipId: primaryMembership.id,
+                    previousBalance: primaryMembership.balance,
+                    newBalance: deductionResult.newBalance,
+                  };
+                  console.log(`[Session Deduction] Deducted 1 session from ${customer.fullName}. New balance: ${deductionResult.newBalance}`);
+                  
+                  // SEND WHATSAPP MESSAGE WITH SESSION BALANCE
+                  if (customer.phone) {
+                    try {
+                      await whatsappService.sendSessionBalanceUpdate(
+                        customer.phone,
+                        customer.fullName,
+                        deductionResult.newBalance,
+                        primaryMembership.type
+                      );
+                      console.log(`[WhatsApp] Session balance update sent to ${customer.fullName}`);
+                    } catch (waError) {
+                      console.error(`[WhatsApp] Failed to send balance update:`, waError);
+                      // Don't fail the whole request if WhatsApp fails
+                    }
+                  }
+                } else {
+                  console.error(`[Session Deduction] Failed to deduct session for ${customer.fullName}`);
+                }
+              }
             } else {
               console.error(`[Face Recognition] Failed to open door for ${customer.fullName}`);
               doorError = 'Door control returned false';
@@ -175,6 +234,10 @@ export function registerRoutes(app: express.Application) {
             });
           }
           
+          // Refresh memberships after potential deduction
+          const updatedMemberships = await storage.getMembershipsByCustomer(customer.id);
+          const updatedActiveMemberships = updatedMemberships.filter(m => m.isActive && m.balance > 0);
+          
           res.json({
             success: true,
             data: {
@@ -186,7 +249,7 @@ export function registerRoutes(app: express.Application) {
                 email: customer.email,
                 isNewClient: customer.isNewClient,
               },
-              memberships: activeMemberships.map(m => ({
+              memberships: updatedActiveMemberships.map(m => ({
                 id: m.id,
                 type: m.type,
                 balance: m.balance,
@@ -194,6 +257,8 @@ export function registerRoutes(app: express.Application) {
               })),
               doorOpened,
               doorError,
+              sessionDeducted,
+              deductionInfo: sessionDeducted ? deductionInfo : undefined,
             }
           });
         } else {
