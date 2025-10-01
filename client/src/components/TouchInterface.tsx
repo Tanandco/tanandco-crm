@@ -320,39 +320,6 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
               <div className="absolute inset-0 bg-gradient-radial from-orange-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </div>
           </button>
-
-          <button
-            className="
-              group relative h-[48px] px-6
-              bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
-              border hover:border-2
-              rounded-md backdrop-blur-sm
-              flex items-center justify-center gap-2
-              transition-all duration-300 ease-in-out
-              hover-elevate active-elevate-2
-            "
-            style={{
-              borderColor: 'rgba(236, 72, 153, 0.6)',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 1)'}
-            onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.6)'}
-            onClick={() => navigate('/products')}
-            data-testid="button-products"
-          >
-            <Package 
-              className="text-pink-400 group-hover:text-pink-300 transition-colors duration-300"
-              size={20}
-              style={{
-                filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))'
-              }}
-            />
-            <span className="text-white font-hebrew">מוצרים</span>
-            
-            <div className="absolute inset-0 rounded-md overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-radial from-pink-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            </div>
-          </button>
         </div>
 
         {/* Logo */}
