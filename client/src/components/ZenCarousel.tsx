@@ -193,14 +193,11 @@ export default function ZenCarousel({ products, onAddToCart }: ZenCarouselProps)
               data-testid={`zen-image-${product.id}`}
             />
             <h3 
-              className="text-sm font-bold text-center mb-1 text-pink-200 line-clamp-2"
+              className="text-sm font-bold text-center mb-2 text-pink-200 line-clamp-2"
               data-testid={`zen-title-${product.id}`}
             >
               {product.name}
             </h3>
-            <p className="text-xs text-muted-foreground text-center mb-2 line-clamp-1">
-              {product.category}
-            </p>
             <div className="flex gap-2 w-full">
               <Button
                 size="sm"
