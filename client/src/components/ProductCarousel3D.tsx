@@ -186,7 +186,7 @@ export default function ProductCarousel3D({ products, onAddToCart }: ProductCaro
                     )}
 
                     {/* Product Image */}
-                    <div className="relative w-full aspect-square overflow-hidden bg-background flex items-center justify-center p-8">
+                    <div className="relative w-full aspect-square overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center p-8">
                       <img 
                         src={product.image} 
                         alt={product.name}
