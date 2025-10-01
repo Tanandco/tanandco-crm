@@ -119,8 +119,8 @@ export default function ZenCarousel({ products, onAddToCart }: ZenCarouselProps)
         }
 
         .zen-carousel .swiper-slide img[src*="tingle-bell"] {
-          width: 260px;
-          height: 330px;
+          width: 280px;
+          height: 360px;
         }
 
         .zen-carousel .swiper-slide-active img {
