@@ -34,7 +34,7 @@ export default function Logo({ className = "", showGlow = true, showUnderline = 
       </div>
       {showUnderline && (
         <div 
-          className="w-64 md:w-80 h-1 mt-1 rounded-full opacity-90"
+          className="w-64 md:w-80 h-1 mt-0 rounded-full opacity-90"
           style={{
             background: 'linear-gradient(to right, transparent, rgba(236, 72, 153, 0.9), rgba(147, 51, 234, 0.7), transparent)',
             boxShadow: '0 0 20px rgba(236, 72, 153, 0.8), 0 0 40px rgba(147, 51, 234, 0.5)'
