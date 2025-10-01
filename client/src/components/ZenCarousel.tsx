@@ -26,6 +26,7 @@ interface Product {
   image: string;
   category: string;
   description?: string;
+  bronzerStrength?: number;
 }
 
 interface ZenCarouselProps {
@@ -118,8 +119,8 @@ export default function ZenCarousel({ products, onAddToCart }: ZenCarouselProps)
         }
 
         .zen-carousel .swiper-slide img[src*="tingle-bell"] {
-          width: 250px;
-          height: 310px;
+          width: 260px;
+          height: 330px;
         }
 
         .zen-carousel .swiper-slide-active img {
@@ -193,11 +194,16 @@ export default function ZenCarousel({ products, onAddToCart }: ZenCarouselProps)
               data-testid={`zen-image-${product.id}`}
             />
             <h3 
-              className="text-sm font-bold text-center mb-2 text-pink-200 line-clamp-2"
+              className="text-sm font-bold text-center mb-1 text-pink-200 line-clamp-2"
               data-testid={`zen-title-${product.id}`}
             >
               {product.name}
             </h3>
+            {product.bronzerStrength && (
+              <p className="text-xs text-muted-foreground text-center mb-2">
+                חוזק: {product.bronzerStrength}
+              </p>
+            )}
             <div className="flex gap-2 w-full">
               <Button
                 size="sm"

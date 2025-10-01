@@ -71,6 +71,7 @@ export const products = pgTable("products", {
   
   // Tanning product classification
   tanningType: text("tanning_type"), // 'bed-bronzer' (למיטות שיזוף) or 'self-tanning' (שיזוף עצמי ביתי)
+  bronzerStrength: integer("bronzer_strength"), // 1-15: Bronzer strength for tanning beds (דרגת חוזק הברונזר)
   
   stock: integer("stock").default(0).notNull(),
   isActive: boolean("is_active").default(true).notNull(),

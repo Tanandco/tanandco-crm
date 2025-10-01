@@ -60,6 +60,7 @@ export default function Shop() {
     category: (p.brand && p.brand !== 'OTHER') ? p.brand : getCategoryLabel(p.category),
     description: p.descriptionHe || p.description,
     badge: p.badge,
+    bronzerStrength: p.bronzerStrength || p.bronzer_strength,
   })) || [];
 
   // Transform self-tanning products
