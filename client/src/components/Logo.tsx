@@ -34,10 +34,10 @@ export default function Logo({ className = "", showGlow = true, showUnderline = 
       </div>
       {showUnderline && (
         <div 
-          className="w-64 md:w-80 h-1 -mt-4 rounded-full opacity-90"
+          className="w-64 md:w-80 h-0.5 mt-2 rounded-full opacity-60"
           style={{
-            background: 'linear-gradient(to right, transparent, rgba(236, 72, 153, 0.9), rgba(147, 51, 234, 0.7), transparent)',
-            boxShadow: '0 0 20px rgba(236, 72, 153, 0.8), 0 0 40px rgba(147, 51, 234, 0.5)'
+            background: 'linear-gradient(to right, transparent, rgba(236, 72, 153, 0.6), rgba(147, 51, 234, 0.5), transparent)',
+            boxShadow: '0 0 10px rgba(236, 72, 153, 0.4), 0 0 20px rgba(147, 51, 234, 0.3)'
           }}
           data-testid="logo-underline"
         />
