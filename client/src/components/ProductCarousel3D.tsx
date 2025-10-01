@@ -161,7 +161,7 @@ export default function ProductCarousel3D({ products, onAddToCart }: ProductCaro
                   <Card
                     className={`relative overflow-hidden transition-all duration-700 !shadow-none ${
                       isActive 
-                        ? 'scale-110 border-pink-500/50' 
+                        ? 'scale-110' 
                         : 'scale-95 opacity-60'
                     }`}
                     style={{
