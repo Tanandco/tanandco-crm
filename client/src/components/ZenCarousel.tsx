@@ -46,18 +46,16 @@ export default function ZenCarousel({ products, onAddToCart }: ZenCarouselProps)
           justify-content: flex-start;
           padding: 12px;
           border-radius: 16px;
-          background: #000000;
-          backdrop-filter: none;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          background: #0a0a0a;
+          border: 0;
+          box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06);
+          transition: all 0.25s ease;
         }
 
         .zen-carousel .swiper-slide-active {
-          background: #000000;
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
-          transform: scale(1.1);
+          background: #0a0a0a;
+          box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 10px 24px rgba(0, 0, 0, 0.35);
+          transform: scale(1.02);
         }
 
         .zen-carousel .swiper-slide img {
@@ -65,7 +63,6 @@ export default function ZenCarousel({ products, onAddToCart }: ZenCarouselProps)
           height: 280px;
           object-fit: contain;
           margin-bottom: 6px;
-          filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4));
           transition: transform 0.3s ease;
         }
 
@@ -80,19 +77,18 @@ export default function ZenCarousel({ products, onAddToCart }: ZenCarouselProps)
 
         .zen-carousel .swiper-button-next,
         .zen-carousel .swiper-button-prev {
-          color: #ff69b4;
-          background: rgba(20, 10, 40, 0.6);
+          color: rgba(255, 255, 255, 0.7);
+          background: rgba(0, 0, 0, 0.4);
           width: 48px;
           height: 48px;
           border-radius: 50%;
-          border: none;
-          backdrop-filter: blur(8px);
+          border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .zen-carousel .swiper-button-next:hover,
         .zen-carousel .swiper-button-prev:hover {
-          background: rgba(255, 105, 180, 0.2);
-          border-color: rgba(255, 105, 180, 0.6);
+          background: rgba(255, 255, 255, 0.1);
+          color: rgba(255, 255, 255, 0.9);
         }
 
         .zen-carousel .swiper-button-next::after,
@@ -101,15 +97,15 @@ export default function ZenCarousel({ products, onAddToCart }: ZenCarouselProps)
         }
 
         .zen-carousel .swiper-pagination-bullet {
-          background: rgba(255, 105, 180, 0.4);
+          background: rgba(255, 255, 255, 0.3);
           width: 10px;
           height: 10px;
         }
 
         .zen-carousel .swiper-pagination-bullet-active {
-          background: #ff69b4;
-          width: 24px;
-          border-radius: 5px;
+          background: rgba(255, 255, 255, 0.7);
+          width: 18px;
+          border-radius: 6px;
         }
       `}</style>
 
@@ -157,32 +153,25 @@ export default function ZenCarousel({ products, onAddToCart }: ZenCarouselProps)
             <div className="flex gap-2 w-full">
               <Button
                 size="sm"
-                className="flex-1 relative bg-[rgba(40,30,60,0.6)] text-pink-200 border-0 text-xs h-8 px-4
-                  shadow-[-3px_-3px_6px_rgba(80,60,100,0.4),3px_3px_6px_rgba(10,5,20,0.8)]
-                  hover:shadow-[-2px_-2px_4px_rgba(80,60,100,0.3),2px_2px_4px_rgba(10,5,20,0.6)]
-                  active:shadow-[inset_2px_2px_6px_rgba(10,5,20,0.9),inset_-2px_-2px_4px_rgba(80,60,100,0.3)]
-                  transition-all duration-200 ease-in-out flex items-center justify-center gap-2"
+                variant="outline"
+                className="flex-1 flex items-center justify-center gap-2"
                 onClick={() => onAddToCart?.(product.id)}
                 data-testid={`zen-cart-btn-${product.id}`}
               >
                 <span 
-                  className="text-sm font-bold text-pink-200"
+                  className="text-sm font-bold"
                   data-testid={`zen-price-${product.id}`}
                 >
                   ₪{product.price}
                 </span>
-                <ShoppingCart className="w-3 h-3 text-pink-200" />
+                <ShoppingCart className="w-3 h-3" />
               </Button>
               {product.description && (
                 <Drawer>
                   <DrawerTrigger asChild>
                     <Button 
                       size="sm"
-                      className="relative bg-[rgba(40,30,60,0.6)] text-pink-200 border-0 text-xs h-8 px-3
-                        shadow-[-3px_-3px_6px_rgba(80,60,100,0.4),3px_3px_6px_rgba(10,5,20,0.8)]
-                        hover:shadow-[-2px_-2px_4px_rgba(80,60,100,0.3),2px_2px_4px_rgba(10,5,20,0.6)]
-                        active:shadow-[inset_2px_2px_6px_rgba(10,5,20,0.9),inset_-2px_-2px_4px_rgba(80,60,100,0.3)]
-                        transition-all duration-200 ease-in-out"
+                      variant="outline"
                       data-testid={`zen-info-${product.id}`}
                     >
                       <Info className="w-3 h-3" />
@@ -190,7 +179,7 @@ export default function ZenCarousel({ products, onAddToCart }: ZenCarouselProps)
                   </DrawerTrigger>
                   <DrawerContent>
                     <DrawerHeader>
-                      <DrawerTitle className="text-center text-pink-200">{product.name}</DrawerTitle>
+                      <DrawerTitle className="text-center">{product.name}</DrawerTitle>
                       <DrawerDescription className="text-center">
                         {product.description}
                       </DrawerDescription>
