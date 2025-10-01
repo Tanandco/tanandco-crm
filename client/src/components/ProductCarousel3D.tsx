@@ -173,6 +173,9 @@ export default function ProductCarousel3D({ products, onAddToCart }: ProductCaro
                       transformStyle: 'preserve-3d',
                       perspective: '1000px',
                       boxShadow: 'none',
+                      border: 'none',
+                      outline: 'none',
+                      filter: 'none',
                     }}
                     data-testid={`product-card-${product.id}`}
                   >
