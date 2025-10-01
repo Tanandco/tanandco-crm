@@ -37,12 +37,12 @@ export default function ZenCarousel({ products, onAddToCart }: ZenCarouselProps)
   return (
     <div className="relative w-full py-4" dir="rtl">
       <style>{`
-        @keyframes rotate-gradient {
+        @keyframes flow-gradient {
           0% {
-            transform: rotate(0deg);
+            background-position: 0% 0%;
           }
           100% {
-            transform: rotate(360deg);
+            background-position: 200% 200%;
           }
         }
 
@@ -69,20 +69,22 @@ export default function ZenCarousel({ products, onAddToCart }: ZenCarouselProps)
           inset: -2px;
           border-radius: 16px;
           padding: 2px;
-          background: conic-gradient(
-            from 0deg,
-            rgba(192, 192, 192, 0.3),
-            rgba(255, 255, 255, 0.5),
-            rgba(160, 160, 160, 0.3),
+          background: linear-gradient(
+            135deg,
+            rgba(192, 192, 192, 0.5),
+            rgba(220, 220, 220, 0.4),
+            rgba(169, 169, 169, 0.5),
+            rgba(128, 128, 128, 0.3),
             rgba(80, 80, 80, 0.2),
-            rgba(0, 0, 0, 0.1),
-            rgba(192, 192, 192, 0.3)
+            rgba(192, 192, 192, 0.5),
+            rgba(220, 220, 220, 0.4)
           );
+          background-size: 200% 200%;
           -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
           -webkit-mask-composite: xor;
           mask-composite: exclude;
           z-index: -1;
-          animation: rotate-gradient 4s linear infinite;
+          animation: flow-gradient 4s linear infinite;
         }
 
         .zen-carousel .swiper-slide-active {
@@ -93,16 +95,18 @@ export default function ZenCarousel({ products, onAddToCart }: ZenCarouselProps)
         }
 
         .zen-carousel .swiper-slide-active::before {
-          background: conic-gradient(
-            from 0deg,
+          background: linear-gradient(
+            135deg,
+            rgba(192, 192, 192, 0.6),
             rgba(220, 220, 220, 0.5),
-            rgba(255, 255, 255, 0.7),
-            rgba(200, 200, 200, 0.5),
-            rgba(120, 120, 120, 0.3),
-            rgba(40, 40, 40, 0.2),
+            rgba(169, 169, 169, 0.6),
+            rgba(128, 128, 128, 0.4),
+            rgba(100, 100, 100, 0.3),
+            rgba(192, 192, 192, 0.6),
             rgba(220, 220, 220, 0.5)
           );
-          animation: rotate-gradient 3s linear infinite;
+          background-size: 200% 200%;
+          animation: flow-gradient 3s linear infinite;
         }
 
         .zen-carousel .swiper-slide img {
