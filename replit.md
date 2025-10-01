@@ -104,11 +104,14 @@ Preferred communication style: Simple, everyday language.
     - `BIOSTAR_PASSWORD` (admin password)
   - Optional: `BIOSTAR_ALLOW_SELF_SIGNED=true` for self-signed certificates
   - **Remote Control UI:** `/remote-door` - Touch-optimized interface for door opening with real-time logs
-  - **Security Model:** 
-    - ⚠️ **CRITICAL**: Server must bind to localhost (127.0.0.1) ONLY, never 0.0.0.0
-    - IP validation: Only localhost requests allowed
-    - Rate limiting: 10 requests/minute per IP
-    - Comprehensive logging: All attempts tracked with IP, timestamp, success/failure
+  - **Security Model (Architect-Approved):** 
+    - ✅ **Server Binding**: Express binds to 127.0.0.1 (localhost only) - NO LAN exposure
+    - ✅ **Middleware Enforcement**: `requireLocalAccess` validates ONLY loopback IPs (127.0.0.1, ::1, ::ffff:127.0.0.1)
+    - ✅ **No Bypasses**: Development mode bypass removed - security enforced unconditionally
+    - ✅ **Rate Limiting**: 10 requests/minute per IP with automatic cleanup
+    - ✅ **Comprehensive Logging**: All door control attempts logged (IP, timestamp, success/failure)
+    - ✅ **Deployment Model**: Server and kiosk MUST run on same physical machine
+    - ✅ **Security Status**: "Door control endpoints are now effectively localhost-only... Security: none observed" - Architect Review
 
 ### Social Media Automation ✅
 - **Meta Marketing API** (Facebook/Instagram Ads): Full automation suite
