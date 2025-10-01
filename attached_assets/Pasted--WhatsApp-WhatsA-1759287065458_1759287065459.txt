@@ -1,0 +1,428 @@
+# תיעוד פרויקט - אפליקציית צ'אט WhatsApp
+
+## סקירה כללית
+אפליקציית צ'אט בזמן אמת המחוברת ל-WhatsApp Business API. האפליקציה מאפשרת לקבל הודעות מלקוחות ולענות להם בממשק ידידותי למשתמש.
+
+## טכנולוגיות
+- **Frontend**: React 18 + Vite
+- **Backend**: Express.js
+- **Real-time**: Server-Sent Events (SSE)
+- **API**: WhatsApp Business API (Facebook Graph API)
+
+---
+
+## קבצים ותוכנם
+
+### 1. package.json
+```json
+{
+  "name": "react-javascript",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "React TypeScript on Replit, using Vite bundler",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/react": "^18.2.37",
+    "@types/react-dom": "^18.2.15",
+    "@vitejs/plugin-react": "^4.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.8.4",
+    "body-parser": "^2.2.0",
+    "concurrently": "^9.1.2",
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
+  }
+}
+```
+
+### 2. vite.config.js
+```javascript
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    host: '0.0.0.0',
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true
+      }
+    }
+  }
+})
+```
+
+### 3. src/index.jsx
+```javascript
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App'
+
+const root = document.getElementById('root');
+if (root) {
+  ReactDOM.createRoot(root).render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  );
+}
+```
+
+### 4. src/App.jsx
+```javascript
+import React, { useState, useEffect } from "react";
+
+function App() {
+  const [messages, setMessages] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [input, setInput] = useState("");
+
+  useEffect(() => {
+    const evtSource = new EventSource("/api/live-updates");
+    evtSource.onmessage = function (event) {
+      const data = JSON.parse(event.data);
+      setMessages((prev) => [...prev, data]);
+    };
+    return () => evtSource.close();
+  }, []);
+
+  const users = [...new Set(messages.map((m) => m.from))];
+
+  const handleSend = async () => {
+    if (!input || !selectedUser) return;
+    try {
+      await fetch("/api/send-message", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ recipient: selectedUser, message: input }),
+      });
+      setInput("");
+    } catch (error) {
+      console.error("Error sending message:", error);
+    }
+  };
+
+  return (
+    <div
+      style={{
+        height: "100vh",
+        display: "flex",
+        padding: "20px",
+        gap: "20px",
+        background: "#1a1a1a",
+        color: "white",
+      }}
+    >
+      <div
+        style={{ width: "30%", borderRight: "1px solid gray", padding: "10px" }}
+      >
+        <h2>Contacts</h2>
+        {users.length === 0 && <p>No users yet...</p>}
+        {users.map((user) => (
+          <div
+            key={user}
+            style={{
+              marginBottom: "10px",
+              cursor: "pointer",
+              padding: "10px",
+              backgroundColor: selectedUser === user ? "#333" : "transparent",
+            }}
+            onClick={() => setSelectedUser(user)}
+          >
+            {user}
+          </div>
+        ))}
+      </div>
+      <div
+        style={{
+          flex: 1,
+          padding: "10px",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <h2>Live Chat</h2>
+        <div style={{ flex: 1, overflowY: "auto", marginBottom: "10px" }}>
+          {selectedUser ? (
+            messages
+              .filter((m) => m.from === selectedUser)
+              .map((m, i) => (
+                <div key={i} style={{ marginBottom: "10px" }}>
+                  {m.from === selectedUser ? "User" : "You"}: {m.text}
+                </div>
+              ))
+          ) : (
+            <p>Select a user to start chatting</p>
+          )}
+        </div>
+        <div style={{ display: "flex", gap: "10px" }}>
+          <input
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Type message..."
+            style={{ flex: 1, padding: "8px" }}
+            onKeyPress={(e) => e.key === "Enter" && handleSend()}
+          />
+          <button onClick={handleSend} style={{ padding: "8px 16px" }}>
+            Send
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default App;
+```
+
+### 5. src/server.js
+```javascript
+import express from 'express';
+import bodyParser from 'body-parser';
+import axios from 'axios';
+import cors from 'cors';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const app = express();
+app.use(cors());
+app.use(bodyParser.json());
+
+// Serve static files first
+app.use(express.static(join(__dirname, '../../dist')));
+
+// Store connected clients
+let clients = [];
+
+// SSE endpoint
+app.get('/api/live-updates', (req, res) => {
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  res.flushHeaders();
+
+  const client = res;
+  clients.push(client);
+
+  req.on('close', () => {
+    clients = clients.filter(c => c !== client);
+  });
+});
+
+// Send message endpoint
+app.post('/api/send-message', async (req, res) => {
+  try {
+    const { recipient, message } = req.body;
+    const response = await axios.post(`https://graph.facebook.com/v17.0/${process.env.PHONE_NUMBER_ID}/messages`, {
+      messaging_product: 'whatsapp',
+      to: recipient,
+      type: 'text',
+      text: { body: message }
+    }, {
+      headers: {
+        'Authorization': `Bearer ${process.env.WHATSAPP_TOKEN}`,
+        'Content-Type': 'application/json'
+      }
+    });
+    res.status(200).json({ success: true, data: response.data });
+  } catch (error) {
+    console.error('Error sending WhatsApp message:', error);
+    res.status(500).json({ error: 'Failed to send message' });
+  }
+});
+
+// Catch-all route for SPA - must be last
+app.get('*', (req, res) => {
+  res.sendFile(join(__dirname, '../../dist/index.html'));
+});
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on http://0.0.0.0:${PORT}`);
+});
+```
+
+### 6. src/api/live-updates.js
+```javascript
+import express from 'express';
+
+const router = express.Router();
+let clients = [];
+
+router.get('/live-updates', (req, res) => {
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  res.flushHeaders();
+
+  clients.push(res);
+
+  req.on('close', () => {
+    clients = clients.filter(c => c !== res);
+  });
+});
+
+function broadcast(message) {
+  clients.forEach(res => {
+    res.write(`data: ${JSON.stringify(message)}\n\n`);
+  });
+}
+
+router.post('/webhook', express.json(), (req, res) => {
+  const body = req.body;
+  if (body && body.entry) {
+    const message = body.entry[0].changes[0].value.messages[0];
+    const wa_id = message.from;
+    const text = message.text?.body || '[non-text message]';
+    broadcast({ from: wa_id, text });
+  }
+  res.sendStatus(200);
+});
+
+export default router;
+```
+
+### 7. src/api/send-message.js
+```javascript
+import express from 'express';
+import fetch from 'node-fetch';
+
+const router = express.Router();
+
+const PHONE_ID = process.env.PHONE_NUMBER_ID;
+const TOKEN = process.env.WHATSAPP_TOKEN;
+
+router.post('/send-message', express.json(), async (req, res) => {
+  const { to, message } = req.body;
+  try {
+    const response = await fetch(`https://graph.facebook.com/v17.0/${PHONE_ID}/messages`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${TOKEN}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        messaging_product: 'whatsapp',
+        to,
+        type: 'text',
+        text: { body: message }
+      })
+    });
+    const data = await response.json();
+    res.json(data);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to send message' });
+  }
+});
+
+export default router;
+```
+
+---
+
+## איך זה עובד?
+
+### ארכיטקטורה
+1. **Frontend (React)**: מציג ממשק צ'אט עם רשימת אנשי קשר ואזור הודעות
+2. **Server-Sent Events**: מקבל הודעות חדשות בזמן אמת מהשרת
+3. **Backend (Express)**: מטפל בבקשות, מתקשר עם WhatsApp API, ומנהל חיבורי SSE
+
+### תהליך קבלת הודעות
+1. לקוח שולח הודעת WhatsApp
+2. WhatsApp שולח webhook לשרת שלנו
+3. השרת משדר את ההודעה לכל הלקוחות המחוברים דרך SSE
+4. הממשק מציג את ההודעה החדשה
+
+### תהליך שליחת הודעות
+1. משתמש בוחר איש קשר וכותב הודעה
+2. הממשק שולח POST request ל-`/api/send-message`
+3. השרת שולח את ההודעה דרך WhatsApp Business API
+4. WhatsApp מעביר את ההודעה ללקוח
+
+---
+
+## משתני סביבה נדרשים
+
+יש להגדיר את המשתנים הבאים:
+- `WHATSAPP_TOKEN` - Access token מ-Facebook Developer
+- `PHONE_NUMBER_ID` - מזהה מספר הטלפון ב-WhatsApp Business
+
+---
+
+## הוראות הפעלה
+
+### Development Mode
+```bash
+npm install
+npm run dev
+```
+
+הפרונט-אנד ירוץ על port שמוגדר ב-Vite, והוא יעשה proxy לשרת Backend על port 5000.
+
+### Production Mode
+```bash
+npm run build
+node src/server.js
+```
+
+השרת ישרת את הקבצים הסטטיים שנבנו מתוך תיקיית `dist`.
+
+---
+
+## מבנה התיקיות
+```
+.
+├── src/
+│   ├── api/
+│   │   ├── live-updates.js    # נתיבי API לעדכונים בזמן אמת
+│   │   └── send-message.js    # נתיב לשליחת הודעות
+│   ├── App.jsx                # רכיב ראשי של React
+│   ├── index.jsx              # נקודת כניסה של React
+│   └── server.js              # שרת Express
+├── public/
+│   └── index.html
+├── package.json
+└── vite.config.js
+```
+
+---
+
+## תכונות עיקריות
+
+✅ קבלת הודעות בזמן אמת  
+✅ ממשק משתמש נקי ואינטואיטיבי  
+✅ רשימת אנשי קשר דינמית  
+✅ שליחת הודעות WhatsApp  
+✅ עיצוב כהה (Dark mode)  
+✅ תמיכה בלחיצת Enter לשליחת הודעה  
+
+---
+
+## הערות טכניות
+
+- השרת משתמש ב-Server-Sent Events (SSE) במקום WebSockets לפשטות
+- הקוד משתמש ב-ES Modules (`type: "module"` ב-package.json)
+- Vite מגדיר proxy כדי לעקוף בעיות CORS במצב פיתוח
+- הקבצים בתיקיית `api/` אינם בשימוש ישיר כרגע (הלוגיקה ב-`server.js`)
+
+---
+
+**תאריך יצירת התיעוד**: 1 באוקטובר 2025

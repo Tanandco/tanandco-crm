@@ -77,6 +77,12 @@ Preferred communication style: Simple, everyday language.
   - Inbound/outbound webhooks configured
   - Customer engagement workflow automation
   - Purchase options, payment confirmations, onboarding links
+  - **Live Chat Interface** ✅: Real-time WhatsApp messaging
+    - Server-Sent Events (SSE) for instant message delivery
+    - Two-way communication with customers
+    - Contact management and message history
+    - Integrated with existing WhatsApp automation
+    - Accessible at `/chat` route
   - **Required Environment Variables:**
     - `WA_PHONE_NUMBER_ID` - WhatsApp Business Phone Number ID
     - `CLOUD_API_ACCESS_TOKEN` - Meta Cloud API Access Token

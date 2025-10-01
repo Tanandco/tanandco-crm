@@ -18,6 +18,7 @@ import BioStarTest from "@/pages/biostar-test";
 import RemoteDoor from "@/pages/remote-door";
 import FaceRegistration from "@/pages/face-registration";
 import HealthForm from "@/pages/health-form";
+import Chat from "@/pages/chat";
 
 // Import component examples for preview
 import LogoExample from "@/components/examples/Logo";
@@ -42,6 +43,7 @@ function Router() {
       <Route path="/remote-door" component={RemoteDoor} />
       <Route path="/face-registration/:customerId" component={FaceRegistration} />
       <Route path="/health-form/:customerId" component={HealthForm} />
+      <Route path="/chat" component={Chat} />
       
       {/* Component Examples for Development/Preview */}
       <Route path="/examples/logo" component={LogoExample} />

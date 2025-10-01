@@ -1541,4 +1541,138 @@ export function registerRoutes(app: express.Application) {
       res.status(500).json({ success: false, error: error.message });
     }
   });
+
+  // ==================== CHAT & WHATSAPP LIVE MESSAGING ====================
+  
+  // Store connected SSE clients
+  const chatClients: express.Response[] = [];
+
+  // SSE endpoint for live chat updates
+  app.get('/api/chat/live-updates', (req, res) => {
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.flushHeaders();
+
+    // Add client to list
+    chatClients.push(res);
+    console.log(`[Chat SSE] New client connected. Total clients: ${chatClients.length}`);
+
+    // Remove client on disconnect
+    req.on('close', () => {
+      const index = chatClients.indexOf(res);
+      if (index !== -1) {
+        chatClients.splice(index, 1);
+      }
+      console.log(`[Chat SSE] Client disconnected. Total clients: ${chatClients.length}`);
+    });
+  });
+
+  // Helper function to broadcast messages to all connected clients
+  function broadcastChatMessage(message: any) {
+    const data = JSON.stringify(message);
+    chatClients.forEach(client => {
+      try {
+        client.write(`data: ${data}\n\n`);
+      } catch (error) {
+        console.error('[Chat SSE] Error broadcasting message:', error);
+      }
+    });
+    console.log(`[Chat SSE] Broadcasted message to ${chatClients.length} clients`);
+  }
+
+  // Send WhatsApp message
+  app.post('/api/chat/send-message', async (req, res) => {
+    try {
+      const { recipient, message } = req.body;
+      
+      if (!recipient || !message) {
+        return res.status(400).json({
+          success: false,
+          error: 'Recipient and message are required'
+        });
+      }
+
+      // Send via WhatsApp service
+      const success = await whatsappService.sendTextMessage(recipient, message);
+      
+      if (success) {
+        res.json({
+          success: true,
+          message: 'Message sent successfully'
+        });
+      } else {
+        res.status(500).json({
+          success: false,
+          error: 'Failed to send message'
+        });
+      }
+    } catch (error: any) {
+      console.error('[Chat] Error sending message:', error);
+      res.status(500).json({
+        success: false,
+        error: error.message || 'Failed to send message'
+      });
+    }
+  });
+
+  // WhatsApp webhook for receiving messages
+  app.post('/api/webhooks/whatsapp', async (req, res) => {
+    try {
+      const body = req.body;
+      
+      // Verify webhook (for initial setup)
+      if (req.query['hub.mode'] === 'subscribe' && req.query['hub.verify_token']) {
+        const verifyToken = process.env.WA_VERIFY_TOKEN || 'tan_and_co_verify_token';
+        if (req.query['hub.verify_token'] === verifyToken) {
+          console.log('[WhatsApp Webhook] Verified webhook');
+          return res.status(200).send(req.query['hub.challenge']);
+        } else {
+          return res.status(403).send('Verification token mismatch');
+        }
+      }
+
+      // Process incoming message
+      if (body.object === 'whatsapp_business_account') {
+        if (body.entry && body.entry[0].changes && body.entry[0].changes[0].value.messages) {
+          const message = body.entry[0].changes[0].value.messages[0];
+          const from = message.from; // Phone number
+          const text = message.text?.body || '[Media/Unsupported message]';
+          const timestamp = message.timestamp;
+
+          console.log(`[WhatsApp Webhook] Received message from ${from}: ${text}`);
+
+          // Broadcast to all connected chat clients
+          broadcastChatMessage({
+            from,
+            text,
+            timestamp: new Date(parseInt(timestamp) * 1000).toISOString(),
+            type: 'incoming'
+          });
+        }
+      }
+
+      res.sendStatus(200);
+    } catch (error: any) {
+      console.error('[WhatsApp Webhook] Error processing webhook:', error);
+      res.sendStatus(500);
+    }
+  });
+
+  // WhatsApp webhook verification (GET)
+  app.get('/api/webhooks/whatsapp', (req, res) => {
+    const mode = req.query['hub.mode'];
+    const token = req.query['hub.verify_token'];
+    const challenge = req.query['hub.challenge'];
+
+    const verifyToken = process.env.WA_VERIFY_TOKEN || 'tan_and_co_verify_token';
+
+    if (mode === 'subscribe' && token === verifyToken) {
+      console.log('[WhatsApp Webhook] Webhook verified!');
+      res.status(200).send(challenge);
+    } else {
+      res.sendStatus(403);
+    }
+  });
 }
