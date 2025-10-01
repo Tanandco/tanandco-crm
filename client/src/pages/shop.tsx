@@ -23,9 +23,9 @@ export default function Shop() {
 
   // Fetch bed bronzer products
   const { data: bedBronzers, isLoading: loadingBedBronzers } = useQuery<any[]>({
-    queryKey: ['/api/products', { tanning_type: 'bed-bronzer', _ts: Date.now() }],
+    queryKey: ['/api/products', { tanningType: 'bed-bronzer', _ts: Date.now() }],
     queryFn: async () => {
-      const res = await fetch(`/api/products?tanning_type=bed-bronzer&_ts=${Date.now()}`, { cache: 'no-store' });
+      const res = await fetch(`/api/products?tanningType=bed-bronzer&_ts=${Date.now()}`, { cache: 'no-store' });
       if (!res.ok) throw new Error('Failed to fetch bed bronzers');
       return res.json();
     },
@@ -34,9 +34,9 @@ export default function Shop() {
 
   // Fetch self-tanning products (featured only for main display)
   const { data: selfTanningProducts, isLoading: loadingSelfTanning } = useQuery<any[]>({
-    queryKey: ['/api/products', { tanning_type: 'self-tanning', is_featured: true, _ts: Date.now() }],
+    queryKey: ['/api/products', { tanningType: 'self-tanning', isFeatured: true, _ts: Date.now() }],
     queryFn: async () => {
-      const res = await fetch(`/api/products?tanning_type=self-tanning&is_featured=true&_ts=${Date.now()}`, { cache: 'no-store' });
+      const res = await fetch(`/api/products?tanningType=self-tanning&isFeatured=true&_ts=${Date.now()}`, { cache: 'no-store' });
       if (!res.ok) throw new Error('Failed to fetch self-tanning products');
       return res.json();
     },
@@ -45,9 +45,9 @@ export default function Shop() {
 
   // Fetch all non-featured products for additional section
   const { data: additionalProducts, isLoading: loadingAdditional } = useQuery<any[]>({
-    queryKey: ['/api/products', { is_featured: false, _ts: Date.now() }],
+    queryKey: ['/api/products', { isFeatured: false, _ts: Date.now() }],
     queryFn: async () => {
-      const res = await fetch(`/api/products?is_featured=false&_ts=${Date.now()}`, { cache: 'no-store' });
+      const res = await fetch(`/api/products?isFeatured=false&_ts=${Date.now()}`, { cache: 'no-store' });
       if (!res.ok) throw new Error('Failed to fetch additional products');
       return res.json();
     },
