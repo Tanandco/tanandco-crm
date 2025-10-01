@@ -193,16 +193,6 @@ export default function ProductCarousel3D({ products, onAddToCart }: ProductCaro
                         className="w-full h-full object-contain"
                         data-testid={`image-${product.id}`}
                       />
-                      
-                      {/* Shimmer Effect */}
-                      <div 
-                        className={`absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transition-all duration-1000 pointer-events-none ${
-                          isActive ? 'translate-x-full' : '-translate-x-full'
-                        }`}
-                        style={{
-                          animation: isActive ? 'shimmer 2s infinite' : 'none',
-                        }}
-                      />
                     </div>
 
                     {/* Product Info */}
