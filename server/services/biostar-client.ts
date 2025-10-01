@@ -53,9 +53,8 @@ export class BioStarClient {
             password: password
           }
         }),
-        timeout: this.config.timeout,
         agent: this.createHttpsAgent()
-      });
+      } as any);
 
       if (!response.ok) {
         const errorText = await response.text();
@@ -144,15 +143,14 @@ export class BioStarClient {
           antiSpoofing: true,
           liveDetection: true
         }),
-        timeout: this.config.timeout,
         agent: this.createHttpsAgent()
-      });
+      } as any);
 
       if (!response.ok) {
         throw new Error(`Face identification failed: ${response.statusText}`);
       }
 
-      const result: BioStarResponse<FaceIdentificationResult> = await response.json();
+      const result = await response.json() as BioStarResponse<FaceIdentificationResult>;
       
       if (result.success && result.data) {
         return result.data;
@@ -191,14 +189,14 @@ export class BioStarClient {
           image: base64Image,
           extractTemplate: true
         }),
-        timeout: this.config.timeout
-      });
+        agent: this.createHttpsAgent()
+      } as any);
 
       if (!response.ok) {
         throw new Error(`Face registration failed: ${response.statusText}`);
       }
 
-      const result: BioStarResponse<FaceTemplate> = await response.json();
+      const result = await response.json() as BioStarResponse<FaceTemplate>;
       
       if (result.success && result.data) {
         return result.data;
@@ -228,15 +226,15 @@ export class BioStarClient {
           'Authorization': `Bearer ${this.credentials!.sessionToken}`,
           'Accept': 'application/json'
         },
-        timeout: this.config.timeout
-      });
+        agent: this.createHttpsAgent()
+      } as any);
 
       if (!response.ok) {
         if (response.status === 404) return null;
         throw new Error(`Get user failed: ${response.statusText}`);
       }
 
-      const result: BioStarResponse<UserData> = await response.json();
+      const result = await response.json() as BioStarResponse<UserData>;
       return result.success ? result.data || null : null;
     } catch (error) {
       if (this.config.debug) {
@@ -262,14 +260,14 @@ export class BioStarClient {
           'Accept': 'application/json'
         },
         body: JSON.stringify(userData),
-        timeout: this.config.timeout
-      });
+        agent: this.createHttpsAgent()
+      } as any);
 
       if (!response.ok) {
         throw new Error(`Create user failed: ${response.statusText}`);
       }
 
-      const result: BioStarResponse<UserData> = await response.json();
+      const result = await response.json() as BioStarResponse<UserData>;
       return result.success ? result.data || null : null;
     } catch (error) {
       if (this.config.debug) {
@@ -294,14 +292,14 @@ export class BioStarClient {
           'Authorization': `Bearer ${this.credentials!.sessionToken}`,
           'Accept': 'application/json'
         },
-        timeout: this.config.timeout
-      });
+        agent: this.createHttpsAgent()
+      } as any);
 
       if (!response.ok) {
         throw new Error(`Get access logs failed: ${response.statusText}`);
       }
 
-      const result: BioStarResponse<AccessEvent[]> = await response.json();
+      const result = await response.json() as BioStarResponse<AccessEvent[]>;
       return result.success ? result.data || [] : [];
     } catch (error) {
       if (this.config.debug) {
@@ -319,9 +317,8 @@ export class BioStarClient {
       
       const response = await fetch(url, {
         method: 'GET',
-        timeout: 5000,
         agent: this.createHttpsAgent()
-      });
+      } as any);
 
       return response.ok;
     } catch (error) {
@@ -347,15 +344,14 @@ export class BioStarClient {
           'Authorization': `Bearer ${this.credentials!.sessionToken}`,
           'Accept': 'application/json'
         },
-        timeout: this.config.timeout,
         agent: this.createHttpsAgent()
-      });
+      } as any);
 
       if (!response.ok) {
         throw new Error(`Open door failed: ${response.statusText}`);
       }
 
-      const result: BioStarResponse = await response.json();
+      const result = await response.json() as BioStarResponse<any>;
       return result.success || false;
     } catch (error) {
       if (this.config.debug) {

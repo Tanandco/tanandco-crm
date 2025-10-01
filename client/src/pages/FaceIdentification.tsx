@@ -20,14 +20,32 @@ export default function FaceIdentification() {
   const [identifiedUser, setIdentifiedUser] = useState<IdentifiedUser | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
 
-  const handleUserIdentified = (userId: string, userName: string, confidence: number) => {
+  const handleUserIdentified = async (userId: string, userName: string, confidence: number) => {
     setIdentifiedUser({
       userId,
       userName,
       confidence,
-      accessLevel: 1, // Default access level
-      department: 'כללי' // Default department
+      accessLevel: 1,
+      department: 'כללי'
     });
+    
+    // Open door automatically if confidence is high enough
+    if (confidence >= 0.85) {
+      try {
+        await fetch('/api/biostar/open-door', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            doorId: '1',
+            doorName: 'Main Entrance',
+            userId,
+            customerId: userId
+          })
+        });
+      } catch (error) {
+        console.error('Failed to open door:', error);
+      }
+    }
     
     // Auto-proceed to services after successful identification
     setTimeout(() => {
