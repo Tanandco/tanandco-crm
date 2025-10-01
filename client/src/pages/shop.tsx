@@ -23,35 +23,32 @@ export default function Shop() {
 
   // Fetch bed bronzer products
   const { data: bedBronzers, isLoading: loadingBedBronzers } = useQuery<any[]>({
-    queryKey: ['/api/products', { tanningType: 'bed-bronzer', _ts: Date.now() }],
+    queryKey: ['/api/products', { tanningType: 'bed-bronzer' }],
     queryFn: async () => {
-      const res = await fetch(`/api/products?tanningType=bed-bronzer&_ts=${Date.now()}`, { cache: 'no-store' });
+      const res = await fetch(`/api/products?tanningType=bed-bronzer`, { cache: 'no-store' });
       if (!res.ok) throw new Error('Failed to fetch bed bronzers');
       return res.json();
     },
-    staleTime: 0,
   });
 
   // Fetch self-tanning products (featured only for main display)
   const { data: selfTanningProducts, isLoading: loadingSelfTanning } = useQuery<any[]>({
-    queryKey: ['/api/products', { tanningType: 'self-tanning', isFeatured: true, _ts: Date.now() }],
+    queryKey: ['/api/products', { tanningType: 'self-tanning', isFeatured: true }],
     queryFn: async () => {
-      const res = await fetch(`/api/products?tanningType=self-tanning&isFeatured=true&_ts=${Date.now()}`, { cache: 'no-store' });
+      const res = await fetch(`/api/products?tanningType=self-tanning&isFeatured=true`, { cache: 'no-store' });
       if (!res.ok) throw new Error('Failed to fetch self-tanning products');
       return res.json();
     },
-    staleTime: 0,
   });
 
   // Fetch all non-featured products for additional section
   const { data: additionalProducts, isLoading: loadingAdditional } = useQuery<any[]>({
-    queryKey: ['/api/products', { isFeatured: false, _ts: Date.now() }],
+    queryKey: ['/api/products', { isFeatured: false }],
     queryFn: async () => {
-      const res = await fetch(`/api/products?isFeatured=false&_ts=${Date.now()}`, { cache: 'no-store' });
+      const res = await fetch(`/api/products?isFeatured=false`, { cache: 'no-store' });
       if (!res.ok) throw new Error('Failed to fetch additional products');
       return res.json();
     },
-    staleTime: 0,
   });
 
   // Transform bed bronzer products
