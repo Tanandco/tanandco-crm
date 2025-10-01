@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useLocation } from 'wouter';
-import { Home, Palette, Scissors, Store, Sun, Droplets, Star, Search, UserPlus, Sparkles, Settings, Users } from 'lucide-react';
+import { Home, Star, Search, UserPlus, Sparkles, Settings, Users, Sun, Droplets, Palette, Store, Scissors } from 'lucide-react';
 import Logo from './Logo';
 import ServiceCard from './ServiceCard';
 import StatusDisplay from './StatusDisplay';
-import { Button } from '@/components/ui/button';
+import Alin from './Alin';
 
 interface TouchInterfaceProps {
   onServiceSelect?: (service: string) => void;
@@ -18,12 +18,36 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
   const [currentPath, setCurrentPath] = useState('/');
 
   const services = [
-    { title: 'מיטות שיזוף', icon: Sun, id: 'sun-beds' },
-    { title: 'שיזוף בהתזה', icon: Droplets, id: 'spray-tan' },
-    { title: 'מספרה', icon: Scissors, id: 'hair-salon' },
-    { title: 'קוסמטיקה', icon: Palette, id: 'cosmetics' },
-    { title: 'החנות שלכם', icon: Store, id: 'your-store' },
-    { title: 'AI TAN', icon: 'alin' as const, id: 'ai-tan' },
+    { 
+      title: 'מיטות שיזוף', 
+      icon: <Sun size={60} className="text-pink-400 group-hover:text-pink-300 transition-colors duration-300" style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }} />, 
+      id: 'sun-beds' 
+    },
+    { 
+      title: 'שיזוף בהתזה', 
+      icon: <Droplets size={60} className="text-pink-400 group-hover:text-pink-300 transition-colors duration-300" style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }} />, 
+      id: 'spray-tan' 
+    },
+    { 
+      title: 'מספרה', 
+      icon: <Scissors size={60} className="text-pink-400 group-hover:text-pink-300 transition-colors duration-300" style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }} />, 
+      id: 'hair-salon' 
+    },
+    { 
+      title: 'קוסמטיקה', 
+      icon: <Palette size={60} className="text-pink-400 group-hover:text-pink-300 transition-colors duration-300" style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }} />, 
+      id: 'cosmetics' 
+    },
+    { 
+      title: 'החנות שלכם', 
+      icon: <Store size={60} className="text-pink-400 group-hover:text-pink-300 transition-colors duration-300" style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }} />, 
+      id: 'your-store' 
+    },
+    { 
+      title: 'AI TAN', 
+      icon: <Alin size={85} />, 
+      id: 'ai-tan' 
+    },
   ];
 
   const handleServiceClick = (serviceId: string) => {

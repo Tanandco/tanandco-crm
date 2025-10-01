@@ -1,9 +1,8 @@
-import { LucideIcon } from 'lucide-react';
-import Alin from './Alin';
+import { ReactNode } from 'react';
 
 interface ServiceCardProps {
   title: string;
-  icon: LucideIcon | 'alin';
+  icon: ReactNode;
   onClick: () => void;
   disabled?: boolean;
   className?: string;
@@ -37,22 +36,7 @@ export default function ServiceCard({ title, icon, onClick, disabled = false, cl
       data-testid={`service-card-${title.replace(/\s+/g, '-').toLowerCase()}`}
     >
       <div className="flex-1 flex items-center justify-center">
-        {icon === 'alin' ? (
-          <Alin size={85} />
-        ) : (
-          (() => {
-            const Icon = icon as LucideIcon;
-            return (
-              <Icon 
-                size={40}
-                className="text-pink-400 group-hover:text-pink-300 transition-colors duration-300"
-                style={{
-                  filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))'
-                }}
-              />
-            );
-          })()
-        )}
+        {icon}
       </div>
       <span className="text-base md:text-lg font-medium text-white text-center font-hebrew px-2">
         {title}
