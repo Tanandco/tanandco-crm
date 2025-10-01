@@ -20,32 +20,32 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
   const services = [
     { 
       title: 'מיטות שיזוף', 
-      icon: <Sun size={60} className="text-pink-400 group-hover:text-pink-300 transition-colors duration-300" style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }} />, 
+      icon: <Sun size={40} className="text-pink-400 group-hover:text-pink-300 transition-colors duration-300" style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }} />, 
       id: 'sun-beds' 
     },
     { 
       title: 'שיזוף בהתזה', 
-      icon: <Droplets size={60} className="text-pink-400 group-hover:text-pink-300 transition-colors duration-300" style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }} />, 
+      icon: <Droplets size={40} className="text-pink-400 group-hover:text-pink-300 transition-colors duration-300" style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }} />, 
       id: 'spray-tan' 
     },
     { 
       title: 'מספרה', 
-      icon: <Scissors size={60} className="text-pink-400 group-hover:text-pink-300 transition-colors duration-300" style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }} />, 
+      icon: <Scissors size={40} className="text-pink-400 group-hover:text-pink-300 transition-colors duration-300" style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }} />, 
       id: 'hair-salon' 
     },
     { 
       title: 'קוסמטיקה', 
-      icon: <Palette size={60} className="text-pink-400 group-hover:text-pink-300 transition-colors duration-300" style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }} />, 
+      icon: <Palette size={40} className="text-pink-400 group-hover:text-pink-300 transition-colors duration-300" style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }} />, 
       id: 'cosmetics' 
     },
     { 
       title: 'החנות שלכם', 
-      icon: <Store size={60} className="text-pink-400 group-hover:text-pink-300 transition-colors duration-300" style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }} />, 
+      icon: <Store size={40} className="text-pink-400 group-hover:text-pink-300 transition-colors duration-300" style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }} />, 
       id: 'your-store' 
     },
     { 
       title: 'AI TAN', 
-      icon: <Alin size={85} />, 
+      icon: <Alin size={110} />, 
       id: 'ai-tan' 
     },
   ];
