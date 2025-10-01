@@ -97,7 +97,7 @@ export function registerRoutes(app: express.Application) {
     }
   });
 
-  // Face identification endpoint
+  // Face identification endpoint with customer data
   app.post('/api/biostar/identify', async (req, res) => {
     try {
       const validatedData = identifyFaceSchema.parse(req.body);
@@ -113,11 +113,99 @@ export function registerRoutes(app: express.Application) {
       
       const result = await bioStarClient.identifyFace(validatedData.image);
       
-      if (result) {
-        res.json({
-          success: true,
-          data: result
-        });
+      if (result && result.userId) {
+        // Get customer data
+        const customer = await storage.getCustomer(result.userId);
+        
+        if (customer) {
+          // Get customer memberships
+          const memberships = await storage.getMembershipsByCustomer(customer.id);
+          const activeMemberships = memberships.filter(m => m.isActive && m.balance > 0);
+          
+          // AUTOMATIC DOOR OPENING AFTER SUCCESSFUL RECOGNITION
+          let doorOpened = false;
+          let doorError: string | undefined;
+          
+          try {
+            console.log(`[Face Recognition] Customer ${customer.fullName} identified, opening door...`);
+            const doorResult = await bioStarClient.openDoor('1'); // Main entrance
+            doorOpened = doorResult;
+            
+            if (doorResult) {
+              console.log(`[Face Recognition] Door opened successfully for ${customer.fullName}`);
+            } else {
+              console.error(`[Face Recognition] Failed to open door for ${customer.fullName}`);
+              doorError = 'Door control returned false';
+            }
+            
+            // Log the door access
+            await storage.createDoorAccessLog({
+              doorId: '1',
+              doorName: 'Main Entrance',
+              customerId: customer.id,
+              actionType: 'face_recognition',
+              success: doorResult,
+              errorMessage: doorError,
+              ipAddress: req.ip,
+              userAgent: req.get('user-agent'),
+              metadata: {
+                recognitionConfidence: result.confidence,
+                userId: result.userId
+              }
+            });
+          } catch (doorOpenError: any) {
+            console.error('[Face Recognition] Door opening error:', doorOpenError);
+            doorError = doorOpenError.message;
+            
+            // Log failed door attempt
+            await storage.createDoorAccessLog({
+              doorId: '1',
+              doorName: 'Main Entrance',
+              customerId: customer.id,
+              actionType: 'face_recognition',
+              success: false,
+              errorMessage: doorError,
+              ipAddress: req.ip,
+              userAgent: req.get('user-agent'),
+              metadata: {
+                recognitionConfidence: result.confidence,
+                userId: result.userId,
+                error: doorOpenError.stack
+              }
+            });
+          }
+          
+          res.json({
+            success: true,
+            data: {
+              ...result,
+              customer: {
+                id: customer.id,
+                fullName: customer.fullName,
+                phone: customer.phone,
+                email: customer.email,
+                isNewClient: customer.isNewClient,
+              },
+              memberships: activeMemberships.map(m => ({
+                id: m.id,
+                type: m.type,
+                balance: m.balance,
+                expiryDate: m.expiryDate,
+              })),
+              doorOpened,
+              doorError,
+            }
+          });
+        } else {
+          // Face recognized but customer not found in DB
+          res.json({
+            success: true,
+            data: {
+              ...result,
+              warning: 'Face recognized but customer record not found'
+            }
+          });
+        }
       } else {
         res.json({
           success: false,

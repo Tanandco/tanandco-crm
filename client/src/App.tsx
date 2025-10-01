@@ -16,6 +16,8 @@ import Shop from "@/pages/shop";
 import ProductManagement from "@/pages/product-management";
 import BioStarTest from "@/pages/biostar-test";
 import RemoteDoor from "@/pages/remote-door";
+import FaceRegistration from "@/pages/face-registration";
+import HealthForm from "@/pages/health-form";
 
 // Import component examples for preview
 import LogoExample from "@/components/examples/Logo";
@@ -38,6 +40,8 @@ function Router() {
       <Route path="/products" component={ProductManagement} />
       <Route path="/biostar-test" component={BioStarTest} />
       <Route path="/remote-door" component={RemoteDoor} />
+      <Route path="/face-registration/:customerId" component={FaceRegistration} />
+      <Route path="/health-form/:customerId" component={HealthForm} />
       
       {/* Component Examples for Development/Preview */}
       <Route path="/examples/logo" component={LogoExample} />
