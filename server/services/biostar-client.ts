@@ -291,7 +291,8 @@ export class BioStarClient {
   // Utility methods
   async testConnection(): Promise<boolean> {
     try {
-      const url = `${this.config.serverUrl}/api/system/status`;
+      // Test connection by checking if the root page is accessible
+      const url = this.config.serverUrl;
       
       const response = await fetch(url, {
         method: 'GET',
