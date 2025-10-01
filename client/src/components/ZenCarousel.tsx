@@ -56,7 +56,12 @@ export default function ZenCarousel({ products, onAddToCart }: ZenCarouselProps)
           justify-content: flex-start;
           padding: 12px;
           border-radius: 16px;
-          background: rgba(10, 10, 10, 0.85);
+          background: linear-gradient(135deg, 
+            rgba(20, 20, 25, 0.95) 0%,
+            rgba(15, 15, 20, 0.95) 25%,
+            rgba(10, 10, 15, 0.95) 50%,
+            rgba(15, 15, 20, 0.95) 75%,
+            rgba(20, 20, 25, 0.95) 100%);
           backdrop-filter: blur(10px);
           border: 0;
           position: relative;
@@ -89,7 +94,12 @@ export default function ZenCarousel({ products, onAddToCart }: ZenCarouselProps)
         }
 
         .zen-carousel .swiper-slide-active {
-          background: rgba(10, 10, 10, 0.9);
+          background: linear-gradient(135deg, 
+            rgba(25, 25, 30, 0.98) 0%,
+            rgba(20, 20, 25, 0.98) 25%,
+            rgba(15, 15, 20, 0.98) 50%,
+            rgba(20, 20, 25, 0.98) 75%,
+            rgba(25, 25, 30, 0.98) 100%);
           backdrop-filter: blur(12px);
           box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
           transform: scale(1.02);
