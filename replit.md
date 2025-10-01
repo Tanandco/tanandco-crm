@@ -78,16 +78,28 @@ Preferred communication style: Simple, everyday language.
   - Customer engagement workflow automation
   - Purchase options, payment confirmations, onboarding links
   - **Live Chat Interface** ✅: Real-time WhatsApp messaging
-    - Server-Sent Events (SSE) for instant message delivery
+    - Server-Sent Events (SSE) for instant message delivery with 20s heartbeat
     - Two-way communication with customers
     - Contact management and message history
     - Integrated with existing WhatsApp automation
     - Accessible at `/chat` route
+  - **Webhook Security (Architect-Approved):**
+    - ✅ **Signature Verification**: X-Hub-Signature-256 with timing-safe comparison
+    - ✅ **Raw Body HMAC**: Computed over exact request bytes (not JSON)
+    - ✅ **Enforced when configured**: Requires signature if WHATSAPP_APP_SECRET set
+    - ✅ **GET/POST Separation**: Distinct handlers for verification and messages
+    - ✅ **Send Endpoint Security**: requireLocalAccess + rate limiting (10/min)
+  - **Deployment Requirements:**
+    - Server binds to localhost (127.0.0.1) for security
+    - Webhook endpoint needs public URL via tunnel/reverse proxy
+    - Expose ONLY `/api/webhooks/whatsapp` publicly
+    - Keep all other endpoints localhost-restricted
   - **Required Environment Variables:**
     - `WA_PHONE_NUMBER_ID` - WhatsApp Business Phone Number ID
     - `CLOUD_API_ACCESS_TOKEN` - Meta Cloud API Access Token
     - `CLOUD_API_VERSION` - API Version (default: v21.0)
-    - `WA_VERIFY_TOKEN` - Webhook verification token
+    - `WA_VERIFY_TOKEN` - Webhook verification token (for GET challenge)
+    - `WHATSAPP_APP_SECRET` - App secret for signature verification (optional but recommended)
 - **Cardcom Payment Gateway** ✅: Full payment processing integration
   - Low Profile API for hosted payment pages
   - Webhook support for transaction notifications
