@@ -162,7 +162,7 @@ export function AdvancedPurchaseOverlay({ open, onClose }: AdvancedPurchaseOverl
         </div>
 
         {/* Content */}
-        <div className="relative flex-1 flex flex-col pt-2 pb-1 px-2 space-y-1 overflow-hidden z-10">
+        <div className="relative flex-1 flex flex-col pt-2 pb-1 px-2 space-y-1 overflow-x-visible z-10">
           {/* Packages Section */}
           <div className="w-full">
             <h3 className="text-xs font-bold text-white mb-0.5 text-center font-hebrew">חבילות שיזוף</h3>
@@ -287,7 +287,7 @@ export function AdvancedPurchaseOverlay({ open, onClose }: AdvancedPurchaseOverl
 
           {/* Bronzer Products Carousel - Compact */}
           {bronzerProducts.length > 0 && (
-            <div className="w-full" style={{ transform: 'scale(0.625)', transformOrigin: 'top center', marginTop: '80px', marginBottom: '-90px' }}>
+            <div className="w-full overflow-visible" style={{ transform: 'scale(0.625)', transformOrigin: 'top center', marginTop: '80px', marginBottom: '-90px', paddingLeft: '40px', paddingRight: '40px' }}>
               <ZenCarousel 
                 products={bronzerProducts}
                 onAddToCart={(productId) => {
