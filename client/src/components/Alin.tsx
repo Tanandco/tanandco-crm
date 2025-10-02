@@ -8,10 +8,20 @@ interface AlinProps {
 export default function Alin({ className = "", size = 20 }: AlinProps) {
   return (
     <div className={`relative inline-block ${className}`} data-testid="alin-chatbot">
+      {/* White elliptical background */}
+      <div 
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full"
+        style={{
+          width: `${size * 0.85}px`,
+          height: `${size * 0.85}px`,
+          zIndex: 0
+        }}
+      />
+      {/* Alin image */}
       <img 
         src={alinImage}
         alt="אלין הצ'טבוט"
-        className="object-contain"
+        className="object-contain relative z-10"
         style={{
           width: `${size}px`,
           height: `${size}px`,
