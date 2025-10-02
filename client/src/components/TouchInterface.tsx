@@ -355,7 +355,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
             bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
             border-2
             rounded-md backdrop-blur-sm
-            flex items-center justify-center gap-4
+            flex items-center justify-center gap-2
             transition-all duration-300 ease-in-out
             hover-elevate active-elevate-2
             px-8 text-xl font-bold
@@ -377,7 +377,10 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
             className="w-28 h-28 object-contain"
             style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }}
           />
-          <span className="text-white font-hebrew drop-shadow-lg">שירות עצמי 24/7</span>
+          <div className="flex flex-col items-center gap-1">
+            <span className="text-white font-hebrew drop-shadow-lg">שירות עצמי</span>
+            <span className="text-white font-hebrew drop-shadow-lg">24/7</span>
+          </div>
           
           {/* Ripple effect */}
           <div className="absolute inset-0 rounded-md overflow-hidden">
