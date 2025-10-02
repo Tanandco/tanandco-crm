@@ -1,0 +1,264 @@
+import React, { useState, useEffect } from 'react';
+import { X, ShoppingCart, Plus, Minus, ChevronLeft, ChevronRight, CreditCard } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { productsDatabase, type Product } from "@/data/products";
+import { ImageRing3D } from "./ImageRing3D";
+import TanningProductCarouselBedOnly from "./TanningProductCarouselBedOnly";
+interface Package {
+  id: string;
+  name: string;
+  sessions: number;
+  price: number;
+  originalPrice?: number;
+  benefits: string[];
+}
+interface AdvancedPurchaseOverlayProps {
+  open: boolean;
+  onClose: () => void;
+}
+
+// Prepare products for the imported 3D carousel
+const prepareCarouselImages = (products: Product[], cart: {
+  [key: string]: number;
+}) => {
+  return products.map(product => ({
+    title: `${product.brand} - ₪${product.price}`,
+    url: product.image_url || '/placeholder.svg',
+    price: `₪${product.price}`,
+    productId: product.id,
+    quantity: cart[product.id] || 0,
+    brand: product.brand
+  }));
+};
+export const AdvancedPurchaseOverlay = ({
+  open,
+  onClose
+}: AdvancedPurchaseOverlayProps) => {
+  const [cart, setCart] = useState<{
+    [key: string]: number;
+  }>({});
+  const [customTanSessions, setCustomTanSessions] = useState(4);
+
+  // Filter products to show only tanning products (bronzers, oils, etc.)
+  const tanningCategories = ['ברונזרים מקצועיים', 'שמני שיזוף', 'קרמי שיזוף ביתיים', 'מוצרי טיפוח'];
+  const products = productsDatabase.filter(product => tanningCategories.includes(product.category) && product.is_active).slice(0, 8); // Limit to 8 products for optimal carousel display
+
+  const packages: Package[] = [{
+    id: 'single-entry',
+    name: 'בודדת כניסה אחת',
+    sessions: 1,
+    price: 70,
+    benefits: ['ללא התחייבות']
+  }, {
+    id: '8-entries',
+    name: 'כרטיסיית 8 כניסות',
+    sessions: 8,
+    price: 220,
+    benefits: ['8 כניסות', '₪27.5 לכניסה']
+  }, {
+    id: 'home-package',
+    name: 'כרטיסיית הבית',
+    sessions: 13,
+    price: 300,
+    benefits: ['10 כניסות + 3 במתנה', '₪23 לכניסה + ברונזר']
+  }, {
+    id: 'small-touch',
+    name: 'ככה בקטנה',
+    sessions: 3,
+    price: 220,
+    benefits: ['3 כניסות + ברונזר']
+  }, {
+    id: 'beginners-package',
+    name: 'חבילה למתחילים',
+    sessions: 6,
+    price: 360,
+    benefits: ['6 כניסות + ברונזר איכותי']
+  }, {
+    id: 'most-profitable',
+    name: '⭐ הכי משתלם!',
+    sessions: 10,
+    price: 400,
+    benefits: ['חבילת 10 כניסות', '10 כניסות + ברונזר איכותי']
+  }];
+  const updateCart = (itemId: string, change: number) => {
+    setCart(prev => ({
+      ...prev,
+      [itemId]: Math.max(0, (prev[itemId] || 0) + change)
+    }));
+  };
+  const getTotalPrice = () => {
+    let total = 0;
+    Object.entries(cart).forEach(([itemId, quantity]) => {
+      if (quantity > 0) {
+        const product = products.find(p => p.id === itemId);
+        const package_ = packages.find(p => p.id === itemId);
+        const price = product?.price || package_?.price || 0;
+        total += price * quantity;
+      }
+    });
+    return total;
+  };
+  const getTotalItems = () => {
+    return Object.values(cart).reduce((sum, quantity) => sum + quantity, 0);
+  };
+
+  // Prepare carousel images after updateCart is defined
+  const carouselImages = prepareCarouselImages(products, cart);
+  return <Dialog open={open} onOpenChange={() => onClose()}>
+      <DialogContent className="max-w-none w-screen h-screen border-none overflow-hidden p-0 m-0 relative">
+        {/* Purple Neon Overlay Background - matching TanningBeds */}
+        <div className="absolute inset-0">
+          {/* Purple background */}
+          <div className="absolute inset-0 bg-purple-500/50 backdrop-blur-sm" />
+          {/* Gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-800 opacity-70" />
+        </div>
+        <DialogTitle className="sr-only">חנות מוצרי שיזוף וחבילות</DialogTitle>
+        <DialogDescription className="sr-only">בחר מוצרי שיזוף וחבילות כניסות למיטות שיזוף</DialogDescription>
+        
+        {/* Header */}
+        <div className="relative bg-gradient-to-r from-primary/30 via-primary/20 to-primary/30 backdrop-blur-lg border-b border-primary/40 p-2 shadow-lg z-10" style={{
+          filter: 'drop-shadow(0 2px 8px hsl(var(--primary) / 0.3))'
+        }}>
+          <div className="flex items-center justify-between">
+            <h2 className="text-base font-bold text-white flex items-center gap-2">
+              <CreditCard className="w-4 h-4 text-primary" style={{
+              filter: 'drop-shadow(0 0 10px hsl(var(--primary)))'
+            }} />
+              רכישת כרטיסיות ומוצרים
+            </h2>
+            <div className="flex items-center gap-4">
+              {getTotalItems() > 0 && <div className="flex items-center gap-2 bg-primary/20 px-3 py-1 rounded-full">
+                  <ShoppingCart className="w-4 h-4 text-primary" />
+                  <span className="text-white font-bold">{getTotalItems()}</span>
+                  <span className="text-primary font-bold">₪{getTotalPrice()}</span>
+                </div>}
+            </div>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="relative flex-1 flex flex-col p-2 space-y-3 overflow-y-auto z-10">
+          {/* Packages Section */}
+          <div className="w-full">
+            <h3 className="text-base font-bold text-white mb-2 text-center">חבילות שיזוף</h3>
+            <div className="grid grid-cols-7 gap-3 pb-4 px-2" style={{
+            minHeight: '280px'
+          }}>
+              {packages.map(pkg => <div key={pkg.id} className="bg-gradient-to-br from-background via-background/95 to-primary/5 backdrop-blur-sm border-2 border-primary/50 rounded-xl p-3 hover:border-primary transition-all duration-300 group hover:scale-[1.05] flex flex-col w-full shadow-2xl hover:shadow-primary/50 relative overflow-hidden" style={{
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+                backdropFilter: 'blur(8px)',
+                transform: 'translateZ(0)',
+                filter: 'drop-shadow(0 0 20px hsl(var(--primary) / 0.4))'
+              }}>
+                  {/* Enhanced inner glow effect - matching TanningBeds */}
+                  <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-white/2 via-primary/2 to-white/2 opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+                  <div className="text-center mb-1 flex-1">
+                    <h4 className="text-xs font-bold text-white mb-0.5 relative z-10">{pkg.name}</h4>
+                    <div className="text-primary text-2xl font-bold mb-0.5 relative z-10">₪{pkg.price}</div>
+                    {pkg.sessions > 1 && pkg.sessions < 999 && <p className="text-gray-300 text-xs relative z-10">{pkg.sessions} כניסות</p>}
+                  </div>
+
+                  <div className="space-y-0.5 mb-1 flex-1 relative z-10">
+                    {pkg.benefits.slice(0, 2).map((benefit, index) => <div key={index} className="flex items-center gap-1 text-[10px] text-gray-300">
+                        <div className="w-0.5 h-0.5 bg-primary rounded-full flex-shrink-0"></div>
+                        {benefit}
+                      </div>)}
+                  </div>
+
+                  <div className="flex items-center justify-center relative z-10">
+                    <Button className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary text-white font-bold px-3 py-2.5 text-xs w-full transition-all duration-300 hover:scale-105" style={{
+                    filter: 'drop-shadow(0 0 8px hsl(var(--primary) / 0.5))'
+                  }} onClick={() => {
+                  console.log(`רכישת חבילה: ${pkg.name}`);
+                }}>
+                      רכוש עכשיו
+                    </Button>
+                  </div>
+                </div>)}
+              
+              {/* Build Your Tan Package */}
+              <div className="bg-gradient-to-br from-background via-background/95 to-purple-500/10 backdrop-blur-sm border-2 border-purple-400/60 rounded-xl p-3 hover:border-purple-400 transition-all duration-300 group hover:scale-[1.05] flex flex-col w-full shadow-2xl hover:shadow-purple-500/50 animate-pulse-slow relative overflow-hidden" style={{
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+              backdropFilter: 'blur(8px)',
+              transform: 'translateZ(0)',
+              filter: 'drop-shadow(0 0 20px rgba(147, 51, 234, 0.6))'
+            }}>
+                {/* Enhanced inner glow effect - purple variant */}
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-white/2 via-purple-500/3 to-white/2 opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+                
+                <div className="text-center mb-1 relative z-10">
+                  <h4 className="text-xs font-bold text-white mb-0.5">בנה את השיזוף שלך</h4>
+                  <div className="text-purple-400 text-lg font-bold mb-0.5">₪{customTanSessions * 40}</div>
+                  <p className="text-gray-300 text-[10px]">{customTanSessions} כניסות - ₪40 לכניסה</p>
+                </div>
+
+                <div className="flex items-center justify-center mb-1 relative z-10">
+                  <div className="flex items-center space-x-2 bg-black/50 rounded-lg px-2 py-1">
+                    <Button variant="ghost" size="sm" className="h-5 w-5 p-0 text-white hover:bg-white/20" onClick={() => setCustomTanSessions(Math.max(4, customTanSessions - 1))}>
+                      <Minus className="h-2.5 w-2.5" />
+                    </Button>
+                    
+                    <span className="text-white font-bold text-sm min-w-[1.5rem] text-center">
+                      {customTanSessions}
+                    </span>
+                    
+                    <Button variant="ghost" size="sm" className="h-5 w-5 p-0 text-white hover:bg-white/20" onClick={() => setCustomTanSessions(Math.min(20, customTanSessions + 1))}>
+                      <Plus className="h-2.5 w-2.5" />
+                    </Button>
+                  </div>
+                </div>
+
+                <div className="space-y-0.5 mb-1 flex-1 relative z-10">
+                  <div className="flex items-center gap-1 text-[10px] text-gray-300">
+                    <div className="w-0.5 h-0.5 bg-purple-400 rounded-full flex-shrink-0"></div>
+                    מינימום 4 כניסות
+                  </div>
+                  <div className="flex items-center gap-1 text-[10px] text-gray-300">
+                    <div className="w-0.5 h-0.5 bg-purple-400 rounded-full flex-shrink-0"></div>
+                    ניתן לשיתוף
+                  </div>
+                  {customTanSessions >= 10 && <div className="flex items-center gap-1 text-[10px] text-green-400 animate-pulse">
+                      <div className="w-0.5 h-0.5 bg-green-400 rounded-full flex-shrink-0"></div>
+                      🎁 ברונזר במתנה!
+                    </div>}
+                </div>
+
+                <Button className="bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 text-white font-bold px-3 py-1.5 text-xs w-full transition-all duration-300 hover:scale-105 relative z-10" style={{
+                filter: 'drop-shadow(0 0 10px rgba(147, 51, 234, 0.7))'
+              }} onClick={() => {
+                console.log(`Build your tan: ${customTanSessions} sessions for ₪${customTanSessions * 40}`);
+              }}>
+                  רכוש עכשיו
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          {/* Tanning Products Carousel Section */}
+          <div className="flex-1 max-h-[500px]">
+            
+            <TanningProductCarouselBedOnly onAddToCart={productId => updateCart(productId, 1)} />
+          </div>
+        </div>
+
+        {/* Footer - Checkout */}
+        {getTotalItems() > 0 && <div className="relative bg-gradient-to-r from-primary/30 via-primary/20 to-primary/30 backdrop-blur-lg border-t border-primary/40 p-6 shadow-lg z-10" style={{
+          filter: 'drop-shadow(0 -2px 8px hsl(var(--primary) / 0.3))'
+        }}>
+            <div className="flex items-center justify-between">
+              <div className="text-white">
+                <div className="text-sm text-gray-300">{getTotalItems()} פריטים בעגלה</div>
+                <div className="text-2xl font-bold text-primary">סה"כ: ₪{getTotalPrice()}</div>
+              </div>
+              <Button className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary text-white font-bold px-8 py-3 transition-all duration-300 hover:scale-105 animate-pulse-slow" style={{
+            filter: 'drop-shadow(0 0 20px hsl(var(--primary) / 0.8))'
+          }}>
+                המשך לתשלום
+              </Button>
+            </div>
+          </div>}
+      </DialogContent>
+    </Dialog>;
+};

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useLocation } from 'wouter';
-import { ArrowLeft, UserPlus, CreditCard, X, Sparkles, Search, ScanFace } from 'lucide-react';
+import { ArrowLeft, UserPlus, CreditCard, X, Sparkles, Search, ScanFace, Droplets } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import AlinChatBox from "@/components/AlinChatBox";
@@ -48,7 +48,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
       }
     },
     {
-      icon: CreditCard,
+      icon: Droplets,
       title: "רכישת ברונזרים",
       isFunction: false,
       onClick: () => {
@@ -164,28 +164,27 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
             {tanningOptions.map((option, index) => (
               <div 
                 key={index} 
-                className="group cursor-pointer transform-gpu transition-all duration-300 hover:animate-magnetic-hover" 
+                className="group cursor-pointer transform-gpu transition-all duration-500 hover:animate-magnetic-hover" 
                 onClick={option.onClick}
                 onMouseEnter={(e) => {
                   if (window.innerWidth >= 768) {
-                    e.currentTarget.style.transform = 'translateY(-4px) scale(1.05)';
-                    e.currentTarget.style.filter = 'brightness(1.2) saturate(1.3)';
+                    e.currentTarget.style.transform = 'translateY(-8px) scale(1.08)';
+                    e.currentTarget.style.filter = 'brightness(1.3) saturate(1.4) drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))';
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (window.innerWidth >= 768) {
-                    e.currentTarget.style.transform = 'translateY(0) scale(1.2)';
-                    e.currentTarget.style.filter = 'brightness(1) saturate(1)';
+                    e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                    e.currentTarget.style.filter = 'brightness(1) saturate(1) drop-shadow(0 0 0px rgba(236, 72, 153, 0))';
                   }
                 }}
                 style={{
-                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                  transform: 'scale(1.2)'
+                  transition: 'all 0.4s cubic-bezier(0.34, 1.45, 0.64, 1)'
                 }}
                 data-testid={`action-tile-${index}`}
               >
                 <div 
-                  className="w-full aspect-square p-10 rounded-xl border-2 flex flex-col items-center justify-center transition-all duration-300 backdrop-blur-sm hover:scale-105 overflow-hidden relative bg-gradient-to-br from-background via-background/95 to-primary/5 border-primary/50 shadow-2xl"
+                  className="w-full aspect-square p-12 rounded-xl border-2 flex flex-col items-center justify-center transition-all duration-400 backdrop-blur-sm overflow-hidden relative bg-gradient-to-br from-background via-background/95 to-primary/5 border-primary/50 shadow-2xl group-hover:border-primary group-hover:shadow-[0_0_30px_rgba(236,72,153,0.7)]"
                   style={{
                     boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
                     backdropFilter: 'blur(8px)',
@@ -194,19 +193,19 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                   }}
                 >
                   {/* Enhanced inner glow effect */}
-                  <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-white/2 via-primary/2 to-white/2 opacity-0 group-hover:opacity-100 transition-all duration-300" />
+                  <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-white/5 via-primary/10 to-white/5 opacity-0 group-hover:opacity-100 transition-all duration-400" />
                   
                   {/* Icon Container */}
-                  <div className="relative z-10 transform transition-all duration-300 group-hover:scale-105 flex-1 flex items-center justify-center">
+                  <div className="relative z-10 transform transition-all duration-400 group-hover:scale-110 flex-1 flex items-center justify-center">
                     <span 
                       style={{
                         filter: 'drop-shadow(0 0 20px hsl(var(--primary) / 1)) drop-shadow(0 0 40px hsl(var(--primary) / 0.5))'
                       }}
-                      className="transition-all duration-300 w-full"
+                      className="transition-all duration-400 w-full group-hover:drop-shadow-[0_0_40px_rgba(236,72,153,0.9)]"
                     >
                       {option.icon && !option.isFunction && (
                         <option.icon 
-                          className="w-10 h-10 text-primary group-hover:text-white transition-all duration-300"
+                          className="w-12 h-12 text-primary group-hover:text-white transition-all duration-400"
                           strokeWidth={1.5}
                         />
                       )}
@@ -216,7 +215,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                   {/* Icon Label - only show if title exists */}
                   {option.title && (
                     <div className="text-center mt-6 px-2">
-                      <span className="text-white text-xs font-hebrew font-medium opacity-90 group-hover:opacity-100 transition-all duration-300 block leading-tight whitespace-nowrap overflow-hidden text-ellipsis group-hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]">
+                      <span className="text-white text-sm font-hebrew font-medium opacity-90 group-hover:opacity-100 transition-all duration-400 block leading-tight whitespace-nowrap overflow-hidden text-ellipsis group-hover:drop-shadow-[0_0_12px_rgba(236,72,153,0.8)] group-hover:text-pink-100">
                         {option.title}
                       </span>
                     </div>
