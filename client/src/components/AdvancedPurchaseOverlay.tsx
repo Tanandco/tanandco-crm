@@ -1,108 +1,292 @@
+import { useState } from 'react';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { X, CreditCard, Package } from 'lucide-react';
+import { Plus, Minus, CreditCard, ShoppingCart } from 'lucide-react';
+import TanningProductCarousel from './TanningProductCarousel';
 
 interface AdvancedPurchaseOverlayProps {
   open: boolean;
   onClose: () => void;
 }
 
+interface Package {
+  id: string;
+  name: string;
+  sessions: number;
+  price: number;
+  benefits: string[];
+}
+
 export function AdvancedPurchaseOverlay({ open, onClose }: AdvancedPurchaseOverlayProps) {
-  const packages = [
+  const [customTanSessions, setCustomTanSessions] = useState(4);
+  const [cart, setCart] = useState<{ [key: string]: number }>({});
+
+  const packages: Package[] = [
     {
-      id: 'single',
-      title: 'כניסה בודדת',
-      price: 70,
+      id: 'single-entry',
+      name: 'בודדת כניסה אחת',
       sessions: 1,
-      description: 'כניסה אחת למיטת שיזוף'
+      price: 70,
+      benefits: ['ללא התחייבות']
     },
     {
-      id: '8-sessions',
-      title: 'כרטיסיית 8 כניסות',
-      price: 220,
+      id: '8-entries',
+      name: 'כרטיסיית 8 כניסות',
       sessions: 8,
-      pricePerSession: 27.5,
-      description: 'חבילה אישית - לא ניתן להעברה'
+      price: 220,
+      benefits: ['8 כניסות', '₪27.5 לכניסה']
     },
     {
-      id: 'home',
-      title: 'כרטיסיית הבית',
+      id: 'home-package',
+      name: 'כרטיסיית הבית',
+      sessions: 13,
       price: 300,
-      sessions: 20,
-      pricePerSession: 15,
-      description: 'החבילה המשתלמת ביותר! כולל ברונזר בית',
-      isHighlighted: true
+      benefits: ['10 כניסות + 3 במתנה', '₪23 לכניסה + ברונזר']
+    },
+    {
+      id: 'small-touch',
+      name: 'ככה בקטנה',
+      sessions: 3,
+      price: 220,
+      benefits: ['3 כניסות + ברונזר']
+    },
+    {
+      id: 'beginners-package',
+      name: 'חבילה למתחילים',
+      sessions: 6,
+      price: 360,
+      benefits: ['6 כניסות + ברונזר איכותי']
+    },
+    {
+      id: 'most-profitable',
+      name: '⭐ הכי משתלם!',
+      sessions: 10,
+      price: 400,
+      benefits: ['חבילת 10 כניסות', '10 כניסות + ברונזר איכותי']
     }
   ];
 
-  const handlePurchase = (packageId: string) => {
-    // TODO: Implement payment flow
-    onClose();
+  const updateCart = (itemId: string, change: number) => {
+    setCart(prev => ({
+      ...prev,
+      [itemId]: Math.max(0, (prev[itemId] || 0) + change)
+    }));
+  };
+
+  const getTotalPrice = () => {
+    let total = 0;
+    Object.entries(cart).forEach(([itemId, quantity]) => {
+      if (quantity > 0) {
+        const package_ = packages.find(p => p.id === itemId);
+        const price = package_?.price || 0;
+        total += price * quantity;
+      }
+    });
+    return total;
+  };
+
+  const getTotalItems = () => {
+    return Object.values(cart).reduce((sum, quantity) => sum + quantity, 0);
   };
 
   return (
-    <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl bg-gradient-to-br from-gray-900/95 via-black/90 to-gray-800/95 border-pink-500/30 max-h-[90vh] overflow-y-auto" dir="rtl">
-        <DialogTitle className="text-2xl font-bold text-white text-center">
-          רכישת חבילות שיזוף
-        </DialogTitle>
-        <DialogDescription className="text-gray-300 text-center">
-          בחר/י את החבילה המתאימה לך
-        </DialogDescription>
+    <Dialog open={open} onOpenChange={() => onClose()}>
+      <DialogContent className="max-w-none w-screen h-screen border-none overflow-hidden p-0 m-0 relative">
+        {/* Purple Neon Overlay Background */}
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-purple-500/50 backdrop-blur-sm" />
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-800 opacity-70" />
+        </div>
 
-        <div className="grid md:grid-cols-3 gap-4 mt-6">
-          {packages.map((pkg) => (
-            <Card
-              key={pkg.id}
-              className={`p-6 ${
-                pkg.isHighlighted
-                  ? 'bg-gradient-to-br from-pink-900/40 to-purple-900/40 border-pink-500/50 ring-2 ring-pink-500/30'
-                  : 'bg-slate-900/60 border-slate-700/50'
-              }`}
-            >
-              <div className="text-center space-y-4">
-                <Package className={`w-12 h-12 mx-auto ${pkg.isHighlighted ? 'text-pink-400' : 'text-gray-400'}`} />
-                
-                <div>
-                  <h3 className="text-xl font-bold text-white mb-1">{pkg.title}</h3>
-                  <p className="text-sm text-gray-400">{pkg.description}</p>
+        <DialogTitle className="sr-only">חנות מוצרי שיזוף וחבילות</DialogTitle>
+        <DialogDescription className="sr-only">בחר מוצרי שיזוף וחבילות כניסות למיטות שיזוף</DialogDescription>
+
+        {/* Header */}
+        <div 
+          className="relative bg-gradient-to-r from-primary/30 via-primary/20 to-primary/30 backdrop-blur-lg border-b border-primary/40 p-2 shadow-lg z-10"
+          style={{ filter: 'drop-shadow(0 2px 8px hsl(var(--primary) / 0.3))' }}
+        >
+          <div className="flex items-center justify-between">
+            <h2 className="text-base font-bold text-white flex items-center gap-2 font-hebrew">
+              <CreditCard 
+                className="w-4 h-4 text-primary" 
+                style={{ filter: 'drop-shadow(0 0 10px hsl(var(--primary)))' }}
+              />
+              רכישת כרטיסיות ומוצרים
+            </h2>
+            <div className="flex items-center gap-4">
+              {getTotalItems() > 0 && (
+                <div className="flex items-center gap-2 bg-primary/20 px-3 py-1 rounded-full">
+                  <ShoppingCart className="w-4 h-4 text-primary" />
+                  <span className="text-white font-bold">{getTotalItems()}</span>
+                  <span className="text-primary font-bold">₪{getTotalPrice()}</span>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="relative flex-1 flex flex-col p-2 space-y-3 overflow-y-auto z-10">
+          {/* Packages Section */}
+          <div className="w-full">
+            <h3 className="text-base font-bold text-white mb-2 text-center font-hebrew">חבילות שיזוף</h3>
+            <div className="grid grid-cols-7 gap-3 pb-4 px-2" style={{ minHeight: '280px' }}>
+              {packages.map(pkg => (
+                <div
+                  key={pkg.id}
+                  className="bg-gradient-to-br from-background via-background/95 to-primary/5 backdrop-blur-sm border-2 border-primary/50 rounded-xl p-3 hover:border-primary transition-all duration-300 group hover:scale-[1.05] flex flex-col w-full shadow-2xl hover:shadow-primary/50 relative overflow-hidden"
+                  style={{
+                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+                    backdropFilter: 'blur(8px)',
+                    transform: 'translateZ(0)',
+                    filter: 'drop-shadow(0 0 20px hsl(var(--primary) / 0.4))'
+                  }}
+                  data-testid={`package-${pkg.id}`}
+                >
+                  {/* Enhanced inner glow effect */}
+                  <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-white/2 via-primary/2 to-white/2 opacity-0 group-hover:opacity-100 transition-all duration-300" />
+
+                  <div className="text-center mb-1 flex-1">
+                    <h4 className="text-xs font-bold text-white mb-0.5 relative z-10 font-hebrew">{pkg.name}</h4>
+                    <div className="text-primary text-2xl font-bold mb-0.5 relative z-10">₪{pkg.price}</div>
+                    {pkg.sessions > 1 && pkg.sessions < 999 && (
+                      <p className="text-gray-300 text-xs relative z-10 font-hebrew">{pkg.sessions} כניסות</p>
+                    )}
+                  </div>
+
+                  <div className="space-y-0.5 mb-1 flex-1 relative z-10">
+                    {pkg.benefits.slice(0, 2).map((benefit, index) => (
+                      <div key={index} className="flex items-center gap-1 text-[10px] text-gray-300 font-hebrew">
+                        <div className="w-0.5 h-0.5 bg-primary rounded-full flex-shrink-0" />
+                        {benefit}
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="flex items-center justify-center relative z-10">
+                    <Button
+                      className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary text-white font-bold px-3 py-2.5 text-xs w-full transition-all duration-300 hover:scale-105 font-hebrew"
+                      style={{ filter: 'drop-shadow(0 0 8px hsl(var(--primary) / 0.5))' }}
+                      onClick={() => {
+                        console.log(`רכישת חבילה: ${pkg.name}`);
+                      }}
+                      data-testid={`button-purchase-${pkg.id}`}
+                    >
+                      רכוש עכשיו
+                    </Button>
+                  </div>
+                </div>
+              ))}
+
+              {/* Build Your Tan Package */}
+              <div
+                className="bg-gradient-to-br from-background via-background/95 to-purple-500/10 backdrop-blur-sm border-2 border-purple-400/60 rounded-xl p-3 hover:border-purple-400 transition-all duration-300 group hover:scale-[1.05] flex flex-col w-full shadow-2xl hover:shadow-purple-500/50 relative overflow-hidden"
+                style={{
+                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+                  backdropFilter: 'blur(8px)',
+                  transform: 'translateZ(0)',
+                  filter: 'drop-shadow(0 0 20px rgba(147, 51, 234, 0.6))'
+                }}
+                data-testid="package-custom"
+              >
+                {/* Enhanced inner glow effect - purple variant */}
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-white/2 via-purple-500/3 to-white/2 opacity-0 group-hover:opacity-100 transition-all duration-300" />
+
+                <div className="text-center mb-1 relative z-10">
+                  <h4 className="text-xs font-bold text-white mb-0.5 font-hebrew">בנה את השיזוף שלך</h4>
+                  <div className="text-purple-400 text-lg font-bold mb-0.5">₪{customTanSessions * 40}</div>
+                  <p className="text-gray-300 text-[10px] font-hebrew">{customTanSessions} כניסות - ₪40 לכניסה</p>
                 </div>
 
-                <div>
-                  <div className="text-3xl font-bold text-white">₪{pkg.price}</div>
-                  {pkg.pricePerSession && (
-                    <div className="text-sm text-gray-400 mt-1">
-                      ₪{pkg.pricePerSession} לכניסה
+                <div className="flex items-center justify-center mb-1 relative z-10">
+                  <div className="flex items-center space-x-2 bg-black/50 rounded-lg px-2 py-1">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-5 w-5 p-0 text-white hover:bg-white/20"
+                      onClick={() => setCustomTanSessions(Math.max(4, customTanSessions - 1))}
+                      data-testid="button-decrease-sessions"
+                    >
+                      <Minus className="h-2.5 w-2.5" />
+                    </Button>
+
+                    <span className="text-white font-bold text-sm min-w-[1.5rem] text-center">
+                      {customTanSessions}
+                    </span>
+
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-5 w-5 p-0 text-white hover:bg-white/20"
+                      onClick={() => setCustomTanSessions(Math.min(20, customTanSessions + 1))}
+                      data-testid="button-increase-sessions"
+                    >
+                      <Plus className="h-2.5 w-2.5" />
+                    </Button>
+                  </div>
+                </div>
+
+                <div className="space-y-0.5 mb-1 flex-1 relative z-10">
+                  <div className="flex items-center gap-1 text-[10px] text-gray-300 font-hebrew">
+                    <div className="w-0.5 h-0.5 bg-purple-400 rounded-full flex-shrink-0" />
+                    מינימום 4 כניסות
+                  </div>
+                  <div className="flex items-center gap-1 text-[10px] text-gray-300 font-hebrew">
+                    <div className="w-0.5 h-0.5 bg-purple-400 rounded-full flex-shrink-0" />
+                    ניתן לשיתוף
+                  </div>
+                  {customTanSessions >= 10 && (
+                    <div className="flex items-center gap-1 text-[10px] text-green-400 animate-pulse font-hebrew">
+                      <div className="w-0.5 h-0.5 bg-green-400 rounded-full flex-shrink-0" />
+                      🎁 ברונזר במתנה!
                     </div>
                   )}
                 </div>
 
-                <div className="text-sm text-gray-300">
-                  {pkg.sessions} {pkg.sessions === 1 ? 'כניסה' : 'כניסות'}
-                </div>
-
                 <Button
-                  onClick={() => handlePurchase(pkg.id)}
-                  className={`w-full ${
-                    pkg.isHighlighted
-                      ? 'bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700'
-                      : 'bg-gradient-to-r from-gray-700 to-gray-600 hover:from-gray-600 hover:to-gray-500'
-                  }`}
-                  data-testid={`button-purchase-${pkg.id}`}
+                  className="bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 text-white font-bold px-3 py-1.5 text-xs w-full transition-all duration-300 hover:scale-105 relative z-10 font-hebrew"
+                  style={{ filter: 'drop-shadow(0 0 10px rgba(147, 51, 234, 0.7))' }}
+                  onClick={() => {
+                    console.log(`Build your tan: ${customTanSessions} sessions for ₪${customTanSessions * 40}`);
+                  }}
+                  data-testid="button-purchase-custom"
                 >
-                  <CreditCard className="w-4 h-4 ml-2" />
-                  רכישה
+                  רכוש עכשיו
                 </Button>
               </div>
-            </Card>
-          ))}
+            </div>
+          </div>
+
+          {/* Tanning Products Carousel Section */}
+          <div className="flex-1 max-h-[500px]">
+            <TanningProductCarousel onAddToCart={(productId) => updateCart(productId, 1)} />
+          </div>
         </div>
 
-        <div className="mt-6 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
-          <p className="text-sm text-yellow-200 text-center">
-            💳 התשלום מאובטח ומבוצע דרך מערכת Cardcom
-          </p>
+        {/* Footer - Checkout */}
+        <div className="relative bg-gradient-to-r from-primary/30 via-primary/20 to-primary/30 backdrop-blur-lg border-t border-primary/40 p-3 shadow-lg z-10">
+          <div className="flex items-center justify-between">
+            <Button
+              variant="outline"
+              onClick={onClose}
+              className="bg-white/10 border-white/20 text-white hover:bg-white/20 font-hebrew"
+              data-testid="button-close-overlay"
+            >
+              סגור
+            </Button>
+
+            {getTotalItems() > 0 && (
+              <Button
+                className="bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white font-bold px-6 py-3 font-hebrew"
+                style={{ filter: 'drop-shadow(0 0 10px rgba(34, 197, 94, 0.7))' }}
+                data-testid="button-checkout"
+              >
+                <CreditCard className="w-4 h-4 ml-2" />
+                לתשלום (₪{getTotalPrice()})
+              </Button>
+            )}
+          </div>
         </div>
       </DialogContent>
     </Dialog>
