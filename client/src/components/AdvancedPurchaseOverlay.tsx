@@ -91,7 +91,16 @@ export function AdvancedPurchaseOverlay({ open, onClose }: AdvancedPurchaseOverl
 
   return (
     <Dialog open={open} onOpenChange={() => onClose()}>
-      <DialogContent className="max-w-none w-screen h-screen border-none overflow-hidden p-0 m-0 relative flex flex-col items-start justify-start !top-0 !translate-y-0 !translate-x-0 !left-0">
+      <DialogContent 
+        className="max-w-none w-screen h-screen border-none overflow-hidden p-0 m-0 flex flex-col"
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          transform: 'none',
+          margin: 0
+        }}
+      >
         {/* Purple Neon Overlay Background */}
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-purple-500/50 backdrop-blur-sm" />
