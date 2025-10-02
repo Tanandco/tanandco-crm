@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Plus, Minus, CreditCard, ShoppingCart } from 'lucide-react';
-import TanningProductCarouselCompact from './TanningProductCarouselCompact';
+import ProductCarousel3D from './ProductCarousel3D';
 
 interface AdvancedPurchaseOverlayProps {
   open: boolean;
@@ -20,6 +20,54 @@ interface Package {
 export function AdvancedPurchaseOverlay({ open, onClose }: AdvancedPurchaseOverlayProps) {
   const [customTanSessions, setCustomTanSessions] = useState(4);
   const [cart, setCart] = useState<{ [key: string]: number }>({});
+
+  // Bronzer products for carousel
+  const bronzerProducts = [
+    {
+      id: 'bronzer-1',
+      name: 'Australian Gold',
+      price: 120,
+      image: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=300&q=80',
+      category: 'ברונזר',
+      badge: 'מבצע'
+    },
+    {
+      id: 'bronzer-2',
+      name: 'Devoted Creations',
+      price: 150,
+      image: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=300&q=80',
+      category: 'ברונזר'
+    },
+    {
+      id: 'bronzer-3',
+      name: 'Designer Skin',
+      price: 180,
+      image: 'https://images.unsplash.com/photo-1556228841-d9d2f9c3c1cc?w=300&q=80',
+      category: 'ברונזר',
+      badge: 'חדש'
+    },
+    {
+      id: 'bronzer-4',
+      name: 'Swedish Beauty',
+      price: 140,
+      image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=300&q=80',
+      category: 'ברונזר'
+    },
+    {
+      id: 'bronzer-5',
+      name: 'Supre Tan',
+      price: 130,
+      image: 'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=300&q=80',
+      category: 'ברונזר'
+    },
+    {
+      id: 'bronzer-6',
+      name: 'Millennium Tanning',
+      price: 110,
+      image: 'https://images.unsplash.com/photo-1556228852-80b4f32e4da7?w=300&q=80',
+      category: 'ברונזר'
+    }
+  ];
 
   const packages: Package[] = [
     {
@@ -257,6 +305,14 @@ export function AdvancedPurchaseOverlay({ open, onClose }: AdvancedPurchaseOverl
                 </Button>
               </div>
             </div>
+          </div>
+
+          {/* Bronzer Products 3D Carousel */}
+          <div className="w-full">
+            <ProductCarousel3D 
+              products={bronzerProducts}
+              onAddToCart={(productId) => updateCart(productId, 1)}
+            />
           </div>
 
         </div>
