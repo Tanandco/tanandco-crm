@@ -1,9 +1,10 @@
 import Logo from '@/components/Logo';
+import AnimatedBook from '@/components/AnimatedBook';
 import ZenCarousel from '@/components/ZenCarousel';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { Sun, AlertTriangle, CheckCircle, XCircle, UserPlus, Search, Shield, ShoppingCart, Sparkles, Clock } from 'lucide-react';
+import { Sun, AlertTriangle, CheckCircle, XCircle, UserPlus, Search, Shield, ShoppingCart, Sparkles, Clock, Store, Bot } from 'lucide-react';
 import { useLocation } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
 
@@ -137,6 +138,12 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
       setTimeout(() => {
         document.getElementById('packages-section')?.scrollIntoView({ behavior: 'smooth' });
       }, 100);
+    } else if (action === 'shop') {
+      onOpenChange(false);
+      navigate('/shop');
+    } else if (action === 'ai-tan') {
+      // TODO: implement AI TAN
+      console.log('AI TAN clicked');
     }
   };
 
@@ -262,163 +269,8 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
               </div>
             </div>
 
-            {/* Introduction - Animated */}
-            <div className="mb-8 max-w-3xl mx-auto">
-              <style>{`
-                @keyframes fadeInSlide {
-                  from {
-                    opacity: 0;
-                    transform: translateY(20px);
-                  }
-                  to {
-                    opacity: 1;
-                    transform: translateY(0);
-                  }
-                }
-
-                @keyframes glowPulse {
-                  0%, 100% {
-                    box-shadow: 
-                      0 0 20px rgba(236, 72, 153, 0.3),
-                      0 0 40px rgba(168, 85, 247, 0.2),
-                      inset 0 0 20px rgba(236, 72, 153, 0.1);
-                    border-color: rgba(236, 72, 153, 0.4);
-                  }
-                  50% {
-                    box-shadow: 
-                      0 0 30px rgba(236, 72, 153, 0.6),
-                      0 0 60px rgba(168, 85, 247, 0.4),
-                      inset 0 0 30px rgba(236, 72, 153, 0.2);
-                    border-color: rgba(236, 72, 153, 0.8);
-                  }
-                }
-
-                @keyframes shimmer {
-                  0% {
-                    background-position: -200% 0;
-                  }
-                  100% {
-                    background-position: 200% 0;
-                  }
-                }
-
-                @keyframes iconBounce {
-                  0%, 100% {
-                    transform: translateY(0) scale(1);
-                  }
-                  50% {
-                    transform: translateY(-10px) scale(1.1);
-                  }
-                }
-
-                .introduction-box {
-                  animation: fadeInSlide 0.8s ease-out, glowPulse 3s ease-in-out infinite;
-                  position: relative;
-                  overflow: hidden;
-                }
-
-                .introduction-box::before {
-                  content: '';
-                  position: absolute;
-                  top: 0;
-                  left: -200%;
-                  width: 200%;
-                  height: 100%;
-                  background: linear-gradient(
-                    90deg,
-                    transparent,
-                    rgba(236, 72, 153, 0.1) 25%,
-                    rgba(168, 85, 247, 0.2) 50%,
-                    rgba(236, 72, 153, 0.1) 75%,
-                    transparent
-                  );
-                  animation: shimmer 4s linear infinite;
-                  pointer-events: none;
-                }
-
-                .intro-icon {
-                  animation: iconBounce 2s ease-in-out infinite;
-                }
-
-                .intro-title {
-                  background: linear-gradient(
-                    90deg,
-                    #ec4899,
-                    #a855f7,
-                    #ec4899,
-                    #a855f7
-                  );
-                  background-size: 200% auto;
-                  -webkit-background-clip: text;
-                  background-clip: text;
-                  animation: shimmer 3s linear infinite;
-                }
-              `}</style>
-              
-              <div 
-                className="introduction-box p-6 rounded-lg bg-gradient-to-r from-pink-500/10 via-purple-500/10 to-pink-500/10 border-2"
-                data-testid="introduction"
-              >
-                <div className="flex items-center justify-center gap-3 mb-3">
-                  <Shield className="w-6 h-6 text-pink-400 intro-icon" />
-                  <h2 className="text-2xl font-bold intro-title text-transparent">
-                    שיזוף בטוח ומדורג
-                  </h2>
-                  <Sparkles className="w-6 h-6 text-purple-400 intro-icon" style={{ animationDelay: '0.5s' }} />
-                </div>
-                
-                <div className="relative z-10">
-                  <p className="text-lg text-pink-100 leading-relaxed text-center font-semibold mb-1">
-                    ⚠️ חשוב לקרוא! ⚠️
-                  </p>
-                  <p className="text-base text-pink-100/90 leading-relaxed text-center">
-                    אנחנו מאמינים בשיזוף בטוח ואחראי. כל לקוח מקבל תוכנית שיזוף אישית המותאמת לסוג העור שלו, 
-                    עם התקדמות הדרגתית שמבטיחה תוצאות מושלמות ללא פגיעה בעור.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Tips and Guidelines Grid - Compact */}
-            <div className="grid md:grid-cols-2 gap-4 mb-8 max-w-5xl mx-auto">
-              {/* Do's */}
-              <Card className="p-4 bg-gradient-to-br from-slate-900/90 to-slate-800/90 border-green-500/30">
-                <h3 
-                  className="text-xl font-bold text-green-400 mb-3 flex items-center gap-2"
-                  data-testid="title-dos"
-                >
-                  <CheckCircle className="w-5 h-5" />
-                  מה כן לעשות
-                </h3>
-                <ul className="space-y-2 text-sm" data-testid="dos-list">
-                  {dos.map((item, index) => (
-                    <li key={index} className="flex items-start gap-2 text-green-100/90">
-                      <span className="text-green-400 mt-0.5">✓</span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </Card>
-
-              {/* Don'ts */}
-              <Card className="p-4 bg-gradient-to-br from-slate-900/90 to-slate-800/90 border-red-500/30">
-                <h3 
-                  className="text-xl font-bold text-red-400 mb-3 flex items-center gap-2"
-                  data-testid="title-donts"
-                >
-                  <XCircle className="w-5 h-5" />
-                  מה אסור לעשות
-                </h3>
-                <ul className="space-y-2 text-sm" data-testid="donts-list">
-                  {donts.map((item, index) => (
-                    <li key={index} className="flex items-start gap-2 text-red-100/90">
-                      <span className="text-red-400 mt-0.5">✗</span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </Card>
-            </div>
+            {/* Animated Book */}
+            <AnimatedBook />
 
             {/* Action Buttons */}
             <div className="mb-8">
@@ -429,7 +281,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                 בחרו את הפעולה המתאימה
               </h2>
 
-              <div className="grid grid-cols-2 gap-3 max-w-3xl mx-auto">
+              <div className="grid grid-cols-3 gap-3 max-w-5xl mx-auto">
                 <Button
                   onClick={() => handleActionClick('new-customer')}
                   className="h-auto py-4 px-4 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 border border-pink-500/50 flex flex-col gap-2"
@@ -464,6 +316,24 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                 >
                   <ShoppingCart className="w-6 h-6" />
                   <span className="text-sm font-medium">רכישה / חידוש חבילות</span>
+                </Button>
+
+                <Button
+                  onClick={() => handleActionClick('shop')}
+                  className="h-auto py-4 px-4 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 border border-emerald-500/50 flex flex-col gap-2"
+                  data-testid="button-shop"
+                >
+                  <Store className="w-6 h-6" />
+                  <span className="text-sm font-medium">החנות שלכם</span>
+                </Button>
+
+                <Button
+                  onClick={() => handleActionClick('ai-tan')}
+                  className="h-auto py-4 px-4 bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700 border border-violet-500/50 flex flex-col gap-2"
+                  data-testid="button-ai-tan"
+                >
+                  <Bot className="w-6 h-6" />
+                  <span className="text-sm font-medium">AI TAN</span>
                 </Button>
               </div>
             </div>
