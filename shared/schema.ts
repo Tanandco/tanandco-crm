@@ -120,7 +120,14 @@ export const insertCustomerSchema = createInsertSchema(customers).omit({
     .refine((date) => {
       const birthDate = new Date(date);
       const today = new Date();
-      const age = today.getFullYear() - birthDate.getFullYear();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+      
+      // Adjust age if birthday hasn't occurred this year yet
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      
       return age >= 16 && age <= 120;
     }, "גיל חייב להיות בין 16 ל-120")
     .optional().nullable(),

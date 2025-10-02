@@ -79,10 +79,17 @@ export default function Onboarding() {
         return;
       }
 
-      // Validate age (16-120)
+      // Validate age (16-120) - account for month/day
       const birthDate = new Date(dateOfBirth);
       const today = new Date();
-      const age = today.getFullYear() - birthDate.getFullYear();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+      
+      // Adjust age if birthday hasn't occurred this year yet
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      
       if (age < 16 || age > 120) {
         toast({
           title: "שגיאה",
