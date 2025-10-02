@@ -143,18 +143,110 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent 
-        className="max-w-[95vw] w-full h-[95vh] max-h-[95vh] p-0 bg-gradient-to-br from-slate-950 via-purple-950/30 to-slate-950 border-pink-500/30 overflow-hidden"
+        className="max-w-[95vw] w-full h-[95vh] max-h-[95vh] p-0 bg-black border-pink-500/30 overflow-hidden"
         data-testid="sun-beds-dialog"
       >
         <DialogTitle className="sr-only">מיטות שיזוף - מידע, מחירים וחבילות</DialogTitle>
         <DialogDescription className="sr-only">
           מידע על שירותי מיטות השיזוף, הנחיות בטיחות, מחירי חבילות אישיות ומשפחתיות, ומוצרי ברונזר
         </DialogDescription>
-        <div className="h-full overflow-y-auto overflow-x-hidden" dir="rtl">
-          <div className="container mx-auto px-6 py-6 max-w-6xl">
+        <div className="h-full overflow-y-auto overflow-x-hidden relative" dir="rtl">
+          {/* Background Effects */}
+          <div className="absolute inset-0 bg-gradient-to-br from-pink-500/5 via-transparent to-purple-500/5 pointer-events-none" />
+          <div 
+            className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-pink-500/10 rounded-full blur-[120px] pointer-events-none"
+            style={{ 
+              animation: 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+            }}
+          />
+          
+          <div className="container mx-auto px-6 py-6 max-w-6xl relative z-10">
             {/* Logo */}
             <div className="mb-4">
               <Logo size="small" showGlow={true} showUnderline={false} />
+            </div>
+            
+            {/* Navigation Buttons */}
+            <div className="fixed top-6 left-6 right-6 z-50 flex justify-between pointer-events-none">
+              {/* Back Button */}
+              <button
+                className="
+                  pointer-events-auto
+                  group relative w-12 h-12
+                  bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
+                  border border-gray-500/60 hover:border-gray-400/80
+                  rounded-lg backdrop-blur-sm
+                  flex items-center justify-center
+                  transition-all duration-300 ease-in-out
+                  hover:scale-105 active:scale-95
+                  hover-elevate active-elevate-2
+                "
+                style={{
+                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1)'
+                }}
+                onClick={() => onOpenChange(false)}
+                data-testid="button-back-nav"
+              >
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  width="20" 
+                  height="20" 
+                  viewBox="0 0 24 24" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  strokeWidth="2" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round"
+                  className="text-white group-hover:text-pink-400 transition-colors duration-300"
+                  style={{
+                    filter: 'drop-shadow(0 0 8px rgba(255, 255, 255, 0.3))'
+                  }}
+                >
+                  <path d="m15 18-6-6 6-6"/>
+                </svg>
+              </button>
+
+              {/* Home Button */}
+              <button
+                className="
+                  pointer-events-auto
+                  group relative w-12 h-12
+                  bg-gradient-to-br from-pink-900/90 via-purple-900/80 to-pink-900/90
+                  border border-pink-500/60 hover:border-pink-400/80
+                  rounded-lg backdrop-blur-sm
+                  flex items-center justify-center
+                  transition-all duration-300 ease-in-out
+                  hover:scale-105 active:scale-95
+                  hover-elevate active-elevate-2
+                "
+                style={{
+                  boxShadow: '0 4px 12px rgba(236, 72, 153, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1)'
+                }}
+                onClick={() => {
+                  onOpenChange(false);
+                  navigate('/');
+                }}
+                data-testid="button-home-nav"
+              >
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  width="20" 
+                  height="20" 
+                  viewBox="0 0 24 24" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  strokeWidth="2" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round"
+                  className="text-white group-hover:text-pink-300 transition-colors duration-300"
+                  style={{
+                    filter: 'drop-shadow(0 0 8px rgba(236, 72, 153, 0.5))'
+                  }}
+                >
+                  <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                  <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+              </button>
             </div>
 
             {/* Main Title */}

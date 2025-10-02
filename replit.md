@@ -211,6 +211,7 @@ Preferred communication style: Simple, everyday language.
   - Internal scrolling within dialog - all content accessible without page scroll
   - Smart navigation: closes for outbound actions (onboarding, 24/7 registration), stays open for internal actions (scroll to packages)
   - Full accessibility support with DialogTitle and DialogDescription (sr-only)
+  - **Unified Design**: Black background (bg-black) matching PageLayout with navigation buttons (Home/Back) in corners
 - **Content Features**:
   - Animated introduction with multiple effects (glow pulse, shimmer, bouncing icons) to draw attention to safety information
   - Safety guidelines: 6 do's (green-tinted) and 6 don'ts (red-tinted)
