@@ -181,5 +181,18 @@ Preferred communication style: Simple, everyday language.
 - **Tailwind CSS**: Utility-first styling with custom color palette
 - **CSS Gradients**: Neon effects and premium visual treatments
 - **Responsive Design**: Mobile-first approach with touch optimizations
+- **Engaging Animations**: Custom keyframe animations for important content (fade-in, glow pulse, shimmer, bouncing icons)
+
+## Recent Changes (October 2025)
+
+### Sun Beds Page (`/sun-beds`) ✅
+- **Comprehensive Information Hub**: Complete page for sun tanning services
+  - Animated introduction with multiple effects (glow pulse, shimmer, bouncing icons) to draw attention to safety information
+  - Safety guidelines: 6 do's (green-tinted) and 6 don'ts (red-tinted)
+  - 4 action buttons: New customer registration, search existing customer, 24/7 registration, purchase/renewal packages
+  - Detailed pricing tables: Personal packages (₪70-₪300) and shareable packages (₪220-₪400)
+  - Bronzer products carousel (3D carousel displaying bed-bronzer products)
+- **Navigation**: Accessible from home page and self-service page via "מיטות שיזוף" service card
+- **Design Philosophy**: Eye-catching animations encourage users to read important safety information before proceeding
 
 The architecture supports a premium salon experience with automated customer identification, self-service capabilities, and integrated business operations through external service connections.
