@@ -4,11 +4,13 @@ import { bioStarClient } from './services/biostar-client';
 import { bioStarStartup } from './services/biostar-startup';
 import { requireLocalAccess, rateLimit } from './middleware/auth';
 import { storage } from './storage';
-import { insertCustomerSchema, insertMembershipSchema } from '@shared/schema';
+import { db } from './db';
+import { customers, insertCustomerSchema, insertMembershipSchema } from '@shared/schema';
 import { z } from 'zod';
 import { whatsappService } from './services/whatsapp-service';
 import { cardcomService } from './services/cardcom-service';
 import { WorkflowService } from './services/workflow-service';
+import { eq } from 'drizzle-orm';
 
 // Validation schemas
 const identifyFaceSchema = z.object({
@@ -590,7 +592,7 @@ export function registerRoutes(app: express.Application) {
   // Get customer by ID
   app.get('/api/customers/:id', async (req, res) => {
     try {
-      const customer = await storage.getCustomer(req.params.id);
+      const [customer] = await db.select().from(customers).where(eq(customers.id, req.params.id)).limit(1);
       if (!customer) {
         return res.status(404).json({
           success: false,
@@ -635,7 +637,7 @@ export function registerRoutes(app: express.Application) {
       const validatedData = insertCustomerSchema.parse(req.body);
       
       // Check if customer with this phone already exists
-      const existingCustomer = await storage.getCustomerByPhone(validatedData.phone);
+      const [existingCustomer] = await db.select().from(customers).where(eq(customers.phone, validatedData.phone)).limit(1);
       if (existingCustomer) {
         return res.status(409).json({
           success: false,
@@ -643,7 +645,11 @@ export function registerRoutes(app: express.Application) {
         });
       }
       
-      const customer = await storage.createCustomer(validatedData);
+      // Insert customer directly into database
+      const [customer] = await db.insert(customers).values(validatedData).returning();
+      
+      console.log('Customer created:', customer.id);
+      
       res.status(201).json({
         success: true,
         data: customer

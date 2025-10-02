@@ -47,7 +47,7 @@ function Router() {
       <Route path="/remote-door" component={RemoteDoor} />
       <Route path="/onboarding" component={Onboarding} />
       <Route path="/face-registration" component={FaceRegistration} />
-      <Route path="/health-form/:customerId" component={HealthForm} />
+      <Route path="/health-form" component={HealthForm} />
       <Route path="/chat" component={Chat} />
       <Route path="/self-service" component={SelfService} />
       
