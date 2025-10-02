@@ -259,13 +259,6 @@ export function AdvancedPurchaseOverlay({ open, onClose }: AdvancedPurchaseOverl
             </div>
           </div>
 
-          {/* Tanning Products Carousel Section */}
-          <div className="w-full" style={{ height: '180px' }}>
-            <h3 className="text-xs font-bold text-white mb-0.5 text-center font-hebrew">מוצרי שיזוף</h3>
-            <div className="h-[calc(100%-1.25rem)]">
-              <TanningProductCarouselCompact onAddToCart={(productId) => updateCart(productId, 1)} />
-            </div>
-          </div>
         </div>
 
         {/* Footer - Checkout */}
