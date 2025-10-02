@@ -1,4 +1,4 @@
-import alinVideo from '@assets/freepik__-__91857_1759408899812.mp4';
+import alinVideo from '@assets/עיצוב ללא שם (2)_1759411685370.mp4';
 
 interface AlinProps {
   className?: string;
