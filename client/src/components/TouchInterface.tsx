@@ -6,10 +6,10 @@ import ServiceCard from './ServiceCard';
 import StatusDisplay from './StatusDisplay';
 import SunBedsDialog from './SunBedsDialog';
 import Alin from './Alin';
-import tanningBedIcon from '@assets/freepik__uv-tanning-booth-variation-a-elegant-3d-neon-pink-__47715_1759413088591.png';
+import tanningBedIcon from '@assets/עיצוב ללא שם (30)_1759413689481.png';
 import sprayTanIcon from '@assets/freepik__spray-tan-variation-b-modern-flatbadge-3d-spray-gu__47717_1759413070782.png';
 import hairSalonIcon from '@assets/freepik__3d-neon-pink-icon-of-a-hair-salon-symbol-stylized-__47719_1759413079154.png';
-import cosmeticsIcon from '@assets/freepik__3d-neon-pink-icon-for-manicure-eyebrows-alternativ__47723_1759413228207.png';
+import cosmeticsIcon from '@assets/5c77fc80-63c5-4e83-a95b-eaeaf541cada_1759413433802.png';
 import storeIcon from '@assets/freepik__online-store-shopping-bag-variation-a-3d-shopping-__47713_1759413103497.png';
 
 interface TouchInterfaceProps {
