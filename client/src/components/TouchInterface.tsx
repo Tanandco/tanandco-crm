@@ -351,7 +351,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
         <button
           data-testid="button-ai-tan-face-recognition"
           className="
-            group relative h-[60px] w-[220px]
+            group relative h-[80px] w-[220px]
             bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
             border-2
             rounded-md backdrop-blur-sm
@@ -374,12 +374,12 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
           <img 
             src={selfServiceIcon} 
             alt="שירות עצמי" 
-            className="w-20 h-20 object-contain"
+            className="w-28 h-28 object-contain"
             style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }}
           />
-          <div className="flex flex-col items-center gap-0">
-            <span className="text-sm font-medium text-white text-center font-hebrew">שירות עצמי</span>
-            <span className="text-sm font-medium text-white text-center font-hebrew">24/7</span>
+          <div className="flex flex-col items-center gap-1">
+            <span className="text-base md:text-lg font-medium text-white text-center font-hebrew">שירות עצמי</span>
+            <span className="text-base md:text-lg font-medium text-white text-center font-hebrew">24/7</span>
           </div>
           
           {/* Ripple effect */}
