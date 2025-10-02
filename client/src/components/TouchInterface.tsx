@@ -377,9 +377,8 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
             className="w-28 h-28 object-contain"
             style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }}
           />
-          <div className="flex flex-col items-center gap-1">
-            <span className="text-base md:text-lg font-medium text-white text-center font-hebrew">שירות עצמי</span>
-            <span className="text-base md:text-lg font-medium text-white text-center font-hebrew">24/7</span>
+          <div className="flex items-center">
+            <span className="text-base md:text-lg font-medium text-white text-center font-hebrew">שירות עצמי 24/7</span>
           </div>
           
           {/* Ripple effect */}
