@@ -53,8 +53,6 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
   ];
 
   const handleServiceClick = (serviceId: string) => {
-    console.log(`Service selected: ${serviceId}`);
-    
     if (serviceId === 'ai-tan') {
       // Open AI TAN external link in new tab
       window.open('https://preview--radiant-booth-studio.lovable.app/', '_blank');

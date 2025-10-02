@@ -20,12 +20,10 @@ export default function ManualEntry() {
   };
 
   const handleSearch = () => {
-    console.log('Searching for customer:', searchTerm);
     // TODO: Implement customer search logic
   };
 
   const handleContinue = () => {
-    console.log('Customer data:', customerData);
     // TODO: Validate and proceed to services
     navigate('/services');
   };

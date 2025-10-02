@@ -47,7 +47,6 @@ export default function NavigationBar({ currentPath = '/', onNavigate }: Navigat
                 hover-elevate active-elevate-2
               `}
               onClick={() => {
-                console.log(`Navigation to ${item.path} clicked`);
                 onNavigate?.(item.path);
               }}
               data-testid={`nav-${item.path.replace('/', '') || 'home'}`}

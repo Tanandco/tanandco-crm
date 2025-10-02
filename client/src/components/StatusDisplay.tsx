@@ -47,7 +47,6 @@ export default function StatusDisplay({ customer, onIdentify, onScanQR, onPhoneL
         <Button 
           className="flex items-center gap-3 h-12 bg-primary hover:bg-primary/90 text-primary-foreground font-hebrew"
           onClick={() => {
-            console.log('QR scan clicked');
             onScanQR?.();
           }}
           data-testid="button-scan-qr"
@@ -59,7 +58,6 @@ export default function StatusDisplay({ customer, onIdentify, onScanQR, onPhoneL
           variant="outline"
           className="flex items-center gap-3 h-12 border-primary/50 text-white hover:bg-primary/10 font-hebrew"
           onClick={() => {
-            console.log('Phone login clicked');
             onPhoneLogin?.();
           }}
           data-testid="button-phone-login"

@@ -11,7 +11,6 @@ export default function Services() {
   };
 
   const handleBookService = (serviceType: string) => {
-    console.log(`Booking service: ${serviceType}`);
     // TODO: Implement service booking logic
   };
 
