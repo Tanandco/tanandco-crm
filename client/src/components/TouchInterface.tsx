@@ -46,8 +46,8 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
       id: 'your-store' 
     },
     { 
-      title: '', 
-      icon: <Alin size={288} />, 
+      title: 'AI TAN', 
+      icon: <Alin size={120} />, 
       id: 'ai-tan' 
     },
   ];
@@ -330,50 +330,14 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
 
         {/* Service Cards - 6 in one row */}
         <div className="flex gap-3 justify-center flex-wrap flex-1 max-w-5xl">
-          {services.map((service) => {
-            // Special handling for AI TAN - bigger card
-            if (service.id === 'ai-tan') {
-              return (
-                <button
-                  key={service.id}
-                  onClick={() => handleServiceClick(service.id)}
-                  className="
-                    group relative h-[300px] w-[300px]
-                    bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
-                    border hover:border-2
-                    rounded-md backdrop-blur-sm
-                    flex flex-col items-center justify-center
-                    transition-all duration-300 ease-in-out
-                    hover-elevate active-elevate-2
-                  "
-                  style={{
-                    borderColor: 'rgba(236, 72, 153, 0.6)',
-                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 1)'}
-                  onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.6)'}
-                  data-testid="service-card-ai-tan"
-                >
-                  <div className="flex items-center justify-center">
-                    {service.icon}
-                  </div>
-                  <div className="absolute inset-0 rounded-md overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-radial from-pink-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  </div>
-                </button>
-              );
-            }
-            
-            // Regular cards for other services
-            return (
-              <ServiceCard
-                key={service.id}
-                title={service.title}
-                icon={service.icon}
-                onClick={() => handleServiceClick(service.id)}
-              />
-            );
-          })}
+          {services.map((service) => (
+            <ServiceCard
+              key={service.id}
+              title={service.title}
+              icon={service.icon}
+              onClick={() => handleServiceClick(service.id)}
+            />
+          ))}
         </div>
 
         {/* Self Service Button */}
