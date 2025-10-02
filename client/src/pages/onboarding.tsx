@@ -6,6 +6,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import PageLayout from '@/components/PageLayout';
+import { useMutation } from '@tanstack/react-query';
+import { apiRequest } from '@/lib/queryClient';
 
 export default function Onboarding() {
   const [, navigate] = useLocation();
@@ -20,6 +22,33 @@ export default function Onboarding() {
   const [customerPhone, setCustomerPhone] = useState<string>('');
   const [customerName, setCustomerName] = useState<string>('');
   const [dateOfBirth, setDateOfBirth] = useState<string>('');
+
+  // Mutation to create customer
+  const createCustomerMutation = useMutation({
+    mutationFn: async (customerData: { fullName: string; phone: string; dateOfBirth?: string }) => {
+      const response = await apiRequest('POST', '/api/customers', customerData);
+      const data = await response.json();
+      if (!data.success || !data.data?.id) {
+        throw new Error(data.error || 'Failed to create customer');
+      }
+      return data.data;
+    },
+    onSuccess: (data) => {
+      setCustomerId(data.id);
+      toast({
+        title: "נרשמת בהצלחה!",
+        description: "מעבר לטופס בריאות...",
+      });
+      setCurrentStep(2);
+    },
+    onError: (error: any) => {
+      toast({
+        title: "שגיאה",
+        description: error.response?.data?.error || "נכשל בשמירת הפרטים. נסה שוב.",
+        variant: "destructive",
+      });
+    },
+  });
 
   const steps = [
     {
@@ -99,17 +128,12 @@ export default function Onboarding() {
         return;
       }
       
-      // Generate a demo customerId (in real app, this would be from payment/registration)
-      const demoCustomerId = `demo-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-      setCustomerId(demoCustomerId);
-      
-      toast({
-        title: "נרשמת בהצלחה!",
-        description: "מעבר לטופס בריאות...",
+      // Create customer in database
+      createCustomerMutation.mutate({
+        fullName: customerName,
+        phone: customerPhone,
+        dateOfBirth: dateOfBirth,
       });
-      
-      // Move to next step
-      setCurrentStep(2);
     } else if (currentStep === 2) {
       // Navigate to health form
       if (!customerId) {
@@ -120,7 +144,7 @@ export default function Onboarding() {
         });
         return;
       }
-      navigate(`/health-form/${customerId}`);
+      navigate(`/health-form?customerId=${customerId}`);
     } else if (currentStep === 3) {
       // Navigate to face registration
       if (!customerId) {
@@ -308,8 +332,9 @@ export default function Onboarding() {
                       size="lg"
                       className="w-full"
                       data-testid="button-continue-shop"
+                      disabled={createCustomerMutation.isPending}
                     >
-                      המשך לבחירת מנוי
+                      {createCustomerMutation.isPending ? 'שומר...' : 'המשך לבחירת מנוי'}
                       <ArrowRight className="w-5 h-5 mr-2" />
                     </Button>
                   </div>
