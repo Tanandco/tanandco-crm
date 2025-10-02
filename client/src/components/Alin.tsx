@@ -8,12 +8,13 @@ interface AlinProps {
 export default function Alin({ className = "", size = 20 }: AlinProps) {
   return (
     <div className={`relative inline-block ${className}`} data-testid="alin-chatbot">
-      {/* White elliptical background */}
+      {/* White elliptical background - behind head only */}
       <div 
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full"
+        className="absolute left-1/2 -translate-x-1/2 bg-white rounded-full"
         style={{
-          width: `${size * 0.85}px`,
-          height: `${size * 0.85}px`,
+          width: `${size * 0.5}px`,
+          height: `${size * 0.5}px`,
+          top: `${size * 0.15}px`,
           zIndex: 0
         }}
       />
