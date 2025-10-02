@@ -287,7 +287,7 @@ export function AdvancedPurchaseOverlay({ open, onClose }: AdvancedPurchaseOverl
 
           {/* Bronzer Products Carousel - Compact */}
           {bronzerProducts.length > 0 && (
-            <div className="w-full" style={{ transform: 'scale(0.625)', transformOrigin: 'bottom center', marginBottom: '0' }}>
+            <div className="w-full mt-auto" style={{ transform: 'scale(0.625)', transformOrigin: 'bottom center', marginBottom: '0' }}>
               <ZenCarousel 
                 products={bronzerProducts}
                 onAddToCart={(productId) => {
