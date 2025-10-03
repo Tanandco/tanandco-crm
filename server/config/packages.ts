@@ -48,7 +48,8 @@ export const packagesCatalog: Record<string, Package> = {
     price: 300,
     currency: "ILS",
     cardcomItemCode: "HOME",
-    benefits: ['10 כניסות + 3 במתנה', 'חבילה אישית - לא ניתן לשיתוף או העברה']
+    benefits: ['10 כניסות + 3 במתנה', 'חבילה אישית - לא ניתן לשיתוף או העברה'],
+    popular: true
   },
   "small-touch": {
     id: "small-touch",
@@ -83,9 +84,7 @@ export const packagesCatalog: Record<string, Package> = {
     price: 500,
     currency: "ILS",
     cardcomItemCode: "BEST",
-    hasBronzer: true,
-    benefits: ['תוקף 12 חודשים', 'ניתן לשיתוף'],
-    popular: true
+    benefits: ['תוקף 12 חודשים', 'ניתן לשיתוף']
   },
 };
 

@@ -229,14 +229,22 @@ export function PurchaseOverlay({ open, onClose }: PurchaseOverlayProps) {
                       {/* Best Deal Badge */}
                       {pkg.popular && (
                         <div 
-                          className="absolute -top-2 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-2 py-0.5 rounded-full text-xs font-semibold flex items-center gap-1 shadow-lg animate-pulse"
+                          className={`absolute -top-2 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full text-xs font-semibold flex items-center gap-1 shadow-lg animate-pulse ${
+                            pkg.id === 'home-package' 
+                              ? 'bg-cyan-500 text-white' 
+                              : 'bg-primary text-primary-foreground'
+                          }`}
                           style={{
-                            filter: 'drop-shadow(0 0 10px hsl(var(--primary))) drop-shadow(0 0 20px hsl(var(--primary)))',
-                            boxShadow: '0 0 20px hsl(var(--primary) / 0.6)'
+                            filter: pkg.id === 'home-package'
+                              ? 'drop-shadow(0 0 10px rgb(6, 182, 212)) drop-shadow(0 0 20px rgb(6, 182, 212))'
+                              : 'drop-shadow(0 0 10px hsl(var(--primary))) drop-shadow(0 0 20px hsl(var(--primary)))',
+                            boxShadow: pkg.id === 'home-package'
+                              ? '0 0 20px rgb(6, 182, 212, 0.6)'
+                              : '0 0 20px hsl(var(--primary) / 0.6)'
                           }}
                         >
                           <Sparkles className="w-3 h-3" />
-                          הכי משתלם
+                          {pkg.id === 'home-package' ? 'חבילת הדגל' : 'הכי משתלם'}
                         </div>
                       )}
 
@@ -373,14 +381,22 @@ export function PurchaseOverlay({ open, onClose }: PurchaseOverlayProps) {
                     >
                       {pkg.popular && (
                         <div 
-                          className="absolute -top-2 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-2 py-0.5 rounded-full text-xs font-semibold flex items-center gap-1 shadow-lg animate-pulse"
+                          className={`absolute -top-2 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full text-xs font-semibold flex items-center gap-1 shadow-lg animate-pulse ${
+                            pkg.id === 'home-package' 
+                              ? 'bg-cyan-500 text-white' 
+                              : 'bg-primary text-primary-foreground'
+                          }`}
                           style={{
-                            filter: 'drop-shadow(0 0 10px hsl(var(--primary))) drop-shadow(0 0 20px hsl(var(--primary)))',
-                            boxShadow: '0 0 20px hsl(var(--primary) / 0.6)'
+                            filter: pkg.id === 'home-package'
+                              ? 'drop-shadow(0 0 10px rgb(6, 182, 212)) drop-shadow(0 0 20px rgb(6, 182, 212))'
+                              : 'drop-shadow(0 0 10px hsl(var(--primary))) drop-shadow(0 0 20px hsl(var(--primary)))',
+                            boxShadow: pkg.id === 'home-package'
+                              ? '0 0 20px rgb(6, 182, 212, 0.6)'
+                              : '0 0 20px hsl(var(--primary) / 0.6)'
                           }}
                         >
                           <Sparkles className="w-3 h-3" />
-                          פופולרי
+                          {pkg.id === 'home-package' ? 'חבילת הדגל' : 'פופולרי'}
                         </div>
                       )}
                       <h3 className="text-sm font-bold text-foreground mb-1 text-center font-hebrew leading-tight h-8 flex items-center justify-center">
@@ -508,14 +524,22 @@ export function PurchaseOverlay({ open, onClose }: PurchaseOverlayProps) {
                       {/* Best Deal Badge */}
                       {pkg.popular && (
                         <div 
-                          className="absolute -top-2 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-2 py-0.5 rounded-full text-xs font-semibold flex items-center gap-1 shadow-lg animate-pulse"
+                          className={`absolute -top-2 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full text-xs font-semibold flex items-center gap-1 shadow-lg animate-pulse ${
+                            pkg.id === 'home-package' 
+                              ? 'bg-cyan-500 text-white' 
+                              : 'bg-primary text-primary-foreground'
+                          }`}
                           style={{
-                            filter: 'drop-shadow(0 0 10px hsl(var(--primary))) drop-shadow(0 0 20px hsl(var(--primary)))',
-                            boxShadow: '0 0 20px hsl(var(--primary) / 0.6)'
+                            filter: pkg.id === 'home-package'
+                              ? 'drop-shadow(0 0 10px rgb(6, 182, 212)) drop-shadow(0 0 20px rgb(6, 182, 212))'
+                              : 'drop-shadow(0 0 10px hsl(var(--primary))) drop-shadow(0 0 20px hsl(var(--primary)))',
+                            boxShadow: pkg.id === 'home-package'
+                              ? '0 0 20px rgb(6, 182, 212, 0.6)'
+                              : '0 0 20px hsl(var(--primary) / 0.6)'
                           }}
                         >
                           <Sparkles className="w-3 h-3" />
-                          הכי משתלם
+                          {pkg.id === 'home-package' ? 'חבילת הדגל' : 'הכי משתלם'}
                         </div>
                       )}
 
