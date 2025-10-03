@@ -188,7 +188,7 @@ export function PurchaseOverlay({ open, onClose }: PurchaseOverlayProps) {
                           ? 'border-primary shadow-lg shadow-primary/50' 
                           : 'border-primary/30 hover:border-primary/60'
                         }
-                        ${pkg.popular ? 'ring-1 ring-primary ring-offset-1 ring-offset-slate-950' : ''}
+                        ${pkg.popular ? 'ring-2 ring-primary ring-offset-2 ring-offset-slate-950' : ''}
                         backdrop-blur-sm
                         animate-fade-in
                       `}
@@ -196,14 +196,26 @@ export function PurchaseOverlay({ open, onClose }: PurchaseOverlayProps) {
                         animationDelay: `${index * 50}ms`,
                         background: selectedPackageId === pkg.id
                           ? 'linear-gradient(135deg, hsl(var(--primary) / 0.1) 0%, hsl(var(--background)) 100%)'
-                          : 'linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--primary) / 0.05) 100%)'
+                          : 'linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--primary) / 0.05) 100%)',
+                        filter: pkg.popular 
+                          ? 'drop-shadow(0 0 20px hsl(var(--primary) / 0.5))' 
+                          : 'drop-shadow(0 0 15px hsl(var(--primary) / 0.2))',
+                        boxShadow: selectedPackageId === pkg.id 
+                          ? '0 0 30px hsl(var(--primary) / 0.4), 0 0 60px hsl(var(--primary) / 0.2)' 
+                          : undefined
                       }}
                       onClick={() => handleSelectPackage(pkg.id)}
                       data-testid={`package-card-${pkg.id}`}
                     >
                       {/* Popular Badge */}
                       {pkg.popular && (
-                        <div className="absolute -top-2 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-2 py-0.5 rounded-full text-xs font-semibold flex items-center gap-1 shadow-lg">
+                        <div 
+                          className="absolute -top-2 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-2 py-0.5 rounded-full text-xs font-semibold flex items-center gap-1 shadow-lg animate-pulse"
+                          style={{
+                            filter: 'drop-shadow(0 0 10px hsl(var(--primary))) drop-shadow(0 0 20px hsl(var(--primary)))',
+                            boxShadow: '0 0 20px hsl(var(--primary) / 0.6)'
+                          }}
+                        >
                           <Sparkles className="w-3 h-3" />
                           פופולרי
                         </div>
@@ -216,7 +228,13 @@ export function PurchaseOverlay({ open, onClose }: PurchaseOverlayProps) {
 
                       {/* Sessions Count */}
                       <div className="text-center mb-2">
-                        <span className="text-2xl font-bold text-primary">
+                        <span 
+                          className="text-2xl font-bold text-primary"
+                          style={{
+                            filter: 'drop-shadow(0 0 8px hsl(var(--primary) / 0.5))',
+                            textShadow: '0 0 10px hsl(var(--primary) / 0.5)'
+                          }}
+                        >
                           {pkg.sessions}
                         </span>
                         <span className="text-xs text-muted-foreground mr-1">
@@ -235,7 +253,12 @@ export function PurchaseOverlay({ open, onClose }: PurchaseOverlayProps) {
                             <div className="h-4"></div>
                           )}
                         </div>
-                        <div className="text-xl font-bold text-foreground">
+                        <div 
+                          className="text-xl font-bold text-foreground"
+                          style={{
+                            filter: 'drop-shadow(0 0 6px hsl(var(--primary) / 0.3))'
+                          }}
+                        >
                           ₪{pkg.price}
                         </div>
                         <div className="h-4">
