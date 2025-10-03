@@ -226,7 +226,7 @@ export function PurchaseOverlay({ open, onClose }: PurchaseOverlayProps) {
                       onClick={() => handleSelectPackage(pkg.id)}
                       data-testid={`package-card-${pkg.id}`}
                     >
-                      {/* Popular Badge */}
+                      {/* Best Deal Badge */}
                       {pkg.popular && (
                         <div 
                           className="absolute -top-2 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-2 py-0.5 rounded-full text-xs font-semibold flex items-center gap-1 shadow-lg animate-pulse"
@@ -236,7 +236,7 @@ export function PurchaseOverlay({ open, onClose }: PurchaseOverlayProps) {
                           }}
                         >
                           <Sparkles className="w-3 h-3" />
-                          פופולרי
+                          הכי משתלם
                         </div>
                       )}
 

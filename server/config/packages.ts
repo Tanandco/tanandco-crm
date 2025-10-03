@@ -41,8 +41,8 @@ export const packagesCatalog: Record<string, Package> = {
   },
   "home-package": {
     id: "home-package",
-    nameHe: "כרטיסיית הבית",
-    nameEn: "Home Package",
+    nameHe: "חבילה בול",
+    nameEn: "Bull's Eye Package",
     type: "sun-beds",
     sessions: 13,
     price: 300,
