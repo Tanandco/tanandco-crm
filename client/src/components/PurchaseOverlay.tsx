@@ -348,7 +348,6 @@ export function PurchaseOverlay({ open, onClose }: PurchaseOverlayProps) {
                           ? 'border-primary shadow-lg shadow-primary/50' 
                           : 'border-primary/30 hover:border-primary/60'
                         }
-                        ${pkg.popular ? 'ring-2 ring-primary ring-offset-2 ring-offset-slate-950' : ''}
                         backdrop-blur-sm
                         animate-fade-in
                       `}
