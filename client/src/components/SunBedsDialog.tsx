@@ -7,6 +7,7 @@ import AlinChatBox from "@/components/AlinChatBox";
 import { NewClientDialog } from "@/components/NewClientDialog";
 import { PurchaseOverlay } from "@/components/PurchaseOverlay";
 import TanningProductCarousel from "@/components/TanningProductCarousel";
+import CustomerSearchDialog from "@/components/CustomerSearchDialog";
 
 interface SunBedsDialogProps {
   open: boolean;
@@ -19,6 +20,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
   const [showNewClientDialog, setShowNewClientDialog] = useState(false);
   const [showProductCarousel, setShowProductCarousel] = useState(false);
   const [showFaceRecognitionDialog, setShowFaceRecognitionDialog] = useState(false);
+  const [showCustomerSearch, setShowCustomerSearch] = useState(false);
 
   if (!open) return null;
 
@@ -36,7 +38,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
       title: "חיפוש משתזף קיים",
       isFunction: false,
       onClick: () => {
-        // Search existing customer
+        setShowCustomerSearch(true);
       }
     },
     {
@@ -341,6 +343,17 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
           </div>
         </div>
       )}
+
+      {/* Customer Search Dialog */}
+      <CustomerSearchDialog
+        open={showCustomerSearch}
+        onOpenChange={setShowCustomerSearch}
+        onCustomerSelect={(customer) => {
+          console.log('Selected customer:', customer);
+          setShowCustomerSearch(false);
+          // Could navigate to customer management or show details
+        }}
+      />
     </div>
   );
 }
