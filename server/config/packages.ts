@@ -47,7 +47,7 @@ export const packagesCatalog: Record<string, Package> = {
     price: 300,
     currency: "ILS",
     cardcomItemCode: "HOME",
-    benefits: ['10 כניסות + 3 במתנה', '₪23 לכניסה + ברונזר', 'כרטיסיה אישית - לא ניתן לשתף'],
+    benefits: ['10 כניסות + 3 במתנה', '₪23 לכניסה', 'כרטיסיה אישית - לא ניתן לשתף'],
     popular: true
   },
   "small-touch": {
