@@ -26,7 +26,7 @@ export default function Logo({ className = "", showGlow = true, showUnderline = 
           className={`${heightClass} object-contain`}
           style={{
             filter: showGlow 
-              ? 'brightness(1.3) contrast(1.2) saturate(1.5) drop-shadow(0 0 40px rgba(236, 72, 153, 0.9)) drop-shadow(0 0 80px rgba(147, 51, 234, 0.6)) drop-shadow(0 0 20px rgba(255, 105, 180, 1))' 
+              ? 'brightness(1.3) contrast(1.2) saturate(1.5) drop-shadow(0 0 40px rgba(236, 72, 153, 0.4)) drop-shadow(0 0 80px rgba(147, 51, 234, 0.4)) drop-shadow(0 0 20px rgba(255, 105, 180, 0.5))' 
               : 'brightness(1.3) contrast(1.2) saturate(1.5)'
           }}
           data-testid="logo-image"
