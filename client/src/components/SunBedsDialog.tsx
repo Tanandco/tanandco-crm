@@ -57,7 +57,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
     },
     {
       icon: CreditCard,
-      title: "רכישת כרטיסיה",
+      title: "רכישת חבילה",
       isFunction: false,
       testId: "button-purchase-overlay",
       onClick: () => {

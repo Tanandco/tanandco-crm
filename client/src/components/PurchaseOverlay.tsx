@@ -146,7 +146,7 @@ export function PurchaseOverlay({ open, onClose }: PurchaseOverlayProps) {
                 className="w-5 h-5 text-primary" 
                 style={{ filter: 'drop-shadow(0 0 10px hsl(var(--primary)))' }}
               />
-              רכישת כרטיסיה
+              רכישת חבילה
             </h2>
             <Button
               variant="ghost"
