@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useLocation } from 'wouter';
-import { ArrowLeft, UserPlus, CreditCard, X, Sparkles, Search, ScanFace, Droplets, Lightbulb } from 'lucide-react';
+import { ArrowLeft, UserPlus, X, Sparkles, Lightbulb } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import AlinChatBox from "@/components/AlinChatBox";
@@ -8,6 +8,10 @@ import { NewClientDialog } from "@/components/NewClientDialog";
 import { PurchaseOverlay } from "@/components/PurchaseOverlay";
 import TanningProductCarousel from "@/components/TanningProductCarousel";
 import CustomerSearchDialog from "@/components/CustomerSearchDialog";
+import searchIcon from '@assets/3_1759474572534.png';
+import bronzerIcon from '@assets/4_1759474624696.png';
+import signup247Icon from '@assets/1_1759474644978.png';
+import packageIcon from '@assets/2_1759474652165.png';
 
 interface SunBedsDialogProps {
   open: boolean;
@@ -27,6 +31,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
   const tanningOptions = [
     {
       icon: UserPlus,
+      iconType: 'lucide' as const,
       title: "לקוח חדש - הרשמה",
       isFunction: false,
       onClick: () => {
@@ -34,7 +39,8 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
       }
     },
     {
-      icon: Search,
+      icon: searchIcon,
+      iconType: 'image' as const,
       title: "חיפוש משתזף קיים",
       isFunction: false,
       onClick: () => {
@@ -42,7 +48,8 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
       }
     },
     {
-      icon: ScanFace,
+      icon: signup247Icon,
+      iconType: 'image' as const,
       title: "הרשמה לשירותי 24/7",
       isFunction: false,
       onClick: () => {
@@ -50,7 +57,8 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
       }
     },
     {
-      icon: Droplets,
+      icon: bronzerIcon,
+      iconType: 'image' as const,
       title: "רכישת ברונזרים",
       isFunction: false,
       onClick: () => {
@@ -58,7 +66,8 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
       }
     },
     {
-      icon: CreditCard,
+      icon: packageIcon,
+      iconType: 'image' as const,
       title: "רכישת חבילה",
       isFunction: false,
       testId: "button-purchase-overlay",
@@ -68,6 +77,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
     },
     {
       icon: Sparkles,
+      iconType: 'lucide' as const,
       title: "AI TAN",
       isFunction: false,
       onClick: () => {
@@ -204,7 +214,13 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                       }}
                       className="transition-all duration-300"
                     >
-                      {option.icon && !option.isFunction && (
+                      {option.iconType === 'image' ? (
+                        <img 
+                          src={option.icon as string}
+                          alt={option.title}
+                          className="w-20 h-20 object-contain transition-all duration-300 group-hover:scale-110"
+                        />
+                      ) : option.icon && !option.isFunction && (
                         <option.icon 
                           className="w-16 h-16 text-primary group-hover:text-white transition-all duration-300 group-hover:opacity-100"
                           strokeWidth={1.5}
@@ -301,7 +317,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
             
             <div className="text-center space-y-6">
               <div className="w-20 h-20 mx-auto bg-primary/20 rounded-full flex items-center justify-center">
-                <ScanFace className="w-10 h-10 text-primary" />
+                <img src={signup247Icon} alt="24/7" className="w-14 h-14 object-contain" />
               </div>
               
               <div>
