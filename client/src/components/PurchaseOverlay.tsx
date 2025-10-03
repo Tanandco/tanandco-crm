@@ -154,14 +154,21 @@ export function PurchaseOverlay({ open, onClose }: PurchaseOverlayProps) {
 
         {/* Header */}
         <div 
-          className="bg-gradient-to-r from-primary/30 via-primary/20 to-primary/30 backdrop-blur-lg border-b border-primary/40 px-6 py-2 shadow-lg"
-          style={{ filter: 'drop-shadow(0 2px 8px hsl(var(--primary) / 0.3))' }}
+          className="backdrop-blur-lg border-b px-6 py-2"
+          style={{ 
+            background: 'rgba(0, 255, 255, 0.3)',
+            borderColor: 'rgba(0, 255, 255, 0.6)',
+            boxShadow: '0 0 20px rgba(0, 255, 255, 0.5), 0 0 40px rgba(0, 255, 255, 0.3), inset 0 0 20px rgba(0, 255, 255, 0.2)'
+          }}
         >
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-semibold text-white flex items-center gap-2 font-hebrew">
               <CreditCard 
-                className="w-5 h-5 text-primary" 
-                style={{ filter: 'drop-shadow(0 0 10px hsl(var(--primary)))' }}
+                className="w-5 h-5"
+                style={{ 
+                  color: '#00FFFF',
+                  filter: 'drop-shadow(0 0 10px rgba(0, 255, 255, 0.8))'
+                }}
               />
               רכישת חבילה
             </h2>
