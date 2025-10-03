@@ -5,6 +5,9 @@ import Logo from './Logo';
 import ServiceCard from './ServiceCard';
 import StatusDisplay from './StatusDisplay';
 import SunBedsDialog from './SunBedsDialog';
+import SprayTanDialog from './SprayTanDialog';
+import HairSalonDialog from './HairSalonDialog';
+import CosmeticsDialog from './CosmeticsDialog';
 import Alin from './Alin';
 import tanningBedIcon from '@assets/עיצוב ללא שם (30)_1759413689481.png';
 import sprayTanIcon from '@assets/freepik__spray-tan-variation-b-modern-flatbadge-3d-spray-gu__47717_1759413070782.png';
@@ -24,6 +27,9 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
   const [currentCustomer, setCurrentCustomer] = useState<any>(null);
   const [currentPath, setCurrentPath] = useState('/');
   const [sunBedsDialogOpen, setSunBedsDialogOpen] = useState(false);
+  const [sprayTanDialogOpen, setSprayTanDialogOpen] = useState(false);
+  const [hairSalonDialogOpen, setHairSalonDialogOpen] = useState(false);
+  const [cosmeticsDialogOpen, setCosmeticsDialogOpen] = useState(false);
 
   const services = [
     { 
@@ -68,6 +74,15 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
     } else if (serviceId === 'sun-beds') {
       // Open sun beds dialog
       setSunBedsDialogOpen(true);
+    } else if (serviceId === 'spray-tan') {
+      // Open spray tan dialog
+      setSprayTanDialogOpen(true);
+    } else if (serviceId === 'hair-salon') {
+      // Open hair salon dialog
+      setHairSalonDialogOpen(true);
+    } else if (serviceId === 'cosmetics') {
+      // Open cosmetics dialog
+      setCosmeticsDialogOpen(true);
     } else {
       onServiceSelect?.(serviceId);
     }
@@ -317,6 +332,24 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
       <SunBedsDialog 
         open={sunBedsDialogOpen} 
         onOpenChange={setSunBedsDialogOpen}
+      />
+
+      {/* Spray Tan Dialog */}
+      <SprayTanDialog 
+        open={sprayTanDialogOpen} 
+        onOpenChange={setSprayTanDialogOpen}
+      />
+
+      {/* Hair Salon Dialog */}
+      <HairSalonDialog 
+        open={hairSalonDialogOpen} 
+        onOpenChange={setHairSalonDialogOpen}
+      />
+
+      {/* Cosmetics Dialog */}
+      <CosmeticsDialog 
+        open={cosmeticsDialogOpen} 
+        onOpenChange={setCosmeticsDialogOpen}
       />
     </div>
   );
