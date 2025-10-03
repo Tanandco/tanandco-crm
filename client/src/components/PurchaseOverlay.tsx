@@ -590,6 +590,7 @@ export function PurchaseOverlay({ open, onClose }: PurchaseOverlayProps) {
                         ? 'border-purple-500 shadow-lg shadow-purple-500/50' 
                         : 'border-purple-500/30 hover:border-purple-500/60'
                       }
+                      ring-2 ring-purple-500 ring-offset-2 ring-offset-slate-950
                       backdrop-blur-sm
                       animate-fade-in
                     `}
