@@ -1040,35 +1040,56 @@ export function registerRoutes(app: express.Application) {
   // Create payment session
   app.post('/api/payments/cardcom/session', async (req, res) => {
     try {
-      const { customerId, packageId } = req.body;
+      const { customerId, packageId, customerName, customerPhone, customerEmail, successUrl, errorUrl, indicatorUrl } = req.body;
       
-      if (!customerId || !packageId) {
+      if (!packageId) {
         return res.status(400).json({
           success: false,
-          error: 'Missing required fields: customerId, packageId'
+          error: 'Missing required field: packageId'
         });
       }
       
-      const customer = await storage.getCustomer(customerId);
-      if (!customer) {
-        return res.status(404).json({
-          success: false,
-          error: 'Customer not found'
-        });
+      // Determine customer details
+      let finalCustomerId = customerId;
+      let finalCustomerName = customerName;
+      let finalCustomerPhone = customerPhone;
+      let finalCustomerEmail = customerEmail;
+      
+      // If customerId is provided and not 'guest', fetch from database
+      if (customerId && customerId !== 'guest') {
+        const customer = await storage.getCustomer(customerId);
+        if (!customer) {
+          return res.status(404).json({
+            success: false,
+            error: 'Customer not found'
+          });
+        }
+        finalCustomerName = customer.fullName;
+        finalCustomerPhone = customer.phone;
+        finalCustomerEmail = customer.email || undefined;
+      } else {
+        // For guest or missing customerId, require name and phone in request
+        if (!customerName || !customerPhone) {
+          return res.status(400).json({
+            success: false,
+            error: 'Missing required fields for guest: customerName, customerPhone'
+          });
+        }
+        finalCustomerId = 'guest';
       }
       
       const baseUrl = process.env.REPLIT_DOMAINS?.split(',')[0] || 'localhost:5000';
       const protocol = baseUrl.includes('localhost') ? 'http' : 'https';
       
       const session = await cardcomService.createPaymentSession({
-        customerId,
-        customerName: customer.fullName,
-        customerPhone: customer.phone,
-        customerEmail: customer.email || undefined,
+        customerId: finalCustomerId,
+        customerName: finalCustomerName,
+        customerPhone: finalCustomerPhone,
+        customerEmail: finalCustomerEmail,
         packageId,
-        successUrl: `${protocol}://${baseUrl}/payment/success?customerId=${customerId}&packageId=${packageId}`,
-        errorUrl: `${protocol}://${baseUrl}/payment/error?customerId=${customerId}`,
-        indicatorUrl: `${protocol}://${baseUrl}/api/webhooks/cardcom/payment`,
+        successUrl: successUrl || `${protocol}://${baseUrl}/payment/success?customerId=${finalCustomerId}&packageId=${packageId}`,
+        errorUrl: errorUrl || `${protocol}://${baseUrl}/payment/error?customerId=${finalCustomerId}`,
+        indicatorUrl: indicatorUrl || `${protocol}://${baseUrl}/api/webhooks/cardcom/payment`,
       });
       
       if (!session) {

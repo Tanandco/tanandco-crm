@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import AlinChatBox from "@/components/AlinChatBox";
 import { NewClientDialog } from "@/components/NewClientDialog";
-import { AdvancedPurchaseOverlay } from "@/components/AdvancedPurchaseOverlay";
+import { PurchaseOverlay } from "@/components/PurchaseOverlay";
 import TanningProductCarousel from "@/components/TanningProductCarousel";
 
 interface SunBedsDialogProps {
@@ -249,9 +249,9 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
       {/* New Client Dialog */}
       <NewClientDialog open={showNewClientDialog} onOpenChange={setShowNewClientDialog} />
 
-      {/* Advanced Purchase Overlay */}
+      {/* Purchase Overlay */}
       {showPricingOverlay && (
-        <AdvancedPurchaseOverlay 
+        <PurchaseOverlay 
           open={showPricingOverlay} 
           onClose={() => setShowPricingOverlay(false)} 
         />
