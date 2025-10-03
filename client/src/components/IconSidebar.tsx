@@ -81,12 +81,12 @@ export default function IconSidebar() {
     <div 
       className="fixed left-0 top-0 h-screen w-16 backdrop-blur-lg border-r z-50 flex flex-col items-center py-6 gap-4"
       style={{
-        background: 'rgba(96, 165, 250, 0.3)',
-        borderColor: 'rgba(96, 165, 250, 0.6)',
+        background: 'rgba(69, 114, 182, 0.3)',
+        borderColor: 'rgba(69, 114, 182, 0.6)',
         boxShadow: `
-          0 0 20px rgba(96, 165, 250, 0.4),
-          0 0 40px rgba(96, 165, 250, 0.3),
-          0 0 60px rgba(96, 165, 250, 0.2)
+          0 0 20px rgba(69, 114, 182, 0.4),
+          0 0 40px rgba(69, 114, 182, 0.3),
+          0 0 60px rgba(69, 114, 182, 0.2)
         `
       }}
     >
