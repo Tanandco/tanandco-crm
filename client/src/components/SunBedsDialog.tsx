@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useLocation } from 'wouter';
-import { ArrowLeft, UserPlus, X, Sparkles, Lightbulb } from 'lucide-react';
+import { ArrowLeft, X, Sparkles, Lightbulb } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import AlinChatBox from "@/components/AlinChatBox";
@@ -12,6 +12,7 @@ import searchIcon from '@assets/3_1759474572534.png';
 import bronzerIcon from '@assets/4_1759474624696.png';
 import signup247Icon from '@assets/1_1759474644978.png';
 import packageIcon from '@assets/2_1759474652165.png';
+import newCustomerIcon from '@assets/עיצוב ללא שם (33)_1759475456490.png';
 
 interface SunBedsDialogProps {
   open: boolean;
@@ -30,8 +31,8 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
 
   const tanningOptions = [
     {
-      icon: UserPlus,
-      iconType: 'lucide' as const,
+      icon: newCustomerIcon,
+      iconType: 'image' as const,
       title: "לקוח חדש - הרשמה",
       isFunction: false,
       onClick: () => {
