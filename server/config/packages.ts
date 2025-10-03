@@ -25,7 +25,7 @@ export const packagesCatalog: Record<string, Package> = {
     price: 70,
     currency: "ILS",
     cardcomItemCode: "SINGLE",
-    benefits: ['ללא התחייבות', 'ניתנת לשיתוף', 'תוקף 12 חודשים']
+    benefits: ['ללא התחייבות']
   },
   "8-entries": {
     id: "8-entries",
@@ -36,7 +36,7 @@ export const packagesCatalog: Record<string, Package> = {
     price: 220,
     currency: "ILS",
     cardcomItemCode: "CARD8",
-    benefits: ['8 כניסות', '₪27.5 לכניסה', 'אישית - לא ניתנת לשיתוף', 'תוקף 12 חודשים']
+    benefits: ['8 כניסות', '₪27.5 לכניסה', 'כרטיסיה אישית - לא ניתן לשתף']
   },
   "home-package": {
     id: "home-package",
@@ -47,7 +47,7 @@ export const packagesCatalog: Record<string, Package> = {
     price: 300,
     currency: "ILS",
     cardcomItemCode: "HOME",
-    benefits: ['10 כניסות + 3 במתנה', '₪23 לכניסה + ברונזר', 'אישית - לא ניתנת לשיתוף', 'תוקף 12 חודשים'],
+    benefits: ['10 כניסות + 3 במתנה', '₪23 לכניסה + ברונזר', 'כרטיסיה אישית - לא ניתן לשתף'],
     popular: true
   },
   "small-touch": {
@@ -59,7 +59,7 @@ export const packagesCatalog: Record<string, Package> = {
     price: 220,
     currency: "ILS",
     cardcomItemCode: "SMALL",
-    benefits: ['3 כניסות + ברונזר', 'ניתנת לשיתוף', 'תוקף 12 חודשים']
+    benefits: ['3 כניסות + ברונזר']
   },
   "beginners-package": {
     id: "beginners-package",
@@ -70,7 +70,7 @@ export const packagesCatalog: Record<string, Package> = {
     price: 360,
     currency: "ILS",
     cardcomItemCode: "BEGIN",
-    benefits: ['6 כניסות + ברונזר איכותי', 'ניתנת לשיתוף', 'תוקף 12 חודשים']
+    benefits: ['6 כניסות + ברונזר איכותי']
   },
   "most-profitable": {
     id: "most-profitable",
@@ -81,7 +81,7 @@ export const packagesCatalog: Record<string, Package> = {
     price: 400,
     currency: "ILS",
     cardcomItemCode: "BEST",
-    benefits: ['חבילת 10 כניסות', '10 כניסות + ברונזר איכותי', 'ניתנת לשיתוף', 'תוקף 12 חודשים']
+    benefits: ['חבילת 10 כניסות', '10 כניסות + ברונזר איכותי']
   },
 };
 
