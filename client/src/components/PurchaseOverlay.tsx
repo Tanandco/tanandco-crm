@@ -193,15 +193,15 @@ export function PurchaseOverlay({ open, onClose }: PurchaseOverlayProps) {
                     <div
                       key={pkg.id}
                       className={`
-                        relative p-3 cursor-pointer transition-all duration-300
-                        hover:scale-105 hover:shadow-2xl
+                        relative p-3 cursor-pointer transition-all duration-300 transform-gpu
+                        hover:scale-110 hover:shadow-2xl hover:-translate-y-1
                         border-2 rounded-lg
                         flex flex-col
                         h-[280px]
                         flex-1
                         ${selectedPackageId === pkg.id 
-                          ? 'border-primary shadow-lg shadow-primary/50' 
-                          : 'border-primary/30 hover:border-primary/60'
+                          ? 'border-primary shadow-lg shadow-primary/50 scale-105' 
+                          : 'border-primary/30 hover:border-primary'
                         }
                         ${pkg.popular ? 'ring-2 ring-primary ring-offset-2 ring-offset-slate-950' : ''}
                         backdrop-blur-sm
@@ -209,14 +209,14 @@ export function PurchaseOverlay({ open, onClose }: PurchaseOverlayProps) {
                       `}
                       style={{
                         background: selectedPackageId === pkg.id
-                          ? 'linear-gradient(135deg, hsl(var(--primary) / 0.1) 0%, hsl(var(--background)) 100%)'
-                          : 'linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--primary) / 0.05) 100%)',
+                          ? 'linear-gradient(135deg, hsl(var(--primary) / 0.2) 0%, hsl(var(--background) / 0.8) 100%)'
+                          : 'linear-gradient(135deg, hsl(var(--background) / 0.6) 0%, hsl(var(--primary) / 0.1) 100%)',
                         filter: pkg.popular 
-                          ? 'drop-shadow(0 0 20px hsl(var(--primary) / 0.5))' 
-                          : 'drop-shadow(0 0 15px hsl(var(--primary) / 0.2))',
+                          ? 'drop-shadow(0 0 30px hsl(var(--primary) / 0.8)) drop-shadow(0 0 50px hsl(var(--primary) / 0.4))' 
+                          : 'drop-shadow(0 0 20px hsl(var(--primary) / 0.3))',
                         boxShadow: selectedPackageId === pkg.id 
-                          ? '0 0 30px hsl(var(--primary) / 0.4), 0 0 60px hsl(var(--primary) / 0.2)' 
-                          : undefined
+                          ? '0 0 40px hsl(var(--primary) / 0.6), 0 0 80px hsl(var(--primary) / 0.3), inset 0 0 20px hsl(var(--primary) / 0.1)' 
+                          : '0 0 15px hsl(var(--primary) / 0.2)'
                       }}
                       onClick={() => handleSelectPackage(pkg.id)}
                       data-testid={`package-card-${pkg.id}`}
@@ -338,25 +338,25 @@ export function PurchaseOverlay({ open, onClose }: PurchaseOverlayProps) {
                     <div
                       key={pkg.id}
                       className={`
-                        relative p-3 cursor-pointer transition-all duration-300
-                        hover:scale-105 hover:shadow-2xl
+                        relative p-3 cursor-pointer transition-all duration-300 transform-gpu
+                        hover:scale-110 hover:shadow-2xl hover:-translate-y-1
                         border-2 rounded-lg
                         flex flex-col
                         h-[280px]
                         flex-1
                         ${selectedPackageId === pkg.id 
-                          ? 'border-primary shadow-lg shadow-primary/50' 
-                          : 'border-primary/30 hover:border-primary/60'
+                          ? 'border-primary shadow-lg shadow-primary/50 scale-105' 
+                          : 'border-primary/30 hover:border-primary'
                         }
                         backdrop-blur-sm
                         animate-fade-in
                       `}
                       style={{
                         background: selectedPackageId === pkg.id
-                          ? 'linear-gradient(135deg, hsl(var(--primary) / 0.1) 0%, hsl(var(--background)) 100%)'
-                          : 'linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--primary) / 0.05) 100%)',
+                          ? 'linear-gradient(135deg, hsl(var(--primary) / 0.2) 0%, hsl(var(--background) / 0.8) 100%)'
+                          : 'linear-gradient(135deg, hsl(var(--background) / 0.6) 0%, hsl(var(--primary) / 0.1) 100%)',
                         filter: pkg.popular 
-                          ? 'drop-shadow(0 0 20px hsl(var(--primary) / 0.5))' 
+                          ? 'drop-shadow(0 0 30px hsl(var(--primary) / 0.8)) drop-shadow(0 0 50px hsl(var(--primary) / 0.4))' 
                           : 'drop-shadow(0 0 15px hsl(var(--primary) / 0.2))',
                         boxShadow: selectedPackageId === pkg.id 
                           ? '0 0 30px hsl(var(--primary) / 0.4), 0 0 60px hsl(var(--primary) / 0.2)' 
@@ -471,27 +471,27 @@ export function PurchaseOverlay({ open, onClose }: PurchaseOverlayProps) {
                     <div
                       key={pkg.id}
                       className={`
-                        relative p-3 cursor-pointer transition-all duration-300
-                        hover:scale-105 hover:shadow-2xl
+                        relative p-3 cursor-pointer transition-all duration-300 transform-gpu
+                        hover:scale-110 hover:shadow-2xl hover:-translate-y-1
                         border-2 rounded-lg
                         flex flex-col
                         h-[280px]
                         flex-1
                         ${selectedPackageId === pkg.id 
-                          ? 'border-primary shadow-lg shadow-primary/50' 
-                          : 'border-primary/30 hover:border-primary/60'
+                          ? 'border-primary shadow-lg shadow-primary/50 scale-105' 
+                          : 'border-primary/30 hover:border-primary'
                         }
                         backdrop-blur-sm
                         animate-fade-in
                       `}
                       style={{
                         background: selectedPackageId === pkg.id
-                          ? 'linear-gradient(135deg, hsl(var(--primary) / 0.1) 0%, hsl(var(--background)) 100%)'
-                          : 'linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--primary) / 0.05) 100%)',
-                        filter: 'drop-shadow(0 0 15px hsl(var(--primary) / 0.2))',
+                          ? 'linear-gradient(135deg, hsl(var(--primary) / 0.2) 0%, hsl(var(--background) / 0.8) 100%)'
+                          : 'linear-gradient(135deg, hsl(var(--background) / 0.6) 0%, hsl(var(--primary) / 0.1) 100%)',
+                        filter: 'drop-shadow(0 0 20px hsl(var(--primary) / 0.3))',
                         boxShadow: selectedPackageId === pkg.id 
-                          ? '0 0 30px hsl(var(--primary) / 0.4), 0 0 60px hsl(var(--primary) / 0.2)' 
-                          : undefined
+                          ? '0 0 40px hsl(var(--primary) / 0.6), 0 0 80px hsl(var(--primary) / 0.3), inset 0 0 20px hsl(var(--primary) / 0.1)' 
+                          : '0 0 15px hsl(var(--primary) / 0.2)'
                       }}
                       onClick={() => handleSelectPackage(pkg.id)}
                       data-testid={`package-card-${pkg.id}`}
@@ -580,15 +580,15 @@ export function PurchaseOverlay({ open, onClose }: PurchaseOverlayProps) {
                   {/* Custom "Build Your Tan" Package */}
                   <div
                     className={`
-                      relative p-3 cursor-pointer transition-all duration-300
-                      hover:scale-105 hover:shadow-2xl
+                      relative p-3 cursor-pointer transition-all duration-300 transform-gpu
+                      hover:scale-110 hover:shadow-2xl hover:-translate-y-1
                       border-2 rounded-lg
                       flex flex-col
                       h-[280px]
                       flex-1
                       ${selectedPackageId === 'custom-tan' 
-                        ? 'border-purple-500 shadow-lg shadow-purple-500/50' 
-                        : 'border-purple-500/30 hover:border-purple-500/60'
+                        ? 'border-purple-500 shadow-lg shadow-purple-500/50 scale-105' 
+                        : 'border-purple-500/30 hover:border-purple-500'
                       }
                       ring-2 ring-purple-500 ring-offset-2 ring-offset-slate-950
                       backdrop-blur-sm
@@ -596,12 +596,12 @@ export function PurchaseOverlay({ open, onClose }: PurchaseOverlayProps) {
                     `}
                     style={{
                       background: selectedPackageId === 'custom-tan'
-                        ? 'linear-gradient(135deg, rgba(147, 51, 234, 0.1) 0%, hsl(var(--background)) 100%)'
-                        : 'linear-gradient(135deg, hsl(var(--background)) 0%, rgba(147, 51, 234, 0.05) 100%)',
-                      filter: 'drop-shadow(0 0 15px rgba(147, 51, 234, 0.2))',
+                        ? 'linear-gradient(135deg, rgba(147, 51, 234, 0.2) 0%, rgba(0, 0, 0, 0.8) 100%)'
+                        : 'linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(147, 51, 234, 0.1) 100%)',
+                      filter: 'drop-shadow(0 0 20px rgba(147, 51, 234, 0.3))',
                       boxShadow: selectedPackageId === 'custom-tan' 
-                        ? '0 0 30px rgba(147, 51, 234, 0.4), 0 0 60px rgba(147, 51, 234, 0.2)' 
-                        : undefined
+                        ? '0 0 40px rgba(147, 51, 234, 0.6), 0 0 80px rgba(147, 51, 234, 0.3), inset 0 0 20px rgba(147, 51, 234, 0.1)' 
+                        : '0 0 15px rgba(147, 51, 234, 0.2)'
                     }}
                     onClick={() => handleSelectPackage('custom-tan')}
                     data-testid="package-card-custom-tan"
