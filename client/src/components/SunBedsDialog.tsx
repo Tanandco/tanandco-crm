@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useLocation } from 'wouter';
-import { ArrowLeft, X, Sparkles, Lightbulb } from 'lucide-react';
+import { ArrowLeft, X, Lightbulb } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import AlinChatBox from "@/components/AlinChatBox";
+import Alin from "@/components/Alin";
 import { NewClientDialog } from "@/components/NewClientDialog";
 import { PurchaseOverlay } from "@/components/PurchaseOverlay";
 import TanningProductCarousel from "@/components/TanningProductCarousel";
@@ -77,8 +78,8 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
       }
     },
     {
-      icon: Sparkles,
-      iconType: 'lucide' as const,
+      icon: Alin,
+      iconType: 'component' as const,
       title: "AI TAN",
       isFunction: false,
       onClick: () => {
@@ -203,6 +204,10 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                       className="w-24 h-24 object-contain"
                       style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }}
                     />
+                  ) : option.iconType === 'component' ? (
+                    <div className="-mt-4">
+                      <option.icon size={120} />
+                    </div>
                   ) : option.icon && !option.isFunction && (
                     <option.icon 
                       className="w-24 h-24 text-pink-400"
