@@ -35,7 +35,7 @@ export const packagesCatalog: Record<string, Package> = {
     price: 220,
     currency: "ILS",
     cardcomItemCode: "CARD8",
-    benefits: ['8 כניסות', '₪27.5 לכניסה', 'כרטיסיה אישית - לא ניתן לשתף']
+    benefits: ['8 כניסות', '₪27.5 לכניסה', 'חבילה אישית - לא ניתן לשיתוף או העברה']
   },
   "home-package": {
     id: "home-package",
@@ -46,7 +46,7 @@ export const packagesCatalog: Record<string, Package> = {
     price: 300,
     currency: "ILS",
     cardcomItemCode: "HOME",
-    benefits: ['10 כניסות + 3 במתנה', '₪23 לכניסה', 'כרטיסיה אישית - לא ניתן לשתף'],
+    benefits: ['10 כניסות + 3 במתנה', '₪23 לכניסה', 'חבילה אישית - לא ניתן לשיתוף או העברה'],
     popular: true
   },
   "small-touch": {
