@@ -219,7 +219,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                         <img 
                           src={option.icon as string}
                           alt={option.title}
-                          className="w-20 h-20 object-contain transition-all duration-300 group-hover:scale-110"
+                          className="w-24 h-24 object-contain transition-all duration-300 group-hover:scale-110"
                         />
                       ) : option.icon && !option.isFunction && (
                         <option.icon 
