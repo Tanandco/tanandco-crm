@@ -182,6 +182,8 @@ export function PurchaseOverlay({ open, onClose }: PurchaseOverlayProps) {
                         relative p-3 cursor-pointer transition-all duration-300
                         hover:scale-105 hover:shadow-2xl
                         border-2 rounded-lg
+                        flex flex-col
+                        h-[280px]
                         ${selectedPackageId === pkg.id 
                           ? 'border-primary shadow-lg shadow-primary/50' 
                           : 'border-primary/30 hover:border-primary/60'
@@ -207,8 +209,8 @@ export function PurchaseOverlay({ open, onClose }: PurchaseOverlayProps) {
                         </div>
                       )}
 
-                      {/* Package Name */}
-                      <h3 className="text-sm font-bold text-foreground mb-1 text-center font-hebrew leading-tight">
+                      {/* Package Name - Fixed Height */}
+                      <h3 className="text-sm font-bold text-foreground mb-1 text-center font-hebrew leading-tight h-8 flex items-center justify-center">
                         {pkg.nameHe}
                       </h3>
 
@@ -222,36 +224,48 @@ export function PurchaseOverlay({ open, onClose }: PurchaseOverlayProps) {
                         </span>
                       </div>
 
-                      {/* Price */}
-                      <div className="text-center mb-2">
-                        {pkg.originalPrice && (
-                          <div className="text-xs text-muted-foreground line-through">
-                            ₪{pkg.originalPrice}
-                          </div>
-                        )}
+                      {/* Price - Fixed Height */}
+                      <div className="text-center mb-2 h-16 flex flex-col justify-center">
+                        <div className="h-4">
+                          {pkg.originalPrice ? (
+                            <div className="text-xs text-muted-foreground line-through">
+                              ₪{pkg.originalPrice}
+                            </div>
+                          ) : (
+                            <div className="h-4"></div>
+                          )}
+                        </div>
                         <div className="text-xl font-bold text-foreground">
                           ₪{pkg.price}
                         </div>
-                        {pkg.sessions > 1 && (
-                          <div className="text-xs text-muted-foreground">
-                            (₪{(pkg.price / pkg.sessions).toFixed(1)} לכניסה)
+                        <div className="h-4">
+                          {pkg.sessions > 1 ? (
+                            <div className="text-xs text-muted-foreground">
+                              (₪{(pkg.price / pkg.sessions).toFixed(1)} לכניסה)
+                            </div>
+                          ) : (
+                            <div className="h-4"></div>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Benefits - Fixed Height */}
+                      <div className="flex-1 mb-2 h-12 overflow-hidden">
+                        {pkg.benefits && pkg.benefits.length > 0 ? (
+                          <div className="space-y-1">
+                            {pkg.benefits.slice(0, 2).map((benefit, i) => (
+                              <div key={i} className="flex items-start gap-1">
+                                <Check className="w-3 h-3 text-primary flex-shrink-0 mt-0.5" />
+                                <span className="text-xs text-muted-foreground font-hebrew leading-tight">{benefit}</span>
+                              </div>
+                            ))}
                           </div>
+                        ) : (
+                          <div className="h-12"></div>
                         )}
                       </div>
 
-                      {/* Benefits */}
-                      {pkg.benefits && pkg.benefits.length > 0 && (
-                        <div className="space-y-1 mb-2">
-                          {pkg.benefits.slice(0, 2).map((benefit, i) => (
-                            <div key={i} className="flex items-start gap-1">
-                              <Check className="w-3 h-3 text-primary flex-shrink-0 mt-0.5" />
-                              <span className="text-xs text-muted-foreground font-hebrew leading-tight">{benefit}</span>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-
-                      {/* Select Button */}
+                      {/* Select Button - Always at bottom */}
                       <Button
                         size="sm"
                         onClick={(e) => {
@@ -259,7 +273,7 @@ export function PurchaseOverlay({ open, onClose }: PurchaseOverlayProps) {
                           handleSelectPackage(pkg.id);
                         }}
                         className={`
-                          w-full h-7 text-xs transition-all duration-300
+                          w-full h-7 text-xs transition-all duration-300 mt-auto
                           ${selectedPackageId === pkg.id 
                             ? 'bg-primary text-primary-foreground' 
                             : 'bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground'
