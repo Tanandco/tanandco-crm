@@ -193,6 +193,7 @@ export function PurchaseOverlay({ open, onClose }: PurchaseOverlayProps) {
                     <div
                       key={pkg.id}
                       className={`
+                        group
                         relative p-3 cursor-pointer transition-all duration-300 transform-gpu
                         hover:scale-110 hover:shadow-2xl hover:-translate-y-1
                         border-2 rounded-lg
@@ -275,7 +276,7 @@ export function PurchaseOverlay({ open, onClose }: PurchaseOverlayProps) {
                           )}
                         </div>
                         <div 
-                          className="text-xl font-bold text-foreground"
+                          className="text-xl font-bold text-foreground transition-all duration-300 group-hover:scale-125 group-hover:text-primary"
                           style={{
                             filter: 'drop-shadow(0 0 6px hsl(var(--primary) / 0.3))'
                           }}
@@ -338,6 +339,7 @@ export function PurchaseOverlay({ open, onClose }: PurchaseOverlayProps) {
                     <div
                       key={pkg.id}
                       className={`
+                        group
                         relative p-3 cursor-pointer transition-all duration-300 transform-gpu
                         hover:scale-110 hover:shadow-2xl hover:-translate-y-1
                         border-2 rounded-lg
@@ -412,7 +414,7 @@ export function PurchaseOverlay({ open, onClose }: PurchaseOverlayProps) {
                           )}
                         </div>
                         <div 
-                          className="text-xl font-bold text-foreground"
+                          className="text-xl font-bold text-foreground transition-all duration-300 group-hover:scale-125 group-hover:text-primary"
                           style={{
                             filter: 'drop-shadow(0 0 6px hsl(var(--primary) / 0.3))'
                           }}
@@ -471,6 +473,7 @@ export function PurchaseOverlay({ open, onClose }: PurchaseOverlayProps) {
                     <div
                       key={pkg.id}
                       className={`
+                        group
                         relative p-3 cursor-pointer transition-all duration-300 transform-gpu
                         hover:scale-110 hover:shadow-2xl hover:-translate-y-1
                         border-2 rounded-lg
@@ -531,7 +534,7 @@ export function PurchaseOverlay({ open, onClose }: PurchaseOverlayProps) {
                           )}
                         </div>
                         <div 
-                          className="text-xl font-bold text-foreground"
+                          className="text-xl font-bold text-foreground transition-all duration-300 group-hover:scale-125 group-hover:text-primary"
                           style={{
                             filter: 'drop-shadow(0 0 6px hsl(var(--primary) / 0.3))'
                           }}
@@ -580,6 +583,7 @@ export function PurchaseOverlay({ open, onClose }: PurchaseOverlayProps) {
                   {/* Custom "Build Your Tan" Package */}
                   <div
                     className={`
+                      group
                       relative p-3 cursor-pointer transition-all duration-300 transform-gpu
                       hover:scale-110 hover:shadow-2xl hover:-translate-y-1
                       border-2 rounded-lg
@@ -646,7 +650,7 @@ export function PurchaseOverlay({ open, onClose }: PurchaseOverlayProps) {
 
                     {/* Price */}
                     <div className="text-center mb-2">
-                      <div className="text-purple-400 text-lg font-bold mb-0.5">
+                      <div className="text-purple-400 text-lg font-bold mb-0.5 transition-all duration-300 group-hover:scale-125 group-hover:text-purple-300">
                         ₪{customTanSessions * 40}
                       </div>
                       <div className="text-gray-300 text-[10px]">
