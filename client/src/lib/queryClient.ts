@@ -3,7 +3,29 @@ import { QueryClient, QueryFunction } from "@tanstack/react-query";
 async function throwIfResNotOk(res: Response) {
   if (!res.ok) {
     const text = (await res.text()) || res.statusText;
-    throw new Error(`${res.status}: ${text}`);
+    
+    // Try to parse JSON error response
+    try {
+      const errorData = JSON.parse(text);
+      // Use the error field from the response (which may be in Hebrew)
+      const errorMessage = errorData.error || errorData.message || text;
+      throw new Error(errorMessage);
+    } catch (parseError) {
+      // If parsing fails and we already have the error object, try to extract the message
+      // This handles the case where the text is already the JSON object but parsing failed
+      if (text.includes('"error":')) {
+        try {
+          const match = text.match(/"error"\s*:\s*"([^"]*)"/);
+          if (match && match[1]) {
+            throw new Error(match[1]);
+          }
+        } catch (e) {
+          // Fall through to default
+        }
+      }
+      // If all parsing fails, use the raw text
+      throw new Error(text);
+    }
   }
 }
 

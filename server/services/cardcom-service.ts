@@ -139,8 +139,16 @@ class CardcomService {
       const url = responseParams.get("url");
 
       if (responseCode !== "0" || !url || !lowProfileCode) {
+        const description = responseParams.get("Description");
+        
+        // Check for specific error codes
+        if (responseCode === "650") {
+          console.error("[Cardcom] Permission error - Low Profile API not enabled:", result);
+          throw new Error("חשבון Cardcom לא מאושר להשתמש ב-Low Profile API. יש ליצור קשר עם Cardcom לשדרוג החשבון.");
+        }
+        
         console.error("[Cardcom] Failed to create session:", result);
-        return null;
+        throw new Error(description || "שגיאה ביצירת קישור תשלום");
       }
 
       console.log(`[Cardcom] Payment session created: ${lowProfileCode}`);
@@ -151,7 +159,7 @@ class CardcomService {
       };
     } catch (error) {
       console.error("[Cardcom] Error creating payment session:", error);
-      return null;
+      throw error; // Re-throw to propagate the Hebrew error message
     }
   }
 

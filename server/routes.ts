@@ -1106,9 +1106,13 @@ export function registerRoutes(app: express.Application) {
       });
     } catch (error: any) {
       console.error('[Cardcom] Create session failed:', error);
+      
+      // Return user-friendly Hebrew error message
+      const errorMessage = error.message || 'Failed to create payment session';
+      
       res.status(500).json({
         success: false,
-        error: 'Failed to create payment session',
+        error: errorMessage,
         details: error.message
       });
     }
