@@ -574,10 +574,10 @@ export function registerRoutes(app: express.Application) {
   // Get all customers
   app.get('/api/customers', async (req, res) => {
     try {
-      const customers = await storage.getCustomers();
+      const allCustomers = await db.select().from(customers);
       res.json({
         success: true,
-        data: customers
+        data: allCustomers
       });
     } catch (error: any) {
       console.error('Get customers failed:', error);
@@ -616,10 +616,17 @@ export function registerRoutes(app: express.Application) {
   // Search customers
   app.get('/api/customers/search/:query', async (req, res) => {
     try {
-      const customers = await storage.searchCustomers(req.params.query);
+      const query = req.params.query.toLowerCase();
+      // Search in full_name, phone, or email using SQL LOWER for case-insensitive search
+      const allCustomers = await db.select().from(customers);
+      const filtered = allCustomers.filter(c => 
+        c.fullName.toLowerCase().includes(query) ||
+        c.phone.includes(query) ||
+        (c.email && c.email.toLowerCase().includes(query))
+      );
       res.json({
         success: true,
-        data: customers
+        data: filtered
       });
     } catch (error: any) {
       console.error('Search customers failed:', error);
