@@ -1095,8 +1095,8 @@ export function registerRoutes(app: express.Application) {
         customerEmail: finalCustomerEmail,
         packageId,
         customTanSessions: customTanSessions,
-        successUrl: successUrl || `${protocol}://${baseUrl}/payment/success?customerId=${finalCustomerId}&packageId=${packageId}`,
-        errorUrl: errorUrl || `${protocol}://${baseUrl}/payment/error?customerId=${finalCustomerId}`,
+        successUrl: successUrl || `${protocol}://${baseUrl}/payment-success?customerId=${finalCustomerId}&packageId=${packageId}`,
+        errorUrl: errorUrl || `${protocol}://${baseUrl}/payment-error?customerId=${finalCustomerId}`,
         indicatorUrl: indicatorUrl || `${protocol}://${baseUrl}/api/webhooks/cardcom/payment`,
       });
       
