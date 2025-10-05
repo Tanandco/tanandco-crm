@@ -48,10 +48,8 @@ export class BioStarClient {
           'X-Requested-With': 'XMLHttpRequest'
         },
         body: JSON.stringify({
-          User: {
-            login_id: username,
-            password: password
-          }
+          id: username,
+          password: password
         }),
         agent: this.createHttpsAgent()
       } as any);
