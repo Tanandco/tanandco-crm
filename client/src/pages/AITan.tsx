@@ -447,6 +447,86 @@ export default function AITan() {
           </div>
         </section>
 
+        {/* שאלת סוג העור */}
+        <section className="max-w-6xl mx-auto px-4 py-6">
+          <h2 className="text-xl md:text-2xl font-bold mb-6 flex items-center gap-2 justify-center text-[hsl(var(--primary))]">
+            מה סוג העור שלך?
+          </h2>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-4xl mx-auto">
+            {[
+              { id: "dry", name: "יבש", description: "עור יבש ומחוספס" },
+              { id: "normal", name: "רגיל", description: "עור מאוזן" },
+              { id: "oily", name: "שמן", description: "עור שמנוני ומבריק" },
+              { id: "combination", name: "מעורב", description: "שמן באזור T" }
+            ].map((type) => (
+              <button
+                key={type.id}
+                onClick={() => setSkinType(type.id)}
+                className={`
+                  p-4 rounded-xl border-2 transition-all duration-150 relative
+                  ${skinType === type.id 
+                    ? 'border-[hsl(var(--primary))] bg-[hsl(var(--primary))]/10 shadow-[0_0_20px_rgba(255,255,255,0.3)]' 
+                    : 'border-white/20 bg-gray-900/50 hover:border-[hsl(var(--primary))]/50 hover:bg-[hsl(var(--primary))]/5'
+                  }
+                `}
+                data-testid={`button-skintype-${type.id}`}
+              >
+                <div className="text-lg font-bold text-[hsl(var(--cardText))]">{type.name}</div>
+                <div className="text-xs text-white/60 mt-1">{type.description}</div>
+                {skinType === type.id && (
+                  <Sparkles className="absolute top-2 right-2 w-4 h-4 text-[hsl(var(--primary))] neon-glow" />
+                )}
+              </button>
+            ))}
+          </div>
+        </section>
+
+        {/* שאלת רגישות לשריפה */}
+        <section className="max-w-6xl mx-auto px-4 py-6">
+          <h2 className="text-xl md:text-2xl font-bold mb-6 flex items-center gap-2 justify-center text-[hsl(var(--primary))]">
+            האם אתה נוטה להישרף בשיזוף הראשון שלך?
+          </h2>
+          
+          <div className="flex gap-4 max-w-md mx-auto">
+            <button
+              onClick={() => setBurnEasily(true)}
+              className={`
+                flex-1 p-6 rounded-xl border-2 transition-all duration-150 relative
+                ${burnEasily === true 
+                  ? 'border-[hsl(var(--primary))] bg-[hsl(var(--primary))]/10 shadow-[0_0_20px_rgba(255,255,255,0.3)]' 
+                  : 'border-white/20 bg-gray-900/50 hover:border-[hsl(var(--primary))]/50 hover:bg-[hsl(var(--primary))]/5'
+                }
+              `}
+              data-testid="button-burn-yes"
+            >
+              <div className="text-2xl font-bold text-[hsl(var(--cardText))]">כן</div>
+              <div className="text-sm text-white/60 mt-2">נוטה להישרף</div>
+              {burnEasily === true && (
+                <Sparkles className="absolute top-2 right-2 w-4 h-4 text-[hsl(var(--primary))] neon-glow" />
+              )}
+            </button>
+            
+            <button
+              onClick={() => setBurnEasily(false)}
+              className={`
+                flex-1 p-6 rounded-xl border-2 transition-all duration-150 relative
+                ${burnEasily === false 
+                  ? 'border-[hsl(var(--primary))] bg-[hsl(var(--primary))]/10 shadow-[0_0_20px_rgba(255,255,255,0.3)]' 
+                  : 'border-white/20 bg-gray-900/50 hover:border-[hsl(var(--primary))]/50 hover:bg-[hsl(var(--primary))]/5'
+                }
+              `}
+              data-testid="button-burn-no"
+            >
+              <div className="text-2xl font-bold text-[hsl(var(--cardText))]">לא</div>
+              <div className="text-sm text-white/60 mt-2">לא נוטה להישרף</div>
+              {burnEasily === false && (
+                <Sparkles className="absolute top-2 right-2 w-4 h-4 text-[hsl(var(--primary))] neon-glow" />
+              )}
+            </button>
+          </div>
+        </section>
+
         {/* בחירת רמת שיזוף */}
         <section className="max-w-6xl mx-auto px-4 py-6">
           <h2 className="text-xl md:text-2xl font-bold mb-6 flex items-center gap-2 justify-center text-[hsl(var(--primary))]">
@@ -610,86 +690,6 @@ export default function AITan() {
             <div className="text-center text-xs text-white/50">
               בחר את רמת השיזוף הרצויה
             </div>
-          </div>
-        </section>
-
-        {/* שאלת סוג העור */}
-        <section className="max-w-6xl mx-auto px-4 py-6">
-          <h2 className="text-xl md:text-2xl font-bold mb-6 flex items-center gap-2 justify-center text-[hsl(var(--primary))]">
-            מה סוג העור שלך?
-          </h2>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-4xl mx-auto">
-            {[
-              { id: "dry", name: "יבש", description: "עור יבש ומחוספס" },
-              { id: "normal", name: "רגיל", description: "עור מאוזן" },
-              { id: "oily", name: "שמן", description: "עור שמנוני ומבריק" },
-              { id: "combination", name: "מעורב", description: "שמן באזור T" }
-            ].map((type) => (
-              <button
-                key={type.id}
-                onClick={() => setSkinType(type.id)}
-                className={`
-                  p-4 rounded-xl border-2 transition-all duration-150
-                  ${skinType === type.id 
-                    ? 'border-[hsl(var(--primary))] bg-[hsl(var(--primary))]/10 shadow-[0_0_20px_rgba(255,255,255,0.3)]' 
-                    : 'border-white/20 bg-gray-900/50 hover:border-[hsl(var(--primary))]/50 hover:bg-[hsl(var(--primary))]/5'
-                  }
-                `}
-                data-testid={`button-skintype-${type.id}`}
-              >
-                <div className="text-lg font-bold text-[hsl(var(--cardText))]">{type.name}</div>
-                <div className="text-xs text-white/60 mt-1">{type.description}</div>
-                {skinType === type.id && (
-                  <Sparkles className="absolute top-2 right-2 w-4 h-4 text-[hsl(var(--primary))] neon-glow" />
-                )}
-              </button>
-            ))}
-          </div>
-        </section>
-
-        {/* שאלת רגישות לשריפה */}
-        <section className="max-w-6xl mx-auto px-4 py-6">
-          <h2 className="text-xl md:text-2xl font-bold mb-6 flex items-center gap-2 justify-center text-[hsl(var(--primary))]">
-            האם אתה נוטה להישרף בשיזוף הראשון שלך?
-          </h2>
-          
-          <div className="flex gap-4 max-w-md mx-auto">
-            <button
-              onClick={() => setBurnEasily(true)}
-              className={`
-                flex-1 p-6 rounded-xl border-2 transition-all duration-150 relative
-                ${burnEasily === true 
-                  ? 'border-[hsl(var(--primary))] bg-[hsl(var(--primary))]/10 shadow-[0_0_20px_rgba(255,255,255,0.3)]' 
-                  : 'border-white/20 bg-gray-900/50 hover:border-[hsl(var(--primary))]/50 hover:bg-[hsl(var(--primary))]/5'
-                }
-              `}
-              data-testid="button-burn-yes"
-            >
-              <div className="text-2xl font-bold text-[hsl(var(--cardText))]">כן</div>
-              <div className="text-sm text-white/60 mt-2">נוטה להישרף</div>
-              {burnEasily === true && (
-                <Sparkles className="absolute top-2 right-2 w-4 h-4 text-[hsl(var(--primary))] neon-glow" />
-              )}
-            </button>
-            
-            <button
-              onClick={() => setBurnEasily(false)}
-              className={`
-                flex-1 p-6 rounded-xl border-2 transition-all duration-150 relative
-                ${burnEasily === false 
-                  ? 'border-[hsl(var(--primary))] bg-[hsl(var(--primary))]/10 shadow-[0_0_20px_rgba(255,255,255,0.3)]' 
-                  : 'border-white/20 bg-gray-900/50 hover:border-[hsl(var(--primary))]/50 hover:bg-[hsl(var(--primary))]/5'
-                }
-              `}
-              data-testid="button-burn-no"
-            >
-              <div className="text-2xl font-bold text-[hsl(var(--cardText))]">לא</div>
-              <div className="text-sm text-white/60 mt-2">לא נוטה להישרף</div>
-              {burnEasily === false && (
-                <Sparkles className="absolute top-2 right-2 w-4 h-4 text-[hsl(var(--primary))] neon-glow" />
-              )}
-            </button>
           </div>
         </section>
 
