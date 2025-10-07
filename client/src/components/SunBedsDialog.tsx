@@ -13,7 +13,7 @@ import searchIcon from '@assets/3_1759474572534.png';
 import bronzerIcon from '@assets/4_1759474624696.png';
 import signup247Icon from '@assets/1_1759474644978.png';
 import packageIcon from '@assets/2_1759474652165.png';
-import newCustomerIcon from '@assets/עיצוב ללא שם (33)_1759475456490.png';
+import newCustomerIcon from '@assets/Dהורדותfreepik__spray-tan-variation-b-modern-flatbadge-3d-spray-gu__47717.png_1759805942437.png';
 
 interface SunBedsDialogProps {
   open: boolean;
