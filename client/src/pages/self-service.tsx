@@ -380,7 +380,7 @@ export default function SelfService() {
               {/* Flowing Text Bubble with Typing Effect */}
               <div className="relative flex-1 bg-gradient-to-r from-[hsl(var(--primary))]/20 to-transparent border border-[hsl(var(--primary))]/40 rounded-2xl rounded-tr-sm p-3 backdrop-blur-sm animate-slide-in-left">
                 <p className="text-white/90 text-sm typing-effect">
-                  היי אני אלין אשמח לעזור לכם בכל מה שתצטרכו
+                  היי, אני אלין! העוזרת הדיגיטלית שלכם זמינה 24/7 - לחצו עליי לשיחה בוואטסאפ
                 </p>
               </div>
             </div>
