@@ -170,27 +170,7 @@ export default function SelfService() {
         </div>
       )}
 
-      {/* CORNER BUTTONS */}
-      <div className="fixed top-2 left-2 z-50 flex gap-1.5">
-        <button
-          onClick={() => navigate('/')}
-          aria-label="Home"
-          className="size-9 rounded-full backdrop-blur-xl bg-[hsla(var(--muted)/0.6)] border border-[hsla(var(--primary)/0.4)] hover:border-[hsl(var(--primary))] flex items-center justify-center shadow-[0_4px_12px_rgba(0,0,0,.3)] hover:scale-105 transition-all"
-          data-testid="button-home"
-        >
-          <Home size={16} className="text-white" />
-        </button>
-        <button
-          onClick={() => alert('Settings')}
-          aria-label="Settings"
-          className="size-9 rounded-full backdrop-blur-xl bg-[hsla(var(--muted)/0.6)] border border-[hsla(var(--primary)/0.4)] hover:border-[hsl(var(--primary))] flex items-center justify-center shadow-[0_4px_12px_rgba(0,0,0,.3)] hover:scale-105 transition-all"
-          data-testid="button-settings"
-        >
-          <Settings size={16} className="text-white" />
-        </button>
-      </div>
-
-      <main className="relative z-10 h-[calc(100vh-44px)] flex flex-col">
+      <main className="relative z-10 h-screen flex flex-col">
         {/* HERO SECTION */}
         <section className="relative overflow-hidden py-2">
           <div className="absolute inset-0 bg-gradient-to-br from-black via-black/95 to-[hsla(var(--primary)/0.05)]" />
