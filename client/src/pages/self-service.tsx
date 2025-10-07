@@ -374,7 +374,7 @@ export default function SelfService() {
                 className="relative shrink-0 group animate-bounce-slow hover:scale-110 transition-transform"
                 data-testid="button-chat-with-alin"
               >
-                <Alin size={110} />
+                <Alin size={140} />
               </a>
               
               {/* Flowing Text Bubble with Typing Effect */}
