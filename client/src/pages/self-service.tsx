@@ -228,7 +228,7 @@ export default function SelfService() {
         </section>
 
         {/* SERVICE CARDS */}
-        <section id="services" className="relative py-2 flex-shrink-0">
+        <section id="services" className="relative py-2 pb-4 flex-shrink-0">
           <div className="max-w-6xl mx-auto px-3 text-center">
             <h3 className="text-base md:text-lg font-extrabold mb-2 text-[hsl(var(--primary))]">
               בחרו את השירות המועדף עליכם
