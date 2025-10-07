@@ -174,7 +174,7 @@ export default function AITan() {
                 onClick={() => setSkinTone(tone.id)}
                 onMouseMove={handleRippleMove}
                 className={`
-                  ripple p-4 rounded-xl transition-all duration-150 ease-in-out
+                  group ripple p-4 rounded-xl transition-all duration-150 ease-in-out
                   bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 
                   ${skinTone === tone.id
                     ? "border-2 border-[hsl(var(--primary))] shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.4)]"
