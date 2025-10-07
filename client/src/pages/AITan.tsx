@@ -76,6 +76,36 @@ export default function AITan() {
     return Math.max(6, Math.min(12, 6 + difference));
   };
 
+  // המלצה על ברונזר לפי רמת שיזוף
+  const getRecommendedBronzer = () => {
+    if (!selectedTanShade) return null;
+    
+    // התאמת דרגת ברונזר לרמת השיזוף הרצויה
+    if (desiredShade <= 7) {
+      return { name: "BALIBODY Light Bronzer", strength: 5, price: 89 };
+    } else if (desiredShade <= 9) {
+      return { name: "BALIBODY Medium Bronzer", strength: 8, price: 99 };
+    } else if (desiredShade <= 11) {
+      return { name: "BALIBODY Dark Bronzer", strength: 12, price: 109 };
+    } else {
+      return { name: "BALIBODY Ultra Dark", strength: 15, price: 119 };
+    }
+  };
+
+  // חישוב מחיר כולל
+  const calculateTotalPrice = () => {
+    const sessionPrice = 45; // מחיר לסשן
+    const sessions = calculateRecommendedSessions();
+    const bronzer = getRecommendedBronzer();
+    
+    return {
+      sessionsTotal: sessionPrice * sessions,
+      bronzerPrice: bronzer?.price || 0,
+      total: (sessionPrice * sessions) + (bronzer?.price || 0),
+      packageDiscount: 50, // הנחה על חבילה
+    };
+  };
+
   const handleRippleMove = (e: React.MouseEvent<HTMLElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -153,13 +183,62 @@ export default function AITan() {
           animation: slide-in-up 0.5s ease-out forwards;
         }
 
+        /* 3D Card Animations */
+        @keyframes float-3d {
+          0%, 100% { 
+            transform: translateY(0) rotateX(0deg) rotateY(0deg);
+          }
+          50% { 
+            transform: translateY(-10px) rotateX(2deg) rotateY(2deg);
+          }
+        }
+
+        @keyframes shimmer {
+          0% { background-position: -200% center; }
+          100% { background-position: 200% center; }
+        }
+
+        @keyframes price-pop {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.05); }
+        }
+
+        .card-3d {
+          transform-style: preserve-3d;
+          transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .card-3d:hover {
+          transform: translateZ(50px) rotateX(5deg) rotateY(5deg);
+        }
+
+        .glass-effect {
+          background: rgba(255, 255, 255, 0.05);
+          backdrop-filter: blur(20px) saturate(180%);
+          -webkit-backdrop-filter: blur(20px) saturate(180%);
+        }
+
+        .shimmer-effect {
+          background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.3),
+            transparent
+          );
+          background-size: 200% 100%;
+          animation: shimmer 3s infinite;
+        }
+
         /* Reduced motion */
         @media (prefers-reduced-motion: reduce) {
           .animate-glow-pulse,
           .animate-slide-in-up,
-          .neon-glow {
+          .neon-glow,
+          .card-3d,
+          .shimmer-effect {
             animation: none !important;
             filter: none !important;
+            transform: none !important;
           }
         }
       `}</style>
@@ -735,7 +814,7 @@ export default function AITan() {
         </section>
 
         {/* המלצות */}
-        <section className="max-w-6xl mx-auto px-4 py-6 pb-12">
+        <section className="max-w-6xl mx-auto px-4 py-6">
           <h2 className="text-xl md:text-2xl font-bold mb-6 flex items-center gap-2 justify-center text-gradient-amber">
             <Sparkles className="w-6 h-6 text-[hsl(var(--primary))]" />
             ההמלצה שלנו
@@ -760,8 +839,217 @@ export default function AITan() {
               <div className="text-sm text-white/60 mt-2">זמן חשיפה מומלץ</div>
             </div>
           </div>
+        </section>
 
-          {/* כפתור המשך */}
+        {/* אומדן מחיר + ברונזר - 3D INTERACTIVE */}
+        {selectedTanShade && (
+          <section className="max-w-6xl mx-auto px-4 py-8" style={{ perspective: '2000px' }}>
+            {/* כותרת עם אפקט זוהר */}
+            <div className="relative inline-block mx-auto mb-8">
+              <div className="absolute inset-0 blur-2xl opacity-50 bg-gradient-to-r from-[hsl(var(--primary))] via-amber-500 to-[hsl(var(--primary))] animate-glow-pulse" />
+              <div className="relative px-10 py-4 rounded-3xl glass-effect border border-[hsla(var(--primary)/0.4)]"
+                   style={{
+                     background: 'linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))',
+                     boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2), 0 0 40px hsla(var(--primary)/0.3)',
+                   }}>
+                <h2 className="text-2xl md:text-3xl font-extrabold text-center text-gradient-amber flex items-center gap-3">
+                  <Sparkles className="w-7 h-7 text-[hsl(var(--primary))] neon-glow animate-glow-pulse" />
+                  אומדן מחיר מלא
+                  <Sparkles className="w-7 h-7 text-[hsl(var(--primary))] neon-glow animate-glow-pulse" />
+                </h2>
+              </div>
+            </div>
+
+            {/* קונטיינר ראשי תלת מימדי */}
+            <div className="card-3d relative" 
+                 style={{
+                   animation: 'float-3d 6s ease-in-out infinite',
+                   transformStyle: 'preserve-3d'
+                 }}>
+              
+              {/* רקע זוהר מונפש */}
+              <div className="absolute inset-0 rounded-3xl opacity-30 blur-3xl"
+                   style={{
+                     background: 'radial-gradient(circle at 50% 50%, hsl(var(--primary)), transparent 70%)',
+                     animation: 'glowPulse 3s ease-in-out infinite'
+                   }} />
+
+              {/* הכרטיס הראשי */}
+              <div className="relative glass-effect rounded-3xl border-2 border-[hsla(var(--primary)/0.6)] overflow-hidden"
+                   style={{
+                     background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(0,0,0,0.4) 50%, rgba(255,255,255,0.05) 100%)',
+                     boxShadow: `
+                       0 20px 60px rgba(0,0,0,0.6),
+                       0 0 80px hsla(var(--primary)/0.4),
+                       inset 0 1px 0 rgba(255,255,255,0.2),
+                       inset 0 -1px 0 rgba(0,0,0,0.5)
+                     `,
+                   }}>
+                
+                {/* אפקט שימר */}
+                <div className="absolute inset-0 shimmer-effect pointer-events-none" />
+                
+                <div className="relative p-8">
+                  {/* פירוט הסשנים - כרטיס מרחף */}
+                  <div className="mb-6 p-5 rounded-2xl glass-effect border border-[hsla(var(--primary)/0.3)] hover:border-[hsla(var(--primary)/0.6)] transition-all duration-300 group"
+                       style={{
+                         background: 'linear-gradient(135deg, rgba(255,255,255,0.05), rgba(0,0,0,0.3))',
+                         boxShadow: '0 10px 30px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1)',
+                         transform: 'translateZ(20px)'
+                       }}>
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 rounded-xl bg-[hsl(var(--primary))]/20 border border-[hsl(var(--primary))]/40 flex items-center justify-center group-hover:scale-110 transition-transform">
+                          <Sun className="w-6 h-6 text-[hsl(var(--primary))] neon-glow" />
+                        </div>
+                        <div>
+                          <p className="text-sm text-white/60">חבילת סשנים</p>
+                          <p className="text-white/90 font-semibold">{calculateRecommendedSessions()} סשנים × ₪45</p>
+                        </div>
+                      </div>
+                      <span className="text-2xl font-bold text-[hsl(var(--primary))] group-hover:scale-110 transition-transform" style={{ animation: 'price-pop 2s ease-in-out infinite' }}>
+                        ₪{calculateTotalPrice().sessionsTotal}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* המלצת ברונזר - כרטיס תלת מימדי */}
+                  {getRecommendedBronzer() && (
+                    <div className="mb-8 p-6 rounded-2xl glass-effect border-2 border-[hsla(var(--primary)/0.5)] hover:border-[hsl(var(--primary))] transition-all duration-500 group cursor-pointer"
+                         style={{
+                           background: 'linear-gradient(145deg, rgba(255,255,255,0.08), rgba(0,0,0,0.4))',
+                           boxShadow: '0 15px 40px rgba(0,0,0,0.5), inset 0 2px 0 rgba(255,255,255,0.15)',
+                           transform: 'translateZ(30px)',
+                           transformStyle: 'preserve-3d'
+                         }}>
+                      <div className="flex items-start gap-5">
+                        {/* אייקון ברונזר מונפש */}
+                        <div className="relative">
+                          <div className="absolute inset-0 rounded-2xl blur-xl opacity-50 bg-[hsl(var(--primary))] group-hover:opacity-80 transition-opacity" />
+                          <div className="relative w-20 h-20 rounded-2xl bg-gradient-to-br from-[hsl(var(--primary))]/30 to-[hsl(var(--primary))]/10 border-2 border-[hsl(var(--primary))]/50 flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-all duration-500"
+                               style={{ transform: 'translateZ(40px)' }}>
+                            <Sparkles className="w-10 h-10 text-[hsl(var(--primary))] neon-glow" />
+                          </div>
+                        </div>
+
+                        {/* פרטי הברונזר */}
+                        <div className="flex-1">
+                          <div className="flex justify-between items-start mb-3">
+                            <div>
+                              <h3 className="text-lg font-bold text-white mb-1 group-hover:text-[hsl(var(--primary))] transition-colors">
+                                {getRecommendedBronzer()?.name}
+                              </h3>
+                              <div className="flex items-center gap-2">
+                                <div className="h-2 w-32 bg-black/50 rounded-full overflow-hidden border border-white/10">
+                                  <div 
+                                    className="h-full bg-gradient-to-r from-[hsl(var(--primary))] to-amber-500 rounded-full transition-all duration-1000"
+                                    style={{ width: `${(getRecommendedBronzer()?.strength || 0) / 15 * 100}%` }}
+                                  />
+                                </div>
+                                <span className="text-xs text-white/60">
+                                  דרגה {getRecommendedBronzer()?.strength}/15
+                                </span>
+                              </div>
+                            </div>
+                            <div className="text-left">
+                              <p className="text-xs text-white/50 mb-1">מחיר מבצע</p>
+                              <span className="text-2xl font-bold text-[hsl(var(--primary))] group-hover:scale-110 transition-transform inline-block">
+                                ₪{getRecommendedBronzer()?.price}
+                              </span>
+                            </div>
+                          </div>
+                          <p className="text-sm text-white/70 leading-relaxed">
+                            💎 ברונזר פרימיום מותאם אישית - משפר את התוצאות ומאיץ את תהליך השיזוף
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* סיכום מחיר - כרטיס נפרד מרחף */}
+                  <div className="relative p-6 rounded-2xl overflow-hidden"
+                       style={{
+                         background: 'linear-gradient(135deg, rgba(0,0,0,0.6), rgba(0,0,0,0.4))',
+                         border: '2px solid hsla(var(--primary)/0.6)',
+                         boxShadow: `
+                           0 20px 50px rgba(0,0,0,0.7),
+                           0 0 60px hsla(var(--primary)/0.5),
+                           inset 0 2px 0 rgba(255,255,255,0.2)
+                         `,
+                         transform: 'translateZ(40px)'
+                       }}>
+                    
+                    {/* רקע מונפש */}
+                    <div className="absolute inset-0 opacity-30"
+                         style={{
+                           background: 'radial-gradient(circle at 30% 50%, hsl(var(--primary)), transparent 60%)',
+                           animation: 'glowPulse 2s ease-in-out infinite'
+                         }} />
+
+                    <div className="relative space-y-4">
+                      {/* סכום ביניים */}
+                      <div className="flex justify-between items-center pb-3 border-b border-white/10">
+                        <span className="text-white/70">סכום ביניים</span>
+                        <span className="text-xl font-bold text-white/60 line-through">
+                          ₪{calculateTotalPrice().total}
+                        </span>
+                      </div>
+                      
+                      {/* הנחה */}
+                      <div className="flex justify-between items-center">
+                        <div className="flex items-center gap-2">
+                          <div className="w-8 h-8 rounded-full bg-[hsl(var(--primary))]/20 border border-[hsl(var(--primary))]/40 flex items-center justify-center">
+                            <Sparkles className="w-4 h-4 text-[hsl(var(--primary))]" />
+                          </div>
+                          <span className="text-sm text-[hsl(var(--primary))] font-semibold">הנחת חבילה מיוחדת</span>
+                        </div>
+                        <span className="text-xl font-bold text-[hsl(var(--primary))]" style={{ animation: 'price-pop 2s ease-in-out infinite' }}>
+                          -₪{calculateTotalPrice().packageDiscount}
+                        </span>
+                      </div>
+
+                      {/* מחיר סופי */}
+                      <div className="pt-4 border-t-2 border-[hsl(var(--primary))]/40">
+                        <div className="flex justify-between items-center p-5 rounded-xl glass-effect"
+                             style={{
+                               background: 'linear-gradient(135deg, rgba(255,255,255,0.1), hsla(var(--primary)/0.2))',
+                               boxShadow: '0 10px 30px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.3)',
+                             }}>
+                          <span className="text-2xl font-bold text-white flex items-center gap-2">
+                            <Sparkles className="w-6 h-6 text-[hsl(var(--primary))] neon-glow" />
+                            סה"כ לתשלום
+                          </span>
+                          <div className="text-left">
+                            <div className="text-4xl font-extrabold text-gradient-amber" style={{ animation: 'price-pop 3s ease-in-out infinite' }}>
+                              ₪{calculateTotalPrice().total - calculateTotalPrice().packageDiscount}
+                            </div>
+                            <p className="text-xs text-white/50 mt-1">כולל מע"מ</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* תנאי החבילה */}
+                  <div className="mt-6 p-4 rounded-xl glass-effect border border-white/10"
+                       style={{
+                         background: 'linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.2))',
+                         boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.1)',
+                         transform: 'translateZ(10px)'
+                       }}>
+                    <p className="text-sm text-white/70 text-center leading-relaxed">
+                      💡 <span className="text-[hsl(var(--primary))] font-semibold">החבילה כוללת:</span> {calculateRecommendedSessions()} סשנים במיטות שיזוף + 
+                      {getRecommendedBronzer()?.name} + ייעוץ אישי + מעקב התקדמות
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* כפתור המשך */}
+        <section className="max-w-6xl mx-auto px-4 py-6 pb-12">
           <div className="text-center">
             <Button
               size="lg"
