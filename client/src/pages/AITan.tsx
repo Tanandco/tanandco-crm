@@ -452,103 +452,16 @@ export default function AITan() {
             בחר את רמת השיזוף הרצויה
           </h2>
 
-          <div className="grid md:grid-cols-2 gap-8">
-            {/* טור 1: גרדיאנט אינטראקטיבי */}
-            <div className="space-y-6">
-              <div className="flex justify-between text-sm text-white/60 px-2">
-                <span>בהיר</span>
-                <span>עמוק</span>
-              </div>
-              
-              <div className="relative px-2">
-                {/* נקודות מעל הפס */}
-                <div className="flex items-center justify-around mb-3">
-                  {tanShades.map((shade) => {
-                    const currentToneIndex = skinTones.findIndex((t) => t.id === skinTone) + 1;
-                    const minValue = Math.max(6, currentToneIndex);
-                    const isDisabled = shade.value < minValue;
-                    const isSelected = selectedTanShade?.id === shade.id;
-                    
-                    return (
-                      <button
-                        key={shade.id}
-                        onClick={() => {
-                          if (!isDisabled) {
-                            setSelectedTanShade(shade);
-                            setDesiredShade(shade.value);
-                          }
-                        }}
-                        disabled={isDisabled}
-                        className={`
-                          group relative transition-all duration-150
-                          ${isDisabled ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer hover:scale-125'}
-                          ${isSelected ? 'scale-150' : 'scale-100'}
-                        `}
-                        data-testid={`button-gradient-shade-${shade.id}`}
-                      >
-                        <div
-                          className={`
-                            w-10 h-10 rounded-full relative transition-all duration-150
-                            ${isSelected 
-                              ? 'shadow-[0_0_20px_rgba(255,255,255,0.8),0_0_40px_rgba(255,255,255,0.4)]' 
-                              : 'group-hover:shadow-[0_0_15px_rgba(255,255,255,0.5)]'
-                            }
-                          `}
-                          style={{ 
-                            background: `
-                              radial-gradient(circle at 30% 30%, 
-                                rgba(255,255,255,0.4) 0%, 
-                                transparent 50%
-                              ),
-                              linear-gradient(145deg, 
-                                ${shade.color}ff 0%, 
-                                ${shade.color}cc 40%,
-                                ${shade.color}99 70%,
-                                ${shade.color}66 100%
-                              ),
-                              repeating-linear-gradient(
-                                45deg,
-                                transparent,
-                                transparent 2px,
-                                ${shade.color}22 2px,
-                                ${shade.color}22 4px
-                              )
-                            `,
-                            boxShadow: `
-                              inset -2px -2px 6px rgba(0,0,0,0.5),
-                              inset 2px 2px 6px rgba(255,255,255,0.3),
-                              inset -1px -1px 2px rgba(0,0,0,0.8),
-                              inset 1px 1px 2px rgba(255,255,255,0.5),
-                              0 4px 8px rgba(0,0,0,0.6),
-                              0 1px 2px rgba(255,255,255,0.3)
-                            `
-                          }}
-                        >
-                          {/* Glass shine effect on hover */}
-                          <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-                            style={{
-                              background: `
-                                linear-gradient(135deg,
-                                  rgba(255,255,255,0.9) 0%,
-                                  rgba(255,255,255,0.6) 20%,
-                                  transparent 40%,
-                                  rgba(255,255,255,0.2) 60%,
-                                  rgba(255,255,255,0.4) 100%
-                                )
-                              `,
-                              backdropFilter: 'blur(4px)'
-                            }}
-                          />
-                        </div>
-                        {isSelected && (
-                          <Sparkles className="absolute -top-1 -right-1 w-4 h-4 text-white neon-glow" />
-                        )}
-                      </button>
-                    );
-                  })}
-                </div>
-                
-                {/* פס גרדיאנט עדין */}
+          <div className="space-y-6">
+            <div className="flex justify-between text-sm text-white/60 px-2">
+              <span>בהיר</span>
+              <span>עמוק</span>
+            </div>
+            
+            {/* פס גרדיאנט + עיגול מרחף */}
+            <div className="flex items-center gap-6">
+              <div className="flex-1">
+                {/* פס גרדיאנט */}
                 <div 
                   className="h-1.5 rounded-full"
                   style={{
@@ -558,95 +471,142 @@ export default function AITan() {
                 />
               </div>
               
-              <div className="text-center text-xs text-white/50 px-2">
-                גע על הנקודה להתאמת רמת השיזוף
-              </div>
-            </div>
-
-            {/* טור 2: בחירה ישירה של גוון */}
-            <div className="space-y-6">
-              <div className="text-sm text-white/60 text-center px-2">
-                או בחר גוון ישירות
-              </div>
-              
-              <div className="grid grid-cols-4 gap-3">
-            {tanShades.map((shade) => (
-              <button
-                key={shade.id}
-                onClick={() => {
-                  setSelectedTanShade(shade);
-                  setDesiredShade(shade.value);
-                }}
-                onMouseMove={handleRippleMove}
-                className={`
-                  group ripple p-4 rounded-xl transition-all duration-300 ease-in-out overflow-visible
-                  bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
-                  hover:from-transparent hover:via-transparent hover:to-transparent
-                  ${selectedTanShade?.id === shade.id
-                    ? "border-2 border-[hsl(var(--primary))] shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_40px_rgba(255,255,255,.3)] scale-110"
-                    : "border border-[hsla(var(--primary)/0.6)] hover:border-transparent shadow-[0_8px_20px_rgba(0,0,0,.4)]"
-                  }
-                  hover:scale-105 active:scale-100 backdrop-blur-sm hover:backdrop-blur-none
-                `}
-                data-testid={`button-tanshade-${shade.id}`}
-              >
-                <div
-                  className="w-16 h-16 rounded-full mx-auto mb-2 relative transition-all duration-300 group-hover:scale-150 group-hover:shadow-[0_0_40px_rgba(255,255,255,0.6),0_0_80px_rgba(255,255,255,0.3)]"
-                  style={{ 
-                    background: `
-                      radial-gradient(circle at 30% 30%, 
-                        rgba(255,255,255,0.4) 0%, 
-                        transparent 50%
-                      ),
-                      linear-gradient(145deg, 
-                        ${shade.color}ff 0%, 
-                        ${shade.color}cc 40%,
-                        ${shade.color}99 70%,
-                        ${shade.color}66 100%
-                      ),
-                      repeating-linear-gradient(
-                        45deg,
-                        transparent,
-                        transparent 2px,
-                        ${shade.color}22 2px,
-                        ${shade.color}22 4px
-                      )
-                    `,
-                    boxShadow: `
-                      inset -4px -4px 12px rgba(0,0,0,0.5),
-                      inset 4px 4px 12px rgba(255,255,255,0.3),
-                      inset -1px -1px 3px rgba(0,0,0,0.8),
-                      inset 1px 1px 3px rgba(255,255,255,0.5),
-                      0 6px 16px rgba(0,0,0,0.6),
-                      0 2px 4px rgba(255,255,255,0.3)
-                    `
-                  }}
-                >
-                  {/* Glass shine effect on hover */}
-                  <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-                    style={{
+              {/* עיגול מרחף */}
+              {selectedTanShade && (
+                <div className="group" style={{ animation: 'levitate 3s ease-in-out infinite' }}>
+                  <div
+                    className="w-32 h-32 rounded-full relative transition-all duration-300 group-hover:scale-110 group-hover:shadow-[0_0_40px_rgba(255,255,255,0.6),0_0_80px_rgba(255,255,255,0.3)] [animation:slow-spin_20s_linear_infinite] group-hover:[animation-play-state:paused]"
+                    style={{ 
                       background: `
-                        linear-gradient(135deg,
-                          rgba(255,255,255,0.9) 0%,
-                          rgba(255,255,255,0.6) 20%,
-                          transparent 40%,
-                          rgba(255,255,255,0.2) 60%,
-                          rgba(255,255,255,0.4) 100%
+                        radial-gradient(circle at 30% 30%, 
+                          rgba(255,255,255,0.4) 0%, 
+                          transparent 50%
+                        ),
+                        linear-gradient(145deg, 
+                          ${selectedTanShade.color}ff 0%, 
+                          ${selectedTanShade.color}cc 40%,
+                          ${selectedTanShade.color}99 70%,
+                          ${selectedTanShade.color}66 100%
+                        ),
+                        repeating-linear-gradient(
+                          45deg,
+                          transparent,
+                          transparent 2px,
+                          ${selectedTanShade.color}22 2px,
+                          ${selectedTanShade.color}22 4px
                         )
                       `,
-                      backdropFilter: 'blur(8px)'
+                      boxShadow: `
+                        inset -4px -4px 12px rgba(0,0,0,0.5),
+                        inset 4px 4px 12px rgba(255,255,255,0.3),
+                        inset -1px -1px 3px rgba(0,0,0,0.8),
+                        inset 1px 1px 3px rgba(255,255,255,0.5),
+                        0 6px 16px rgba(0,0,0,0.6),
+                        0 2px 4px rgba(255,255,255,0.3)
+                      `
                     }}
-                  />
+                  >
+                    {/* Glass shine effect on hover */}
+                    <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                      style={{
+                        background: `
+                          linear-gradient(135deg,
+                            rgba(255,255,255,0.9) 0%,
+                            rgba(255,255,255,0.6) 20%,
+                            transparent 40%,
+                            rgba(255,255,255,0.2) 60%,
+                            rgba(255,255,255,0.4) 100%
+                          )
+                        `,
+                        backdropFilter: 'blur(8px)'
+                      }}
+                    />
+                  </div>
                 </div>
-                <div className="text-xs text-center text-[hsl(var(--cardText))] font-semibold">
-                  {shade.name}
-                </div>
-                {selectedTanShade?.id === shade.id && (
-                  <Sparkles className="absolute top-1 left-1 w-4 h-4 text-[hsl(var(--primary))] neon-glow" />
-                )}
-              </button>
-            ))}
-              </div>
+              )}
+            </div>
+            
+            {/* עיגולים קטנים בשורה אחת */}
+            <div className="flex items-center justify-around gap-2">
+              {tanShades.map((shade) => {
+                const isSelected = selectedTanShade?.id === shade.id;
+                return (
+                  <button
+                    key={shade.id}
+                    onClick={() => {
+                      setSelectedTanShade(shade);
+                      setDesiredShade(shade.value);
+                    }}
+                    className={`
+                      group relative transition-all duration-150
+                      ${isSelected ? 'scale-110' : 'hover:scale-125'}
+                    `}
+                    data-testid={`button-tanshade-${shade.id}`}
+                  >
+                    <div
+                      className={`
+                        w-12 h-12 rounded-full relative transition-all duration-150
+                        ${isSelected 
+                          ? 'shadow-[0_0_20px_rgba(255,255,255,0.8),0_0_40px_rgba(255,255,255,0.4)]' 
+                          : 'group-hover:shadow-[0_0_15px_rgba(255,255,255,0.5)]'
+                        }
+                      `}
+                      style={{ 
+                        background: `
+                          radial-gradient(circle at 30% 30%, 
+                            rgba(255,255,255,0.4) 0%, 
+                            transparent 50%
+                          ),
+                          linear-gradient(145deg, 
+                            ${shade.color}ff 0%, 
+                            ${shade.color}cc 40%,
+                            ${shade.color}99 70%,
+                            ${shade.color}66 100%
+                          ),
+                          repeating-linear-gradient(
+                            45deg,
+                            transparent,
+                            transparent 2px,
+                            ${shade.color}22 2px,
+                            ${shade.color}22 4px
+                          )
+                        `,
+                        boxShadow: `
+                          inset -2px -2px 6px rgba(0,0,0,0.5),
+                          inset 2px 2px 6px rgba(255,255,255,0.3),
+                          inset -1px -1px 2px rgba(0,0,0,0.8),
+                          inset 1px 1px 2px rgba(255,255,255,0.5),
+                          0 4px 8px rgba(0,0,0,0.6),
+                          0 1px 2px rgba(255,255,255,0.3)
+                        `
+                      }}
+                    >
+                      {/* Glass shine effect on hover */}
+                      <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                        style={{
+                          background: `
+                            linear-gradient(135deg,
+                              rgba(255,255,255,0.9) 0%,
+                              rgba(255,255,255,0.6) 20%,
+                              transparent 40%,
+                              rgba(255,255,255,0.2) 60%,
+                              rgba(255,255,255,0.4) 100%
+                            )
+                          `,
+                          backdropFilter: 'blur(4px)'
+                        }}
+                      />
+                    </div>
+                    {isSelected && (
+                      <Sparkles className="absolute -top-1 -right-1 w-4 h-4 text-white neon-glow" />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+            
+            <div className="text-center text-xs text-white/50">
+              בחר את רמת השיזוף הרצויה
             </div>
           </div>
         </section>
