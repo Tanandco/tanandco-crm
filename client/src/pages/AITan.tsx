@@ -174,18 +174,19 @@ export default function AITan() {
                 onClick={() => setSkinTone(tone.id)}
                 onMouseMove={handleRippleMove}
                 className={`
-                  group ripple p-4 rounded-xl transition-all duration-150 ease-in-out
+                  group ripple p-4 rounded-xl transition-all duration-300 ease-in-out
                   bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 
+                  hover:from-transparent hover:via-transparent hover:to-transparent
                   ${skinTone === tone.id
                     ? "border-2 border-[hsl(var(--primary))] shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.4)]"
-                    : "border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)]"
+                    : "border border-[hsla(var(--primary)/0.6)] hover:border-transparent shadow-[0_8px_20px_rgba(0,0,0,.4)]"
                   }
-                  hover:scale-105 active:scale-100 backdrop-blur-sm
+                  hover:scale-105 active:scale-100 backdrop-blur-sm hover:backdrop-blur-none
                 `}
                 data-testid={`button-skintone-${tone.id}`}
               >
                 <div
-                  className="w-20 h-20 rounded-full mx-auto mb-3 relative transition-all duration-200 group-hover:scale-110 group-hover:shadow-2xl"
+                  className="w-20 h-20 rounded-full mx-auto mb-3 relative transition-all duration-300 group-hover:scale-125 group-hover:shadow-[0_0_40px_rgba(255,255,255,0.6),0_0_80px_rgba(236,72,153,0.4)]"
                   style={{ 
                     background: `
                       radial-gradient(circle at 30% 30%, 
@@ -215,7 +216,23 @@ export default function AITan() {
                       0 2px 4px rgba(255,255,255,0.3)
                     `
                   }}
-                />
+                >
+                  {/* Glass shine effect on hover */}
+                  <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                    style={{
+                      background: `
+                        linear-gradient(135deg,
+                          rgba(255,255,255,0.9) 0%,
+                          rgba(255,255,255,0.6) 20%,
+                          transparent 40%,
+                          rgba(236,72,153,0.3) 60%,
+                          rgba(236,72,153,0.6) 100%
+                        )
+                      `,
+                      backdropFilter: 'blur(8px)'
+                    }}
+                  />
+                </div>
                 <div className="text-center">
                   <div className="font-bold text-sm text-[hsl(var(--cardText))]">{tone.name}</div>
                   <div className="text-xs text-white/60 mt-1">{tone.description}</div>
