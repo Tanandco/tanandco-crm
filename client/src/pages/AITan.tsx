@@ -88,7 +88,7 @@ export default function AITan() {
   return (
     <div
       dir="rtl"
-      className="h-screen overflow-y-auto bg-black text-white antialiased selection:bg-white/10"
+      className="h-screen overflow-y-auto text-white antialiased selection:bg-white/10"
       style={{
         '--bg': '210 6% 8%',
         '--primary': '328 100% 70%',
@@ -98,6 +98,7 @@ export default function AITan() {
         '--cardText': '210 15% 90%',
         '--accent': '210 12% 14%',
         '--muted': '210 8% 12%',
+        background: 'linear-gradient(to bottom right, hsl(var(--primary) / 0.10) 0%, black 25%, black 75%, hsl(var(--primary) / 0.05) 100%)',
       } as React.CSSProperties}
     >
       <style>{`
@@ -186,7 +187,12 @@ export default function AITan() {
 
         {/* שלבי שימוש */}
         <section className="max-w-6xl mx-auto px-4 py-6">
-          <h2 className="text-xl md:text-2xl font-bold mb-6 text-center text-[hsl(var(--primary))]">
+          <h2 className="text-xl md:text-2xl font-bold mb-6 text-center text-[hsl(var(--primary))] neon-glow inline-block px-8 py-3 rounded-2xl mx-auto block w-fit"
+              style={{
+                background: 'linear-gradient(135deg, hsl(var(--primary) / 0.15), hsl(var(--primary) / 0.25))',
+                boxShadow: '0 0 30px hsla(var(--primary)/0.4), 0 0 60px hsla(var(--primary)/0.2), inset 0 0 20px hsla(var(--primary)/0.1)',
+                border: '1px solid hsla(var(--primary)/0.5)'
+              }}>
             איך זה עובד?
           </h2>
           
@@ -245,7 +251,11 @@ export default function AITan() {
         <section className="max-w-6xl mx-auto px-4 py-6">
           <div className="grid md:grid-cols-2 gap-6">
             {/* טור 1: הסבר */}
-            <div className="bg-gradient-to-br from-[hsl(var(--primary))]/10 via-black/50 to-[hsl(var(--primary))]/5 border border-[hsla(var(--primary)/0.4)] rounded-xl p-6 backdrop-blur-sm">
+            <div className="bg-gradient-to-br from-[hsl(var(--primary))]/10 via-black/50 to-[hsl(var(--primary))]/5 border border-[hsla(var(--primary)/0.4)] rounded-xl p-6 backdrop-blur-sm"
+                 style={{
+                   boxShadow: '0 10px 40px rgba(0,0,0,0.5), 0 0 30px hsla(var(--primary)/0.2), inset 0 2px 10px hsla(var(--primary)/0.15)',
+                   transform: 'translateZ(0)',
+                 }}>
               <div className="space-y-3">
                 <h3 className="text-lg font-bold text-[hsl(var(--cardText))]">רוצה שיזוף מושלם? צלמ/י תמונה!</h3>
                 <p className="text-sm text-white/80 leading-relaxed">
@@ -285,7 +295,11 @@ export default function AITan() {
                 htmlFor="image-upload"
                 className="group block cursor-pointer"
               >
-                <div className="relative overflow-hidden rounded-xl border-2 border-dashed border-[hsla(var(--primary)/0.4)] hover:border-[hsl(var(--primary))] bg-gradient-to-br from-gray-900/50 via-black/40 to-gray-800/50 p-12 text-center transition-all duration-300 hover:from-[hsl(var(--primary))]/5 hover:via-black/60 hover:to-[hsl(var(--primary))]/5">
+                <div className="relative overflow-hidden rounded-xl border-2 border-dashed border-[hsla(var(--primary)/0.4)] hover:border-[hsl(var(--primary))] bg-gradient-to-br from-gray-900/50 via-black/40 to-gray-800/50 p-12 text-center transition-all duration-300 hover:from-[hsl(var(--primary))]/5 hover:via-black/60 hover:to-[hsl(var(--primary))]/5"
+                     style={{
+                       boxShadow: '0 10px 40px rgba(0,0,0,0.5), 0 0 30px hsla(var(--primary)/0.2), inset 0 2px 10px hsla(var(--primary)/0.15)',
+                       transform: 'translateZ(0)',
+                     }}>
                   <div className="flex flex-col items-center gap-4">
                     <div className="w-20 h-20 rounded-full bg-[hsl(var(--primary))]/10 flex items-center justify-center border border-[hsl(var(--primary))]/20 group-hover:scale-110 transition-transform duration-300">
                       <Camera className="w-10 h-10 text-[hsl(var(--primary))] neon-glow" />
@@ -307,7 +321,11 @@ export default function AITan() {
                 </div>
               </label>
             ) : (
-              <div className="relative rounded-xl overflow-hidden border-2 border-[hsl(var(--primary))] bg-black/50 p-4">
+              <div className="relative rounded-xl overflow-hidden border-2 border-[hsl(var(--primary))] bg-black/50 p-4"
+                   style={{
+                     boxShadow: '0 10px 40px rgba(0,0,0,0.5), 0 0 30px hsla(var(--primary)/0.3), inset 0 2px 10px hsla(var(--primary)/0.15)',
+                     transform: 'translateZ(0)',
+                   }}>
                 <div className="flex flex-col md:flex-row gap-6 items-center">
                   {/* התמונה שהועלתה */}
                   <div className="relative w-48 h-48 rounded-xl overflow-hidden border border-[hsla(var(--primary)/0.3)]">
