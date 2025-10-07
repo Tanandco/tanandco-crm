@@ -348,14 +348,7 @@ export default function SelfService() {
         {/* FOOTER WITH ALIN */}
         <footer className="border-t border-[hsl(var(--border))] py-2 flex-shrink-0 mt-auto">
           <div className="max-w-6xl mx-auto px-3">
-            <div className="flex items-center gap-1 justify-end">
-              {/* Flowing Text Bubble with Typing Effect */}
-              <div className="relative bg-gradient-to-l from-[hsl(var(--primary))]/20 to-transparent border border-[hsl(var(--primary))]/40 rounded-2xl rounded-tl-sm py-1 px-2 backdrop-blur-sm animate-slide-in-right w-fit">
-                <p className="text-white/90 text-sm typing-effect whitespace-nowrap">
-                  היי, אני אלין! העוזרת הדיגיטלית שלכם זמינה 24/7 - לחצו עליי לצ'אט מיידי
-                </p>
-              </div>
-              
+            <div className="flex items-center gap-1">
               {/* Alin Avatar */}
               <button
                 onClick={() => setChatOpen(true)}
@@ -364,6 +357,13 @@ export default function SelfService() {
               >
                 <Alin size={180} />
               </button>
+              
+              {/* Flowing Text Bubble with Typing Effect */}
+              <div className="relative bg-gradient-to-r from-[hsl(var(--primary))]/20 to-transparent border border-[hsl(var(--primary))]/40 rounded-2xl rounded-tr-sm py-1 px-2 backdrop-blur-sm animate-slide-in-left w-fit">
+                <p className="text-white/90 text-sm typing-effect whitespace-nowrap">
+                  היי, אני אלין! העוזרת הדיגיטלית שלכם זמינה 24/7 - לחצו עליי לצ'אט מיידי
+                </p>
+              </div>
             </div>
           </div>
         </footer>
