@@ -5,6 +5,7 @@ import { ArrowRight, Palette, Sparkles, Sun, Camera } from "lucide-react";
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { PurchaseOverlay } from "@/components/PurchaseOverlay";
+import Alin from "@/components/Alin";
 
 export default function AITan() {
   const [skinTone, setSkinTone] = useState("type2");
@@ -21,6 +22,9 @@ export default function AITan() {
   const [skinType, setSkinType] = useState<string>("");
   const [burnEasily, setBurnEasily] = useState<boolean | null>(null);
   const [showPurchaseOverlay, setShowPurchaseOverlay] = useState(false);
+  
+  // מעקב אחרי מיקום העכבר לאלין
+  const [mousePos, setMousePos] = useState({ x: window.innerWidth - 100, y: window.innerHeight - 100 });
 
   // גוונות עור - צבעים אמיתיים לפי סקלת Fitzpatrick
   const skinTones = [
@@ -51,6 +55,16 @@ export default function AITan() {
       setSelectedTanShade(matchingShade);
     }
   }, [desiredShade]);
+
+  // אלין רודפת אחרי העכבר! 🎯
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePos({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   // טיפול בהעלאת תמונה
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -1055,6 +1069,20 @@ export default function AITan() {
         open={showPurchaseOverlay} 
         onClose={() => setShowPurchaseOverlay(false)}
       />
+
+      {/* אלין רודפת אחרי העכבר! */}
+      <div 
+        className="fixed z-50 pointer-events-none"
+        style={{
+          left: `${mousePos.x - 75}px`,
+          top: `${mousePos.y - 75}px`,
+          transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+          transform: 'scale(1)',
+        }}
+        data-testid="alin-floating"
+      >
+        <Alin size={150} />
+      </div>
     </div>
   );
 }
