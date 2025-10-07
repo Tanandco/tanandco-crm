@@ -312,14 +312,58 @@ export default function AITan() {
                       >
                         <div
                           className={`
-                            w-10 h-10 rounded-full border-2 transition-all duration-150
+                            w-10 h-10 rounded-full relative transition-all duration-150
                             ${isSelected 
-                              ? 'border-white shadow-[0_0_20px_rgba(255,255,255,0.8),0_0_40px_rgba(236,72,153,0.6)]' 
-                              : 'border-white/40 hover:border-white group-hover:shadow-[0_0_15px_rgba(255,255,255,0.5)]'
+                              ? 'shadow-[0_0_20px_rgba(255,255,255,0.8),0_0_40px_rgba(236,72,153,0.6)]' 
+                              : 'group-hover:shadow-[0_0_15px_rgba(255,255,255,0.5)]'
                             }
                           `}
-                          style={{ backgroundColor: shade.color }}
-                        />
+                          style={{ 
+                            background: `
+                              radial-gradient(circle at 30% 30%, 
+                                rgba(255,255,255,0.4) 0%, 
+                                transparent 50%
+                              ),
+                              linear-gradient(145deg, 
+                                ${shade.color}ff 0%, 
+                                ${shade.color}cc 40%,
+                                ${shade.color}99 70%,
+                                ${shade.color}66 100%
+                              ),
+                              repeating-linear-gradient(
+                                45deg,
+                                transparent,
+                                transparent 2px,
+                                ${shade.color}22 2px,
+                                ${shade.color}22 4px
+                              )
+                            `,
+                            boxShadow: `
+                              inset -2px -2px 6px rgba(0,0,0,0.5),
+                              inset 2px 2px 6px rgba(255,255,255,0.3),
+                              inset -1px -1px 2px rgba(0,0,0,0.8),
+                              inset 1px 1px 2px rgba(255,255,255,0.5),
+                              0 4px 8px rgba(0,0,0,0.6),
+                              0 1px 2px rgba(255,255,255,0.3)
+                            `
+                          }}
+                        >
+                          {/* Glass shine effect on hover */}
+                          <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                            style={{
+                              background: `
+                                linear-gradient(135deg,
+                                  rgba(255,255,255,0.9) 0%,
+                                  rgba(255,255,255,0.6) 20%,
+                                  transparent 40%,
+                                  rgba(236,72,153,0.3) 60%,
+                                  rgba(236,72,153,0.6) 100%
+                                )
+                              `,
+                              backdropFilter: 'blur(4px)'
+                            }}
+                          />
+                        </div>
                         {isSelected && (
                           <Sparkles className="absolute -top-1 -right-1 w-4 h-4 text-white neon-glow" />
                         )}
