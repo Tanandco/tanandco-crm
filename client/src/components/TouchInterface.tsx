@@ -230,7 +230,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
         </div>
 
         {/* Self Service Button */}
-        <div className="mt-2">
+        <div className="mt-4">
         <button
           data-testid="button-ai-tan-face-recognition"
           className="
