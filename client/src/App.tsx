@@ -1,12 +1,10 @@
-import { Switch, Route, useLocation } from "wouter";
+import { Switch, Route } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import IconSidebar from "@/components/IconSidebar";
-import PageTransition from "@/components/PageTransition";
-import { useState, useEffect } from "react";
 
 // Import main components
 import TouchInterfaceComponent from "@/components/TouchInterface";
@@ -75,17 +73,6 @@ function Router() {
 }
 
 function App() {
-  const [location] = useLocation();
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [previousLocation, setPreviousLocation] = useState(location);
-
-  useEffect(() => {
-    if (location !== previousLocation) {
-      setIsTransitioning(true);
-      setPreviousLocation(location);
-    }
-  }, [location, previousLocation]);
-
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
@@ -95,10 +82,6 @@ function App() {
             <Router />
           </div>
         </div>
-        <PageTransition 
-          isTransitioning={isTransitioning}
-          onTransitionEnd={() => setIsTransitioning(false)}
-        />
         <Toaster />
       </TooltipProvider>
     </QueryClientProvider>

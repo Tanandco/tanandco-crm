@@ -23,10 +23,8 @@ export default function AITan() {
   const [burnEasily, setBurnEasily] = useState<boolean | null>(null);
   const [showPurchaseOverlay, setShowPurchaseOverlay] = useState(false);
   
-  // אלין משתובבת ומציצה מהפינות! 👁️
-  type Corner = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
-  const [currentCorner, setCurrentCorner] = useState<Corner>('top-right');
-  const [isPeeking, setIsPeeking] = useState(true);
+  // אלין רודפת אחרי העכבר! 🎯
+  const [mousePos, setMousePos] = useState({ x: window.innerWidth - 100, y: window.innerHeight - 100 });
 
   // גוונות עור - צבעים אמיתיים לפי סקלת Fitzpatrick
   const skinTones = [
@@ -58,33 +56,15 @@ export default function AITan() {
     }
   }, [desiredShade]);
 
-  // אלין קופצת בין פינות בשובבות! 🎯
+  // מעקב אחר העכבר לאלין! 🎯
   useEffect(() => {
-    const corners: Corner[] = ['top-left', 'top-right', 'bottom-left', 'bottom-right'];
-    
-    const peekCycle = () => {
-      // התחבאות
-      setIsPeeking(false);
-      
-      setTimeout(() => {
-        // בחירת פינה אקראית חדשה (משתמשים ב-callback כדי לקבל את הערך העדכני)
-        setCurrentCorner((prevCorner) => {
-          const currentIndex = corners.indexOf(prevCorner);
-          const availableCorners = corners.filter((_, i) => i !== currentIndex);
-          return availableCorners[Math.floor(Math.random() * availableCorners.length)];
-        });
-        
-        // הצצה מהפינה החדשה
-        setTimeout(() => {
-          setIsPeeking(true);
-        }, 200);
-      }, 500);
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePos({ x: e.clientX, y: e.clientY });
     };
 
-    // מחזור של הצצות כל 3 שניות
-    const interval = setInterval(peekCycle, 3000);
-    return () => clearInterval(interval);
-  }, []); // ללא dependencies כדי שה-interval לא יתאפס
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   // טיפול בהעלאת תמונה
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -1090,38 +1070,18 @@ export default function AITan() {
         onClose={() => setShowPurchaseOverlay(false)}
       />
 
-      {/* אלין מציצה מהפינות! 👁️ */}
+      {/* אלין רודפת אחרי העכבר עם דיליי! */}
       <div 
         className="fixed z-50 pointer-events-none"
         style={{
-          width: '100px',
-          height: '100px',
-          overflow: 'hidden',
-          ...(currentCorner === 'top-left' && { top: 0, left: 0 }),
-          ...(currentCorner === 'top-right' && { top: 0, right: 0 }),
-          ...(currentCorner === 'bottom-left' && { bottom: 0, left: 0 }),
-          ...(currentCorner === 'bottom-right' && { bottom: 0, right: 0 }),
-          transition: 'all 0.3s ease-out',
+          left: `${mousePos.x - 75}px`,
+          top: `${mousePos.y - 75}px`,
+          transition: 'all 2s ease-out',
+          transform: 'scale(1)',
         }}
-        data-testid="alin-peeking"
+        data-testid="alin-floating"
       >
-        <div
-          style={{
-            position: 'absolute',
-            width: '150px',
-            height: '150px',
-            // מיקום אלין כך שרק עין אחת נראית
-            ...(currentCorner === 'top-left' && { top: '-50px', left: '-50px' }),
-            ...(currentCorner === 'top-right' && { top: '-50px', right: '-50px' }),
-            ...(currentCorner === 'bottom-left' && { bottom: '-50px', left: '-50px' }),
-            ...(currentCorner === 'bottom-right' && { bottom: '-50px', right: '-50px' }),
-            transform: isPeeking ? 'scale(1.2)' : 'scale(0.8)',
-            opacity: isPeeking ? 1 : 0,
-            transition: 'all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
-          }}
-        >
-          <Alin size={150} />
-        </div>
+        <Alin size={150} />
       </div>
     </div>
   );
