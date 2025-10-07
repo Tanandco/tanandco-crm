@@ -59,16 +59,16 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
       id: 'your-store' 
     },
     { 
-      title: '', 
-      icon: <div className="-mt-4"><Alin size={175} /></div>, 
+      title: 'AI TAN', 
+      icon: <div className="-mt-4"><Alin size={136} /></div>, 
       id: 'ai-tan' 
     },
   ];
 
   const handleServiceClick = (serviceId: string) => {
     if (serviceId === 'ai-tan') {
-      // Open AI TAN external link in new tab
-      window.open('https://preview--radiant-booth-studio.lovable.app/', '_blank');
+      // Navigate to AI TAN internal page
+      navigate('/ai-tan');
     } else if (serviceId === 'your-store') {
       // Navigate to shop page
       navigate('/shop');
