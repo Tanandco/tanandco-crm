@@ -102,6 +102,14 @@ export default function AITan() {
       } as React.CSSProperties}
     >
       <style>{`
+        /* Amber gradient text effect */
+        .text-gradient-amber {
+          background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+
         /* Neon glow effect */
         .neon-glow {
           filter: drop-shadow(0 0 40px hsla(var(--primary)/0.40))
@@ -187,21 +195,23 @@ export default function AITan() {
 
         {/* שלבי שימוש */}
         <section className="max-w-6xl mx-auto px-4 py-6">
-          <h2 className="text-xl md:text-2xl font-bold mb-6 text-center text-[hsl(var(--primary))] inline-block px-8 py-3 rounded-2xl mx-auto block w-fit"
+          <div className="inline-block px-8 py-3 rounded-2xl mx-auto mb-6"
               style={{
                 background: 'linear-gradient(135deg, hsl(var(--primary) / 0.08), hsl(var(--primary) / 0.15))',
                 boxShadow: '0 0 15px hsla(var(--primary)/0.2), inset 0 0 10px hsla(var(--primary)/0.05)',
                 border: '1px solid hsla(var(--primary)/0.3)'
               }}>
-            איך זה עובד?
-          </h2>
+            <h2 className="text-xl md:text-2xl font-bold text-center text-gradient-amber">
+              איך זה עובד?
+            </h2>
+          </div>
           
           <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
             {/* שלב 1 */}
             <div className="relative group">
               <div className="bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] rounded-xl p-4 text-center hover:border-[hsl(var(--primary))] transition-all duration-300 hover:scale-105">
                 <div className="w-10 h-10 mx-auto mb-3 rounded-full bg-[hsl(var(--primary))]/20 border-2 border-[hsl(var(--primary))] flex items-center justify-center">
-                  <span className="text-xl font-bold text-[hsl(var(--primary))]">1</span>
+                  <span className="text-xl font-bold text-gradient-amber">1</span>
                 </div>
                 <Camera className="w-6 h-6 mx-auto mb-2 text-[hsl(var(--primary))]" />
                 <h3 className="text-sm font-bold text-[hsl(var(--cardText))] mb-1">צלם תמונה</h3>
@@ -213,7 +223,7 @@ export default function AITan() {
             <div className="relative group">
               <div className="bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] rounded-xl p-4 text-center hover:border-[hsl(var(--primary))] transition-all duration-300 hover:scale-105">
                 <div className="w-10 h-10 mx-auto mb-3 rounded-full bg-[hsl(var(--primary))]/20 border-2 border-[hsl(var(--primary))] flex items-center justify-center">
-                  <span className="text-xl font-bold text-[hsl(var(--primary))]">2</span>
+                  <span className="text-xl font-bold text-gradient-amber">2</span>
                 </div>
                 <Palette className="w-6 h-6 mx-auto mb-2 text-[hsl(var(--primary))]" />
                 <h3 className="text-sm font-bold text-[hsl(var(--cardText))] mb-1">בחר גוון עור</h3>
@@ -225,7 +235,7 @@ export default function AITan() {
             <div className="relative group">
               <div className="bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] rounded-xl p-4 text-center hover:border-[hsl(var(--primary))] transition-all duration-300 hover:scale-105">
                 <div className="w-10 h-10 mx-auto mb-3 rounded-full bg-[hsl(var(--primary))]/20 border-2 border-[hsl(var(--primary))] flex items-center justify-center">
-                  <span className="text-xl font-bold text-[hsl(var(--primary))]">3</span>
+                  <span className="text-xl font-bold text-gradient-amber">3</span>
                 </div>
                 <Sun className="w-6 h-6 mx-auto mb-2 text-[hsl(var(--primary))]" />
                 <h3 className="text-sm font-bold text-[hsl(var(--cardText))] mb-1">בחר רמת שיזוף</h3>
@@ -237,7 +247,7 @@ export default function AITan() {
             <div className="relative group">
               <div className="bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] rounded-xl p-4 text-center hover:border-[hsl(var(--primary))] transition-all duration-300 hover:scale-105">
                 <div className="w-10 h-10 mx-auto mb-3 rounded-full bg-[hsl(var(--primary))]/20 border-2 border-[hsl(var(--primary))] flex items-center justify-center">
-                  <span className="text-xl font-bold text-[hsl(var(--primary))]">4</span>
+                  <span className="text-xl font-bold text-gradient-amber">4</span>
                 </div>
                 <Sparkles className="w-6 h-6 mx-auto mb-2 text-[hsl(var(--primary))]" />
                 <h3 className="text-sm font-bold text-[hsl(var(--cardText))] mb-1">קבל המלצות</h3>
@@ -719,15 +729,15 @@ export default function AITan() {
 
         {/* המלצות */}
         <section className="max-w-6xl mx-auto px-4 py-6 pb-12">
-          <h2 className="text-xl md:text-2xl font-bold mb-6 flex items-center gap-2 justify-center text-[hsl(var(--primary))]">
-            <Sparkles className="w-6 h-6" />
+          <h2 className="text-xl md:text-2xl font-bold mb-6 flex items-center gap-2 justify-center text-gradient-amber">
+            <Sparkles className="w-6 h-6 text-[hsl(var(--primary))]" />
             ההמלצה שלנו
           </h2>
 
           <div className="grid md:grid-cols-2 gap-4 mb-8">
             {/* מספר סשנים */}
             <div className="text-center p-6 bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] rounded-xl backdrop-blur-sm shadow-[0_8px_20px_rgba(0,0,0,.4)]">
-              <div className="text-5xl font-bold text-[hsl(var(--primary))] mb-2 neon-glow">
+              <div className="text-5xl font-bold text-gradient-amber mb-2">
                 {calculateRecommendedSessions()}
               </div>
               <div className="text-lg font-semibold text-[hsl(var(--cardText))]">סשנים מומלצים</div>
@@ -736,7 +746,7 @@ export default function AITan() {
 
             {/* זמן משוער */}
             <div className="text-center p-6 bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] rounded-xl backdrop-blur-sm shadow-[0_8px_20px_rgba(0,0,0,.4)]">
-              <div className="text-5xl font-bold text-[hsl(var(--primary))] mb-2">
+              <div className="text-5xl font-bold text-gradient-amber mb-2">
                 8-12
               </div>
               <div className="text-lg font-semibold text-[hsl(var(--cardText))]">דקות לסשן</div>
