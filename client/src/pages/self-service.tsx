@@ -320,26 +320,26 @@ export default function SelfService() {
         <section id="info" className="relative py-3 flex-1 min-h-0">
           <div className="max-w-4xl mx-auto px-4 h-full flex flex-col justify-center">
             <div className="text-center space-y-3">
-              <p className="text-white/90 text-sm leading-relaxed">
+              <p className="text-white/90 text-base leading-relaxed">
                 אנחנו מובילים את מודל ה־Hybrid: חופש לבחור בין <span className="text-[hsl(var(--primary))] font-semibold">שירות עצמי חכם</span> לשירות מלא ע״י <span className="text-[hsl(var(--primary))] font-semibold">צוות מקצועי</span> — באותה רמת דיוק, בכל פעם.
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
                 <div className="bg-gradient-to-br from-[hsl(var(--primary))]/20 to-transparent border border-[hsl(var(--primary))]/30 rounded-lg p-3 backdrop-blur-sm">
-                  <h3 className="text-[hsl(var(--primary))] font-bold text-sm mb-1">חופש בחירה מלא</h3>
-                  <p className="text-white/80 text-xs">הרשמה ופעולה עצמאית בשעות הפעילות, עם ליווי זמין של צוות מקצועי</p>
+                  <h3 className="text-[hsl(var(--primary))] font-bold text-base mb-1">חופש בחירה מלא</h3>
+                  <p className="text-white/80 text-sm">הרשמה ופעולה עצמאית בשעות הפעילות, עם ליווי זמין של צוות מקצועי</p>
                 </div>
 
                 <div className="bg-gradient-to-br from-[hsl(var(--primary))]/20 to-transparent border border-[hsl(var(--primary))]/30 rounded-lg p-3 backdrop-blur-sm">
-                  <h3 className="text-[hsl(var(--primary))] font-bold text-sm mb-1">או שירות מלא</h3>
-                  <p className="text-white/80 text-xs">איש/אשת צוות מנוסה מלווה אתכם מקצה לקצה</p>
+                  <h3 className="text-[hsl(var(--primary))] font-bold text-base mb-1">או שירות מלא</h3>
+                  <p className="text-white/80 text-sm">איש/אשת צוות מנוסה מלווה אתכם מקצה לקצה</p>
                 </div>
               </div>
 
               <div className="bg-black/40 border border-[hsl(var(--primary))]/40 rounded-lg p-3 backdrop-blur-sm">
-                <p className="text-white/90 font-semibold text-sm mb-2">ללא תיאום מראש. ללא תורים.</p>
+                <p className="text-white/90 font-semibold text-base mb-2">ללא תיאום מראש. ללא תורים.</p>
                 
-                <div className="space-y-1.5 text-xs text-white/80">
+                <div className="space-y-1.5 text-sm text-white/80">
                   <p><span className="text-[hsl(var(--primary))]">כניסה עצמאית בכל שעה</span> של היום ובלילה*</p>
                   <p>מיטות שיזוף זמינות <span className="text-[hsl(var(--primary))]">24/7</span> ללקוחות הבוטיק</p>
                   <p>לאחר שעות הפעילות — כניסה ע״י <span className="text-[hsl(var(--primary))]">מערכת זיהוי פנים</span> מתקדמת*</p>
@@ -348,8 +348,8 @@ export default function SelfService() {
                 </div>
 
                 <div className="mt-3 pt-2 border-t border-white/20">
-                  <p className="text-[hsl(var(--primary))] font-bold text-xs mb-1">שעות פעילות:</p>
-                  <p className="text-white/70 text-[10px]">
+                  <p className="text-[hsl(var(--primary))] font-bold text-sm mb-1">שעות פעילות:</p>
+                  <p className="text-white/70 text-xs">
                     א׳–ה׳ 10:00–19:00 · ו׳ 10:00–14:00 · שבת — סגור
                     <br />
                     <span className="text-white/50">* שירות עצמי לאחר שעות הפעילות</span>
