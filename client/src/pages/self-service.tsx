@@ -407,7 +407,7 @@ export default function SelfService() {
                 data-testid="card-store"
               >
                 <div className="flex flex-col items-center justify-center">
-                  <img src={storeIcon} alt="החנות שלכם" className="w-20 h-20 mb-2 neon-glow object-contain" />
+                  <img src={storeIcon} alt="החנות שלכם" className="w-16 h-16 mb-2 neon-glow object-contain" />
                   <div className="text-sm font-bold tracking-tight">החנות שלכם</div>
                 </div>
               </a>
