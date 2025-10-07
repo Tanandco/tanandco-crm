@@ -222,17 +222,21 @@ export default function SelfService() {
 
         .info-carousel .swiper-button-next,
         .info-carousel .swiper-button-prev {
-          color: rgba(255, 255, 255, 0.7);
           background: rgba(0, 0, 0, 0.4);
-          width: 28px;
-          height: 28px;
+          width: 40px;
+          height: 40px;
           border-radius: 50%;
           border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        .info-carousel .swiper-button-next::after,
+        .info-carousel .swiper-button-next::after {
+          content: '👈';
+          font-size: 24px;
+        }
+        
         .info-carousel .swiper-button-prev::after {
-          font-size: 12px;
+          content: '👉';
+          font-size: 24px;
         }
 
         /* Reduced motion */
