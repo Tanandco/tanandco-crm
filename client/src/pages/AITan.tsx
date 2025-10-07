@@ -14,16 +14,16 @@ export default function AITan() {
     value: number;
   } | null>(null);
 
-  // גוונות עור
+  // גוונות עור - צבעים ריאליסטיים
   const skinTones = [
-    { id: "porcelain", name: "חרסינה", color: "#F8F0E8", description: "בהיר מאוד" },
-    { id: "fair", name: "בהיר", color: "#F5E6D8", description: "בהיר מאוד" },
-    { id: "ivory", name: "שנהב", color: "#F0DCC8", description: "בהיר נייטרלי" },
-    { id: "cream", name: "קרם", color: "#EDD2B8", description: "בהיר חמים" },
-    { id: "lightbeige", name: "בז' בהיר", color: "#E8C8A8", description: "בהיר-בינוני" },
-    { id: "beige", name: "בז'", color: "#E3BE98", description: "בינוני בהיר" },
-    { id: "almond", name: "שקדים", color: "#DEB488", description: "בינוני" },
-    { id: "honey", name: "דבש", color: "#D9AA78", description: "בינוני-כהה" },
+    { id: "porcelain", name: "חרסינה", color: "#FFE7D6", description: "בהיר מאוד" },
+    { id: "fair", name: "בהיר", color: "#F4D5B7", description: "בהיר" },
+    { id: "ivory", name: "שנהב", color: "#E8C4A0", description: "בהיר חם" },
+    { id: "cream", name: "בז'", color: "#D4AB84", description: "בז' בהיר" },
+    { id: "lightbeige", name: "שקדים", color: "#C89568", description: "בינוני בהיר" },
+    { id: "beige", name: "קרמל", color: "#A67C52", description: "בינוני" },
+    { id: "almond", name: "ברונזה", color: "#8B6540", description: "בינוני כהה" },
+    { id: "honey", name: "שוקולד", color: "#6B4D32", description: "כהה" },
   ];
 
   // גוונות שיזוף
