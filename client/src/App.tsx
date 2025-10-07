@@ -23,6 +23,7 @@ import Chat from "@/pages/chat";
 import Onboarding from "@/pages/onboarding";
 import SelfService from "@/pages/self-service";
 import SelfServiceDemo from "@/pages/SelfServiceDemo";
+import AITan from "@/pages/AITan";
 import PaymentSuccess from "@/pages/payment-success";
 import PaymentError from "@/pages/payment-error";
 
@@ -54,6 +55,7 @@ function Router() {
       <Route path="/chat" component={Chat} />
       <Route path="/self-service" component={SelfService} />
       <Route path="/self-service-demo" component={SelfServiceDemo} />
+      <Route path="/ai-tan" component={AITan} />
       <Route path="/payment-success" component={PaymentSuccess} />
       <Route path="/payment-error" component={PaymentError} />
       
