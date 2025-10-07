@@ -182,6 +182,63 @@ export default function AITan() {
           </div>
         </section>
 
+        {/* שלבי שימוש */}
+        <section className="max-w-6xl mx-auto px-4 py-6">
+          <h2 className="text-xl md:text-2xl font-bold mb-6 text-center text-[hsl(var(--primary))]">
+            איך זה עובד?
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            {/* שלב 1 */}
+            <div className="relative group">
+              <div className="bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] rounded-xl p-6 text-center hover:border-[hsl(var(--primary))] transition-all duration-300 hover:scale-105">
+                <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-[hsl(var(--primary))]/20 border-2 border-[hsl(var(--primary))] flex items-center justify-center">
+                  <span className="text-2xl font-bold text-[hsl(var(--primary))] neon-glow">1</span>
+                </div>
+                <Camera className="w-8 h-8 mx-auto mb-3 text-[hsl(var(--primary))]" />
+                <h3 className="font-bold text-[hsl(var(--cardText))] mb-2">צלם תמונה</h3>
+                <p className="text-xs text-white/60">העלה תמונה של העור שלך לניתוח AI מדויק</p>
+              </div>
+            </div>
+
+            {/* שלב 2 */}
+            <div className="relative group">
+              <div className="bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] rounded-xl p-6 text-center hover:border-[hsl(var(--primary))] transition-all duration-300 hover:scale-105">
+                <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-[hsl(var(--primary))]/20 border-2 border-[hsl(var(--primary))] flex items-center justify-center">
+                  <span className="text-2xl font-bold text-[hsl(var(--primary))] neon-glow">2</span>
+                </div>
+                <Palette className="w-8 h-8 mx-auto mb-3 text-[hsl(var(--primary))]" />
+                <h3 className="font-bold text-[hsl(var(--cardText))] mb-2">בחר גוון עור</h3>
+                <p className="text-xs text-white/60">אשר את גוון העור הנוכחי או תן לנו לזהות</p>
+              </div>
+            </div>
+
+            {/* שלב 3 */}
+            <div className="relative group">
+              <div className="bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] rounded-xl p-6 text-center hover:border-[hsl(var(--primary))] transition-all duration-300 hover:scale-105">
+                <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-[hsl(var(--primary))]/20 border-2 border-[hsl(var(--primary))] flex items-center justify-center">
+                  <span className="text-2xl font-bold text-[hsl(var(--primary))] neon-glow">3</span>
+                </div>
+                <Sun className="w-8 h-8 mx-auto mb-3 text-[hsl(var(--primary))]" />
+                <h3 className="font-bold text-[hsl(var(--cardText))] mb-2">בחר רמת שיזוף</h3>
+                <p className="text-xs text-white/60">גלול ובחר את הגוון המושלם שאתה רוצה</p>
+              </div>
+            </div>
+
+            {/* שלב 4 */}
+            <div className="relative group">
+              <div className="bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] rounded-xl p-6 text-center hover:border-[hsl(var(--primary))] transition-all duration-300 hover:scale-105">
+                <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-[hsl(var(--primary))]/20 border-2 border-[hsl(var(--primary))] flex items-center justify-center">
+                  <span className="text-2xl font-bold text-[hsl(var(--primary))] neon-glow">4</span>
+                </div>
+                <Sparkles className="w-8 h-8 mx-auto mb-3 text-[hsl(var(--primary))]" />
+                <h3 className="font-bold text-[hsl(var(--cardText))] mb-2">קבל המלצות</h3>
+                <p className="text-xs text-white/60">AI ימליץ על מספר סשנים ומשך הטיפול</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* הסבר שימוש + העלאת תמונה */}
         <section className="max-w-6xl mx-auto px-4 py-6">
           <div className="grid md:grid-cols-2 gap-6">
