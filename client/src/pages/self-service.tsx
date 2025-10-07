@@ -227,6 +227,27 @@ export default function SelfService() {
           </div>
         </section>
 
+        {/* HYBRID MODEL TEXT */}
+        <div className="max-w-5xl mx-auto px-6 text-center py-4 pb-6">
+          <div className="space-y-3">
+            <p className="text-white/95 text-base leading-relaxed">
+              <span className="text-[hsl(var(--primary))] font-bold">טאן אנד קו</span> מביאה את מהפכת היופי הבאה – מודל היברידי-אוטונומי ייחודי, עם שירותים בטכנולוגיה פורצת דרך וללא תלות בכוח אדם.
+            </p>
+            
+            <p className="text-white/90 text-base leading-relaxed">
+              ובאותה נשימה, אנחנו שומרים על מה שהכי חשוב – <span className="text-[hsl(var(--primary))] font-semibold">הקשר האנושי, המגע, החיוך והשיחה הטובה</span>.
+            </p>
+            
+            <p className="text-white/90 text-base leading-relaxed">
+              כאן תמצאו מקצועני יופי ושיער מהשורה הראשונה, עם כישרון ויצירתיות שממריאים – ומרימים אתכם יחד איתם.
+            </p>
+            
+            <p className="text-[hsl(var(--primary))] text-lg font-bold">
+              ברוכים הבאים למקום הנכון.
+            </p>
+          </div>
+        </div>
+
         {/* SERVICE CARDS */}
         <section id="services" className="relative py-2 pb-20 flex-shrink-0">
           <div className="max-w-6xl mx-auto px-3 text-center">
@@ -315,27 +336,6 @@ export default function SelfService() {
             </div>
           </div>
         </section>
-
-        {/* HYBRID MODEL TEXT */}
-        <div className="max-w-5xl mx-auto px-6 text-center py-4 pb-6">
-          <div className="space-y-4">
-            <p className="text-white/95 text-lg leading-relaxed">
-              <span className="text-[hsl(var(--primary))] font-bold">טאן אנד קו</span> מובילה את המהפכה הבאה של תעשיית היופי עם <span className="text-[hsl(var(--primary))] font-semibold">המודל ההיברידי-אוטונומי הראשון מסוגו</span>: שירותים בטכנולוגיה פורצת דרך, באוטומציה מלאה, 24/7 – וללא תלות בכוח אדם.
-            </p>
-            
-            <p className="text-white/90 text-base leading-relaxed">
-              ובכל זאת, אנחנו מאמינים בלב שלם במה שלא ניתן להחליף בשום אלגוריתם – <span className="text-[hsl(var(--primary))] font-semibold">הקשר האנושי</span>. מגע. קרבה. חיוך. שיחה טובה. ולכן, תחת קורת גג אחת, אנחנו מאחדים את מקצועני היופי והשיער מהשורה הראשונה – כל אחד מהם הוא עולם ומלואו של כישרון, יצירתיות, ועצמאות אמיתית שמאפשרת להם להמריא – ולהעיף את הלקוחות יחד איתם.
-            </p>
-            
-            <p className="text-white/95 text-lg leading-relaxed font-medium">
-              אז קחו נשימה. שבו לכם בנחת על הכיסא. ותנו לנו להוציא אתכם מכאן עם תחושה אחת ברורה:
-            </p>
-            
-            <p className="text-[hsl(var(--primary))] text-xl font-bold">
-              שהגעתם בדיוק למקום הנכון.
-            </p>
-          </div>
-        </div>
 
         {/* FOOTER WITH ALIN */}
         <footer className="border-t border-[hsl(var(--border))] py-2 flex-shrink-0 mt-auto">
