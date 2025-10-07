@@ -316,6 +316,11 @@ export default function SelfService() {
           </div>
         </section>
 
+        {/* DIVIDER */}
+        <div className="max-w-4xl mx-auto px-4">
+          <div className="h-px bg-gradient-to-r from-transparent via-[hsl(var(--primary))]/50 to-transparent"></div>
+        </div>
+
         {/* WELCOME MESSAGE */}
         <section id="info" className="relative py-4 flex-1 min-h-0">
           <div className="max-w-4xl mx-auto px-4 h-full flex flex-col justify-center">
