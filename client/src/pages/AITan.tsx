@@ -185,8 +185,29 @@ export default function AITan() {
                 data-testid={`button-skintone-${tone.id}`}
               >
                 <div
-                  className="w-20 h-20 rounded-full mx-auto mb-3 shadow-lg"
-                  style={{ backgroundColor: tone.color }}
+                  className="w-20 h-20 rounded-full mx-auto mb-3 relative"
+                  style={{ 
+                    background: `
+                      linear-gradient(135deg, 
+                        ${tone.color} 0%, 
+                        ${tone.color}dd 50%, 
+                        ${tone.color}aa 100%
+                      ),
+                      repeating-linear-gradient(
+                        45deg,
+                        transparent,
+                        transparent 2px,
+                        ${tone.color}11 2px,
+                        ${tone.color}11 4px
+                      )
+                    `,
+                    boxShadow: `
+                      inset -2px -2px 8px rgba(0,0,0,0.3),
+                      inset 2px 2px 8px rgba(255,255,255,0.1),
+                      0 4px 12px rgba(0,0,0,0.4),
+                      0 1px 3px rgba(255,255,255,0.2)
+                    `
+                  }}
                 />
                 <div className="text-center">
                   <div className="font-bold text-sm text-[hsl(var(--cardText))]">{tone.name}</div>
