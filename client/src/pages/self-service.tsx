@@ -320,7 +320,7 @@ export default function SelfService() {
         <section id="info" className="relative py-4 flex-1 min-h-0">
           <div className="max-w-4xl mx-auto px-4 h-full flex flex-col justify-center">
             <div className="text-center">
-              <div className="bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] rounded-2xl p-4 backdrop-blur-sm shadow-[0_8px_20px_rgba(0,0,0,.4),0_0_60px_rgba(236,72,153,.2)] space-y-4">
+              <div className="bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] rounded-2xl p-6 backdrop-blur-sm shadow-[0_8px_20px_rgba(0,0,0,.4),0_0_60px_rgba(236,72,153,.2)] space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   <div className="bg-gradient-to-br from-[hsl(var(--primary))]/20 to-transparent border border-[hsl(var(--primary))]/30 rounded-lg p-3 backdrop-blur-sm">
                     <h3 className="text-[hsl(var(--primary))] font-bold text-base mb-1">חופש בחירה מלא</h3>
