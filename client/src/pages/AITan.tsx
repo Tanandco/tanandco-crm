@@ -13,6 +13,8 @@ export default function AITan() {
     color: string;
     value: number;
   } | null>(null);
+  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
 
   // גוונות עור - צבעים ריאליסטיים מוארים
   const skinTones = [
@@ -45,6 +47,26 @@ export default function AITan() {
       setSelectedTanShade(matchingShade);
     }
   }, [desiredShade]);
+
+  // טיפול בהעלאת תמונה
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUploadedImage(reader.result as string);
+        // סימולציה של ניתוח AI
+        setIsAnalyzing(true);
+        setTimeout(() => {
+          setIsAnalyzing(false);
+          // המלצה אוטומטית מבוססת על "ניתוח"
+          const recommendedTone = skinTones[Math.floor(Math.random() * 3) + 1]; // גוון אקראי בטווח הבינוני
+          setSkinTone(recommendedTone.id);
+        }, 2000);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   // חישוב סשנים מומלצים
   const calculateRecommendedSessions = () => {
@@ -189,6 +211,99 @@ export default function AITan() {
                 </div>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* העלאת תמונה */}
+        <section className="max-w-4xl mx-auto px-4 py-6">
+          <div className="relative">
+            <input
+              type="file"
+              id="image-upload"
+              accept="image/*"
+              capture="environment"
+              onChange={handleImageUpload}
+              className="hidden"
+              data-testid="input-image-upload"
+            />
+            
+            {!uploadedImage ? (
+              <label
+                htmlFor="image-upload"
+                className="group block cursor-pointer"
+              >
+                <div className="relative overflow-hidden rounded-xl border-2 border-dashed border-[hsla(var(--primary)/0.4)] hover:border-[hsl(var(--primary))] bg-gradient-to-br from-gray-900/50 via-black/40 to-gray-800/50 p-12 text-center transition-all duration-300 hover:from-[hsl(var(--primary))]/5 hover:via-black/60 hover:to-[hsl(var(--primary))]/5">
+                  <div className="flex flex-col items-center gap-4">
+                    <div className="w-20 h-20 rounded-full bg-[hsl(var(--primary))]/10 flex items-center justify-center border border-[hsl(var(--primary))]/20 group-hover:scale-110 transition-transform duration-300">
+                      <Camera className="w-10 h-10 text-[hsl(var(--primary))] neon-glow" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-[hsl(var(--cardText))] mb-2">
+                        צלם או העלה תמונה של העור
+                      </h3>
+                      <p className="text-sm text-white/60">
+                        גע כאן לפתיחת המצלמה או לבחירת תמונה מהגלריה
+                      </p>
+                    </div>
+                    <div className="flex gap-3 text-xs text-white/50">
+                      <span>צילום ישיר</span>
+                      <span>•</span>
+                      <span>בחירה מגלריה</span>
+                    </div>
+                  </div>
+                </div>
+              </label>
+            ) : (
+              <div className="relative rounded-xl overflow-hidden border-2 border-[hsl(var(--primary))] bg-black/50 p-4">
+                <div className="flex flex-col md:flex-row gap-6 items-center">
+                  {/* התמונה שהועלתה */}
+                  <div className="relative w-48 h-48 rounded-xl overflow-hidden border border-[hsla(var(--primary)/0.3)]">
+                    <img
+                      src={uploadedImage}
+                      alt="Uploaded skin"
+                      className="w-full h-full object-cover"
+                    />
+                    {isAnalyzing && (
+                      <div className="absolute inset-0 bg-black/80 flex items-center justify-center backdrop-blur-sm">
+                        <div className="text-center">
+                          <div className="w-12 h-12 border-4 border-[hsl(var(--primary))] border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+                          <p className="text-sm text-[hsl(var(--primary))] neon-glow">מנתח...</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* תוצאות הניתוח */}
+                  <div className="flex-1 space-y-4">
+                    {isAnalyzing ? (
+                      <div className="space-y-3">
+                        <div className="h-4 bg-white/10 rounded-full animate-pulse"></div>
+                        <div className="h-4 bg-white/10 rounded-full w-3/4 animate-pulse"></div>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="flex items-center gap-2 text-[hsl(var(--primary))]">
+                          <Sparkles className="w-5 h-5 neon-glow" />
+                          <span className="font-bold">ניתוח הושלם בהצלחה!</span>
+                        </div>
+                        <p className="text-sm text-white/80">
+                          זיהינו את גוון העור שלך והתאמנו את ההמלצות בהתאם.
+                          גלול למטה לראות את התוצאות המותאמות אישית.
+                        </p>
+                        <button
+                          onClick={() => setUploadedImage(null)}
+                          className="text-sm text-[hsl(var(--primary))] hover:text-[hsl(var(--primary))]/80 transition-colors flex items-center gap-2"
+                          data-testid="button-upload-new"
+                        >
+                          <Camera className="w-4 h-4" />
+                          צלם תמונה חדשה
+                        </button>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </section>
 
