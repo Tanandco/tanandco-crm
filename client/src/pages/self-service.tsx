@@ -353,7 +353,7 @@ export default function SelfService() {
               </a>
               
               {/* Flowing Text Bubble with Typing Effect */}
-              <div className="relative flex-1 bg-gradient-to-r from-[hsl(var(--primary))]/20 to-transparent border border-[hsl(var(--primary))]/40 rounded-2xl rounded-tr-sm py-1.5 px-3 backdrop-blur-sm animate-slide-in-left">
+              <div className="relative flex-1 bg-gradient-to-r from-[hsl(var(--primary))]/20 to-transparent border border-[hsl(var(--primary))]/40 rounded-2xl rounded-tr-sm py-1 px-2 backdrop-blur-sm animate-slide-in-left">
                 <p className="text-white/90 text-sm typing-effect">
                   היי, אני אלין! העוזרת הדיגיטלית שלכם זמינה 24/7 - לחצו עליי לשיחה בוואטסאפ
                 </p>
