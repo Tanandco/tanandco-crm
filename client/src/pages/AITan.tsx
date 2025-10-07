@@ -254,23 +254,15 @@ export default function AITan() {
 
           <div className="grid md:grid-cols-2 gap-6 items-center">
             {/* גרדיאנט אינטראקטיבי של רמות שיזוף */}
-            <div className="space-y-4">
+            <div className="space-y-6">
               <div className="flex justify-between text-sm text-white/60 px-2">
                 <span>בהיר</span>
                 <span>עמוק</span>
               </div>
               
-              <div className="relative h-20 rounded-xl overflow-hidden border border-[hsla(var(--primary)/0.6)] shadow-[0_8px_20px_rgba(0,0,0,.4)]">
-                {/* גרדיאנט רקע */}
-                <div 
-                  className="absolute inset-0"
-                  style={{
-                    background: `linear-gradient(to left, ${tanShades.map(s => s.color).join(', ')})`
-                  }}
-                />
-                
-                {/* עיגולים אינטראקטיביים על הגרדיאנט */}
-                <div className="absolute inset-0 flex items-center justify-around px-2">
+              <div className="relative px-2">
+                {/* נקודות מעל הפס */}
+                <div className="flex items-center justify-around mb-3">
                   {tanShades.map((shade) => {
                     const currentToneIndex = skinTones.findIndex((t) => t.id === skinTone) + 1;
                     const minValue = Math.max(6, currentToneIndex);
@@ -296,7 +288,7 @@ export default function AITan() {
                       >
                         <div
                           className={`
-                            w-8 h-8 rounded-full border-2 transition-all duration-150
+                            w-10 h-10 rounded-full border-2 transition-all duration-150
                             ${isSelected 
                               ? 'border-white shadow-[0_0_20px_rgba(255,255,255,0.8),0_0_40px_rgba(236,72,153,0.6)]' 
                               : 'border-white/40 hover:border-white group-hover:shadow-[0_0_15px_rgba(255,255,255,0.5)]'
@@ -311,6 +303,15 @@ export default function AITan() {
                     );
                   })}
                 </div>
+                
+                {/* פס גרדיאנט עדין */}
+                <div 
+                  className="h-1.5 rounded-full"
+                  style={{
+                    background: `linear-gradient(to left, ${tanShades.map(s => s.color).join(', ')})`,
+                    opacity: 0.6
+                  }}
+                />
               </div>
               
               <div className="text-center text-xs text-white/50 px-2">
