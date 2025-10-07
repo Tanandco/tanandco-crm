@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'wouter';
-import { Home, Settings } from 'lucide-react';
+import { Home, Settings, Hand } from 'lucide-react';
 import Logo from '@/components/Logo';
 import Alin from '@/components/Alin';
 import SunBedsDialog from '@/components/SunBedsDialog';
@@ -158,13 +158,13 @@ export default function SelfService() {
         }
 
         .info-carousel .swiper-slide {
-          width: 180px !important;
-          height: 120px !important;
+          width: 220px !important;
+          height: 140px !important;
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 12px;
-          border-radius: 12px;
+          padding: 16px;
+          border-radius: 16px;
           background: linear-gradient(135deg, 
             rgba(236, 72, 153, 0.2) 0%,
             rgba(168, 85, 247, 0.15) 50%,
@@ -227,16 +227,12 @@ export default function SelfService() {
           height: 40px;
           border-radius: 50%;
           border: 1px solid rgba(255, 255, 255, 0.08);
+          color: rgba(236, 72, 153, 0.9);
         }
 
-        .info-carousel .swiper-button-next::after {
-          content: '👈';
-          font-size: 24px;
-        }
-        
+        .info-carousel .swiper-button-next::after,
         .info-carousel .swiper-button-prev::after {
-          content: '👉';
-          font-size: 24px;
+          content: '';
         }
 
         /* Reduced motion */
@@ -421,13 +417,13 @@ export default function SelfService() {
                 href="https://wa.me/972557247033"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="h-[140px] w-[130px] rounded-xl p-3 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm flex items-center justify-center text-center"
+                className="h-[140px] w-[130px] rounded-xl p-2 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm flex items-center justify-center text-center"
                 onMouseMove={handleRippleMove}
                 data-testid="card-ai-tan"
               >
                 <div className="flex flex-col items-center justify-center">
-                  <div className="relative rounded-full overflow-hidden w-20 h-20 mb-2 neon-glow">
-                    <Alin size={80} />
+                  <div className="relative rounded-full overflow-hidden w-24 h-24 mb-1 neon-glow">
+                    <Alin size={96} />
                   </div>
                   <div className="text-sm font-bold tracking-tight">AI TAN</div>
                 </div>
@@ -442,22 +438,31 @@ export default function SelfService() {
             <h2 className="text-base md:text-lg font-bold mb-2 text-center text-[hsl(var(--primary))]">
               מידע חשוב
             </h2>
-            <div className="flex-1 min-h-0">
+            <div className="flex-1 min-h-0 relative">
+              <button className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-black/40 w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-black/60 transition-colors swiper-button-prev-custom">
+                <Hand size={20} className="text-[hsl(var(--primary))] rotate-90" />
+              </button>
+              <button className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-black/40 w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-black/60 transition-colors swiper-button-next-custom">
+                <Hand size={20} className="text-[hsl(var(--primary))] -rotate-90" />
+              </button>
               <Swiper
                 effect={'coverflow'}
                 grabCursor={true}
                 centeredSlides={true}
                 slidesPerView={'auto'}
-                initialSlide={1}
+                initialSlide={2}
                 loop={true}
                 coverflowEffect={{
-                  rotate: 35,
+                  rotate: 20,
                   stretch: 0,
-                  depth: 100,
-                  modifier: 1,
+                  depth: 200,
+                  modifier: 1.5,
                   slideShadows: true,
                 }}
-                navigation={true}
+                navigation={{
+                  nextEl: '.swiper-button-next-custom',
+                  prevEl: '.swiper-button-prev-custom',
+                }}
                 modules={[EffectCoverflow, Navigation]}
                 className="info-carousel h-full"
                 dir="rtl"
@@ -465,11 +470,11 @@ export default function SelfService() {
                 {infoSlides.map((slide, index) => (
                   <SwiperSlide key={index}>
                     <div className="text-center">
-                      <div className="text-2xl mb-1.5">{slide.icon}</div>
-                      <h3 className="text-sm font-bold text-[hsl(var(--primary))] mb-1">
+                      <div className="text-3xl mb-2">{slide.icon}</div>
+                      <h3 className="text-base font-bold text-[hsl(var(--primary))] mb-1.5">
                         {slide.title}
                       </h3>
-                      <p className="text-white/80 text-[10px]">
+                      <p className="text-white/80 text-xs">
                         {slide.content}
                       </p>
                     </div>
