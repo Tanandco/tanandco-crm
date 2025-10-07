@@ -366,4 +366,14 @@
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
   }
+
+  /* אפקט זוהר ניאון באמבר */
+  .neon-glow {
+    text-shadow: 
+      0 0 10px hsl(38 95% 60% / 0.8),
+      0 0 20px hsl(38 95% 60% / 0.6),
+      0 0 30px hsl(38 95% 60% / 0.4),
+      0 0 40px hsl(38 95% 60% / 0.2);
+    filter: drop-shadow(0 0 15px hsl(38 95% 60% / 0.6));
+  }
 }
