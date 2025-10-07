@@ -7,6 +7,7 @@ import SunBedsDialog from '@/components/SunBedsDialog';
 import SprayTanDialog from '@/components/SprayTanDialog';
 import HairSalonDialog from '@/components/HairSalonDialog';
 import CosmeticsDialog from '@/components/CosmeticsDialog';
+import ChatBox from '@/components/ChatBox';
 import tanningBedIcon from '@assets/עיצוב ללא שם (30)_1759413689481.png';
 import sprayTanIcon from '@assets/freepik__spray-tan-variation-b-modern-flatbadge-3d-spray-gu__47717_1759413070782.png';
 import hairSalonIcon from '@assets/freepik__3d-neon-pink-icon-of-a-hair-salon-symbol-stylized-__47719_1759413079154.png';
@@ -22,6 +23,7 @@ export default function SelfService() {
   const [sprayTanOpen, setSprayTanOpen] = useState(false);
   const [hairSalonOpen, setHairSalonOpen] = useState(false);
   const [cosmeticsOpen, setCosmeticsOpen] = useState(false);
+  const [chatOpen, setChatOpen] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
@@ -348,20 +350,18 @@ export default function SelfService() {
           <div className="max-w-6xl mx-auto px-3">
             <div className="flex items-center gap-1">
               {/* Alin Avatar */}
-              <a
-                href="https://wa.me/972557247033"
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                onClick={() => setChatOpen(true)}
                 className="relative shrink-0 group animate-bounce-slow hover:scale-110 transition-transform -mt-8"
                 data-testid="button-chat-with-alin"
               >
                 <Alin size={180} />
-              </a>
+              </button>
               
               {/* Flowing Text Bubble with Typing Effect */}
               <div className="relative bg-gradient-to-r from-[hsl(var(--primary))]/20 to-transparent border border-[hsl(var(--primary))]/40 rounded-2xl rounded-tr-sm py-1 px-2 backdrop-blur-sm animate-slide-in-left w-fit">
-                <p className="text-white/90 text-sm typing-effect whitespace-nowrap line-through">
-                  היי, אני אלין! העוזרת הדיגיטלית שלכם זמינה 24/7 - לחצו עליי לשיחה בוואטסאפ
+                <p className="text-white/90 text-sm typing-effect whitespace-nowrap">
+                  היי, אני אלין! העוזרת הדיגיטלית שלכם זמינה 24/7 - לחצו עליי לצ'אט מיידי
                 </p>
               </div>
             </div>
@@ -374,6 +374,9 @@ export default function SelfService() {
       <SprayTanDialog open={sprayTanOpen} onOpenChange={setSprayTanOpen} />
       <HairSalonDialog open={hairSalonOpen} onOpenChange={setHairSalonOpen} />
       <CosmeticsDialog open={cosmeticsOpen} onOpenChange={setCosmeticsOpen} />
+      
+      {/* CHATBOX */}
+      <ChatBox open={chatOpen} onClose={() => setChatOpen(false)} />
     </div>
   );
 }
