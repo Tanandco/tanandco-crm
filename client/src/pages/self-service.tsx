@@ -317,9 +317,9 @@ export default function SelfService() {
         </section>
 
         {/* WELCOME MESSAGE */}
-        <section id="info" className="relative py-3 flex-1 min-h-0">
+        <section id="info" className="relative py-8 flex-1 min-h-0">
           <div className="max-w-4xl mx-auto px-4 h-full flex flex-col justify-center">
-            <div className="text-center space-y-6">
+            <div className="text-center space-y-8">
               <p className="text-white/90 text-base leading-relaxed">
                 אנחנו מובילים את מודל ה־Hybrid: חופש לבחור בין <span className="text-[hsl(var(--primary))] font-semibold">שירות עצמי חכם</span> לשירות מלא ע״י <span className="text-[hsl(var(--primary))] font-semibold">צוות מקצועי</span> — באותה רמת דיוק, בכל פעם.
               </p>
