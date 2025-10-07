@@ -131,7 +131,7 @@ export default function CosmeticsDialog({ open, onOpenChange }: CosmeticsDialogP
                     border hover:border-2
                     rounded-md backdrop-blur-sm
                     flex flex-col items-center justify-between pb-4
-                    transition-all duration-300 ease-in-out
+                    transition-all duration-150 ease-in-out
                     hover-elevate active-elevate-2
                     overflow-visible
                   "
@@ -143,17 +143,17 @@ export default function CosmeticsDialog({ open, onOpenChange }: CosmeticsDialogP
                   onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.6)'}
                   data-testid={`cosmetics-action-${index}`}
                 >
-                  <div className="flex-1 flex items-center justify-center">
+                  <div className="flex-1 flex items-center justify-center transition-all duration-150 group-hover:scale-110">
                     {action.iconType === 'image' ? (
                       <img 
                         src={action.icon as string}
                         alt={action.title}
-                        className="w-24 h-24 object-contain"
+                        className="w-24 h-24 object-contain group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
                         style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }}
                       />
                     ) : action.iconType === 'lucide' ? (
                       <action.icon 
-                        className="w-20 h-20 text-pink-500"
+                        className="w-20 h-20 text-pink-500 group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
                         style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }}
                       />
                     ) : null}

@@ -195,7 +195,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                     border hover:border-2
                     rounded-md backdrop-blur-sm
                     flex flex-col items-center justify-between pb-4
-                    transition-all duration-300 ease-in-out
+                    transition-all duration-150 ease-in-out
                     hover-elevate active-elevate-2
                     overflow-visible
                   "
@@ -207,7 +207,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                   onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.6)'}
                   data-testid={(option as any).testId || `action-tile-${index}`}
                 >
-                <div className="flex-1 flex items-center justify-center">
+                <div className="flex-1 flex items-center justify-center transition-all duration-150 group-hover:scale-110">
                   {option.iconType === 'image' ? (
                     <img 
                       src={option.icon as string}
@@ -216,7 +216,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                         option.title === "רכישת ברונזרים" || option.title === "חיפוש משתזף קיים"
                           ? "w-20 h-20"
                           : "w-24 h-24"
-                      } object-contain`}
+                      } object-contain group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]`}
                       style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }}
                     />
                   ) : option.iconType === 'component' ? (
@@ -225,7 +225,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                     </div>
                   ) : option.icon && !option.isFunction && (
                     <option.icon 
-                      className="w-24 h-24 text-pink-400"
+                      className="w-24 h-24 text-pink-400 group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
                       style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }}
                     />
                   )}
