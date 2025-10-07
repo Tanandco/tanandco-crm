@@ -230,7 +230,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
         </div>
 
         {/* Self Service Button */}
-        <div className="mt-auto">
+        <div className="mt-6">
         <button
           data-testid="button-ai-tan-face-recognition"
           className="
@@ -239,7 +239,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
             border-2
             rounded-md backdrop-blur-sm
             flex items-center justify-between gap-2
-            transition-all duration-300 ease-in-out
+            transition-all duration-150 ease-in-out
             hover-elevate active-elevate-2
             pr-3 pl-6 text-xl font-bold
             transform perspective-1000
@@ -257,7 +257,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
           <img 
             src={selfServiceIcon} 
             alt="שירות עצמי" 
-            className="w-28 h-28 object-contain"
+            className="w-28 h-28 object-contain transition-all duration-150 group-hover:scale-110 group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
             style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }}
           />
           <div className="flex items-center">
