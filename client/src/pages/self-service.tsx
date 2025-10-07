@@ -70,27 +70,27 @@ export default function SelfService() {
   const infoSlides = [
     {
       title: "מודל Hybrid",
-      content: "שירות עצמי חכם או ליווי מלא - הבחירה שלכם",
+      content: "שירות עצמי או ליווי מלא",
       icon: "🔄"
     },
     {
       title: "זמינות 24/7",
-      content: "כניסה בזיהוי פנים - ללא תיאום מראש",
+      content: "כניסה בזיהוי פנים",
       icon: "🕐"
     },
     {
       title: "שעות פעילות",
-      content: "א׳–ה׳ 10:00–19:00 · ו׳ 10:00–14:00",
+      content: "א׳–ה׳ 10:00–19:00",
       icon: "📅"
     },
     {
-      title: "אלין - הבוט החכם",
-      content: "זמין/ה 24/7 לשאלות וייעוץ",
+      title: "אלין - AI",
+      content: "זמין/ה 24/7",
       icon: "🤖"
     },
     {
       title: "סביבה בטוחה",
-      content: "מערכות זיהוי פנים מתקדמות",
+      content: "מערכות מתקדמות",
       icon: "🔒"
     }
   ];
@@ -98,7 +98,7 @@ export default function SelfService() {
   return (
     <div 
       dir="rtl" 
-      className="min-h-screen bg-black text-white antialiased selection:bg-white/10"
+      className="h-screen overflow-hidden bg-black text-white antialiased selection:bg-white/10"
       style={{
         '--bg': '210 6% 8%',
         '--primary': '328 100% 70%',
@@ -158,13 +158,13 @@ export default function SelfService() {
         }
 
         .info-carousel .swiper-slide {
-          width: 280px !important;
-          height: 200px !important;
+          width: 180px !important;
+          height: 120px !important;
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 24px;
-          border-radius: 20px;
+          padding: 12px;
+          border-radius: 12px;
           background: linear-gradient(135deg, 
             rgba(236, 72, 153, 0.2) 0%,
             rgba(168, 85, 247, 0.15) 50%,
@@ -172,10 +172,9 @@ export default function SelfService() {
           backdrop-filter: blur(12px);
           border: 1px solid rgba(236, 72, 153, 0.6);
           box-shadow: 
-            0 10px 20px rgba(0, 0, 0, 0.3),
-            0 20px 40px rgba(236, 72, 153, 0.3),
-            0 30px 60px rgba(168, 85, 247, 0.2),
-            0 0 80px rgba(236, 72, 153, 0.1);
+            0 8px 16px rgba(0, 0, 0, 0.3),
+            0 16px 32px rgba(236, 72, 153, 0.3),
+            0 0 60px rgba(236, 72, 153, 0.1);
           position: relative;
           transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
           overflow: visible;
@@ -188,7 +187,7 @@ export default function SelfService() {
           content: '';
           position: absolute;
           inset: -2px;
-          border-radius: 20px;
+          border-radius: 12px;
           padding: 2px;
           background: linear-gradient(
             135deg,
@@ -214,11 +213,10 @@ export default function SelfService() {
             rgba(236, 72, 153, 0.15) 100%);
           backdrop-filter: blur(16px);
           box-shadow: 
-            0 20px 40px rgba(0, 0, 0, 0.5),
-            0 30px 60px rgba(236, 72, 153, 0.5),
-            0 40px 80px rgba(168, 85, 247, 0.4),
-            0 0 100px rgba(236, 72, 153, 0.3);
-          transform: translateY(-10px) scale(1.05) rotateX(2deg);
+            0 16px 32px rgba(0, 0, 0, 0.5),
+            0 24px 48px rgba(236, 72, 153, 0.5),
+            0 0 80px rgba(236, 72, 153, 0.3);
+          transform: translateY(-6px) scale(1.05) rotateX(2deg);
           border-color: rgba(236, 72, 153, 0.8);
         }
 
@@ -226,15 +224,15 @@ export default function SelfService() {
         .info-carousel .swiper-button-prev {
           color: rgba(255, 255, 255, 0.7);
           background: rgba(0, 0, 0, 0.4);
-          width: 40px;
-          height: 40px;
+          width: 28px;
+          height: 28px;
           border-radius: 50%;
           border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .info-carousel .swiper-button-next::after,
         .info-carousel .swiper-button-prev::after {
-          font-size: 16px;
+          font-size: 12px;
         }
 
         /* Reduced motion */
@@ -294,9 +292,9 @@ export default function SelfService() {
 
       {/* NAVIGATION BAR */}
       <nav className="sticky top-0 z-40 backdrop-blur-xl bg-black/70 border-b border-[hsl(var(--border))]">
-        <div className="max-w-6xl mx-auto px-6 py-3 flex items-center gap-4">
+        <div className="max-w-6xl mx-auto px-3 py-1.5 flex items-center gap-2">
           <Logo size="small" showGlow={false} showUnderline={false} />
-          <ul className="mr-auto flex gap-4 text-sm">
+          <ul className="mr-auto flex gap-2 text-xs">
             <li>
               <a href="#services" className="hover:text-[hsl(var(--primary))] transition-colors">
                 שירותים
@@ -307,119 +305,110 @@ export default function SelfService() {
                 מידע
               </a>
             </li>
-            <li>
-              <a href="#bot" className="hover:text-[hsl(var(--primary))] transition-colors">
-                אלין
-              </a>
-            </li>
           </ul>
         </div>
       </nav>
 
       {/* CORNER BUTTONS */}
-      <div className="fixed top-4 left-4 z-50 flex gap-2">
+      <div className="fixed top-2 left-2 z-50 flex gap-1.5">
         <button
           onClick={() => navigate('/')}
           aria-label="Home"
-          className="size-12 rounded-full backdrop-blur-xl bg-[hsla(var(--muted)/0.6)] border border-[hsla(var(--primary)/0.4)] hover:border-[hsl(var(--primary))] flex items-center justify-center shadow-[0_4px_12px_rgba(0,0,0,.3)] hover:scale-105 transition-all"
+          className="size-9 rounded-full backdrop-blur-xl bg-[hsla(var(--muted)/0.6)] border border-[hsla(var(--primary)/0.4)] hover:border-[hsl(var(--primary))] flex items-center justify-center shadow-[0_4px_12px_rgba(0,0,0,.3)] hover:scale-105 transition-all"
           data-testid="button-home"
         >
-          <Home size={20} className="text-white" />
+          <Home size={16} className="text-white" />
         </button>
         <button
           onClick={() => alert('Settings')}
           aria-label="Settings"
-          className="size-12 rounded-full backdrop-blur-xl bg-[hsla(var(--muted)/0.6)] border border-[hsla(var(--primary)/0.4)] hover:border-[hsl(var(--primary))] flex items-center justify-center shadow-[0_4px_12px_rgba(0,0,0,.3)] hover:scale-105 transition-all"
+          className="size-9 rounded-full backdrop-blur-xl bg-[hsla(var(--muted)/0.6)] border border-[hsla(var(--primary)/0.4)] hover:border-[hsl(var(--primary))] flex items-center justify-center shadow-[0_4px_12px_rgba(0,0,0,.3)] hover:scale-105 transition-all"
           data-testid="button-settings"
         >
-          <Settings size={20} className="text-white" />
+          <Settings size={16} className="text-white" />
         </button>
       </div>
 
-      <main className="relative z-10">
+      <main className="relative z-10 h-[calc(100vh-44px)] flex flex-col">
         {/* HERO SECTION */}
-        <section className="relative overflow-hidden py-14">
+        <section className="relative overflow-hidden py-2">
           <div className="absolute inset-0 bg-gradient-to-br from-black via-black/95 to-[hsla(var(--primary)/0.05)]" />
-          <div className="relative max-w-6xl mx-auto px-6 text-center">
-            <h2 className="text-2xl md:text-4xl font-extrabold leading-tight">
+          <div className="relative max-w-6xl mx-auto px-3 text-center">
+            <h2 className="text-base md:text-lg font-extrabold leading-tight">
               המודל ההיברידי של תעשיית השיזוף - העולם של המחר
             </h2>
-            <p className="mt-3 text-white/80 max-w-3xl mx-auto">
-              בחרו שירות והתחילו — שירות עצמי 24/7 או ליווי מלא מצוות מקצועי, לפי מה שנוח לכם.
-            </p>
           </div>
         </section>
 
         {/* SERVICE CARDS */}
-        <section id="services" className="relative py-12">
-          <div className="absolute inset-0 -z-10 bg-gradient-to-br from-black/0 via-black/30 to-black/0" />
-          <div className="max-w-6xl mx-auto px-6 text-center">
-            <h3 className="text-2xl md:text-3xl font-extrabold mb-8 text-[hsl(var(--primary))]">
+        <section id="services" className="relative py-2 flex-shrink-0">
+          <div className="max-w-6xl mx-auto px-3 text-center">
+            <h3 className="text-base md:text-lg font-extrabold mb-2 text-[hsl(var(--primary))]">
               בחרו את השירות המועדף עליכם
             </h3>
-            <div className="flex gap-3 justify-center flex-wrap max-w-5xl mx-auto">
+            <div className="flex gap-1.5 justify-center flex-wrap max-w-5xl mx-auto">
               {/* Sun Beds */}
               <button
                 onClick={() => setSunBedsOpen(true)}
-                className="h-[160px] w-[150px] rounded-2xl p-4 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-300 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm"
+                className="h-[100px] w-[95px] rounded-xl p-2 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm"
                 onMouseMove={handleRippleMove}
                 data-testid="card-sun-beds"
               >
                 <div className="h-full w-full flex flex-col items-center justify-center text-center">
-                  <img src={tanningBedIcon} alt="מיטות שיזוף" className="w-20 h-20 mb-3 neon-glow object-contain" />
-                  <div className="text-lg font-bold tracking-tight">מיטות שיזוף</div>
+                  <img src={tanningBedIcon} alt="מיטות שיזוף" className="w-12 h-12 mb-1.5 neon-glow object-contain" />
+                  <div className="text-xs font-bold tracking-tight">מיטות שיזוף</div>
                 </div>
               </button>
 
               {/* Spray Tan */}
               <button
                 onClick={() => setSprayTanOpen(true)}
-                className="h-[160px] w-[150px] rounded-2xl p-4 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-300 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm"
+                className="h-[100px] w-[95px] rounded-xl p-2 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm"
                 onMouseMove={handleRippleMove}
                 data-testid="card-spray-tan"
               >
                 <div className="h-full w-full flex flex-col items-center justify-center text-center">
-                  <img src={sprayTanIcon} alt="שיזוף בהתזה" className="w-20 h-20 mb-3 neon-glow object-contain" />
-                  <div className="text-lg font-bold tracking-tight">שיזוף בהתזה</div>
+                  <img src={sprayTanIcon} alt="שיזוף בהתזה" className="w-12 h-12 mb-1.5 neon-glow object-contain" />
+                  <div className="text-xs font-bold tracking-tight">שיזוף בהתזה</div>
                 </div>
               </button>
 
               {/* Hair Salon */}
               <button
                 onClick={() => setHairSalonOpen(true)}
-                className="h-[160px] w-[150px] rounded-2xl p-4 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-300 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm"
+                className="h-[100px] w-[95px] rounded-xl p-2 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm"
                 onMouseMove={handleRippleMove}
                 data-testid="card-hair-salon"
               >
                 <div className="h-full w-full flex flex-col items-center justify-center text-center">
-                  <img src={hairSalonIcon} alt="מספרה" className="w-20 h-20 mb-3 neon-glow object-contain" />
-                  <div className="text-lg font-bold tracking-tight">מספרה</div>
+                  <img src={hairSalonIcon} alt="מספרה" className="w-12 h-12 mb-1.5 neon-glow object-contain" />
+                  <div className="text-xs font-bold tracking-tight">מספרה</div>
                 </div>
               </button>
 
               {/* Cosmetics */}
               <button
                 onClick={() => setCosmeticsOpen(true)}
-                className="h-[160px] w-[150px] rounded-2xl p-4 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--primary))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-300 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm"
+                className="h-[100px] w-[95px] rounded-xl p-2 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm"
                 onMouseMove={handleRippleMove}
                 data-testid="card-cosmetics"
               >
                 <div className="h-full w-full flex flex-col items-center justify-center text-center">
-                  <img src={cosmeticsIcon} alt="קוסמטיקה" className="w-20 h-20 mb-3 neon-glow object-contain" />
-                  <div className="text-lg font-bold tracking-tight">קוסמטיקה</div>
+                  <img src={cosmeticsIcon} alt="קוסמטיקה" className="w-12 h-12 mb-1.5 neon-glow object-contain" />
+                  <div className="text-xs font-bold tracking-tight">קוסמטיקה</div>
                 </div>
               </button>
 
               {/* Store */}
               <a
                 href="/shop"
-                className="h-[160px] w-[150px] rounded-2xl p-4 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-300 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm flex items-center justify-center text-center"
+                className="h-[100px] w-[95px] rounded-xl p-2 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm flex items-center justify-center text-center"
                 onMouseMove={handleRippleMove}
                 data-testid="card-store"
               >
                 <div className="flex flex-col items-center justify-center">
-                  <img src={storeIcon} alt="החנות שלכם" className="w-20 h-20 mb-3 neon-glow object-contain" />
-                  <div className="text-lg font-bold tracking-tight">החנות שלכם</div>
+                  <img src={storeIcon} alt="החנות שלכם" className="w-12 h-12 mb-1.5 neon-glow object-contain" />
+                  <div className="text-xs font-bold tracking-tight">החנות שלכם</div>
                 </div>
               </a>
 
@@ -428,15 +417,15 @@ export default function SelfService() {
                 href="https://wa.me/972557247033"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="h-[160px] w-[150px] rounded-2xl p-4 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-300 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm flex items-center justify-center text-center"
+                className="h-[100px] w-[95px] rounded-xl p-2 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm flex items-center justify-center text-center"
                 onMouseMove={handleRippleMove}
                 data-testid="card-ai-tan"
               >
                 <div className="flex flex-col items-center justify-center">
-                  <div className="relative rounded-full overflow-hidden w-20 h-20 mb-3 neon-glow">
-                    <Alin size={80} />
+                  <div className="relative rounded-full overflow-hidden w-12 h-12 mb-1.5 neon-glow">
+                    <Alin size={48} />
                   </div>
-                  <div className="text-lg font-bold tracking-tight">AI TAN</div>
+                  <div className="text-xs font-bold tracking-tight">AI TAN</div>
                 </div>
               </a>
             </div>
@@ -444,97 +433,78 @@ export default function SelfService() {
         </section>
 
         {/* 3D INFO CAROUSEL */}
-        <section id="info" className="relative py-16">
-          <div className="max-w-6xl mx-auto px-6">
-            <h2 className="text-2xl md:text-3xl font-bold mb-12 text-center text-[hsl(var(--primary))]">
+        <section id="info" className="relative py-2 flex-1 min-h-0">
+          <div className="max-w-6xl mx-auto px-3 h-full flex flex-col">
+            <h2 className="text-base md:text-lg font-bold mb-2 text-center text-[hsl(var(--primary))]">
               מידע חשוב
             </h2>
-            <Swiper
-              effect={'coverflow'}
-              grabCursor={true}
-              centeredSlides={true}
-              slidesPerView={'auto'}
-              initialSlide={1}
-              loop={true}
-              autoplay={{
-                delay: 3500,
-                disableOnInteraction: false,
-                pauseOnMouseEnter: true,
-              }}
-              coverflowEffect={{
-                rotate: 35,
-                stretch: 0,
-                depth: 150,
-                modifier: 1,
-                slideShadows: true,
-              }}
-              navigation={true}
-              modules={[EffectCoverflow, Navigation, Autoplay]}
-              className="info-carousel"
-              dir="rtl"
-            >
-              {infoSlides.map((slide, index) => (
-                <SwiperSlide key={index}>
-                  <div className="text-center">
-                    <div className="text-5xl mb-4">{slide.icon}</div>
-                    <h3 className="text-xl font-bold text-[hsl(var(--primary))] mb-3">
-                      {slide.title}
-                    </h3>
-                    <p className="text-white/80 text-sm">
-                      {slide.content}
-                    </p>
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
+            <div className="flex-1 min-h-0">
+              <Swiper
+                effect={'coverflow'}
+                grabCursor={true}
+                centeredSlides={true}
+                slidesPerView={'auto'}
+                initialSlide={1}
+                loop={true}
+                autoplay={{
+                  delay: 3500,
+                  disableOnInteraction: false,
+                  pauseOnMouseEnter: true,
+                }}
+                coverflowEffect={{
+                  rotate: 35,
+                  stretch: 0,
+                  depth: 100,
+                  modifier: 1,
+                  slideShadows: true,
+                }}
+                navigation={true}
+                modules={[EffectCoverflow, Navigation, Autoplay]}
+                className="info-carousel h-full"
+                dir="rtl"
+              >
+                {infoSlides.map((slide, index) => (
+                  <SwiperSlide key={index}>
+                    <div className="text-center">
+                      <div className="text-2xl mb-1.5">{slide.icon}</div>
+                      <h3 className="text-sm font-bold text-[hsl(var(--primary))] mb-1">
+                        {slide.title}
+                      </h3>
+                      <p className="text-white/80 text-[10px]">
+                        {slide.content}
+                      </p>
+                    </div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
           </div>
         </section>
 
-        {/* ALIN SECTION */}
-        <section id="bot" className="max-w-6xl mx-auto px-6 py-12">
-          <div className="rounded-2xl p-6 bg-[hsl(var(--card))] border border-[hsl(var(--border))] flex items-center gap-4">
-            <div className="relative rounded-full overflow-hidden w-[64px] h-[64px] neon-glow shrink-0">
-              <Alin size={64} />
-            </div>
-            <div className="flex-1">
-              <h4 className="text-lg font-semibold text-[hsl(var(--primary))]">אלין — הצ׳טבוט החכם</h4>
-              <p className="text-white/80 text-sm">AI TAN לשאלות, ייעוץ וקביעת תור — זמין/ה 24/7</p>
+        {/* FOOTER WITH ALIN */}
+        <footer className="border-t border-[hsl(var(--border))] py-2 flex-shrink-0">
+          <div className="max-w-6xl mx-auto px-3 flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2">
+              <div className="relative rounded-full overflow-hidden w-9 h-9 neon-glow shrink-0">
+                <Alin size={36} />
+              </div>
+              <div className="flex-1">
+                <h4 className="text-[10px] font-semibold text-[hsl(var(--primary))]">אלין - AI</h4>
+                <p className="text-white/80 text-[9px]">זמין/ה 24/7</p>
+              </div>
             </div>
             <a
               href="https://wa.me/972557247033"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-2 rounded-xl bg-[hsl(var(--primary))] text-black font-semibold hover:opacity-90 transition-opacity"
+              className="px-2.5 py-1.5 rounded-lg bg-[hsl(var(--primary))] text-black text-[10px] font-semibold hover:opacity-90 transition-opacity"
               data-testid="button-chat-with-alin"
             >
               דברו עם אלין
             </a>
           </div>
-        </section>
-
-        {/* CTA BUTTON */}
-        <section className="max-w-6xl mx-auto px-6 pb-16">
-          <div className="w-full flex justify-center">
-            <button
-              onClick={() => navigate('/')}
-              className="h-[80px] w-[280px] ripple relative overflow-hidden rounded-2xl border transition-all duration-300 ease-in-out border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] bg-gradient-to-br from-slate-800/80 to-slate-700/80 backdrop-blur-xl shadow-[0_8px_20px_rgba(0,0,0,.4),0_0_60px_rgba(236,72,153,.30)] hover:scale-[1.02] active:scale-[0.99]"
-              onMouseMove={handleRippleMove}
-              data-testid="button-cta-self-service"
-            >
-              <div className="flex h-full items-center justify-center gap-3">
-                <img src={selfServiceIcon} alt="Self Service" className="w-6 h-6 neon-glow object-contain" />
-                <span className="text-xl font-bold tracking-tight">שירות עצמי 24/7</span>
-              </div>
-            </button>
-          </div>
-        </section>
+        </footer>
       </main>
-
-      {/* FOOTER */}
-      <footer className="border-t border-[hsl(var(--border))] py-8 text-center text-white/60 text-sm">
-        <div className="h-px w-72 mx-auto mb-4 bg-gradient-to-r from-transparent via-[rgba(236,72,153,.6)] via-[rgba(147,51,234,.5)] to-transparent" />
-        © Tan & Co · עיצוב נאון · 24/7
-      </footer>
 
       {/* DIALOGS */}
       <SunBedsDialog open={sunBedsOpen} onOpenChange={setSunBedsOpen} />
