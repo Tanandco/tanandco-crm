@@ -202,7 +202,7 @@ export default function AITan() {
                   bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 
                   hover:from-transparent hover:via-transparent hover:to-transparent
                   ${skinTone === tone.id
-                    ? "border-2 border-[hsl(var(--primary))] shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.4)]"
+                    ? "border-2 border-[hsl(var(--primary))] shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_40px_rgba(255,255,255,.3)]"
                     : "border border-[hsla(var(--primary)/0.6)] hover:border-transparent shadow-[0_8px_20px_rgba(0,0,0,.4)]"
                   }
                   hover:scale-105 active:scale-100 backdrop-blur-sm hover:backdrop-blur-none
@@ -210,7 +210,7 @@ export default function AITan() {
                 data-testid={`button-skintone-${tone.id}`}
               >
                 <div
-                  className="w-20 h-20 rounded-full mx-auto mb-3 relative transition-all duration-300 group-hover:scale-150 group-hover:shadow-[0_0_60px_rgba(255,255,255,0.8),0_0_100px_rgba(236,72,153,0.6)]"
+                  className="w-20 h-20 rounded-full mx-auto mb-3 relative transition-all duration-300 group-hover:scale-150 group-hover:shadow-[0_0_40px_rgba(255,255,255,0.6),0_0_80px_rgba(255,255,255,0.3)]"
                   style={{ 
                     background: `
                       radial-gradient(circle at 30% 30%, 
@@ -249,8 +249,8 @@ export default function AITan() {
                           rgba(255,255,255,0.9) 0%,
                           rgba(255,255,255,0.6) 20%,
                           transparent 40%,
-                          rgba(236,72,153,0.3) 60%,
-                          rgba(236,72,153,0.6) 100%
+                          rgba(255,255,255,0.2) 60%,
+                          rgba(255,255,255,0.4) 100%
                         )
                       `,
                       backdropFilter: 'blur(8px)'
@@ -314,7 +314,7 @@ export default function AITan() {
                           className={`
                             w-10 h-10 rounded-full relative transition-all duration-150
                             ${isSelected 
-                              ? 'shadow-[0_0_20px_rgba(255,255,255,0.8),0_0_40px_rgba(236,72,153,0.6)]' 
+                              ? 'shadow-[0_0_20px_rgba(255,255,255,0.8),0_0_40px_rgba(255,255,255,0.4)]' 
                               : 'group-hover:shadow-[0_0_15px_rgba(255,255,255,0.5)]'
                             }
                           `}
@@ -356,8 +356,8 @@ export default function AITan() {
                                   rgba(255,255,255,0.9) 0%,
                                   rgba(255,255,255,0.6) 20%,
                                   transparent 40%,
-                                  rgba(236,72,153,0.3) 60%,
-                                  rgba(236,72,153,0.6) 100%
+                                  rgba(255,255,255,0.2) 60%,
+                                  rgba(255,255,255,0.4) 100%
                                 )
                               `,
                               backdropFilter: 'blur(4px)'
@@ -393,7 +393,7 @@ export default function AITan() {
                 {/* מעטפת לריחוף */}
                 <div className="mb-4" style={{ animation: 'levitate 3s ease-in-out infinite' }}>
                   <div
-                    className="w-40 h-40 rounded-full mx-auto relative transition-all duration-300 group-hover:scale-110 group-hover:shadow-[0_0_60px_rgba(255,255,255,0.8),0_0_100px_rgba(236,72,153,0.6)] [animation:slow-spin_20s_linear_infinite] group-hover:[animation-play-state:paused]"
+                    className="w-40 h-40 rounded-full mx-auto relative transition-all duration-300 group-hover:scale-110 group-hover:shadow-[0_0_40px_rgba(255,255,255,0.6),0_0_80px_rgba(255,255,255,0.3)] [animation:slow-spin_20s_linear_infinite] group-hover:[animation-play-state:paused]"
                     style={{ 
                       background: `
                         radial-gradient(circle at 30% 30%, 
@@ -432,8 +432,8 @@ export default function AITan() {
                             rgba(255,255,255,0.9) 0%,
                             rgba(255,255,255,0.6) 20%,
                             transparent 40%,
-                            rgba(236,72,153,0.3) 60%,
-                            rgba(236,72,153,0.6) 100%
+                            rgba(255,255,255,0.2) 60%,
+                            rgba(255,255,255,0.4) 100%
                           )
                         `,
                         backdropFilter: 'blur(8px)'
@@ -469,7 +469,7 @@ export default function AITan() {
                   bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
                   hover:from-transparent hover:via-transparent hover:to-transparent
                   ${selectedTanShade?.id === shade.id
-                    ? "border-2 border-[hsl(var(--primary))] shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.4)] scale-110"
+                    ? "border-2 border-[hsl(var(--primary))] shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_40px_rgba(255,255,255,.3)] scale-110"
                     : "border border-[hsla(var(--primary)/0.6)] hover:border-transparent shadow-[0_8px_20px_rgba(0,0,0,.4)]"
                   }
                   hover:scale-105 active:scale-100 backdrop-blur-sm hover:backdrop-blur-none
@@ -477,7 +477,7 @@ export default function AITan() {
                 data-testid={`button-tanshade-${shade.id}`}
               >
                 <div
-                  className="w-16 h-16 rounded-full mx-auto mb-2 relative transition-all duration-300 group-hover:scale-150 group-hover:shadow-[0_0_60px_rgba(255,255,255,0.8),0_0_100px_rgba(236,72,153,0.6)]"
+                  className="w-16 h-16 rounded-full mx-auto mb-2 relative transition-all duration-300 group-hover:scale-150 group-hover:shadow-[0_0_40px_rgba(255,255,255,0.6),0_0_80px_rgba(255,255,255,0.3)]"
                   style={{ 
                     background: `
                       radial-gradient(circle at 30% 30%, 
@@ -516,8 +516,8 @@ export default function AITan() {
                           rgba(255,255,255,0.9) 0%,
                           rgba(255,255,255,0.6) 20%,
                           transparent 40%,
-                          rgba(236,72,153,0.3) 60%,
-                          rgba(236,72,153,0.6) 100%
+                          rgba(255,255,255,0.2) 60%,
+                          rgba(255,255,255,0.4) 100%
                         )
                       `,
                       backdropFilter: 'blur(8px)'
@@ -566,7 +566,7 @@ export default function AITan() {
           <div className="text-center">
             <Button
               size="lg"
-              className="ripple bg-[hsl(var(--primary))] hover:bg-[hsl(var(--primary))]/90 text-black font-bold px-12 gap-2 shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.5)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100"
+              className="ripple bg-[hsl(var(--primary))] hover:bg-[hsl(var(--primary))]/90 text-black font-bold px-12 gap-2 shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_40px_rgba(255,255,255,.4)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100"
               onMouseMove={handleRippleMove}
               data-testid="button-continue-booking"
             >
