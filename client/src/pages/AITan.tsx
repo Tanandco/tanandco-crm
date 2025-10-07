@@ -188,24 +188,31 @@ export default function AITan() {
                   className="w-20 h-20 rounded-full mx-auto mb-3 relative transition-all duration-200 group-hover:scale-110 group-hover:shadow-2xl"
                   style={{ 
                     background: `
-                      linear-gradient(135deg, 
-                        ${tone.color} 0%, 
-                        ${tone.color}dd 50%, 
-                        ${tone.color}aa 100%
+                      radial-gradient(circle at 30% 30%, 
+                        rgba(255,255,255,0.4) 0%, 
+                        transparent 50%
+                      ),
+                      linear-gradient(145deg, 
+                        ${tone.color}ff 0%, 
+                        ${tone.color}cc 40%,
+                        ${tone.color}99 70%,
+                        ${tone.color}66 100%
                       ),
                       repeating-linear-gradient(
                         45deg,
                         transparent,
                         transparent 2px,
-                        ${tone.color}11 2px,
-                        ${tone.color}11 4px
+                        ${tone.color}22 2px,
+                        ${tone.color}22 4px
                       )
                     `,
                     boxShadow: `
-                      inset -2px -2px 8px rgba(0,0,0,0.3),
-                      inset 2px 2px 8px rgba(255,255,255,0.1),
-                      0 4px 12px rgba(0,0,0,0.4),
-                      0 1px 3px rgba(255,255,255,0.2)
+                      inset -4px -4px 12px rgba(0,0,0,0.5),
+                      inset 4px 4px 12px rgba(255,255,255,0.3),
+                      inset -1px -1px 3px rgba(0,0,0,0.8),
+                      inset 1px 1px 3px rgba(255,255,255,0.5),
+                      0 6px 16px rgba(0,0,0,0.6),
+                      0 2px 4px rgba(255,255,255,0.3)
                     `
                   }}
                 />
