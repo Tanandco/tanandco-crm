@@ -335,9 +335,9 @@ export default function SelfService() {
                 onMouseMove={handleRippleMove}
                 data-testid="card-ai-tan"
               >
-                <div className="h-full w-full flex items-center justify-center text-center relative">
-                  <Alin size={136} />
-                  <div className="absolute bottom-0 text-base font-bold tracking-tight text-[hsl(var(--primary))] drop-shadow-[0_0_10px_rgba(236,72,153,0.8)]">
+                <div className="h-full w-full flex flex-col items-center justify-center text-center">
+                  <Alin size={112} />
+                  <div className="text-base font-bold tracking-tight text-[hsl(var(--primary))] drop-shadow-[0_0_10px_rgba(236,72,153,0.8)] mt-2">
                     AI TAN
                   </div>
                 </div>
