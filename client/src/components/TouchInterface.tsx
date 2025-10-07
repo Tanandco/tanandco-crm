@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useLocation } from 'wouter';
-import { Home, Star, Search, UserPlus, Sparkles, Settings, Users, Package } from 'lucide-react';
+import { Home, Star, Search, Sparkles, Settings, Users, Package } from 'lucide-react';
 import Logo from './Logo';
 import ServiceCard from './ServiceCard';
 import StatusDisplay from './StatusDisplay';
@@ -15,6 +15,7 @@ import hairSalonIcon from '@assets/freepik__3d-neon-pink-icon-of-a-hair-salon-sy
 import cosmeticsIcon from '@assets/עיצוב ללא שם (31)_1759413948155.png';
 import storeIcon from '@assets/freepik__online-store-shopping-bag-variation-a-3d-shopping-__47713_1759413103497.png';
 import selfServiceIcon from '@assets/עיצוב ללא שם (32)_1759414540774.png';
+import newCustomerIcon from '@assets/Dהורדותfreepik__spray-tan-variation-b-modern-flatbadge-3d-spray-gu__47717.png_1759805942437.png';
 
 interface TouchInterfaceProps {
   onServiceSelect?: (service: string) => void;
@@ -196,9 +197,10 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
             onClick={() => onNavigate?.('/register')}
             data-testid="button-register"
           >
-            <UserPlus 
-              className="text-pink-400 group-hover:text-pink-300 transition-colors duration-300"
-              size={20}
+            <img 
+              src={newCustomerIcon} 
+              alt="לקוח חדש" 
+              className="w-5 h-5 object-contain transition-all duration-300"
               style={{
                 filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))'
               }}
