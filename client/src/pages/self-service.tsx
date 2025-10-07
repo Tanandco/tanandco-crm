@@ -366,17 +366,15 @@ export default function SelfService() {
         <footer className="border-t border-[hsl(var(--border))] py-3 flex-shrink-0">
           <div className="max-w-6xl mx-auto px-3">
             <div className="flex items-center gap-4">
-              {/* Alin Floating Bubble */}
+              {/* Alin Avatar */}
               <a
                 href="https://wa.me/972557247033"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="relative shrink-0 group"
+                className="relative shrink-0 group animate-bounce-slow hover:scale-110 transition-transform"
                 data-testid="button-chat-with-alin"
               >
-                <div className="relative rounded-full overflow-hidden w-24 h-24 neon-glow border-2 border-[hsl(var(--primary))]/60 bg-gradient-to-br from-[hsl(var(--primary))]/20 to-transparent backdrop-blur-sm animate-bounce-slow hover:scale-110 transition-transform">
-                  <Alin size={110} />
-                </div>
+                <Alin size={110} />
               </a>
               
               {/* Flowing Text Bubble with Typing Effect */}
