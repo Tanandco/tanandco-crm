@@ -244,29 +244,22 @@ export default function AITan() {
           <div className="grid md:grid-cols-2 gap-6">
             {/* טור 1: הסבר */}
             <div className="bg-gradient-to-br from-[hsl(var(--primary))]/10 via-black/50 to-[hsl(var(--primary))]/5 border border-[hsla(var(--primary)/0.4)] rounded-xl p-6 backdrop-blur-sm">
-              <div className="flex items-start gap-4">
-                <div className="flex-shrink-0">
-                  <div className="w-12 h-12 rounded-full bg-[hsl(var(--primary))]/20 flex items-center justify-center border border-[hsl(var(--primary))]/30">
-                    <Camera className="w-6 h-6 text-[hsl(var(--primary))] neon-glow" />
+              <div className="space-y-3">
+                <h3 className="text-lg font-bold text-[hsl(var(--cardText))]">רוצה שיזוף מושלם? צלמ/י תמונה!</h3>
+                <p className="text-sm text-white/80 leading-relaxed">
+                  <span className="text-[hsl(var(--primary))] font-semibold">תמונה אחת של העור = תוצאה מדויקת פי 10</span>
+                  <br/>
+                  AI TAN ינתח את גוון העור האמיתי שלך ויציע את רמת השיזוף שתיראה הכי טבעית וזוהרת עליך. 
+                  בלי ניחושים, בלי טעויות - רק התאמה אישית מבוססת מדע.
+                </p>
+                <div className="grid grid-cols-2 gap-2 text-xs">
+                  <div className="flex items-center gap-2 text-white/70">
+                    <Sparkles className="w-3 h-3 text-[hsl(var(--primary))]" />
+                    <span>ניתוח AI מדויק</span>
                   </div>
-                </div>
-                <div className="flex-1 space-y-3">
-                  <h3 className="text-lg font-bold text-[hsl(var(--cardText))]">רוצה שיזוף מושלם? צלמ/י תמונה!</h3>
-                  <p className="text-sm text-white/80 leading-relaxed">
-                    <span className="text-[hsl(var(--primary))] font-semibold">תמונה אחת של העור = תוצאה מדויקת פי 10</span>
-                    <br/>
-                    AI TAN ינתח את גוון העור האמיתי שלך ויציע את רמת השיזוף שתיראה הכי טבעית וזוהרת עליך. 
-                    בלי ניחושים, בלי טעויות - רק התאמה אישית מבוססת מדע.
-                  </p>
-                  <div className="grid grid-cols-2 gap-2 text-xs">
-                    <div className="flex items-center gap-2 text-white/70">
-                      <Sparkles className="w-3 h-3 text-[hsl(var(--primary))]" />
-                      <span>ניתוח AI מדויק</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-white/70">
-                      <Sparkles className="w-3 h-3 text-[hsl(var(--primary))]" />
-                      <span>התאמה אישית לעור שלך</span>
-                    </div>
+                  <div className="flex items-center gap-2 text-white/70">
+                    <Sparkles className="w-3 h-3 text-[hsl(var(--primary))]" />
+                    <span>התאמה אישית לעור שלך</span>
                   </div>
                 </div>
               </div>
