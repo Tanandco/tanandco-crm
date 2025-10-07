@@ -188,9 +188,9 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                 onClick={option.onClick}
                 className="
                   group relative h-[140px] w-[130px] sm:h-[150px] sm:w-[140px] md:h-[160px] md:w-[150px]
-                  bg-black
+                  bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
                   border hover:border-2
-                  rounded-md
+                  rounded-md backdrop-blur-sm
                   flex flex-col items-center justify-between pb-4
                   transition-all duration-300 ease-in-out
                   hover-elevate active-elevate-2
@@ -203,7 +203,10 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                 onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.6)'}
                 data-testid={(option as any).testId || `action-tile-${index}`}
               >
-                <div className="flex-1 flex items-center justify-center">
+                {/* Solid background layer behind the gradient */}
+                <div className="absolute inset-0 bg-black rounded-md -z-10" />
+                
+                <div className="flex-1 flex items-center justify-center relative z-10">
                   {option.iconType === 'image' ? (
                     <img 
                       src={option.icon as string}
@@ -226,12 +229,12 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                     />
                   )}
                 </div>
-                <span className="text-sm font-medium text-white text-center font-hebrew px-2">
+                <span className="text-sm font-medium text-white text-center font-hebrew px-2 relative z-10">
                   {option.title}
                 </span>
                 
                 {/* Ripple effect */}
-                <div className="absolute inset-0 rounded-md overflow-hidden">
+                <div className="absolute inset-0 rounded-md overflow-hidden z-0">
                   <div className="absolute inset-0 bg-gradient-radial from-pink-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
               </button>
