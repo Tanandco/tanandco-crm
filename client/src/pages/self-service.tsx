@@ -170,24 +170,6 @@ export default function SelfService() {
         </div>
       )}
 
-      {/* NAVIGATION BAR */}
-      <nav className="sticky top-0 z-40 backdrop-blur-xl bg-black/70 border-b border-[hsl(var(--border))]">
-        <div className="max-w-6xl mx-auto px-3 py-1.5 flex items-center gap-2">
-          <ul className="flex gap-2 text-xs">
-            <li>
-              <a href="#services" className="hover:text-[hsl(var(--primary))] transition-colors">
-                שירותים
-              </a>
-            </li>
-            <li>
-              <a href="#info" className="hover:text-[hsl(var(--primary))] transition-colors">
-                מידע
-              </a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-
       {/* CORNER BUTTONS */}
       <div className="fixed top-2 left-2 z-50 flex gap-1.5">
         <button
