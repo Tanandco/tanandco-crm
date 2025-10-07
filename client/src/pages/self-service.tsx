@@ -316,13 +316,6 @@ export default function SelfService() {
           </div>
         </section>
 
-        {/* HYBRID MODEL TEXT */}
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <p className="text-white/90 text-lg leading-relaxed">
-            אנחנו מובילים את מודל ה־Hybrid: חופש לבחור בין <span className="text-[hsl(var(--primary))] font-semibold">שירות עצמי חכם</span> לשירות <span className="text-[hsl(var(--primary))] font-semibold">מלא ע״י צוות מקצועי</span>.
-          </p>
-        </div>
-
         {/* WELCOME MESSAGE */}
         <section id="info" className="relative py-4 flex-1 min-h-0">
           <div className="max-w-4xl mx-auto px-4 h-full flex flex-col justify-center">

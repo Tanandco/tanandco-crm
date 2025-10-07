@@ -110,6 +110,12 @@ export default function HairSalonDialog({ open, onOpenChange }: HairSalonDialogP
             </div>
           </div>
           
+          {/* Hybrid Model Text */}
+          <div className="mt-6 px-4">
+            <p className="text-white/90 text-lg leading-relaxed">
+              אנחנו מובילים את מודל ה־Hybrid: חופש לבחור בין <span className="text-purple-400 font-semibold">שירות עצמי חכם</span> לשירות <span className="text-purple-400 font-semibold">מלא ע״י צוות מקצועי</span>.
+            </p>
+          </div>
         </div>
       </div>
 
