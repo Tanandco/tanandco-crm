@@ -7,12 +7,19 @@ import SunBedsDialog from '@/components/SunBedsDialog';
 import SprayTanDialog from '@/components/SprayTanDialog';
 import HairSalonDialog from '@/components/HairSalonDialog';
 import CosmeticsDialog from '@/components/CosmeticsDialog';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { EffectCoverflow, Pagination, Navigation, Autoplay } from 'swiper/modules';
 import tanningBedIcon from '@assets/עיצוב ללא שם (30)_1759413689481.png';
 import sprayTanIcon from '@assets/freepik__spray-tan-variation-b-modern-flatbadge-3d-spray-gu__47717_1759413070782.png';
 import hairSalonIcon from '@assets/freepik__3d-neon-pink-icon-of-a-hair-salon-symbol-stylized-__47719_1759413079154.png';
 import cosmeticsIcon from '@assets/עיצוב ללא שם (31)_1759413948155.png';
 import storeIcon from '@assets/freepik__online-store-shopping-bag-variation-a-3d-shopping-__47713_1759413103497.png';
 import selfServiceIcon from '@assets/עיצוב ללא שם (32)_1759414540774.png';
+
+import 'swiper/css';
+import 'swiper/css/effect-coverflow';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
 export default function SelfService() {
   const [, navigate] = useLocation();
@@ -59,6 +66,34 @@ export default function SelfService() {
     e.currentTarget.style.setProperty('--x', `${x}px`);
     e.currentTarget.style.setProperty('--y', `${y}px`);
   };
+
+  const infoSlides = [
+    {
+      title: "מודל Hybrid",
+      content: "שירות עצמי חכם או ליווי מלא - הבחירה שלכם",
+      icon: "🔄"
+    },
+    {
+      title: "זמינות 24/7",
+      content: "כניסה בזיהוי פנים - ללא תיאום מראש",
+      icon: "🕐"
+    },
+    {
+      title: "שעות פעילות",
+      content: "א׳–ה׳ 10:00–19:00 · ו׳ 10:00–14:00",
+      icon: "📅"
+    },
+    {
+      title: "אלין - הבוט החכם",
+      content: "זמין/ה 24/7 לשאלות וייעוץ",
+      icon: "🤖"
+    },
+    {
+      title: "סביבה בטוחה",
+      content: "מערכות זיהוי פנים מתקדמות",
+      icon: "🔒"
+    }
+  ];
 
   return (
     <div 
@@ -116,10 +151,97 @@ export default function SelfService() {
           );
         }
 
+        /* 3D Carousel Styles */
+        @keyframes flow-gradient {
+          0% { background-position: 0% 0%; }
+          100% { background-position: 200% 200%; }
+        }
+
+        .info-carousel .swiper-slide {
+          width: 280px !important;
+          height: 200px !important;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 24px;
+          border-radius: 20px;
+          background: linear-gradient(135deg, 
+            rgba(236, 72, 153, 0.2) 0%,
+            rgba(168, 85, 247, 0.15) 50%,
+            rgba(236, 72, 153, 0.1) 100%);
+          backdrop-filter: blur(12px);
+          border: 1px solid rgba(236, 72, 153, 0.6);
+          box-shadow: 
+            0 10px 20px rgba(0, 0, 0, 0.3),
+            0 20px 40px rgba(236, 72, 153, 0.3),
+            0 30px 60px rgba(168, 85, 247, 0.2),
+            0 0 80px rgba(236, 72, 153, 0.1);
+          position: relative;
+          transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
+          overflow: visible;
+          transform: translateY(0) rotateX(0deg);
+          transform-style: preserve-3d;
+          perspective: 1000px;
+        }
+
+        .info-carousel .swiper-slide::before {
+          content: '';
+          position: absolute;
+          inset: -2px;
+          border-radius: 20px;
+          padding: 2px;
+          background: linear-gradient(
+            135deg,
+            rgba(236, 72, 153, 0.8),
+            rgba(168, 85, 247, 0.6),
+            rgba(139, 92, 246, 0.8),
+            rgba(236, 72, 153, 0.6),
+            rgba(168, 85, 247, 0.8)
+          );
+          background-size: 200% 200%;
+          -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          -webkit-mask-composite: xor;
+          mask-composite: exclude;
+          z-index: -1;
+          animation: flow-gradient 4s linear infinite;
+          opacity: 0.7;
+        }
+
+        .info-carousel .swiper-slide-active {
+          background: linear-gradient(135deg, 
+            rgba(236, 72, 153, 0.3) 0%,
+            rgba(168, 85, 247, 0.2) 50%,
+            rgba(236, 72, 153, 0.15) 100%);
+          backdrop-filter: blur(16px);
+          box-shadow: 
+            0 20px 40px rgba(0, 0, 0, 0.5),
+            0 30px 60px rgba(236, 72, 153, 0.5),
+            0 40px 80px rgba(168, 85, 247, 0.4),
+            0 0 100px rgba(236, 72, 153, 0.3);
+          transform: translateY(-10px) scale(1.05) rotateX(2deg);
+          border-color: rgba(236, 72, 153, 0.8);
+        }
+
+        .info-carousel .swiper-button-next,
+        .info-carousel .swiper-button-prev {
+          color: rgba(255, 255, 255, 0.7);
+          background: rgba(0, 0, 0, 0.4);
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .info-carousel .swiper-button-next::after,
+        .info-carousel .swiper-button-prev::after {
+          font-size: 16px;
+        }
+
         /* Reduced motion */
         @media (prefers-reduced-motion: reduce) {
           .animate-glow-pulse,
-          .fade-out {
+          .fade-out,
+          .info-carousel .swiper-slide::before {
             animation: none !important;
           }
         }
@@ -173,7 +295,7 @@ export default function SelfService() {
       {/* NAVIGATION BAR */}
       <nav className="sticky top-0 z-40 backdrop-blur-xl bg-black/70 border-b border-[hsl(var(--border))]">
         <div className="max-w-6xl mx-auto px-6 py-3 flex items-center gap-4">
-          <span className="text-[hsl(var(--primary))] font-semibold">Tan & Co</span>
+          <Logo size="small" showGlow={false} showUnderline={false} />
           <ul className="mr-auto flex gap-4 text-sm">
             <li>
               <a href="#services" className="hover:text-[hsl(var(--primary))] transition-colors">
@@ -181,13 +303,8 @@ export default function SelfService() {
               </a>
             </li>
             <li>
-              <a href="#hybrid" className="hover:text-[hsl(var(--primary))] transition-colors">
-                Hybrid
-              </a>
-            </li>
-            <li>
-              <a href="#hours" className="hover:text-[hsl(var(--primary))] transition-colors">
-                שעות
+              <a href="#info" className="hover:text-[hsl(var(--primary))] transition-colors">
+                מידע
               </a>
             </li>
             <li>
@@ -223,11 +340,11 @@ export default function SelfService() {
         {/* HERO SECTION */}
         <section className="relative overflow-hidden py-14">
           <div className="absolute inset-0 bg-gradient-to-br from-black via-black/95 to-[hsla(var(--primary)/0.05)]" />
-          <div className="relative max-w-6xl mx-auto px-6 text-right">
+          <div className="relative max-w-6xl mx-auto px-6 text-center">
             <h2 className="text-2xl md:text-4xl font-extrabold leading-tight">
-              ברוכים הבאים · Tan & Co · המודל ההיברידי של השיזוף
+              המודל ההיברידי של תעשיית השיזוף - העולם של המחר
             </h2>
-            <p className="mt-3 text-white/80 max-w-3xl mr-auto">
+            <p className="mt-3 text-white/80 max-w-3xl mx-auto">
               בחרו שירות והתחילו — שירות עצמי 24/7 או ליווי מלא מצוות מקצועי, לפי מה שנוח לכם.
             </p>
           </div>
@@ -249,9 +366,8 @@ export default function SelfService() {
                 data-testid="card-sun-beds"
               >
                 <div className="h-full w-full flex flex-col items-center justify-center text-center">
-                  <img src={tanningBedIcon} alt="מיטות שיזוף" className="w-8 h-8 mb-2 neon-glow object-contain" />
-                  <div className="text-[15px] font-bold tracking-tight">מיטות שיזוף</div>
-                  <div className="text-xs text-white/70 mt-1">Self‑Service 24/7</div>
+                  <img src={tanningBedIcon} alt="מיטות שיזוף" className="w-20 h-20 mb-3 neon-glow object-contain" />
+                  <div className="text-lg font-bold tracking-tight">מיטות שיזוף</div>
                 </div>
               </button>
 
@@ -263,9 +379,8 @@ export default function SelfService() {
                 data-testid="card-spray-tan"
               >
                 <div className="h-full w-full flex flex-col items-center justify-center text-center">
-                  <img src={sprayTanIcon} alt="שיזוף בהתזה" className="w-8 h-8 mb-2 neon-glow object-contain" />
-                  <div className="text-[15px] font-bold tracking-tight">שיזוף בהתזה</div>
-                  <div className="text-xs text-white/70 mt-1">תוצאה טבעית ומהירה</div>
+                  <img src={sprayTanIcon} alt="שיזוף בהתזה" className="w-20 h-20 mb-3 neon-glow object-contain" />
+                  <div className="text-lg font-bold tracking-tight">שיזוף בהתזה</div>
                 </div>
               </button>
 
@@ -277,23 +392,21 @@ export default function SelfService() {
                 data-testid="card-hair-salon"
               >
                 <div className="h-full w-full flex flex-col items-center justify-center text-center">
-                  <img src={hairSalonIcon} alt="מספרה" className="w-8 h-8 mb-2 neon-glow object-contain" />
-                  <div className="text-[15px] font-bold tracking-tight">מספרה</div>
-                  <div className="text-xs text-white/70 mt-1">עיצוב · צבע · שיקום</div>
+                  <img src={hairSalonIcon} alt="מספרה" className="w-20 h-20 mb-3 neon-glow object-contain" />
+                  <div className="text-lg font-bold tracking-tight">מספרה</div>
                 </div>
               </button>
 
               {/* Cosmetics */}
               <button
                 onClick={() => setCosmeticsOpen(true)}
-                className="h-[160px] w-[150px] rounded-2xl p-4 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-300 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm"
+                className="h-[160px] w-[150px] rounded-2xl p-4 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--primary))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-300 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm"
                 onMouseMove={handleRippleMove}
                 data-testid="card-cosmetics"
               >
                 <div className="h-full w-full flex flex-col items-center justify-center text-center">
-                  <img src={cosmeticsIcon} alt="קוסמטיקה" className="w-8 h-8 mb-2 neon-glow object-contain" />
-                  <div className="text-[15px] font-bold tracking-tight">קוסמטיקה</div>
-                  <div className="text-xs text-white/70 mt-1">פנים · גבות · ציפורניים</div>
+                  <img src={cosmeticsIcon} alt="קוסמטיקה" className="w-20 h-20 mb-3 neon-glow object-contain" />
+                  <div className="text-lg font-bold tracking-tight">קוסמטיקה</div>
                 </div>
               </button>
 
@@ -304,10 +417,9 @@ export default function SelfService() {
                 onMouseMove={handleRippleMove}
                 data-testid="card-store"
               >
-                <div>
-                  <img src={storeIcon} alt="החנות שלכם" className="w-8 h-8 mb-2 neon-glow mx-auto object-contain" />
-                  <div className="text-[15px] font-bold tracking-tight">החנות שלכם</div>
-                  <div className="text-xs text-white/70 mt-1">מוצרי שיזוף וטיפוח</div>
+                <div className="flex flex-col items-center justify-center">
+                  <img src={storeIcon} alt="החנות שלכם" className="w-20 h-20 mb-3 neon-glow object-contain" />
+                  <div className="text-lg font-bold tracking-tight">החנות שלכם</div>
                 </div>
               </a>
 
@@ -320,60 +432,67 @@ export default function SelfService() {
                 onMouseMove={handleRippleMove}
                 data-testid="card-ai-tan"
               >
-                <div className="flex flex-col items-center">
-                  <div className="relative rounded-full overflow-hidden w-[88px] h-[88px] neon-glow">
-                    <Alin size={88} />
+                <div className="flex flex-col items-center justify-center">
+                  <div className="relative rounded-full overflow-hidden w-20 h-20 mb-3 neon-glow">
+                    <Alin size={80} />
                   </div>
-                  <div className="mt-2 text-[15px] font-bold tracking-tight">AI TAN (אלין)</div>
-                  <div className="text-xs text-white/70">צ׳ט 24/7</div>
+                  <div className="text-lg font-bold tracking-tight">AI TAN</div>
                 </div>
               </a>
             </div>
           </div>
         </section>
 
-        {/* HYBRID SECTION */}
-        <section id="hybrid" className="max-w-6xl mx-auto px-6 py-12">
-          <h2 className="text-2xl md:text-3xl font-bold mb-8">מודל Hybrid: בוחרים חוויה</h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="rounded-2xl p-6 bg-[hsl(var(--muted))] border border-[hsl(var(--border))]">
-              <h3 className="text-xl font-semibold mb-2">שירות עצמי חכם</h3>
-              <ul className="space-y-1 text-white/80">
-                <li>• הרשמה עצמאית בשעות הפעילות</li>
-                <li>• צוות מקצועי זמין לסיוע</li>
-                <li>• ללא תיאום מראש</li>
-              </ul>
-            </div>
-            <div className="rounded-2xl p-6 bg-[hsl(var(--muted))] border border-[hsl(var(--border))]">
-              <h3 className="text-xl font-semibold mb-2">שירות מלא ומלווה</h3>
-              <ul className="space-y-1 text-white/80">
-                <li>• ליווי אישי מקצה לקצה</li>
-                <li>• התאמת גוון ותהליך</li>
-                <li>• תוצאה עקבית ומדויקת</li>
-              </ul>
-            </div>
+        {/* 3D INFO CAROUSEL */}
+        <section id="info" className="relative py-16">
+          <div className="max-w-6xl mx-auto px-6">
+            <h2 className="text-2xl md:text-3xl font-bold mb-12 text-center text-[hsl(var(--primary))]">
+              מידע חשוב
+            </h2>
+            <Swiper
+              effect={'coverflow'}
+              grabCursor={true}
+              centeredSlides={true}
+              slidesPerView={'auto'}
+              initialSlide={1}
+              loop={true}
+              autoplay={{
+                delay: 3500,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+              }}
+              coverflowEffect={{
+                rotate: 35,
+                stretch: 0,
+                depth: 150,
+                modifier: 1,
+                slideShadows: true,
+              }}
+              navigation={true}
+              modules={[EffectCoverflow, Navigation, Autoplay]}
+              className="info-carousel"
+              dir="rtl"
+            >
+              {infoSlides.map((slide, index) => (
+                <SwiperSlide key={index}>
+                  <div className="text-center">
+                    <div className="text-5xl mb-4">{slide.icon}</div>
+                    <h3 className="text-xl font-bold text-[hsl(var(--primary))] mb-3">
+                      {slide.title}
+                    </h3>
+                    <p className="text-white/80 text-sm">
+                      {slide.content}
+                    </p>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
           </div>
         </section>
 
-        {/* 24/7 AVAILABILITY */}
-        <section className="max-w-6xl mx-auto px-6">
-          <div className="rounded-2xl p-6 bg-[hsl(var(--accent))] border border-[hsla(var(--primary)/0.6)] shadow-[0_0_60px_rgba(236,72,153,.3)]">
-            <h3 className="text-xl font-semibold">זמינות 24/7 ללקוחות הבוטיק</h3>
-            <p className="text-white/80 mt-2">
-              לאחר שעות הפעילות — כניסה למתחם באמצעות מערכת זיהוי פנים מתקדמת*. סביבה נקייה, בטוחה ומקצועית.
-            </p>
-            <p className="text-xs text-white/50 mt-2">*שירות עצמי לאחר שעות הפעילות.</p>
-          </div>
-        </section>
-
-        {/* HOURS + BOT */}
-        <section id="hours" className="max-w-6xl mx-auto px-6 py-12 grid md:grid-cols-2 gap-6">
-          <div className="rounded-2xl p-6 bg-[hsl(var(--card))] border border-[hsl(var(--border))]">
-            <h4 className="text-lg font-semibold mb-2">שעות פעילות</h4>
-            <p>א׳–ה׳ 10:00–19:00 · ו׳ 10:00–14:00 · שבת — סגור</p>
-            <p className="text-xs text-white/60 mt-1">שירות עצמי לאחר שעות הפעילות.</p>
-          </div>
-          <div id="bot" className="rounded-2xl p-6 bg-[hsl(var(--card))] border border-[hsl(var(--border))] flex items-center gap-4">
+        {/* ALIN SECTION */}
+        <section id="bot" className="max-w-6xl mx-auto px-6 py-12">
+          <div className="rounded-2xl p-6 bg-[hsl(var(--card))] border border-[hsl(var(--border))] flex items-center gap-4">
             <div className="relative rounded-full overflow-hidden w-[64px] h-[64px] neon-glow shrink-0">
               <Alin size={64} />
             </div>
