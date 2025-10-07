@@ -1,0 +1,1565 @@
+import React, { useState, useEffect } from "react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Slider } from "@/components/ui/slider";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Progress } from "@/components/ui/progress";
+import {
+  Sun,
+  Droplets,
+  Home,
+  Clock,
+  Palette,
+  Sparkles,
+  Camera,
+  Brain,
+  Zap,
+  Target,
+  TrendingUp,
+  Shield,
+  ChevronLeft,
+  ChevronRight,
+  Smartphone,
+  Package,
+  ShoppingCart,
+  Star,
+  Settings,
+  Eye,
+  Gift,
+  DollarSign,
+  Award,
+} from "lucide-react";
+import {
+  ProductSelector,
+  products,
+  Product,
+} from "@/components/ProductSelector";
+import BuildYourTan from "@/components/BuildYourTan";
+import { CameraPreview } from "@/components/CameraPreview";
+import { SkinToneResearch } from "@/components/SkinToneResearch";
+import { TanShadeSelector } from "@/components/TanShadeSelector";
+import { ImageUploadSection } from "@/components/ImageUploadSection";
+import {
+  CreamVisualizer,
+  SimpleCreamVisualizer,
+} from "@/components/CreamVisualizer";
+import { SmartProductRecommendations } from "@/components/SmartProductRecommendations";
+import { BronzerSection } from "@/components/BronzerSection";
+import { WhyChooseUs } from "@/components/WhyChooseUs";
+import { SmartTooltip } from "@/components/SmartTooltip";
+const Index = () => {
+  const [skinTone, setSkinTone] = useState("fair");
+  const [desiredShade, setDesiredShade] = useState(6);
+  const [sessionCount, setSessionCount] = useState([5]);
+  const [activeSection, setActiveSection] = useState("skin-tone");
+  const [pulseEffect, setPulseEffect] = useState(false);
+  const [interactionEffect, setInteractionEffect] = useState("");
+  const [burnsPreviously, setBurnsPreviously] = useState<boolean | null>(null);
+
+  // אפקט אנימציה כשמשנים ערכים
+  useEffect(() => {
+    setPulseEffect(true);
+    setInteractionEffect("scale-in");
+    const timer = setTimeout(() => {
+      setPulseEffect(false);
+      setInteractionEffect("");
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [skinTone, desiredShade, sessionCount]);
+
+  // חיבור אינטרקטיבי בין הסליידר לבחירת הצבע
+  useEffect(() => {
+    const matchingShade = tanShades.find(
+      (shade) => shade.value === desiredShade,
+    );
+    if (matchingShade && matchingShade.id !== selectedTanShade?.id) {
+      setSelectedTanShade(matchingShade);
+    }
+  }, [desiredShade]);
+
+  // טריגר אינטראקציות בין מקטעים
+  const triggerInteraction = (section: string) => {
+    setActiveSection(section);
+    setInteractionEffect("fade-in");
+    setTimeout(() => setInteractionEffect(""), 300);
+  };
+
+  // חישוב סשנים מומלצים על פי גוון העור והגוון הרצוי
+  const calculateRecommendedSessions = () => {
+    const currentToneIndex = skinTones.findIndex((t) => t.id === skinTone) + 1;
+    const difference = desiredShade - currentToneIndex;
+    return Math.max(6, Math.min(12, 6 + difference));
+  };
+  const [selectedMethod, setSelectedMethod] = useState("");
+  const [aiAnalyzing, setAiAnalyzing] = useState(false);
+  const [skinPhoto, setSkinPhoto] = useState<string | null>(null);
+  const [personalityType, setPersonalityType] = useState<{
+    type: string;
+    desc: string;
+  } | null>(null);
+  const [experience, setExperience] = useState("beginner");
+  const [goals, setGoals] = useState<string[]>([]);
+  const [showAiInsights, setShowAiInsights] = useState(false);
+  const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
+
+  // Tan color selection states
+  const [selectedTanShade, setSelectedTanShade] = useState<{
+    id: string;
+    name: string;
+    color: string;
+    value: number;
+  } | null>(null);
+  const [customTanColor, setCustomTanColor] = useState("#E8C5A0");
+  const [selectedBronzer, setSelectedBronzer] = useState<string | null>(null);
+
+  // Image upload and processing states
+  const [beforeImage, setBeforeImage] = useState<string | null>(null);
+  const [afterImage, setAfterImage] = useState<string | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [isMagicProcessing, setIsMagicProcessing] = useState(false);
+
+  // אפקט הקסם - מופעל כשמשנים צבעים או ברונזר
+  useEffect(() => {
+    if (selectedTanShade || customTanColor !== "#E8C5A0" || selectedBronzer) {
+      setIsMagicProcessing(true);
+      const timer = setTimeout(() => {
+        setIsMagicProcessing(false);
+      }, 2500);
+      return () => clearTimeout(timer);
+    }
+  }, [selectedTanShade, customTanColor, skinTone, selectedBronzer]);
+
+  // Handle image upload
+  const handleImageUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    setIsProcessing(true);
+    console.log("Starting image upload process...");
+    try {
+      // Import background removal functions
+      console.log("Importing background removal functions...");
+      const { removeBackground, loadImage } = await import(
+        "@/lib/backgroundRemoval"
+      );
+
+      // Load and process the image
+      console.log("Loading image...");
+      const imageElement = await loadImage(file);
+      console.log("Image loaded, removing background...");
+      const processedBlob = await removeBackground(imageElement);
+      console.log("Background removed successfully");
+
+      // Convert processed blob to data URL
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        const result = e.target?.result as string;
+        console.log("Setting processed image as before image");
+        setBeforeImage(result);
+
+        // Create tanned version
+        await simulateTanningEffect(result);
+      };
+      reader.readAsDataURL(processedBlob);
+    } catch (error) {
+      console.error("Error processing image with background removal:", error);
+      // Fallback to original upload without background removal
+      console.log("Using fallback - original image without background removal");
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        const result = e.target?.result as string;
+        setBeforeImage(result);
+        await simulateTanningEffect(result);
+      };
+      reader.readAsDataURL(file);
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  // Simulate tanning effect on the image
+  const simulateTanningEffect = async (originalImage: string) => {
+    // Create a canvas to apply tanning effect
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
+
+      // Apply tanning color overlay
+      const tanColor = selectedTanShade?.color || customTanColor;
+      const overlayCanvas = document.createElement("canvas");
+      const overlayCtx = overlayCanvas.getContext("2d");
+      if (!overlayCtx) return;
+      overlayCanvas.width = img.width;
+      overlayCanvas.height = img.height;
+
+      // Draw original image
+      overlayCtx.drawImage(img, 0, 0);
+
+      // Apply tan overlay with blend mode
+      overlayCtx.globalCompositeOperation = "multiply";
+      overlayCtx.fillStyle = tanColor;
+      overlayCtx.globalAlpha = 0.3;
+      overlayCtx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Apply bronzer if selected
+      if (selectedBronzer) {
+        const bronzer = bronzerOptions.find((b) => b.id === selectedBronzer);
+        if (bronzer) {
+          overlayCtx.globalCompositeOperation = "overlay";
+          overlayCtx.fillStyle = bronzer.color;
+          overlayCtx.globalAlpha = bronzer.intensity;
+          overlayCtx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+      }
+
+      // Convert to data URL and set as after image
+      const tannedImage = overlayCanvas.toDataURL("image/jpeg", 0.8);
+      setAfterImage(tannedImage);
+    };
+    img.src = originalImage;
+  };
+
+  // Bronzer options
+  const bronzerOptions = [
+    {
+      id: "american-glamour",
+      name: "American Glamour",
+      color: "#2C1810",
+      intensity: 0.35,
+      description:
+        "ברונזר שחור מתקדם 300x עם DHA לפיגמנט מתפתח, ניחוח מונוי דה טהיטי",
+    },
+    {
+      id: "jet-black",
+      name: "Jet Black",
+      color: "#1A1A1A",
+      intensity: 0.3,
+      description:
+        "ברונזר עוצמתי 120x בגרסת Bronzing Boost, מעניק שיזוף עמוק ומיידי",
+    },
+    {
+      id: "cappuccino-legs",
+      name: "Cappuccino Legs",
+      color: "#6F4E37",
+      intensity: 0.25,
+      description: "ברונזר כהה מתקדם לרגליים, מעניק גוון שוקולד מיידי",
+    },
+    {
+      id: "so-hot",
+      name: "So Hot!",
+      color: "#B8860B",
+      intensity: 0.4,
+      description: "מאיץ שיזוף עם אפקט חימום ועקצוץ מיידי, ברונזר 200x",
+    },
+    {
+      id: "tannymaxx-gold",
+      name: "TANNYMAXX GOLD",
+      color: "#D4AF37",
+      intensity: 0.28,
+      description:
+        "קרם שיזוף כהה ואנטי-אייג׳ עם חומצה היאלורונית, שמן חוחובה וחמאת שיאה",
+    },
+    {
+      id: "dark-chocolate",
+      name: "Dark Chocolate",
+      color: "#3C1A00",
+      intensity: 0.38,
+      description:
+        "קרם ברונזר עוצמתי עם חמאת קקאו ותמצית אגוז מלך, מתאים במיוחד למקלחוני שיזוף",
+    },
+    {
+      id: "spicy-butter",
+      name: "Spicy Butter",
+      color: "#8B4513",
+      intensity: 0.45,
+      description:
+        "מאיץ שיזוף עוצמתי עם טינגל בוער, חמאת קקאו ושמן שקדים - לאמיצים בלבד",
+    },
+  ];
+  const skinTones = [
+    {
+      id: "porcelain",
+      name: "Porcelain / חרסינה",
+      color: "#F8F0E8",
+      description: "בהיר מאוד, כמעט לבן, עם תת-גוון ורדרד או נייטרלי",
+    },
+    {
+      id: "fair",
+      name: "Fair / בהיר",
+      color: "#F5E6D8",
+      description: "עדיין בהיר מאוד, מעט פחות חיוור מחרסינה",
+    },
+    {
+      id: "ivory",
+      name: "Ivory / שנהב",
+      color: "#F0DCC8",
+      description: "בהיר עם תת-גוון נייטרלי או חמים",
+    },
+    {
+      id: "cream",
+      name: "Cream / קרם",
+      color: "#EDD2B8",
+      description: "בהיר אך פחות חיוור, עם תת-גוון זהוב-חמים",
+    },
+    {
+      id: "lightbeige",
+      name: "Light Beige / בז' בהיר",
+      color: "#E8C8A8",
+      description: "מתאים לעור בהיר-בינוני, תת-גוון נייטרלי",
+    },
+    {
+      id: "beige",
+      name: "Beige / בז'",
+      color: "#E3BE98",
+      description: "בינוני בהיר, נייטרלי או חמים",
+    },
+    {
+      id: "almond",
+      name: "Almond / שקדים",
+      color: "#DEB488",
+      description: "בינוני, מעט כהה יותר מבז', עם תת-גוון חמים",
+    },
+    {
+      id: "honey",
+      name: "Honey / דבש",
+      color: "#D9AA78",
+      description: "בינוני-כהה עם תת-גוון זהוב",
+    },
+  ];
+  const tanningSolutions = [
+    {
+      id: "solarium",
+      name: "מקלחון שיזוף (סולריום)",
+      icon: Sun,
+      description: "שיזוף מדרגתי ואחיד עם בקרת זמן מדויקת",
+      sessions: "8-12 סשנים",
+      duration: "8-15 דקות",
+      brands: ["Ergoline", "Luxura", "KBL"],
+      pros: ["תוצאות מהירות", "שיזוף אחיד", "בקרה מלאה"],
+      suitable: ["fair", "light", "medium"],
+    },
+    {
+      id: "spray",
+      name: "שיזוף בהתזה ידני",
+      icon: Droplets,
+      description: "שיזוף מיידי עם תמיסות איכותיות מהחברות המובילות",
+      sessions: "1-2 סשנים",
+      duration: "20-30 דקות",
+      brands: ["THATSO", "BALLYBODY", "NORVELL"],
+      pros: ["תוצאה מיידית", "ללא UV", "אפקט טבעי"],
+      suitable: ["fair", "light", "medium", "olive", "dark"],
+    },
+    {
+      id: "home",
+      name: "תכשירים ביתיים",
+      icon: Home,
+      description: "מוצרי שיזוף מקצועיים לשימוש ביתי",
+      sessions: "שימוש יומי",
+      duration: "5-10 דקות",
+      brands: ["AUSTRALIAN GOLD", "THATSO", "BALLYBODY"],
+      pros: ["נוחות", "חסכוני", "שליטה מלאה"],
+      suitable: ["light", "medium", "olive"],
+    },
+  ];
+
+  // גוונות שיזוף מסודרים במרווחים שווים מבהיר לכהה
+  const tanShades = [
+    {
+      id: "light-tan",
+      name: "שיזוף בהיר",
+      color: "#E8C5A0",
+      value: 6,
+    },
+    {
+      id: "medium-beige",
+      name: "בז׳ בינוני",
+      color: "#DDB088",
+      value: 7,
+    },
+    {
+      id: "warm-sand",
+      name: "חול חם",
+      color: "#D29B70",
+      value: 8,
+    },
+    {
+      id: "golden-tan",
+      name: "שיזוף זהוב",
+      color: "#C78658",
+      value: 9,
+    },
+    {
+      id: "natural-bronze",
+      name: "ברונזה טבעית",
+      color: "#BC7140",
+      value: 10,
+    },
+    {
+      id: "warm-bronze",
+      name: "ברונזה חמה",
+      color: "#B15C28",
+      value: 11,
+    },
+    {
+      id: "deep-bronze",
+      name: "ברונזה עמוקה",
+      color: "#A64710",
+      value: 12,
+    },
+    {
+      id: "rich-bronze",
+      name: "ברונזה עשירה",
+      color: "#9B3200",
+      value: 13,
+    },
+  ];
+
+  // חישוב לאיזה גוון יגיע לפי מספר סשנים מתוכנן
+  const calculateExpectedShade = () => {
+    const currentToneIndex = skinTones.findIndex((t) => t.id === skinTone) + 1;
+    const plannedSessions = sessionCount[0];
+
+    // אם הגוון הרצוי בהיר יותר מהקיים, זה לא הגיוני
+    if (desiredShade < currentToneIndex) {
+      return currentToneIndex;
+    }
+    let shadeIncrease = 0;
+    if (plannedSessions >= 1 && plannedSessions <= 2) shadeIncrease = 1;
+    else if (plannedSessions >= 3 && plannedSessions <= 4) shadeIncrease = 2;
+    else if (plannedSessions >= 5 && plannedSessions <= 7) shadeIncrease = 3;
+    else if (plannedSessions >= 8 && plannedSessions <= 10) shadeIncrease = 4;
+    return Math.min(currentToneIndex + shadeIncrease, 5); // מקסימום 5 גוונים
+  };
+
+  // חישוב דקות בכל סשן
+  const calculateMinutesPerSession = () => {
+    const currentToneIndex = skinTones.findIndex((t) => t.id === skinTone) + 1;
+    const plannedSessions = sessionCount[0];
+
+    // אם הגוון הרצוי בהיר יותר מהקיים, זה לא הגיוני
+    if (desiredShade < currentToneIndex) {
+      return 0;
+    }
+
+    // אם המשתמש נוטה להישרף בשיזוף הראשון - התחלה עדינה
+    if (burnsPreviously === true) {
+      return Math.floor(Math.random() * 3) + 6; // 6-8 דקות
+    }
+
+    // עור בהיר - פחות דקות, עור כהה - יותר דקות
+    let baseMinutes = 6 + currentToneIndex * 2;
+
+    // אם יש יותר סשנים, פחות דקות בכל סשן
+    if (plannedSessions > 6) baseMinutes -= 2;
+    else if (plannedSessions < 4) baseMinutes += 3;
+    return Math.max(8, Math.min(baseMinutes, 15));
+  };
+  const calculateRecommendation = () => {
+    const selectedSkin = skinTones.find((tone) => tone.id === skinTone);
+    const compatibleSolutions = tanningSolutions.filter((solution) =>
+      solution.suitable.includes(skinTone),
+    );
+    const currentToneIndex = skinTones.findIndex((t) => t.id === skinTone) + 1;
+
+    // אם הגוון הרצוי בהיר יותר מהקיים, החזר אזהרה
+    if (desiredShade < currentToneIndex) {
+      return {
+        skin: selectedSkin,
+        solutions: [],
+        minutes: 0,
+        warning: "לא ניתן להבהיר את העור באמצעות שיזוף",
+      };
+    }
+    let recommendedMinutes = 8;
+    if (skinTone === "fair") recommendedMinutes = 6;
+    if (skinTone === "dark") recommendedMinutes = 12;
+    recommendedMinutes += desiredShade * 2;
+    const recommendedSessions = calculateRecommendedSessions();
+    return {
+      skin: selectedSkin,
+      solutions: compatibleSolutions,
+      minutes: Math.min(recommendedMinutes, 15),
+      sessions: recommendedSessions,
+    };
+  };
+  const recommendation = calculateRecommendation();
+  return (
+    <div
+      className="min-h-screen relative overflow-hidden"
+      dir="rtl"
+      style={{
+        background:
+          "linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #1a1a2e 100%)",
+      }}
+    >
+      {/* Animated glass effect overlay */}
+      <div className="absolute inset-0 opacity-30">
+        <div
+          className="absolute top-0 left-0 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse"
+          style={{ animationDuration: "4s" }}
+        ></div>
+        <div
+          className="absolute top-1/4 right-0 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse"
+          style={{ animationDuration: "6s", animationDelay: "1s" }}
+        ></div>
+        <div
+          className="absolute bottom-0 left-1/4 w-96 h-96 bg-amber-500/20 rounded-full blur-3xl animate-pulse"
+          style={{ animationDuration: "5s", animationDelay: "2s" }}
+        ></div>
+      </div>
+
+      {/* Glass morphism effect */}
+      <div className="absolute inset-0 backdrop-blur-3xl bg-gradient-to-br from-transparent via-white/5 to-transparent"></div>
+
+      {/* Content wrapper */}
+      <div className="relative z-10">
+        {/* Header - Mobile Optimized */}
+        <div className="relative overflow-hidden bg-gradient-to-r from-gray-900 via-purple-900/50 to-blue-900/50 text-white backdrop-blur-xl border-b border-white/10">
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 via-transparent to-blue-600/10"></div>
+          <div className="relative container mx-auto px-4 sm:px-6 py-8 sm:py-16 text-center">
+            <Smartphone className="mx-auto mb-4 h-8 w-8 sm:h-12 sm:w-12 text-amber-400 md:hidden" />
+            <Sparkles className="mx-auto mb-4 h-12 w-12 text-amber-400 hidden md:block animate-pulse" />
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 sm:mb-4 leading-tight text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-orange-300 to-amber-200">
+              מערכת התאמת שיזוף מתקדמת
+            </h1>
+            <p className="text-base sm:text-lg lg:text-xl text-gradient-shimmer max-w-2xl mx-auto px-2 text-cream-light">
+              טכנולוגיית AI מתקדמת ליצירת השיזוף הטבעי המתאים בדיוק לעור שלך
+            </p>
+          </div>
+        </div>
+
+        {/* הוראות שימוש - Collapsible */}
+        <div className="bg-gradient-to-br from-gray-900/80 via-gray-800/60 to-gray-900/80 border-y border-white/10 backdrop-blur-xl">
+          <div className="container mx-auto px-4 sm:px-6 py-6">
+            <div className="max-w-4xl mx-auto">
+              <Accordion type="single" collapsible className="w-full">
+                <AccordionItem
+                  value="instructions"
+                  className="border-earth-medium/20"
+                >
+                  <AccordionTrigger className="text-xl sm:text-2xl font-bold hover:no-underline transition-colors duration-300 py-6">
+                    <div className="flex items-center gap-3">
+                      <Settings className="h-6 w-6 sm:h-8 sm:w-8 text-earth-medium" />
+                      <span className="text-gradient-shimmer">
+                        הוראות שימוש במערכת
+                      </span>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="pt-4 pb-6">
+                    <div className="text-center mb-6">
+                      <p className="text-earth-medium text-lg">
+                        מדריך מהיר ופשוט להשגת התוצאה המושלמת
+                      </p>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                      {/* שלב 1 */}
+                      <div className="bg-gray-900/80 backdrop-blur-sm p-6 rounded-2xl border border-white/10 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                        <div className="flex items-center gap-3 mb-4">
+                          <div className="w-10 h-10 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                            1
+                          </div>
+                          <Palette className="h-6 w-6 text-amber-400" />
+                        </div>
+                        <h3 className="font-bold mb-3 text-lg text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-orange-300">
+                          בחר את גוון העור
+                        </h3>
+                        <p className="text-cream-base text-sm leading-relaxed">
+                          השתמש במחוון הגוונים כדי לבחור את גוון העור הנוכחי שלך
+                          בצורה מדויקת
+                        </p>
+                      </div>
+
+                      {/* שלב 2 */}
+                      <div className="bg-gray-900/80 backdrop-blur-sm p-6 rounded-2xl border border-white/10 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                        <div className="flex items-center gap-3 mb-4">
+                          <div className="w-10 h-10 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                            2
+                          </div>
+                          <Camera className="h-6 w-6 text-amber-400" />
+                        </div>
+                        <h3 className="font-bold mb-3 text-lg text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-orange-300">
+                          העלה תמונה
+                        </h3>
+                        <p className="text-cream-base text-sm leading-relaxed">
+                          צלם או העלה תמונה שלך עם תאורה טבעית לקבלת המלצות
+                          מדויקות ביותר
+                        </p>
+                      </div>
+
+                      {/* שלב 3 */}
+                      <div className="bg-gray-900/80 backdrop-blur-sm p-6 rounded-2xl border border-white/10 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                        <div className="flex items-center gap-3 mb-4">
+                          <div className="w-10 h-10 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                            3
+                          </div>
+                          <Eye className="h-6 w-6 text-amber-400" />
+                        </div>
+                        <h3 className="font-bold mb-3 text-lg text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-orange-300">
+                          בחר ברונזר
+                        </h3>
+                        <div className="mb-3 p-3 bg-gray-800/60 border border-white/10 rounded-lg">
+                          <input
+                            type="text"
+                            placeholder="בחר ברונזר • גרור לסיבוב • גלגל עכבר לזום"
+                            className="w-full bg-transparent border-none outline-none text-cream-light font-medium"
+                            readOnly
+                          />
+                        </div>
+                        <p className="text-cream-base text-sm leading-relaxed">
+                          לחץ על הקרמים התלת-מימדיים כדי לראות את התוצאה הצפויה
+                          על העור שלך
+                        </p>
+                      </div>
+
+                      {/* שלב 4 */}
+                      <div className="bg-gray-900/80 backdrop-blur-sm p-6 rounded-2xl border border-white/10 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                        <div className="flex items-center gap-3 mb-4">
+                          <div className="w-10 h-10 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                            4
+                          </div>
+                          <Star className="h-6 w-6 text-amber-400" />
+                        </div>
+                        <h3 className="font-bold mb-3 text-lg text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-orange-300">
+                          קבל תוצאות
+                        </h3>
+                        <p className="text-cream-base text-sm leading-relaxed">
+                          צפה בתוצאה הסופית ובהוראות השימוש המפורטות למוצר שנבחר
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* טיפים נוספים */}
+                    <div className="bg-gradient-to-r from-gray-800/80 to-gray-900/70 p-6 rounded-2xl border border-white/10 backdrop-blur-sm">
+                      <h3 className="font-bold mb-4 text-xl flex items-center gap-2">
+                        <Shield className="h-6 w-6 text-amber-400" />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-orange-300">
+                          טיפים לתוצאה מושלמת
+                        </span>
+                      </h3>
+                      <div className="grid md:grid-cols-2 gap-4 text-sm text-cream-base">
+                        <div className="flex items-start gap-2">
+                          <div className="w-2 h-2 bg-amber-400 rounded-full mt-2 flex-shrink-0"></div>
+                          <p>
+                            צלם תמונות עם תאורה טבעית ובלי מייקאפ לתוצאות
+                            מדויקות
+                          </p>
+                        </div>
+                        <div className="flex items-start gap-2">
+                          <div className="w-2 h-2 bg-amber-400 rounded-full mt-2 flex-shrink-0"></div>
+                          <p>
+                            בדוק את התאמת הגוון על אזור קטן לפני השימוש המלא
+                          </p>
+                        </div>
+                        <div className="flex items-start gap-2">
+                          <div className="w-2 h-2 bg-amber-400 rounded-full mt-2 flex-shrink-0"></div>
+                          <p>המתן למספר שעות לקבלת התוצאה הסופית</p>
+                        </div>
+                        <div className="flex items-start gap-2">
+                          <div className="w-2 h-2 bg-amber-400 rounded-full mt-2 flex-shrink-0"></div>
+                          <p>השתמש במוצרי הכנה ולחות לפני היישום</p>
+                        </div>
+                      </div>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </div>
+          </div>
+        </div>
+
+        <div className="container mx-auto px-3 sm:px-6 py-6 sm:py-12">
+          {/* Sliders Section - Moved to Top */}
+          <div
+            className={`mb-8 transition-all duration-500 ${activeSection === "skin-tone" ? "scale-105" : "hover:scale-102"} ${interactionEffect} ${pulseEffect ? "animate-pulse" : ""}`}
+          >
+            <div className="mb-4">
+              <h2
+                className={`flex items-center gap-2 text-lg transition-all duration-300 ${activeSection === "skin-tone" ? "text-2xl" : ""}`}
+              >
+                <Palette
+                  className={`h-5 w-5 transition-all duration-300 ${activeSection === "skin-tone" ? "h-6 w-6 animate-spin" : ""}`}
+                />
+                <span className="text-gradient-shimmer">
+                  בחירת גוון עור נוכחי
+                </span>
+                {activeSection === "skin-tone" && (
+                  <Sparkles className="h-4 w-4 text-earth-medium animate-pulse" />
+                )}
+              </h2>
+            </div>
+            <div className="space-y-6">
+              {/* Vertical Layout */}
+              <div className="space-y-8">
+                {/* Skin Tone Selection - 3D Style */}
+                <div className="space-y-6">
+                  <Label className="text-base font-medium text-cream-light text-center transition-all duration-300 flex items-center justify-center gap-2">
+                    בחר את גוון העור הנוכחי שלך:
+                    <Sparkles className="inline h-4 w-4 animate-pulse" />
+                    <SmartTooltip
+                      content="המערכת משתמשת באלגוריתמים של Computer Vision לזיהוי מדויק של גוון העור, עם דיוק של 97% בהשוואה לשיטות מסורתיות."
+                      accuracy="97%"
+                      side="bottom"
+                    />
+                  </Label>
+                  {/* Mobile Circular Layout */}
+                  <div
+                    className="block md:hidden mb-6 p-8 bg-gradient-to-br from-gray-800 via-gray-900 to-black rounded-3xl border-none shadow-2xl max-w-sm mx-auto"
+                    style={{
+                      boxShadow:
+                        "0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 10px 25px -10px rgba(0, 0, 0, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.05)",
+                    }}
+                  >
+                    <div className="relative w-80 h-80 ml-auto translate-x-8">
+                      {/* Center Selected Tone */}
+                      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
+                        <div className="relative transform-gpu p-2">
+                          <div
+                            className={`relative w-20 h-20 rounded-full border-4 border-earth-dark/50 shadow-2xl transition-all duration-300`}
+                            style={{
+                              background: `radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3), ${skinTones.find((t) => t.id === skinTone)?.color} 40%, ${skinTones.find((t) => t.id === skinTone)?.color} 100%)`,
+                              boxShadow: `inset -6px -6px 18px rgba(0,0,0,0.15), inset 6px 6px 18px rgba(255,255,255,0.4), 0 12px 30px rgba(0,0,0,0.2)`,
+                            }}
+                          >
+                            <div className="absolute top-2 left-3 w-4 h-4 bg-white/50 rounded-full blur-sm" />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Circular Arrangement - Single Circle for 8 tones */}
+                      {skinTones.map((tone, index) => {
+                        const angle = (index * 360) / skinTones.length;
+                        const radius = 130;
+                        const x =
+                          Math.cos(((angle - 90) * Math.PI) / 180) * radius;
+                        const y =
+                          Math.sin(((angle - 90) * Math.PI) / 180) * radius;
+                        const isSelected = skinTone === tone.id;
+                        return (
+                          <div
+                            key={tone.id}
+                            className={`absolute cursor-pointer transition-all duration-500 group ${isSelected ? "scale-125 z-20" : "hover:scale-110 z-10"}`}
+                            style={{
+                              left: `calc(50% + ${x}px)`,
+                              top: `calc(50% + ${y}px)`,
+                              transform: "translate(-50%, -50%)",
+                            }}
+                            onClick={() => {
+                              setSkinTone(tone.id);
+                              triggerInteraction("sessions");
+                            }}
+                          >
+                            <div className="relative transform-gpu p-8">
+                              <div
+                                className={`relative w-24 h-24 rounded-full border-4 transition-all duration-300 ${isSelected ? "border-earth-dark/60 shadow-xl" : "border-white/60 shadow-md group-hover:shadow-lg"}`}
+                                style={{
+                                  background: `radial-gradient(circle at 25% 25%, rgba(255,255,255,0.5), ${tone.color} 35%, ${tone.color} 100%)`,
+                                  boxShadow: isSelected
+                                    ? `inset -4px -4px 12px rgba(0,0,0,0.15), inset 4px 4px 12px rgba(255,255,255,0.4), 0 8px 20px rgba(0,0,0,0.2), 0 0 15px ${tone.color}40`
+                                    : `inset -3px -3px 8px rgba(0,0,0,0.1), inset 3px 3px 8px rgba(255,255,255,0.3), 0 6px 15px rgba(0,0,0,0.15)`,
+                                }}
+                              >
+                                <div className="absolute top-2 left-3 w-3 h-3 bg-white/60 rounded-full blur-sm" />
+
+                                {/* Selection indicator */}
+                                {isSelected && (
+                                  <div className="absolute -top-1 -right-1 w-5 h-5 bg-earth-medium rounded-full flex items-center justify-center shadow-md animate-fade-in">
+                                    <Sparkles className="w-2.5 h-2.5 text-white" />
+                                  </div>
+                                )}
+
+                                {/* Text inside the circle */}
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                  <div
+                                    className={`text-xs font-medium px-1 py-0.5 rounded-md transition-all duration-300 text-center ${isSelected ? "bg-black/20 text-white shadow-md backdrop-blur-sm" : "bg-white/40 text-earth-dark shadow-sm backdrop-blur-sm"}`}
+                                  >
+                                    <div className="leading-tight">
+                                      {tone.name.split(" / ")[1] ||
+                                        tone.name.split(" / ")[0]}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                    {/* Selected Tone Info */}
+                    <div className="mt-12 text-center">
+                      <div className="bg-gray-900/90 rounded-xl p-4 backdrop-blur-sm shadow-lg border border-cream-base/10">
+                        <h3 className="font-semibold mb-2">
+                          <span className="text-gradient-shimmer text-cream-light">
+                            {skinTones.find((t) => t.id === skinTone)?.name}
+                          </span>
+                        </h3>
+                        <p className="text-base text-cream-base font-bold leading-relaxed">
+                          {
+                            skinTones.find((t) => t.id === skinTone)
+                              ?.description
+                          }
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Desktop Grid Layout - אסתטי יותר */}
+                  <div className="hidden md:block w-full max-w-6xl mx-auto">
+                    <div
+                      className="grid grid-cols-8 gap-4 p-8 bg-gradient-to-br from-gray-800 via-gray-900 to-black rounded-3xl border-none shadow-2xl"
+                      style={{
+                        boxShadow:
+                          "0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 10px 25px -10px rgba(0, 0, 0, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.05)",
+                      }}
+                    >
+                      {skinTones.map((tone, index) => {
+                        const isSelected = skinTone === tone.id;
+                        return (
+                          <div
+                            key={tone.id}
+                            className={`group cursor-pointer transition-all duration-700 transform perspective-1000 flex flex-col items-center p-6 rounded-2xl ${isSelected ? "scale-110 animate-scale-in bg-white/30 shadow-2xl ring-4 ring-earth-medium/40 backdrop-blur-sm" : "hover:scale-105 hover:-translate-y-2 hover:bg-white/20 hover:shadow-xl hover:backdrop-blur-sm"} ${pulseEffect && isSelected ? "animate-pulse" : ""}`}
+                            style={{
+                              animationDelay: `${index * 0.1}s`,
+                            }}
+                            onClick={() => {
+                              setSkinTone(tone.id);
+                              triggerInteraction("sessions");
+                            }}
+                          >
+                            <div className="relative flex flex-col items-center">
+                              {/* 3D Container with enhanced layers */}
+                              <div className="relative transform-gpu mb-6 p-4">
+                                {/* Multiple shadow layers for depth */}
+                                <div
+                                  className="absolute inset-4 rounded-full opacity-20 blur-lg translate-y-4 translate-x-3"
+                                  style={{
+                                    background: `radial-gradient(circle, ${tone.color}, transparent 70%)`,
+                                  }}
+                                />
+                                <div
+                                  className="absolute inset-3 rounded-full opacity-25 blur-md translate-y-2 translate-x-1"
+                                  style={{
+                                    backgroundColor: tone.color,
+                                  }}
+                                />
+
+                                {/* Main 3D skin tone display with enhanced effects */}
+                                <div
+                                  className={`relative w-28 h-28 rounded-full border-4 transition-all duration-500 z-10 ${isSelected ? "border-earth-dark/60 shadow-2xl animate-fade-in" : "border-white/60 shadow-lg group-hover:shadow-2xl group-hover:border-earth-medium/50"}`}
+                                  style={{
+                                    background: `radial-gradient(circle at 25% 25%, rgba(255,255,255,0.6), ${tone.color} 30%, ${tone.color} 100%)`,
+                                    boxShadow: isSelected
+                                      ? `inset -8px -8px 20px rgba(0,0,0,0.2), inset 8px 8px 20px rgba(255,255,255,0.5), 0 15px 35px rgba(0,0,0,0.3), 0 0 30px ${tone.color}40`
+                                      : `inset -6px -6px 18px rgba(0,0,0,0.15), inset 6px 6px 18px rgba(255,255,255,0.4), 0 12px 30px rgba(0,0,0,0.2)`,
+                                  }}
+                                >
+                                  {/* Enhanced highlight spots */}
+                                  <div className="absolute top-3 left-5 w-6 h-6 bg-white/60 rounded-full blur-sm" />
+                                  <div className="absolute top-6 left-3 w-3 h-3 bg-white/40 rounded-full blur-sm" />
+
+                                  {/* Selection glow effect */}
+                                  {isSelected && (
+                                    <div className="absolute -inset-2 rounded-full bg-gradient-to-br from-white/30 to-transparent animate-pulse" />
+                                  )}
+                                </div>
+
+                                {/* Floating selection indicator */}
+                                {isSelected && (
+                                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-earth-medium rounded-full flex items-center justify-center shadow-lg animate-scale-in">
+                                    <Sparkles className="w-4 h-4 text-white" />
+                                  </div>
+                                )}
+                              </div>
+
+                              {/* Enhanced Label with better typography */}
+                              <div className="text-center w-32 flex-shrink-0">
+                                <h4
+                                  className={`font-semibold text-sm leading-tight transition-all duration-300 ${isSelected ? "text-earth-dark scale-105" : "text-earth-dark/80 group-hover:text-earth-dark"}`}
+                                >
+                                  {tone.name.split(" / ")[1] ||
+                                    tone.name.split(" / ")[0]}
+                                </h4>
+                                <p
+                                  className={`text-xs mt-2 leading-tight font-semibold transition-all duration-300 ${isSelected ? "text-earth-medium" : "text-earth-medium/70 group-hover:text-earth-medium"}`}
+                                >
+                                  {tone.description.length > 40
+                                    ? tone.description.slice(0, 40) + "..."
+                                    : tone.description}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    {/* Decorative elements and handwritten question */}
+                    <div className="flex flex-col items-center space-y-4 mt-12">
+                      {/* Handwritten style question - centered */}
+                      <div className="text-center space-y-3">
+                        <p className="text-2xl text-earth-dark text-center font-gveret drop-shadow-sm">
+                          האם את/ה נוטה להשרף בשיזוף הראשון שלך ?
+                        </p>
+                        <div className="flex gap-4 justify-center">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className={`bg-gray-800/80 hover:bg-gray-700 border-amber-400/50 text-cream-light ${burnsPreviously === true ? "bg-amber-600 border-2 border-amber-400" : ""}`}
+                            onClick={() => setBurnsPreviously(true)}
+                          >
+                            כן
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className={`bg-gray-800/80 hover:bg-gray-700 border-amber-400/50 text-cream-light ${burnsPreviously === false ? "bg-amber-600 border-2 border-amber-400" : ""}`}
+                            onClick={() => setBurnsPreviously(false)}
+                          >
+                            לא
+                          </Button>
+                        </div>
+                      </div>
+                      <div className="flex justify-center space-x-2">
+                        {skinTones.map((_, index) => (
+                          <div
+                            key={index}
+                            className={`w-2 h-2 rounded-full transition-all duration-300 ${skinTones.findIndex((t) => t.id === skinTone) === index ? "bg-earth-medium scale-125" : "bg-earth-light/50"}`}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Desired Shade Slider */}
+                <div className="space-y-4 mt-8">
+                  <Label className="text-base font-medium text-earth-dark text-center">
+                    רמת השיזוף הרצויה
+                    {(() => {
+                      const currentToneIndex =
+                        skinTones.findIndex((t) => t.id === skinTone) + 1;
+                      if (desiredShade < currentToneIndex) {
+                        return (
+                          <span className="text-orange-600 text-sm mr-2">
+                            (לא הגיוני - בהיר יותר מהקיים)
+                          </span>
+                        );
+                      }
+                      return null;
+                    })()}
+                  </Label>
+
+                  <div className="px-3">
+                    {/* Progress dots above slider */}
+                    <div className="flex justify-between mb-4 px-1">
+                      {Array.from({ length: 11 }, (_, i) => {
+                        const shadeValue = 6 + i;
+                        const isActive = desiredShade >= shadeValue;
+                        const isCurrentTarget = desiredShade === shadeValue;
+                        const currentToneIndex =
+                          skinTones.findIndex((t) => t.id === skinTone) + 1;
+                        const isValidLevel =
+                          shadeValue >= Math.max(6, currentToneIndex);
+
+                        return (
+                          <div
+                            key={shadeValue}
+                            className="flex flex-col items-center"
+                          >
+                            <div
+                              className={`w-3 h-3 rounded-full border-2 transition-all duration-300 ${
+                                isCurrentTarget
+                                  ? "bg-earth-medium border-earth-dark shadow-lg scale-125 animate-pulse"
+                                  : isActive && isValidLevel
+                                    ? "bg-earth-light border-earth-medium"
+                                    : isValidLevel
+                                      ? "bg-white border-earth-light hover:border-earth-medium cursor-pointer"
+                                      : "bg-gray-100 border-gray-300 opacity-50"
+                              }`}
+                              onClick={() => {
+                                if (isValidLevel) {
+                                  setDesiredShade(shadeValue);
+                                }
+                              }}
+                            />
+                            <span
+                              className={`text-xs mt-1 transition-colors duration-300 ${
+                                isCurrentTarget
+                                  ? "text-earth-dark font-semibold"
+                                  : "text-earth-medium/70"
+                              }`}
+                            >
+                              {shadeValue}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    <Slider
+                      value={[desiredShade]}
+                      onValueChange={(value) => {
+                        const currentToneIndex =
+                          skinTones.findIndex((t) => t.id === skinTone) + 1;
+                        const minValue = Math.max(6, currentToneIndex);
+                        if (value[0] >= minValue) {
+                          setDesiredShade(value[0]);
+                        }
+                      }}
+                      max={16}
+                      min={6}
+                      step={1}
+                      className="w-full"
+                      style={
+                        {
+                          "--slider-color": "#9CA3AF",
+                          "--slider-gradient":
+                            "linear-gradient(to right, #9CA3AF, #D1D5DB, #F3F4F6, #E5E7EB, #C0C0C0)",
+                        } as React.CSSProperties
+                      }
+                    />
+                  </div>
+
+                  <div className="flex justify-between text-xs text-earth-medium px-3">
+                    <span>
+                      {tanShades.find((shade) => shade.value === 6)?.name ||
+                        "שיזוף בהיר"}
+                    </span>
+                    <span>
+                      {tanShades.find((shade) => shade.value === 11)?.name ||
+                        "ברונזה טבעית"}
+                    </span>
+                    <span>
+                      {tanShades.find((shade) => shade.value === 16)?.name ||
+                        "חום עשיר"}
+                    </span>
+                  </div>
+
+                  {(() => {
+                    const currentToneIndex =
+                      skinTones.findIndex((t) => t.id === skinTone) + 1;
+                    if (desiredShade < currentToneIndex) {
+                      return (
+                        <div className="bg-orange-900/40 border border-orange-500/30 rounded-lg p-3 text-sm text-orange-300 backdrop-blur-sm">
+                          <strong>שים לב:</strong> לא ניתן להבהיר את העור
+                          באמצעות שיזוף. ניתן רק להכהין אותו.
+                        </div>
+                      );
+                    }
+                    return null;
+                  })()}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Tan Color Selection Section */}
+          <div className="mb-8 transition-all duration-500">
+            <div className="mb-4 text-center">
+              <h2 className="flex items-center justify-center gap-2 text-lg font-medium">
+                <Palette className="h-5 w-5" />
+                <span className="text-gradient-shimmer">בחירת צבע שיזוף</span>
+                <Sparkles className="inline h-4 w-4 mr-2 animate-pulse" />
+              </h2>
+            </div>
+            <div className="space-y-6">
+              {/* Predefined Shades - 3D Style like the skin tone selector */}
+              <div className="space-y-2">
+                <Label className="text-base font-medium text-cream-light text-center transition-all duration-300">
+                  בחר מגוונים של שיזוף הגיוניים:
+                </Label>
+                <div className="w-full max-w-6xl mx-auto">
+                  <div
+                    className="grid grid-cols-8 gap-4 p-8 bg-gradient-to-br from-gray-800 via-gray-900 to-black rounded-3xl border-none shadow-2xl"
+                    style={{
+                      boxShadow:
+                        "0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 10px 25px -10px rgba(0, 0, 0, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.05)",
+                    }}
+                  >
+                    {tanShades
+                      .filter((shade) => shade.value >= 6 && shade.value <= 13)
+                      .map((shade, index) => {
+                        const isSelected = selectedTanShade?.id === shade.id;
+                        return (
+                          <div
+                            key={shade.id}
+                            className={`group cursor-pointer transition-all duration-700 transform perspective-1000 flex flex-col items-center p-1 rounded-2xl ${isSelected ? "scale-110 animate-scale-in bg-white/30 shadow-2xl ring-4 ring-earth-medium/40 backdrop-blur-sm" : "hover:scale-105 hover:-translate-y-2 hover:bg-white/20 hover:shadow-xl hover:backdrop-blur-sm"}`}
+                            style={{
+                              animationDelay: `${index * 0.1}s`,
+                            }}
+                            onClick={() => {
+                              setSelectedTanShade(shade);
+                              setDesiredShade(shade.value);
+                            }}
+                          >
+                            <div className="relative flex flex-col items-center">
+                              {/* 3D Container with enhanced layers */}
+                              <div className="relative transform-gpu mb-6 p-4">
+                                {/* Multiple shadow layers for depth */}
+                                <div
+                                  className="absolute inset-4 rounded-full opacity-20 blur-lg translate-y-4 translate-x-3"
+                                  style={{
+                                    background: `radial-gradient(circle, ${shade.color}, transparent 70%)`,
+                                  }}
+                                />
+                                <div
+                                  className="absolute inset-3 rounded-full opacity-25 blur-md translate-y-2 translate-x-1"
+                                  style={{
+                                    backgroundColor: shade.color,
+                                  }}
+                                />
+
+                                {/* Main 3D tan shade display with enhanced effects */}
+                                <div
+                                  className={`relative w-28 h-28 rounded-full border-4 transition-all duration-500 z-10 ${isSelected ? "border-earth-dark/60 shadow-2xl animate-fade-in" : "border-white/60 shadow-lg group-hover:shadow-2xl group-hover:border-earth-medium/50"}`}
+                                  style={{
+                                    background: `radial-gradient(circle at 25% 25%, rgba(255,255,255,0.6), ${shade.color} 30%, ${shade.color} 100%)`,
+                                    boxShadow: isSelected
+                                      ? `inset -8px -8px 20px rgba(0,0,0,0.2), inset 8px 8px 20px rgba(255,255,255,0.5), 0 15px 35px rgba(0,0,0,0.3), 0 0 30px ${shade.color}40`
+                                      : `inset -6px -6px 18px rgba(0,0,0,0.15), inset 6px 6px 18px rgba(255,255,255,0.4), 0 12px 30px rgba(0,0,0,0.2)`,
+                                  }}
+                                >
+                                  {/* Enhanced highlight spots */}
+                                  <div className="absolute top-3 left-5 w-6 h-6 bg-white/60 rounded-full blur-sm" />
+                                  <div className="absolute top-6 left-3 w-3 h-3 bg-white/40 rounded-full blur-sm" />
+
+                                  {/* Selection glow effect */}
+                                  {isSelected && (
+                                    <div className="absolute -inset-2 rounded-full bg-gradient-to-br from-white/30 to-transparent animate-pulse" />
+                                  )}
+                                </div>
+
+                                {/* Floating selection indicator */}
+                                {isSelected && (
+                                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-earth-medium rounded-full flex items-center justify-center shadow-lg animate-scale-in">
+                                    <Sparkles className="w-4 h-4 text-white" />
+                                  </div>
+                                )}
+                              </div>
+
+                              {/* Enhanced Label with better typography */}
+                              <div className="text-center w-32 flex-shrink-0">
+                                <h4
+                                  className={`font-semibold text-sm leading-tight transition-all duration-300 ${isSelected ? "text-earth-dark scale-105" : "text-earth-dark/80 group-hover:text-earth-dark"}`}
+                                >
+                                  {shade.name}
+                                </h4>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                  </div>
+                </div>
+              </div>
+
+              {/* Premium Custom Color Picker */}
+              <div className="space-y-6">
+                <div className="text-center"></div>
+              </div>
+
+              {/* Bronzer Selection - 3D Cream Visualizer */}
+              <div className="space-y-6">
+                <BronzerSection
+                  bronzerOptions={bronzerOptions}
+                  selectedBronzer={selectedBronzer}
+                  onSelectBronzer={(id) => {
+                    setSelectedBronzer(selectedBronzer === id ? null : id);
+                    if (beforeImage) {
+                      setTimeout(() => simulateTanningEffect(beforeImage), 100);
+                    }
+                  }}
+                  onRemoveBronzer={() => {
+                    setSelectedBronzer(null);
+                    if (beforeImage) {
+                      setTimeout(() => simulateTanningEffect(beforeImage), 100);
+                    }
+                  }}
+                  onPreview={() => {
+                    if (beforeImage) {
+                      simulateTanningEffect(beforeImage);
+                    }
+                  }}
+                />
+              </div>
+
+              {/* Live Preview - 3D Enhanced */}
+              <div className="p-6 bg-gradient-to-br from-gray-800/60 to-gray-900/40 rounded-xl border border-white/10 shadow-inner backdrop-blur-sm">
+                <div className="flex items-center gap-2 mb-4">
+                  <Eye className="h-5 w-5 text-amber-400" />
+                  <span className="text-base font-medium text-cream-light">
+                    תצוגה חיה של הצבע הנבחר
+                  </span>
+                </div>
+
+                {/* Magic Processing State */}
+                {isMagicProcessing ? (
+                  <div className="relative w-full h-24 rounded-xl bg-gradient-to-br from-gray-800/60 to-gray-900/40 border-2 border-purple-500/30 overflow-hidden shadow-lg">
+                    {/* Moving gradient animation */}
+                    <div
+                      className="absolute inset-0 opacity-80 rounded-xl"
+                      style={{
+                        background: `linear-gradient(90deg, 
+                        ${skinTones.find((t) => t.id === skinTone)?.color || "#F5E6D8"} 0%,
+                        ${skinTones.find((t) => t.id === skinTone)?.color || "#F5E6D8"} 20%,
+                        ${selectedTanShade?.color || customTanColor} 50%,
+                        ${selectedTanShade?.color || customTanColor} 80%,
+                        ${skinTones.find((t) => t.id === skinTone)?.color || "#F5E6D8"} 100%)`,
+                        backgroundSize: "300% 100%",
+                        animation:
+                          "slide-gradient 2s ease-in-out infinite alternate",
+                      }}
+                    />
+                    <div className="flex items-center justify-center h-full relative z-10">
+                      <div className="flex items-center gap-3 bg-gray-900/90 px-4 py-2 rounded-full shadow-md backdrop-blur-sm border border-white/10">
+                        <div className="w-4 h-4 border-2 border-amber-400 border-t-transparent rounded-full animate-spin" />
+                        <span className="text-cream-light font-medium text-sm">
+                          המערכת עושה את הקסם...
+                        </span>
+                        <Sparkles className="h-4 w-4 text-earth-medium animate-pulse" />
+                      </div>
+                    </div>
+                  </div> /* 3D Preview Container */
+                ) : (
+                  <div className="relative">
+                    {/* Background shadow */}
+                    <div className="absolute inset-0 bg-black/10 rounded-xl blur-sm translate-y-1" />
+
+                    {/* Main 3D preview */}
+                    <div
+                      className="relative w-full h-24 rounded-xl border-2 border-white/50 overflow-hidden shadow-lg"
+                      style={{
+                        background: `linear-gradient(135deg, 
+                        rgba(255,255,255,0.9) 0%, 
+                        ${selectedTanShade?.color || customTanColor}40 30%, 
+                        ${selectedTanShade?.color || customTanColor}80 70%, 
+                        ${selectedTanShade?.color || customTanColor} 100%)`,
+                        boxShadow: `inset 0 4px 12px rgba(0,0,0,0.1), 0 8px 25px rgba(0,0,0,0.15)`,
+                      }}
+                    >
+                      {/* Surface reflections */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-transparent to-black/10 rounded-xl" />
+
+                      {/* Highlight strip */}
+                      <div className="absolute top-2 left-4 right-4 h-1 bg-white/50 rounded-full blur-sm" />
+
+                      {/* Animated scanner effect */}
+                      <div
+                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12"
+                        style={{
+                          width: "200%",
+                          left: "-100%",
+                          animation: "slide-scanner 2s ease-in-out infinite",
+                        }}
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Organized Image Upload Section */}
+          <ImageUploadSection
+            selectedTanShade={selectedTanShade}
+            customTanColor={customTanColor}
+            beforeImage={beforeImage}
+            afterImage={afterImage}
+            isProcessing={isProcessing}
+            onImageUpload={handleImageUpload}
+            onImageChange={(before, after) => {
+              setBeforeImage(before);
+              setAfterImage(after);
+            }}
+            skinTone={skinTone}
+            desiredShade={desiredShade}
+            skinTones={skinTones}
+          />
+
+          {/* Session Planning Section */}
+          <Card
+            className={`mb-8 mt-24 backdrop-blur-sm transition-all duration-500 border-none shadow-2xl ${activeSection === "sessions" ? "scale-105 shadow-2xl" : "hover:scale-102 hover:shadow-xl"} ${interactionEffect}`}
+            style={{
+              background:
+                "linear-gradient(135deg, rgb(31, 41, 55) 0%, rgb(17, 24, 39) 50%, rgb(0, 0, 0) 100%)",
+              boxShadow:
+                "0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 10px 25px -10px rgba(0, 0, 0, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.05)",
+            }}
+          >
+            <CardHeader>
+              <CardTitle
+                className={`flex items-center gap-2 text-lg transition-all duration-300 text-cream-light ${activeSection === "sessions" ? "text-2xl" : ""}`}
+              >
+                <Settings
+                  className={`h-5 w-5 transition-all duration-300 text-amber-400 ${activeSection === "sessions" ? "h-6 w-6 animate-spin" : ""}`}
+                />
+                <span className="text-gradient-shimmer">
+                  תכנון תוכנית השיזוף
+                </span>
+                {activeSection === "sessions" && (
+                  <Sparkles className="h-4 w-4 text-amber-400 animate-pulse" />
+                )}
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* Automatic Session Prediction - Based on selections above */}
+              <div className="space-y-4">
+                <div className="bg-gradient-to-br from-gray-800/60 to-gray-900/40 rounded-xl p-4 sm:p-6 border border-white/10 backdrop-blur-sm">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Settings className="h-5 w-5 text-amber-400" />
+                    <Label className="text-lg font-semibold">
+                      <span className="text-gradient-shimmer text-cream-light">
+                        חיזוי תוכנית השיזוף
+                      </span>
+                    </Label>
+                  </div>
+
+                  <div className="w-full">
+                    {/* Results in a row */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                      {/* Sessions Count */}
+                      <div className="flex flex-col items-center text-center space-y-2">
+                        <div
+                          className="rounded-full w-28 h-28 flex items-center justify-center shadow-2xl border-2 border-white/30"
+                          style={{
+                            background: `radial-gradient(circle at 30% 30%, rgba(255,255,255,0.5), ${skinTones.find((t) => t.id === skinTone)?.color} 50%, rgba(0,0,0,0.3) 100%)`,
+                            boxShadow: `inset -4px -4px 12px rgba(0,0,0,0.3), inset 4px 4px 12px rgba(255,255,255,0.5), 0 8px 25px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.2)`,
+                          }}
+                        >
+                          <span
+                            className="text-xl font-bold drop-shadow-lg filter contrast-125"
+                            style={{
+                              color:
+                                tanShades.find(
+                                  (shade) =>
+                                    shade.value === calculateExpectedShade(),
+                                )?.color || "#D4A574",
+                            }}
+                          >
+                            {calculateRecommendedSessions()}
+                          </span>
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-semibold mb-2">
+                            <span className="text-gradient-shimmer">
+                              {calculateRecommendedSessions()} סשנים מומלצים
+                            </span>
+                          </h3>
+                          <p className="text-sm text-earth-deep dark:text-earth-light leading-relaxed font-medium">
+                            מספר הסשנים האידיאלי להשגת הגוון הרצוי בהתאם לגוון
+                            העור הנוכחי ולרמת השיזוף המבוקשת
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Minutes per Session */}
+                      <div className="flex flex-col items-center text-center space-y-2">
+                        <div
+                          className="rounded-full w-28 h-28 flex items-center justify-center shadow-2xl border-2 border-white/30"
+                          style={{
+                            background: `radial-gradient(circle at 30% 30%, rgba(255,255,255,0.5), ${skinTones.find((t) => t.id === skinTone)?.color} 50%, rgba(0,0,0,0.3) 100%)`,
+                            boxShadow: `inset -4px -4px 12px rgba(0,0,0,0.3), inset 4px 4px 12px rgba(255,255,255,0.5), 0 8px 25px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.2)`,
+                          }}
+                        >
+                          <div
+                            className="text-xl font-bold drop-shadow-lg filter contrast-125"
+                            style={{
+                              color:
+                                tanShades.find(
+                                  (shade) =>
+                                    shade.value === calculateExpectedShade(),
+                                )?.color || "#D4A574",
+                            }}
+                          >
+                            {calculateMinutesPerSession()}
+                          </div>
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-semibold mb-2">
+                            <span className="text-gradient-shimmer">
+                              דקות לסשן
+                            </span>
+                          </h3>
+                          <p className="text-sm text-earth-deep dark:text-earth-light leading-relaxed font-medium">
+                            זמן החשיפה המומלץ בכל סשן, מחושב על פי סוג העור ורמת
+                            השיזוף הרצויה לבטיחות מקסימלית
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Expected Shade */}
+                      <div className="flex flex-col items-center text-center space-y-2">
+                        <div
+                          className="rounded-full w-28 h-28 flex items-center justify-center shadow-2xl border-2 border-white/30 text-center"
+                          style={{
+                            background: `radial-gradient(circle at 30% 30%, rgba(255,255,255,0.5), ${tanShades.find((shade) => shade.value === desiredShade)?.color || "#D4A574"} 50%, rgba(0,0,0,0.3) 100%)`,
+                            boxShadow: `inset -4px -4px 12px rgba(0,0,0,0.3), inset 4px 4px 12px rgba(255,255,255,0.5), 0 8px 25px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.2)`,
+                          }}
+                        >
+                          <div className="text-xs font-bold text-white drop-shadow-lg filter contrast-125 leading-tight px-1">
+                            {tanShades.find(
+                              (shade) =>
+                                shade.value === calculateExpectedShade(),
+                            )?.name ||
+                              tanShades.find(
+                                (shade) => shade.value === desiredShade,
+                              )?.name ||
+                              ""}
+                          </div>
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-semibold mb-2">
+                            <span className="text-gradient-shimmer">
+                              גוון צפוי
+                            </span>
+                          </h3>
+                          <p className="text-sm text-earth-deep dark:text-earth-light leading-relaxed font-medium">
+                            הגוון שיושג לפי מספר הסשנים המתוכנן, מחושב על בסיס
+                            גוון העור הנוכחי וזמן החשיפה
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Safety and Confidence Text - moved below results */}
+                  <div className="bg-gradient-to-br from-gray-800/60 to-gray-900/40 rounded-xl p-4 sm:p-5 mt-6 border border-white/10 shadow-lg backdrop-blur-sm">
+                    <div className="flex items-start gap-4">
+                      <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center shadow-md">
+                        <svg
+                          className="w-5 h-5 text-white drop-shadow-sm"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="font-semibold text-cream-light mb-2 flex items-center gap-2">
+                          <span className="text-lg">🛡️</span>
+                          תהליך בטוח ומבוקר
+                          <SmartTooltip
+                            content="האלגוריתמים שלנו מבוססים על תקני בטיחות בינלאומיים ומחקרים עדכניים בתחום השיזוף הבטוח, עם דיוק של 95% בהמלצות התאמת גוון."
+                            accuracy="95%"
+                            side="right"
+                          />
+                        </h4>
+                        <p className="text-sm text-cream-base leading-relaxed font-medium">
+                          המערכת מחשבת את התוכנית בהתבסס על מחקרים מדעיים ותקנים
+                          בינלאומיים לשיזוף בטוח. כל המלצה מותאמת אישית לגוון
+                          העור שלך ומבטיחה תוצאות הדרגתיות ובטוחות. המערכת מונעת
+                          חשיפה מוגזמת ומבטיחה הגנה מקסימלית על העור.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Manual Override Option */}
+            </CardContent>
+          </Card>
+
+          {/* Desired Tan Shade Section */}
+          <Card
+            className="mb-8 bg-gradient-to-br from-gray-800 via-gray-900 to-black backdrop-blur-sm border-none shadow-2xl"
+            style={{
+              boxShadow:
+                "0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 10px 25px -10px rgba(0, 0, 0, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.05)",
+            }}
+          ></Card>
+
+          {/* מקטע ברונזר ומוצרים מומלצים */}
+          <Card
+            className="mb-8 bg-gradient-to-br from-gray-800 via-gray-900 to-black backdrop-blur-sm border-none shadow-2xl"
+            style={{
+              boxShadow:
+                "0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 10px 25px -10px rgba(0, 0, 0, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.05)",
+            }}
+          >
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-cream-light">
+                <Package className="h-6 w-6 text-amber-400" />
+                <span className="text-gradient-shimmer">
+                  המלצות מוצרים מותאמות אישית
+                </span>
+              </CardTitle>
+              <p className="text-cream-base">
+                ברונזרים ומוצרי שיזוף שנבחרו במיוחד עבור סוג העור שלך, רמת
+                הניסיון והגוון הרצוי
+              </p>
+            </CardHeader>
+            <CardContent>
+              <SmartProductRecommendations
+                skinTone={skinTones.findIndex((t) => t.id === skinTone) + 1}
+                currentShade={6}
+                desiredShade={desiredShade}
+                experience={
+                  experience as "beginner" | "intermediate" | "expert"
+                }
+                burnsPreviously={burnsPreviously ?? false}
+                sessionType="solarium"
+                sessionsAvailable={sessionCount[0]}
+                skinSensitivity={burnsPreviously ? "high" : "medium"}
+                onSelectProducts={setSelectedProducts}
+              />
+            </CardContent>
+          </Card>
+
+          {/* מקטע חבילות מותאמות */}
+          <Card
+            className={`mb-8 backdrop-blur-sm transition-all duration-500 border-none shadow-2xl ${activeSection === "packages" ? "scale-105 shadow-2xl" : "hover:scale-102 hover:shadow-xl"}`}
+            style={{
+              background:
+                "linear-gradient(135deg, rgb(31, 41, 55) 0%, rgb(17, 24, 39) 50%, rgb(0, 0, 0) 100%)",
+              boxShadow:
+                "0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 10px 25px -10px rgba(0, 0, 0, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.05)",
+            }}
+          ></Card>
+
+          {/* מקטע החזר השקעה */}
+
+          {/* Camera Preview and Build Your Tan Section - Side by Side */}
+
+          {/* Why Choose Us Section */}
+          <div className="mt-12">
+            <WhyChooseUs />
+          </div>
+
+          {/* AI Research Section */}
+          <div className="mt-8">
+            <SkinToneResearch />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+export default Index;
