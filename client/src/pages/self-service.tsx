@@ -371,10 +371,10 @@ export default function SelfService() {
                 href="https://wa.me/972557247033"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="relative shrink-0 group animate-bounce-slow hover:scale-110 transition-transform"
+                className="relative shrink-0 group animate-bounce-slow hover:scale-110 transition-transform -mt-8"
                 data-testid="button-chat-with-alin"
               >
-                <Alin size={140} />
+                <Alin size={180} />
               </a>
               
               {/* Flowing Text Bubble with Typing Effect */}
