@@ -365,7 +365,7 @@ export default function SelfService() {
         {/* FOOTER WITH ALIN */}
         <footer className="border-t border-[hsl(var(--border))] py-3 flex-shrink-0">
           <div className="max-w-6xl mx-auto px-3">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
               {/* Alin Avatar */}
               <a
                 href="https://wa.me/972557247033"
