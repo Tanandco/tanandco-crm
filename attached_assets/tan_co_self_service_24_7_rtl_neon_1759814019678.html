@@ -1,0 +1,65 @@
+<!doctype html>
+<html dir="rtl" lang="he">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tan & Co — שירות עצמי 24/7</title>
+  <style>
+    :root{
+      --bg: 210 6% 8%;
+      --primary: 328 100% 70%;
+      --text: 210 15% 92%;
+      --border: 210 8% 18%;
+      --card: 210 6% 10%;
+      --cardText: 210 15% 90%;
+    }
+    .neon-glow {
+      filter: drop-shadow(0 0 40px hsla(var(--primary)/0.4)) drop-shadow(0 0 80px rgba(147,51,234,0.4)) drop-shadow(0 0 20px rgba(255,105,180,0.5));
+    }
+    @keyframes glowPulse {
+      0%, 100% { filter: drop-shadow(0 0 20px hsla(var(--primary)/0.4)) drop-shadow(0 0 40px rgba(147,51,234,0.3)) drop-shadow(0 0 10px rgba(255,105,180,0.5)); transform: scale(1); }
+      50% { filter: drop-shadow(0 0 30px hsla(var(--primary)/0.6)) drop-shadow(0 0 60px rgba(147,51,234,0.5)) drop-shadow(0 0 15px rgba(255,105,180,0.7)); transform: scale(1.05); }
+    }
+    .animate-glow-pulse { animation: glowPulse 2.5s ease-in-out infinite; }
+  </style>
+</head>
+<body class="bg-[hsl(var(--bg))] text-[hsl(var(--text))] antialiased">
+  <main class="min-h-screen flex flex-col items-center justify-center text-center">
+    <h1 class="text-4xl font-bold mb-6 text-[hsl(var(--primary))]">שירות עצמי 24/7</h1>
+    <p class="text-white/80 mb-8">בחרו שירות או כרטיסיה להמשך</p>
+
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-6">
+      <div class="h-[160px] w-[150px] rounded-2xl p-4 bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] transition-all duration-300 ease-in-out hover:scale-105 flex flex-col items-center justify-center">
+        <img src="/assets/icons/1.svg" alt="מיטות שיזוף" class="w-10 h-10 mb-3 neon-glow" />
+        <span class="font-bold">מיטות שיזוף</span>
+      </div>
+
+      <div class="h-[160px] w-[150px] rounded-2xl p-4 bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] transition-all duration-300 ease-in-out hover:scale-105 flex flex-col items-center justify-center">
+        <img src="/assets/icons/2.svg" alt="שיזוף בהתזה" class="w-10 h-10 mb-3 neon-glow" />
+        <span class="font-bold">שיזוף בהתזה</span>
+      </div>
+
+      <div class="h-[160px] w-[150px] rounded-2xl p-4 bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] transition-all duration-300 ease-in-out hover:scale-105 flex flex-col items-center justify-center">
+        <img src="/assets/icons/3.svg" alt="מספרה" class="w-10 h-10 mb-3 neon-glow" />
+        <span class="font-bold">מספרה</span>
+      </div>
+
+      <div class="h-[160px] w-[150px] rounded-2xl p-4 bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] transition-all duration-300 ease-in-out hover:scale-105 flex flex-col items-center justify-center">
+        <img src="/assets/icons/4.svg" alt="קוסמטיקה" class="w-10 h-10 mb-3 neon-glow" />
+        <span class="font-bold">קוסמטיקה</span>
+      </div>
+
+      <!-- כרטיסיות (עם glow pulse עדין) -->
+      <div class="h-[160px] w-[150px] rounded-2xl p-4 bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] transition-all duration-300 ease-in-out hover:scale-105 flex flex-col items-center justify-center">
+        <img src="/assets/upload.png" alt="כרטיסיות" class="w-20 h-20 mb-3 rounded-xl neon-glow animate-glow-pulse" />
+        <span class="font-bold">כרטיסיות</span>
+      </div>
+
+      <div class="h-[160px] w-[150px] rounded-2xl p-4 bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] transition-all duration-300 ease-in-out hover:scale-105 flex flex-col items-center justify-center">
+        <video src="/assets/ai/ai-tan.webm" autoplay muted loop playsinline class="w-16 h-16 mb-3 rounded-full object-cover neon-glow"></video>
+        <span class="font-bold">AI TAN (אלין)</span>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
