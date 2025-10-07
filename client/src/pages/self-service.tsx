@@ -354,7 +354,7 @@ export default function SelfService() {
               
               {/* Flowing Text Bubble with Typing Effect */}
               <div className="relative bg-gradient-to-r from-[hsl(var(--primary))]/20 to-transparent border border-[hsl(var(--primary))]/40 rounded-2xl rounded-tr-sm py-1 px-2 backdrop-blur-sm animate-slide-in-left w-fit">
-                <p className="text-white/90 text-sm typing-effect whitespace-nowrap">
+                <p className="text-white/90 text-sm typing-effect whitespace-nowrap line-through">
                   היי, אני אלין! העוזרת הדיגיטלית שלכם זמינה 24/7 - לחצו עליי לשיחה בוואטסאפ
                 </p>
               </div>
