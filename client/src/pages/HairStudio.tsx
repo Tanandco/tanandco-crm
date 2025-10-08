@@ -4,7 +4,7 @@ import { useState } from 'react';
 import icon1 from '@assets/8_1759907913839.png';
 import icon2 from '@assets/10_1759907919939.png';
 import icon3 from '@assets/11_1759907922694.png';
-import icon4 from '@assets/66410b1d-7c35-4eba-b4db-385fdfcaf798_1759907928682.png';
+import icon4 from '@assets/9_1759907875344.png';
 import icon5 from '@assets/14_1759907934990.png';
 import icon6 from '@assets/13_1759907937800.png';
 import icon7 from '@assets/12_1759907940433.png';
