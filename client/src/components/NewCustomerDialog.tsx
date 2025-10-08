@@ -6,7 +6,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { useToast } from '@/hooks/use-toast';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from '@/components/ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { insertCustomerSchema } from '@shared/schema';
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -279,6 +279,9 @@ export default function NewCustomerDialog({ open, onOpenChange }: NewCustomerDia
                             data-testid="input-phone"
                           />
                         </FormControl>
+                        <FormDescription className="text-pink-300/70 text-sm">
+                          מספר זה ישמש לתקשורת WhatsApp
+                        </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
