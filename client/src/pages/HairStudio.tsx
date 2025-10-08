@@ -259,7 +259,7 @@ export default function HairStudio() {
               תספורות
             </h3>
             <div className="space-y-3">
-              {services.haircuts.map((service, i) => (
+              {services.haircuts?.map((service, i) => (
                 <div
                   key={i}
                   className="flex justify-between items-center text-sm py-2 border-b border-white/10"
@@ -282,7 +282,7 @@ export default function HairStudio() {
               צבעים וטיפולים
             </h3>
             <div className="space-y-3">
-              {services.coloring.map((service, i) => (
+              {services.coloring?.map((service, i) => (
                 <div
                   key={i}
                   className="flex justify-between items-center text-sm py-2 border-b border-white/10"
@@ -305,7 +305,7 @@ export default function HairStudio() {
               טיפולי שיער ועיצוב
             </h3>
             <div className="space-y-3">
-              {services.treatments.map((service, i) => (
+              {services.treatments?.map((service, i) => (
                 <div
                   key={i}
                   className="flex justify-between items-center text-sm py-2 border-b border-white/10"
