@@ -4,6 +4,11 @@
 
 This project is a premium touch-screen kiosk CRM system designed for Tan & Co salon/spa operations. It features a modern Hebrew RTL interface with a neon aesthetic, focusing on customer self-service and salon management. The system integrates with multiple external services for payments, customer identification, access control, and automated marketing workflows, aiming to streamline salon operations and enhance the customer experience.
 
+**Recent Updates (October 2025)**:
+- Excel import system for migrating 216 existing subscribers with packages and balances
+- Successfully imported legacy customer data with automated phone normalization and membership creation
+- Multilingual checkout page with Hebrew/English/French support and neon aesthetic
+
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
@@ -38,6 +43,7 @@ Preferred communication style: Simple, everyday language.
 - **Database**: `@neondatabase/serverless`, `drizzle-orm`, `drizzle-kit`.
 - **UI**: `@radix-ui/*`, `tailwindcss`, `lucide-react`, `class-variance-authority`.
 - **Forms**: `react-hook-form`, `@hookform/resolvers`, `zod`.
+- **File Processing**: `xlsx` (Excel parsing), `multer` (file uploads).
 
 ### Active Integrations
 - **WhatsApp Business API**: Automated messaging, live chat (SSE), template-based messages, customer engagement workflows.
