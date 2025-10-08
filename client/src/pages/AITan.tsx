@@ -1006,7 +1006,7 @@ export default function AITan() {
                     </div>
                     <div className="flex items-center gap-2 text-white/80">
                       <Sparkles className="w-5 h-5 text-amber-400" />
-                      <span>ברונזר איכותי (BombShell/American Glamour)</span>
+                      <span>ברונזר WILD TAN</span>
                     </div>
                     <div className="flex items-center gap-2 text-white/80">
                       <Palette className="w-5 h-5 text-amber-400" />
@@ -1017,9 +1017,9 @@ export default function AITan() {
                   <div className="border-t border-amber-500/20 pt-4 mb-6">
                     <div className="text-center">
                       <div className="text-3xl font-bold text-amber-400 mb-1">
-                        ₪{calculateRecommendedSessions() * 45 + 275}
+                        ₪{calculateRecommendedSessions() * 45 + 150}
                       </div>
-                      <p className="text-xs text-white/50">כולל מע"מ · ממוצע ₪275 לברונזר</p>
+                      <p className="text-xs text-white/50">כולל מע"מ · ₪150 לברונזר</p>
                     </div>
                   </div>
 
