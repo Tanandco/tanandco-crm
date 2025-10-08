@@ -2377,7 +2377,7 @@ export function registerRoutes(app: express.Application) {
   });
 
   // ============================================================
-  // PAS TOUCHER Import Endpoint
+  // Product Import Endpoint (PAS TOUCHER & ProShop)
   // ============================================================
 
   app.post('/api/import/pas-toucher', async (req, res) => {
@@ -2391,15 +2391,20 @@ export function registerRoutes(app: express.Application) {
         });
       }
 
-      // Security: Validate URL belongs to pas-toucher.com and uses HTTPS
+      // Security: Validate URL belongs to allowed domains and uses HTTPS
       const urlObj = new URL(url);
-      const isValidHost = urlObj.hostname === 'pas-toucher.com' || urlObj.hostname.endsWith('.pas-toucher.com');
+      const isValidPasToucher = urlObj.hostname === 'pas-toucher.com' || urlObj.hostname.endsWith('.pas-toucher.com');
+      const isValidProShop = urlObj.hostname === 'proshop.co.il' || urlObj.hostname.endsWith('.proshop.co.il');
+      const isValidHost = isValidPasToucher || isValidProShop;
+      
       if (urlObj.protocol !== 'https:' || !isValidHost) {
         return res.status(400).json({
           success: false,
-          error: 'URL must be from https://pas-toucher.com or https://www.pas-toucher.com'
+          error: 'URL must be from https://pas-toucher.com, https://www.pas-toucher.com, or https://proshop.co.il'
         });
       }
+      
+      const brand = isValidPasToucher ? 'PAS TOUCHER' : 'BALIBODY';
 
       const { load } = await import('cheerio');
       const { products: productsTable } = await import('@shared/schema');
@@ -2426,30 +2431,66 @@ export function registerRoutes(app: express.Application) {
       // Load HTML with Cheerio
       const $ = load(html);
 
-      // Extract products from WooCommerce structure
-      $('.product').each((_, element) => {
+      console.log(`[${brand}] Total products found:`, $('.product, li.product').length);
+
+      // Extract products - support both PAS TOUCHER and WooCommerce structures
+      let debugCount = 0;
+      $('li.product, .product').each((_, element) => {
         const $product = $(element);
         
-        // Extract product name
-        const name = $product.find('.woocommerce-loop-product__title, h2, h3').first().text().trim();
+        let name, color, price, salePrice, originalPrice, imageUrl;
         
-        // Extract price
-        const priceText = $product.find('.price .woocommerce-Price-amount, .price').first().text().trim();
-        const priceMatch = priceText.match(/(\d+)/);
-        const price = priceMatch ? parseInt(priceMatch[1]) : 0;
-        
-        // Extract sale price if exists
-        const salePriceText = $product.find('.price ins .woocommerce-Price-amount').text().trim();
-        const salePriceMatch = salePriceText.match(/(\d+)/);
-        const salePrice = salePriceMatch ? parseInt(salePriceMatch[1]) : null;
-        
-        // Extract image
-        const imageUrl = $product.find('img').first().attr('src') || $product.find('img').first().attr('data-src') || '';
-        
-        // Extract color/variant info from title or description
-        const fullText = $product.text();
-        const colorMatch = fullText.match(/(?:-|–)\s*([א-ת\s]+)/);
-        const color = colorMatch ? colorMatch[1].trim() : '';
+        if (isValidPasToucher) {
+          // PAS TOUCHER structure
+          name = $product.find('.product__name').first().text().trim();
+          color = $product.find('.product__color').first().text().trim();
+          
+          const originalPriceText = $product.find('.product__original-price').first().text().trim();
+          const salePriceText = $product.find('.product__sale-price').first().text().trim();
+          const regularPriceText = $product.find('.product__price').first().text().trim();
+          
+          const originalPriceMatch = originalPriceText.match(/(\d+)/);
+          const salePriceMatch = salePriceText.match(/(\d+)/);
+          const regularPriceMatch = regularPriceText.match(/(\d+)/);
+          
+          originalPrice = originalPriceMatch ? parseInt(originalPriceMatch[1]) : 0;
+          salePrice = salePriceMatch ? parseInt(salePriceMatch[1]) : null;
+          price = salePrice || (regularPriceMatch ? parseInt(regularPriceMatch[1]) : 0);
+          
+          imageUrl = $product.find('.product__thumbnail').first().attr('src') || 
+                    $product.find('.product__thumbnail').first().attr('data-src') || '';
+        } else {
+          // WooCommerce/ProShop structure
+          name = $product.find('.woocommerce-loop-product__title').first().text().trim();
+          color = '';
+          
+          const priceContainer = $product.find('.price').first();
+          const delPrice = priceContainer.find('del .woocommerce-Price-amount bdi').text().trim();
+          const insPrice = priceContainer.find('ins .woocommerce-Price-amount bdi').text().trim();
+          const regularPrice = priceContainer.find('.woocommerce-Price-amount bdi').first().text().trim();
+          
+          const delMatch = delPrice.match(/(\d+)/);
+          const insMatch = insPrice.match(/(\d+)/);
+          const regularMatch = regularPrice.match(/(\d+)/);
+          
+          originalPrice = delMatch ? parseInt(delMatch[1]) : 0;
+          salePrice = insMatch ? parseInt(insMatch[1]) : null;
+          price = salePrice || (regularMatch ? parseInt(regularMatch[1]) : 0);
+          
+          imageUrl = $product.find('img').first().attr('data-lazy-src') || 
+                    $product.find('img').first().attr('src') || '';
+        }
+
+        if (debugCount < 3) {
+          console.log(`[${brand}] Product ${debugCount + 1}:`, {
+            name,
+            color,
+            price,
+            salePrice,
+            originalPrice
+          });
+          debugCount++;
+        }
 
         if (name && price > 0) {
           results.total++;
@@ -2457,33 +2498,65 @@ export function registerRoutes(app: express.Application) {
       });
 
       // Now actually import (re-iterate to insert into DB)
-      for (const productElement of $('.product').toArray()) {
+      for (const productElement of $('li.product, .product').toArray()) {
         const $product = $(productElement);
         
-        const name = $product.find('.woocommerce-loop-product__title, h2, h3').first().text().trim();
-        const priceText = $product.find('.price .woocommerce-Price-amount, .price').first().text().trim();
-        const priceMatch = priceText.match(/(\d+)/);
-        const price = priceMatch ? parseInt(priceMatch[1]) : 0;
+        let name, color, price, salePrice, imageUrl, isOutOfStock;
         
-        const salePriceText = $product.find('.price ins .woocommerce-Price-amount').text().trim();
-        const salePriceMatch = salePriceText.match(/(\d+)/);
-        const salePrice = salePriceMatch ? parseInt(salePriceMatch[1]) : null;
-        
-        const imageUrl = $product.find('img').first().attr('src') || $product.find('img').first().attr('data-src') || '';
-        
-        const fullText = $product.text();
-        const colorMatch = fullText.match(/(?:-|–)\s*([א-ת\s]+)/);
-        const color = colorMatch ? colorMatch[1].trim() : 'קלאסי';
+        if (isValidPasToucher) {
+          // PAS TOUCHER structure
+          name = $product.find('.product__name').first().text().trim();
+          color = $product.find('.product__color').first().text().trim();
+          
+          const originalPriceText = $product.find('.product__original-price').first().text().trim();
+          const salePriceText = $product.find('.product__sale-price').first().text().trim();
+          const regularPriceText = $product.find('.product__price').first().text().trim();
+          
+          const originalPriceMatch = originalPriceText.match(/(\d+)/);
+          const salePriceMatch = salePriceText.match(/(\d+)/);
+          const regularPriceMatch = regularPriceText.match(/(\d+)/);
+          
+          salePrice = salePriceMatch ? parseInt(salePriceMatch[1]) : null;
+          price = salePrice || (regularPriceMatch ? parseInt(regularPriceMatch[1]) : 0);
+          
+          imageUrl = $product.find('.product__thumbnail').first().attr('src') || 
+                    $product.find('.product__thumbnail').first().attr('data-src') || '';
+          
+          isOutOfStock = $product.find('.product__label--out-of-stock').length > 0;
+        } else {
+          // WooCommerce/ProShop structure
+          name = $product.find('.woocommerce-loop-product__title').first().text().trim();
+          color = '';
+          
+          const priceContainer = $product.find('.price').first();
+          const delPrice = priceContainer.find('del .woocommerce-Price-amount bdi').text().trim();
+          const insPrice = priceContainer.find('ins .woocommerce-Price-amount bdi').text().trim();
+          const regularPrice = priceContainer.find('.woocommerce-Price-amount bdi').first().text().trim();
+          
+          const insMatch = insPrice.match(/(\d+)/);
+          const regularMatch = regularPrice.match(/(\d+)/);
+          
+          salePrice = insMatch ? parseInt(insMatch[1]) : null;
+          price = salePrice || (regularMatch ? parseInt(regularMatch[1]) : 0);
+          
+          imageUrl = $product.find('img').first().attr('data-lazy-src') || 
+                    $product.find('img').first().attr('src') || '';
+          
+          isOutOfStock = $product.hasClass('outofstock') || $product.find('.out-of-stock').length > 0;
+        }
 
         if (!name || price <= 0) {
           continue;
         }
 
+        // Create unique product key (name + color)
+        const productKey = `${name}${color}`.trim();
+
         // Check if product already exists
         const existing = await db
           .select()
           .from(productsTable)
-          .where(eq(productsTable.name, name))
+          .where(eq(productsTable.name, productKey))
           .limit(1);
 
         if (existing.length > 0) {
@@ -2491,26 +2564,34 @@ export function registerRoutes(app: express.Application) {
           continue;
         }
 
+        // Determine category and features based on brand
+        const category = isValidPasToucher ? 'sunglasses' : 'tanning';
+        const features = isValidPasToucher ? [
+          'הגנה מלאה מקרינת UV',
+          'עיצוב אלכסנדר ברקמן',
+          'איכות פרימיום'
+        ] : [
+          'מוצר איכותי של BALIBODY',
+          'לשיזוף מושלם',
+          'מומלץ למשתמשי מיטות שיזוף'
+        ];
+
         // Create product
         await db.insert(productsTable).values({
-          name: name,
-          nameHe: name,
-          description: `משקפי שמש ${name}${color ? ' - ' + color : ''}`,
-          descriptionHe: `משקפי שמש ${name}${color ? ' - ' + color : ''}`,
+          name: productKey,
+          nameHe: `${name}${color}`,
+          description: `${name}${color ? ' ' + color : ''}`,
+          descriptionHe: `${name}${color ? ' ' + color : ''}`,
           price: price.toString(),
           salePrice: salePrice ? salePrice.toString() : null,
           productType: 'product',
-          category: 'sunglasses',
-          brand: 'PAS TOUCHER',
-          stock: 10,
-          isActive: true,
+          category: category,
+          brand: brand,
+          stock: isOutOfStock ? 0 : 10,
+          isActive: !isOutOfStock,
           isFeatured: false,
           images: imageUrl ? [imageUrl] : null,
-          features: [
-            'הגנה מלאה מקרינת UV',
-            'עיצוב אלכסנדר ברקמן',
-            'איכות פרימיום'
-          ]
+          features: features
         });
 
         results.imported++;
