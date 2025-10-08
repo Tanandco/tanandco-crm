@@ -64,7 +64,7 @@ export default function HairSalonDialog({ open, onOpenChange }: HairSalonDialogP
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* White Background */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-white opacity-40 backdrop-blur-lg" />
+        <div className="absolute inset-0 bg-white opacity-60 backdrop-blur-lg" />
       </div>
 
       {/* Back Button */}
