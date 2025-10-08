@@ -62,10 +62,9 @@ export default function HairSalonDialog({ open, onOpenChange }: HairSalonDialogP
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Purple/Indigo Gradient Background */}
+      {/* White Background */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-indigo-500/8 to-black opacity-98 backdrop-blur-lg" />
-        <div className="absolute inset-0 bg-gradient-to-tr from-black via-transparent to-indigo-500/3" />
+        <div className="absolute inset-0 bg-white opacity-40 backdrop-blur-lg" />
       </div>
 
       {/* Back Button */}
@@ -74,7 +73,7 @@ export default function HairSalonDialog({ open, onOpenChange }: HairSalonDialogP
           onClick={() => onOpenChange(false)}
           variant="outline"
           size="lg"
-          className="bg-white/10 border-white/20 text-white backdrop-blur-sm"
+          className="bg-pink-100 border-pink-300 text-pink-600 backdrop-blur-sm hover:bg-pink-200"
           data-testid="button-back-hair-salon"
         >
           <ArrowLeft className="w-5 h-5 ml-2" />
@@ -86,10 +85,10 @@ export default function HairSalonDialog({ open, onOpenChange }: HairSalonDialogP
       <div className="absolute top-16 left-0 right-0 z-20">
         <div className="text-center space-y-4 px-4">
           <div className="flex items-center justify-center gap-3">
-            <Scissors className="w-12 h-12 text-purple-500" style={{ filter: 'drop-shadow(0 0 20px rgba(168, 85, 247, 1))' }} />
+            <Scissors className="w-12 h-12 text-pink-500" style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 1))' }} />
             <h1 
-              className="text-xl font-bold text-white font-varela tracking-wide" 
-              style={{ fontFamily: "'Varela Round', sans-serif !important" }}
+              className="text-xl font-bold text-pink-600 font-varela tracking-wide" 
+              style={{ fontFamily: "'Varela Round', sans-serif !important", textShadow: '0 0 15px rgba(236, 72, 153, 0.6)' }}
             >
               מספרה ועיצוב שיער - מעצבי שיער מקצועיים
             </h1>
@@ -113,31 +112,31 @@ export default function HairSalonDialog({ open, onOpenChange }: HairSalonDialogP
           {/* Introduction Text */}
           <div className="mt-6 max-w-3xl mx-auto px-6">
             <div className="text-center space-y-4">
-              <p className="text-white/90 text-lg leading-relaxed">
-                <span className="text-purple-400 font-semibold">טאן אנד קו</span> מובילה בגאווה את המהפכה הבאה של תעשיית היופי עם <span className="text-pink-400">המודל ההיברידי-אוטונומי הראשון מסוגו</span>: שירותים בטכנולוגיה פורצת דרך, באוטומציה מלאה, 24/7 – וללא תלות בכוח אדם.
+              <p className="text-pink-500 text-lg leading-relaxed" style={{ textShadow: '0 0 10px rgba(236, 72, 153, 0.6)' }}>
+                <span className="text-pink-600 font-semibold">טאן אנד קו</span> מובילה בגאווה את המהפכה הבאה של תעשיית היופי עם <span className="text-pink-700">המודל ההיברידי-אוטונומי הראשון מסוגו</span>: שירותים בטכנולוגיה פורצת דרך, באוטומציה מלאה, 24/7 – וללא תלות בכוח אדם.
               </p>
               
-              <p className="text-white/80 text-base leading-relaxed">
-                ובכל זאת, אנחנו מאמינים בלב שלם במה שלא ניתן להחליף בשום אלגוריתם – <span className="text-purple-300">הקשר האנושי</span>. מגע. קרבה. חיוך. שיחה טובה. 
+              <p className="text-pink-500/90 text-base leading-relaxed" style={{ textShadow: '0 0 8px rgba(236, 72, 153, 0.5)' }}>
+                ובכל זאת, אנחנו מאמינים בלב שלם במה שלא ניתן להחליף בשום אלגוריתם – <span className="text-pink-600">הקשר האנושי</span>. מגע. קרבה. חיוך. שיחה טובה. 
               </p>
 
-              <p className="text-white/80 text-base leading-relaxed">
-                ולכן, תחת קורת גג אחת, אנחנו מאחדים את <span className="text-pink-300">מקצועני היופי והשיער מהשורה הראשונה</span> – כל אחד מהם הוא עולם ומלואו של כישרון, יצירתיות, ועצמאות אמיתית שמאפשרת להם להמריא – ולהעיף את הלקוחות יחד איתם.
+              <p className="text-pink-500/90 text-base leading-relaxed" style={{ textShadow: '0 0 8px rgba(236, 72, 153, 0.5)' }}>
+                ולכן, תחת קורת גג אחת, אנחנו מאחדים את <span className="text-pink-600">מקצועני היופי והשיער מהשורה הראשונה</span> – כל אחד מהם הוא עולם ומלואו של כישרון, יצירתיות, ועצמאות אמיתית שמאפשרת להם להמריא – ולהעיף את הלקוחות יחד איתם.
               </p>
 
               {/* Services List */}
-              <div className="mt-6 pt-4 border-t border-purple-500/30">
-                <p className="text-purple-300 text-sm font-semibold mb-3">התמחויות המספרה שלנו:</p>
+              <div className="mt-6 pt-4 border-t border-pink-300/30">
+                <p className="text-pink-600 text-sm font-semibold mb-3" style={{ textShadow: '0 0 10px rgba(236, 72, 153, 0.6)' }}>התמחויות המספרה שלנו:</p>
                 <div className="flex flex-wrap gap-2 justify-center">
-                  <span className="px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs border border-purple-500/30">תספורות וצביעה</span>
-                  <span className="px-3 py-1 rounded-full bg-pink-500/20 text-pink-300 text-xs border border-pink-500/30">גוונים ואומברה</span>
-                  <span className="px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs border border-purple-500/30">תוספות שיער</span>
-                  <span className="px-3 py-1 rounded-full bg-pink-500/20 text-pink-300 text-xs border border-pink-500/30">תסרוקות ערב</span>
-                  <span className="px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs border border-purple-500/30">תסרוקות לכל אירוע</span>
+                  <span className="px-3 py-1 rounded-full bg-pink-100 text-pink-600 text-xs border border-pink-300">תספורות וצביעה</span>
+                  <span className="px-3 py-1 rounded-full bg-pink-100 text-pink-600 text-xs border border-pink-300">גוונים ואומברה</span>
+                  <span className="px-3 py-1 rounded-full bg-pink-100 text-pink-600 text-xs border border-pink-300">תוספות שיער</span>
+                  <span className="px-3 py-1 rounded-full bg-pink-100 text-pink-600 text-xs border border-pink-300">תסרוקות ערב</span>
+                  <span className="px-3 py-1 rounded-full bg-pink-100 text-pink-600 text-xs border border-pink-300">תסרוקות לכל אירוע</span>
                 </div>
               </div>
 
-              <p className="text-white/60 text-xs italic mt-4">
+              <p className="text-pink-500/70 text-xs italic mt-4" style={{ textShadow: '0 0 6px rgba(236, 72, 153, 0.4)' }}>
                 שהגעתם בדיוק למקום הנכון ✨
               </p>
             </div>
@@ -160,8 +159,8 @@ export default function HairSalonDialog({ open, onOpenChange }: HairSalonDialogP
                   onClick={action.onClick}
                   className="
                     group relative h-[140px] w-[130px] sm:h-[150px] sm:w-[140px] md:h-[160px] md:w-[150px]
-                    bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
-                    border hover:border-2
+                    bg-white/95
+                    border-2 hover:border-3
                     rounded-md backdrop-blur-sm
                     flex flex-col items-center justify-between pb-4
                     transition-all duration-150 ease-in-out
@@ -169,11 +168,11 @@ export default function HairSalonDialog({ open, onOpenChange }: HairSalonDialogP
                     overflow-visible
                   "
                   style={{
-                    borderColor: 'rgba(168, 85, 247, 0.6)',
-                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
+                    borderColor: 'rgba(236, 72, 153, 0.6)',
+                    boxShadow: '0 4px 12px rgba(236, 72, 153, 0.3)'
                   }}
-                  onMouseEnter={(e) => e.currentTarget.style.borderColor = 'rgba(168, 85, 247, 1)'}
-                  onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(168, 85, 247, 0.6)'}
+                  onMouseEnter={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 1)'}
+                  onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.6)'}
                   data-testid={`hair-salon-action-${index}`}
                 >
                   <div className="flex-1 flex items-center justify-center transition-all duration-150 group-hover:scale-110">
@@ -181,20 +180,20 @@ export default function HairSalonDialog({ open, onOpenChange }: HairSalonDialogP
                       <img 
                         src={action.icon as string}
                         alt={action.title}
-                        className="w-24 h-24 object-contain group-hover:drop-shadow-[0_0_30px_rgba(168,85,247,1)]"
-                        style={{ filter: 'drop-shadow(0 0 20px rgba(168, 85, 247, 0.8))' }}
+                        className="w-24 h-24 object-contain group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
+                        style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }}
                       />
                     ) : action.iconType === 'lucide' ? (
                       <action.icon 
-                        className="w-20 h-20 text-purple-500 group-hover:drop-shadow-[0_0_30px_rgba(168,85,247,1)]"
-                        style={{ filter: 'drop-shadow(0 0 20px rgba(168, 85, 247, 0.8))' }}
+                        className="w-20 h-20 text-pink-500 group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
+                        style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }}
                       />
                     ) : null}
                   </div>
                   
                   {action.title && (
                     <div className="px-2 text-center">
-                      <p className="text-white text-xs font-semibold leading-tight font-hebrew">
+                      <p className="text-pink-600 text-xs font-semibold leading-tight font-hebrew" style={{ textShadow: '0 0 8px rgba(236, 72, 153, 0.5)' }}>
                         {action.title}
                       </p>
                     </div>
