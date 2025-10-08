@@ -1,6 +1,13 @@
 import Logo from '@/components/Logo';
 import { Calendar, Scissors, Sparkles, ShoppingCart } from 'lucide-react';
 import { useState } from 'react';
+import icon1 from '@assets/8_1759907913839.png';
+import icon2 from '@assets/10_1759907919939.png';
+import icon3 from '@assets/11_1759907922694.png';
+import icon4 from '@assets/66410b1d-7c35-4eba-b4db-385fdfcaf798_1759907928682.png';
+import icon5 from '@assets/14_1759907934990.png';
+import icon6 from '@assets/13_1759907937800.png';
+import icon7 from '@assets/12_1759907940433.png';
 
 export default function HairStudio() {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -63,42 +70,45 @@ export default function HairStudio() {
 
       {/* SERVICE CATEGORIES */}
       <div className="mx-auto max-w-6xl px-6 py-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
-          <div className="group rounded-2xl border border-[#9C4695]/40 bg-gradient-to-br from-[#9C4695]/20 to-transparent p-8 text-center hover:border-[#d12fc6] hover:shadow-[0_0_30px_rgba(209,47,198,0.3)] transition-all duration-300 cursor-pointer" data-testid="category-extensions">
-            <div className="flex justify-center gap-2 mb-6">
-              <div className="w-3 h-3 rounded-full bg-[#d12fc6] group-hover:shadow-[0_0_10px_rgba(209,47,198,0.8)] transition-all"></div>
-              <div className="w-3 h-3 rounded-full bg-[#d12fc6] group-hover:shadow-[0_0_10px_rgba(209,47,198,0.8)] transition-all"></div>
-              <div className="w-3 h-3 rounded-full bg-[#d12fc6] group-hover:shadow-[0_0_10px_rgba(209,47,198,0.8)] transition-all"></div>
+        <p className="text-center text-lg text-white/80 mb-10 leading-relaxed">
+          אנחנו מתמחים בתוספות שיער ותסרוקות, תסרוקות כלה וליווי, גוונים ובליאג', וכל סוגי ההחלקות וטיפולים משקמים
+        </p>
+        
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
+          <div className="group rounded-2xl border border-[#9C4695]/40 bg-gradient-to-br from-[#9C4695]/20 to-transparent p-6 text-center hover:border-[#d12fc6] hover:shadow-[0_0_30px_rgba(209,47,198,0.3)] transition-all duration-300 cursor-pointer" data-testid="category-1">
+            <div className="flex justify-center mb-4">
+              <img src={icon7} alt="" className="w-20 h-20 object-contain group-hover:scale-110 transition-transform" />
             </div>
-            <h3 className="text-xl font-semibold mb-2 group-hover:text-[#d12fc6] transition-colors">תוספות שיער</h3>
-            <p className="text-base text-white/60">ותסרוקות</p>
           </div>
-          <div className="group rounded-2xl border border-[#9C4695]/40 bg-gradient-to-br from-[#9C4695]/20 to-transparent p-8 text-center hover:border-[#d12fc6] hover:shadow-[0_0_30px_rgba(209,47,198,0.3)] transition-all duration-300 cursor-pointer" data-testid="category-bridal">
-            <div className="flex justify-center gap-2 mb-6">
-              <div className="w-3 h-3 rounded-full bg-[#d12fc6] group-hover:shadow-[0_0_10px_rgba(209,47,198,0.8)] transition-all"></div>
-              <div className="w-3 h-3 rounded-full bg-[#d12fc6] group-hover:shadow-[0_0_10px_rgba(209,47,198,0.8)] transition-all"></div>
-              <div className="w-3 h-3 rounded-full bg-[#d12fc6] group-hover:shadow-[0_0_10px_rgba(209,47,198,0.8)] transition-all"></div>
+          <div className="group rounded-2xl border border-[#9C4695]/40 bg-gradient-to-br from-[#9C4695]/20 to-transparent p-6 text-center hover:border-[#d12fc6] hover:shadow-[0_0_30px_rgba(209,47,198,0.3)] transition-all duration-300 cursor-pointer" data-testid="category-2">
+            <div className="flex justify-center mb-4">
+              <img src={icon2} alt="" className="w-20 h-20 object-contain group-hover:scale-110 transition-transform" />
             </div>
-            <h3 className="text-xl font-semibold mb-2 group-hover:text-[#d12fc6] transition-colors">תסרוקות כלה</h3>
-            <p className="text-base text-white/60">וליווי</p>
           </div>
-          <div className="group rounded-2xl border border-[#9C4695]/40 bg-gradient-to-br from-[#9C4695]/20 to-transparent p-8 text-center hover:border-[#d12fc6] hover:shadow-[0_0_30px_rgba(209,47,198,0.3)] transition-all duration-300 cursor-pointer" data-testid="category-color">
-            <div className="flex justify-center gap-2 mb-6">
-              <div className="w-3 h-3 rounded-full bg-[#d12fc6] group-hover:shadow-[0_0_10px_rgba(209,47,198,0.8)] transition-all"></div>
-              <div className="w-3 h-3 rounded-full bg-[#d12fc6] group-hover:shadow-[0_0_10px_rgba(209,47,198,0.8)] transition-all"></div>
-              <div className="w-3 h-3 rounded-full bg-[#d12fc6] group-hover:shadow-[0_0_10px_rgba(209,47,198,0.8)] transition-all"></div>
+          <div className="group rounded-2xl border border-[#9C4695]/40 bg-gradient-to-br from-[#9C4695]/20 to-transparent p-6 text-center hover:border-[#d12fc6] hover:shadow-[0_0_30px_rgba(209,47,198,0.3)] transition-all duration-300 cursor-pointer" data-testid="category-3">
+            <div className="flex justify-center mb-4">
+              <img src={icon3} alt="" className="w-20 h-20 object-contain group-hover:scale-110 transition-transform" />
             </div>
-            <h3 className="text-xl font-semibold mb-2 group-hover:text-[#d12fc6] transition-colors">גוונים</h3>
-            <p className="text-base text-white/60">ובליאג'</p>
           </div>
-          <div className="group rounded-2xl border border-[#9C4695]/40 bg-gradient-to-br from-[#9C4695]/20 to-transparent p-8 text-center hover:border-[#d12fc6] hover:shadow-[0_0_30px_rgba(209,47,198,0.3)] transition-all duration-300 cursor-pointer" data-testid="category-treatments">
-            <div className="flex justify-center gap-2 mb-6">
-              <div className="w-3 h-3 rounded-full bg-[#d12fc6] group-hover:shadow-[0_0_10px_rgba(209,47,198,0.8)] transition-all"></div>
-              <div className="w-3 h-3 rounded-full bg-[#d12fc6] group-hover:shadow-[0_0_10px_rgba(209,47,198,0.8)] transition-all"></div>
-              <div className="w-3 h-3 rounded-full bg-[#d12fc6] group-hover:shadow-[0_0_10px_rgba(209,47,198,0.8)] transition-all"></div>
+          <div className="group rounded-2xl border border-[#9C4695]/40 bg-gradient-to-br from-[#9C4695]/20 to-transparent p-6 text-center hover:border-[#d12fc6] hover:shadow-[0_0_30px_rgba(209,47,198,0.3)] transition-all duration-300 cursor-pointer" data-testid="category-4">
+            <div className="flex justify-center mb-4">
+              <img src={icon5} alt="" className="w-20 h-20 object-contain group-hover:scale-110 transition-transform" />
             </div>
-            <h3 className="text-xl font-semibold mb-2 group-hover:text-[#d12fc6] transition-colors">כל סוגי ההחלקות</h3>
-            <p className="text-base text-white/60">וטיפולים משקמים</p>
+          </div>
+          <div className="group rounded-2xl border border-[#9C4695]/40 bg-gradient-to-br from-[#9C4695]/20 to-transparent p-6 text-center hover:border-[#d12fc6] hover:shadow-[0_0_30px_rgba(209,47,198,0.3)] transition-all duration-300 cursor-pointer" data-testid="category-5">
+            <div className="flex justify-center mb-4">
+              <img src={icon6} alt="" className="w-20 h-20 object-contain group-hover:scale-110 transition-transform" />
+            </div>
+          </div>
+          <div className="group rounded-2xl border border-[#9C4695]/40 bg-gradient-to-br from-[#9C4695]/20 to-transparent p-6 text-center hover:border-[#d12fc6] hover:shadow-[0_0_30px_rgba(209,47,198,0.3)] transition-all duration-300 cursor-pointer" data-testid="category-6">
+            <div className="flex justify-center mb-4">
+              <img src={icon1} alt="" className="w-20 h-20 object-contain group-hover:scale-110 transition-transform" />
+            </div>
+          </div>
+          <div className="group rounded-2xl border border-[#9C4695]/40 bg-gradient-to-br from-[#9C4695]/20 to-transparent p-6 text-center hover:border-[#d12fc6] hover:shadow-[0_0_30px_rgba(209,47,198,0.3)] transition-all duration-300 cursor-pointer" data-testid="category-7">
+            <div className="flex justify-center mb-4">
+              <img src={icon4} alt="" className="w-20 h-20 object-contain group-hover:scale-110 transition-transform" />
+            </div>
           </div>
         </div>
       </div>
