@@ -46,9 +46,7 @@ export default function HairStudio() {
 
       {/* HERO */}
       <div className="relative overflow-hidden">
-        <div className="absolute inset-0 opacity-75 pointer-events-none" aria-hidden>
-          <div className="absolute -top-32 -right-32 w-[40rem] h-[40rem] rounded-full blur-3xl" style={{background: "radial-gradient(circle at center, #d12fc6, transparent 60%)"}} />
-          <div className="absolute -bottom-24 -left-24 w-[36rem] h-[36rem] rounded-full blur-3xl" style={{background: "radial-gradient(circle at center, #9C4695, transparent 60%)"}} />
+        <div className="absolute inset-0 pointer-events-none" aria-hidden style={{background: "linear-gradient(135deg, rgba(156,70,149,0.4) 0%, rgba(209,47,198,0.3) 50%, rgba(156,70,149,0.4) 100%)"}}>
         </div>
 
         <div className="relative mx-auto max-w-6xl px-6 pt-6 pb-8 lg:pt-8 lg:pb-10">
