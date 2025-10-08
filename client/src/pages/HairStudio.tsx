@@ -1,0 +1,114 @@
+export default function HairStudio() {
+  const profiles = [
+    { handle: "tanandco_hair", url: "https://instagram.com/tanandco_hair", name: "Tan & Co Hair" },
+    { handle: "stylist_one", url: "https://instagram.com/stylist_one", name: "Stylist One" },
+    { handle: "stylist_two", url: "https://instagram.com/stylist_two", name: "Stylist Two" },
+  ];
+  
+  return (
+    <section dir="rtl" className="w-full bg-black text-white">
+      {/* HERO */}
+      <div className="relative overflow-hidden">
+        <div className="absolute inset-0 opacity-30 pointer-events-none" aria-hidden>
+          <div className="absolute -top-32 -right-32 w-[40rem] h-[40rem] rounded-full blur-3xl" style={{background: "radial-gradient(circle at center, #d12fc6, transparent 60%)"}} />
+          <div className="absolute -bottom-24 -left-24 w-[36rem] h-[36rem] rounded-full blur-3xl" style={{background: "radial-gradient(circle at center, #9C4695, transparent 60%)"}} />
+        </div>
+
+        <div className="relative mx-auto max-w-6xl px-6 py-20 lg:py-28">
+          <div className="max-w-3xl">
+            <p className="text-sm tracking-widest text-pink-200/80">Tan & Co. Hair Studio</p>
+            <h1 className="mt-3 text-4xl font-semibold leading-tight md:text-5xl">
+              היופי החדש מתחיל כאן
+            </h1>
+            <p className="mt-5 text-lg text-white/80 leading-8">
+              טאן אנד קו מובילה בגאווה את המהפכה הבאה של תעשיית היופי עם המודל ההיברידי־אוטונומי: שירותים בטכנולוגיה פורצת דרך, באוטומציה מלאה, 24/7 – וללא תלות בכוח אדם. ובכל זאת, בלב שלנו תמיד נשאר המקום למה שלא ניתן להחליף: הקשר האנושי, המגע, החיוך והשיחה הטובה. תחת קורת גג אחת תמצאו מיטות שיזוף אוטומטיות שמחכות לכם 24 שעות ביממה, לצד סטודיו שיער חי ותוסס שבו מעצבי/ות שיער עצמאיים/יות יוצרים לכם מראה מושלם.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <a href="#book" className="rounded-2xl bg-[#d12fc6] px-6 py-3 text-base font-semibold shadow-lg shadow-[#d12fc6]/30 hover:shadow-[#d12fc6]/50 transition" data-testid="button-book-appointment">
+                קבעו תור
+              </a>
+              <a href="#artists" className="rounded-2xl border border-white/20 px-6 py-3 text-base font-semibold hover:bg-white/5 transition" data-testid="button-meet-artists">
+                הכירו את האמנים
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* INSTAGRAM PROFILES */}
+      <div id="artists" className="mx-auto max-w-6xl px-6 pb-20">
+        <div className="flex items-center justify-between gap-4">
+          <h2 className="text-2xl md:text-3xl font-semibold">עובדים חופשי, יוצרים יחד</h2>
+          <span className="text-sm text-white/60">עצמאות בתוך קהילה</span>
+        </div>
+        <p className="mt-3 text-white/70 max-w-3xl">
+          במתחם שלנו כל נותן/ת שירות הוא/היא עצמאי/ת ומשכיר/ה עמדה – לא עובד/ת שכיר/ה. אנחנו מספקים מעטפת מותגית, סביבת עבודה מוקפדת וחוויית לקוח אחידה; הם מביאים את הכישרון, האישיות והקשר האישי. הנה שלושה פרופילים שתוכלו לעקוב אחריהם:
+        </p>
+
+        <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-3">
+          {profiles.map((p, i) => (
+            <article key={i} className="group relative rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm hover:bg-white/10 transition" data-testid={`profile-card-${i}`}>
+              <div className="aspect-[4/3] w-full overflow-hidden rounded-xl border border-white/10 bg-gradient-to-br from-[#e064d5]/15 to-transparent">
+                <img
+                  src={`https://dummyimage.com/800x600/0b0b0b/ffffff&text=@${p.handle}`}
+                  alt={`תצוגה מקדימה של ${p.name}`}
+                  className="h-full w-full object-cover object-center opacity-90 group-hover:scale-[1.02] group-hover:opacity-100 transition"
+                  loading="lazy"
+                />
+              </div>
+
+              <div className="mt-4">
+                <div className="flex items-center justify-between gap-3">
+                  <h3 className="text-lg font-semibold leading-tight">{p.name}</h3>
+                  <span className="text-xs rounded-full border border-white/15 px-2 py-1 text-white/70">עצמאי/ת</span>
+                </div>
+                <p className="mt-1 text-sm text-white/60 truncate">@{p.handle}</p>
+                <div className="mt-4 flex items-center gap-3">
+                  <a
+                    href={p.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-xl bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-white/90 transition"
+                    data-testid={`button-instagram-${i}`}
+                  >
+                    עקבו באינסטגרם
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
+                      <path d="M7.5 3A4.5 4.5 0 003 7.5v9A4.5 4.5 0 007.5 21h9a4.5 4.5 0 004.5-4.5v-9A4.5 4.5 0 0016.5 3h-9zM12 7.5a4.5 4.5 0 110 9 4.5 4.5 0 010-9zm6 .75a.75.75 0 110-1.5.75.75 0 010 1.5z"/>
+                    </svg>
+                  </a>
+                  <a
+                    href={`https://instagram.com/${p.handle}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-xl border border-white/20 px-4 py-2 text-sm font-semibold hover:bg-white/5 transition"
+                    data-testid={`button-profile-${i}`}
+                  >
+                    פרופיל מלא
+                  </a>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        {/* INFO STRIP */}
+        <div className="mt-10 rounded-2xl border border-white/10 bg-white/5 p-5 text-sm text-white/80">
+          <ul className="grid grid-cols-1 gap-3 md:grid-cols-3">
+            <li className="flex items-center gap-3">
+              <span className="inline-block h-2 w-2 rounded-full bg-[#d12fc6]" />
+              עצמאות מלאה למעצבים – השכרה לפי עמדה
+            </li>
+            <li className="flex items-center gap-3">
+              <span className="inline-block h-2 w-2 rounded-full bg-[#d12fc6]" />
+              חוויית מותג אחידה ללקוחות בכל הביקורים
+            </li>
+            <li className="flex items-center gap-3">
+              <span className="inline-block h-2 w-2 rounded-full bg-[#d12fc6]" />
+              קביעת תור נוחה + תקשורת ישירה עם נותן/ת השירות
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  );
+}

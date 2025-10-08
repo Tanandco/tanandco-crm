@@ -26,6 +26,7 @@ import SelfServiceDemo from "@/pages/SelfServiceDemo";
 import AITan from "@/pages/AITan";
 import PaymentSuccess from "@/pages/payment-success";
 import PaymentError from "@/pages/payment-error";
+import HairStudio from "@/pages/HairStudio";
 
 // Import component examples for preview
 import LogoExample from "@/components/examples/Logo";
@@ -58,6 +59,7 @@ function Router() {
       <Route path="/ai-tan" component={AITan} />
       <Route path="/payment-success" component={PaymentSuccess} />
       <Route path="/payment-error" component={PaymentError} />
+      <Route path="/hair-studio" component={HairStudio} />
       
       {/* Component Examples for Development/Preview */}
       <Route path="/examples/logo" component={LogoExample} />
