@@ -217,7 +217,7 @@ export default function Shop() {
 
       {/* Additional Products - Compact Grid */}
       {additionalItems.length > 0 && (
-        <section className="relative pb-12">
+        <section className="relative pb-12 bg-[hsl(210,3%,94%)] py-12">
           <div className="container mx-auto px-4">
             <h2 className="text-2xl font-bold text-center mb-8 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
               מוצרים מובילים לשיזוף עצמי
@@ -226,7 +226,7 @@ export default function Shop() {
               {additionalItems.map((product) => (
                 <div 
                   key={product.id}
-                  className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-lg p-3 border-0 transition-all shadow-[inset_-2px_-2px_4px_rgba(255,255,255,0.1),inset_2px_2px_4px_rgba(0,0,0,0.4),0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-[inset_-3px_-3px_6px_rgba(236,72,153,0.15),inset_3px_3px_6px_rgba(0,0,0,0.5),0_8px_30px_rgba(236,72,153,0.25)] hover:-translate-y-1"
+                  className="bg-white rounded-lg p-3 border border-gray-200 transition-all shadow-sm hover:shadow-md hover:-translate-y-1"
                   data-testid={`product-card-${product.id}`}
                 >
                   <img 
@@ -235,10 +235,10 @@ export default function Shop() {
                     className="w-full h-32 object-contain mb-2"
                     data-testid={`product-image-${product.id}`}
                   />
-                  <h3 className="text-xs font-bold text-amber-200 mb-1 text-center line-clamp-2">
+                  <h3 className="text-xs font-bold text-gray-800 mb-1 text-center line-clamp-2">
                     {product.name}
                   </h3>
-                  <p className="text-sm font-bold text-center mb-2 bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+                  <p className="text-sm font-bold text-center mb-2 bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">
                     ₪{product.price}
                   </p>
                   <div className="flex gap-1">
