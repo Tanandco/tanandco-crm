@@ -290,17 +290,17 @@ export default function SelfService() {
               </button>
 
               {/* Hair Salon */}
-              <button
-                onClick={() => setHairSalonOpen(true)}
-                className="h-[180px] w-[160px] rounded-xl p-3 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm"
+              <a
+                href="/hair-studio"
+                className="h-[180px] w-[160px] rounded-xl p-3 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm flex items-center justify-center text-center"
                 onMouseMove={handleRippleMove}
                 data-testid="card-hair-salon"
               >
-                <div className="h-full w-full flex flex-col items-center justify-center text-center">
+                <div className="flex flex-col items-center justify-center">
                   <img src={hairSalonIcon} alt="מספרה" className="w-28 h-28 mb-2 neon-glow object-contain" />
                   <div className="text-sm font-bold tracking-tight">מספרה</div>
                 </div>
-              </button>
+              </a>
 
               {/* Cosmetics */}
               <button

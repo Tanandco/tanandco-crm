@@ -3,9 +3,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { BarChart3, TrendingUp, TrendingDown, Activity, Pause, Play } from 'lucide-react';
+import { BarChart3, TrendingUp, TrendingDown, Activity, Pause, Play, ArrowRight } from 'lucide-react';
+import { useLocation } from 'wouter';
 
 export default function AutomationDashboard() {
+  const [, setLocation] = useLocation();
   const { data: campaigns, isLoading: campaignsLoading } = useQuery<any>({
     queryKey: ['/api/automation/campaigns'],
   });
@@ -46,9 +48,19 @@ export default function AutomationDashboard() {
   return (
     <div className="min-h-screen p-6" dir="rtl">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl font-bold mb-8 text-center bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">
-          לוח בקרת אוטומציה
-        </h1>
+        <div className="flex items-center gap-4 mb-8">
+          <Button
+            onClick={() => setLocation('/')}
+            variant="outline"
+            size="icon"
+            data-testid="button-back"
+          >
+            <ArrowRight className="w-5 h-5" />
+          </Button>
+          <h1 className="text-4xl font-bold text-center bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent flex-1">
+            לוח בקרת אוטומציה
+          </h1>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <Card data-testid="card-total-campaigns">

@@ -3,9 +3,11 @@ import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { CheckCircle2, XCircle, RefreshCw, Loader2 } from 'lucide-react';
+import { CheckCircle2, XCircle, RefreshCw, Loader2, ArrowRight } from 'lucide-react';
+import { useLocation } from 'wouter';
 
 export default function BioStarTest() {
+  const [, setLocation] = useLocation();
   const { data, isLoading, refetch, error } = useQuery<{ success: boolean; data: any }>({
     queryKey: ['/api/biostar/status'],
     retry: false,
@@ -17,6 +19,16 @@ export default function BioStarTest() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 p-8" dir="rtl">
       <div className="max-w-2xl mx-auto">
+        <div className="mb-6">
+          <Button
+            onClick={() => setLocation('/')}
+            variant="outline"
+            size="icon"
+            data-testid="button-back"
+          >
+            <ArrowRight className="w-5 h-5" />
+          </Button>
+        </div>
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">

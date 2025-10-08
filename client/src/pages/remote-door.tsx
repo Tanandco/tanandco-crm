@@ -2,12 +2,14 @@ import { useState } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { DoorOpen, Loader2, CheckCircle2, XCircle, History } from 'lucide-react';
+import { DoorOpen, Loader2, CheckCircle2, XCircle, History, ArrowRight } from 'lucide-react';
 import { apiRequest, queryClient } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
+import { useLocation } from 'wouter';
 import type { DoorAccessLog } from '@shared/schema';
 
 export default function RemoteDoor() {
+  const [, setLocation] = useLocation();
   const [lastOpened, setLastOpened] = useState<Date | null>(null);
   const { toast } = useToast();
 
@@ -46,6 +48,16 @@ export default function RemoteDoor() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 p-8" dir="rtl">
       <div className="max-w-4xl mx-auto space-y-6">
+        <div>
+          <Button
+            onClick={() => setLocation('/')}
+            variant="outline"
+            size="icon"
+            data-testid="button-back"
+          >
+            <ArrowRight className="w-5 h-5" />
+          </Button>
+        </div>
         {/* Door Control Card */}
         <Card className="w-full">
           <CardHeader className="text-center">

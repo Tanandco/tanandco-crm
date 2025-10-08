@@ -8,6 +8,7 @@ import SunBedsDialog from './SunBedsDialog';
 import SprayTanDialog from './SprayTanDialog';
 import HairSalonDialog from './HairSalonDialog';
 import CosmeticsDialog from './CosmeticsDialog';
+import NewCustomerDialog from './NewCustomerDialog';
 import Alin from './Alin';
 import tanningBedIcon from '@assets/עיצוב ללא שם (30)_1759413689481.png';
 import sprayTanIcon from '@assets/freepik__spray-tan-variation-b-modern-flatbadge-3d-spray-gu__47717_1759413070782.png';
@@ -31,6 +32,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
   const [sprayTanDialogOpen, setSprayTanDialogOpen] = useState(false);
   const [hairSalonDialogOpen, setHairSalonDialogOpen] = useState(false);
   const [cosmeticsDialogOpen, setCosmeticsDialogOpen] = useState(false);
+  const [newCustomerDialogOpen, setNewCustomerDialogOpen] = useState(false);
 
   const services = [
     { 
@@ -72,15 +74,15 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
     } else if (serviceId === 'your-store') {
       // Navigate to shop page
       navigate('/shop');
+    } else if (serviceId === 'hair-salon') {
+      // Navigate to Hair Studio page
+      navigate('/hair-studio');
     } else if (serviceId === 'sun-beds') {
       // Open sun beds dialog
       setSunBedsDialogOpen(true);
     } else if (serviceId === 'spray-tan') {
       // Open spray tan dialog
       setSprayTanDialogOpen(true);
-    } else if (serviceId === 'hair-salon') {
-      // Open hair salon dialog
-      setHairSalonDialogOpen(true);
     } else if (serviceId === 'cosmetics') {
       // Open cosmetics dialog
       setCosmeticsDialogOpen(true);
@@ -161,7 +163,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
             }}
             onMouseEnter={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 1)'}
             onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.6)'}
-            onClick={() => onNavigate?.('/search')}
+            onClick={() => navigate('/quick-search')}
             data-testid="button-search"
           >
             <Search 
@@ -194,7 +196,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
             }}
             onMouseEnter={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 1)'}
             onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.6)'}
-            onClick={() => onNavigate?.('/register')}
+            onClick={() => setNewCustomerDialogOpen(true)}
             data-testid="button-register"
           >
             <img 
@@ -291,7 +293,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
           style={{
             boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1)'
           }}
-          onClick={() => handleNavigation('/')}
+          onClick={() => navigate('/')}
           data-testid="button-home"
         >
           <Home 
@@ -317,7 +319,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
           style={{
             boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1)'
           }}
-          onClick={() => handleNavigation('/settings')}
+          onClick={() => navigate('/products')}
           data-testid="button-settings"
         >
           <Settings 
@@ -352,6 +354,12 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
       <CosmeticsDialog 
         open={cosmeticsDialogOpen} 
         onOpenChange={setCosmeticsDialogOpen}
+      />
+
+      {/* New Customer Dialog */}
+      <NewCustomerDialog 
+        open={newCustomerDialogOpen} 
+        onOpenChange={setNewCustomerDialogOpen}
       />
     </div>
   );

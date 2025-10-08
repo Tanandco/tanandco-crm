@@ -1,10 +1,24 @@
 import { Link, useLocation } from 'wouter';
-import { MessageCircle, DoorOpen, BarChart3, UserPlus, Fingerprint } from 'lucide-react';
+import { MessageCircle, DoorOpen, BarChart3, UserPlus, Fingerprint, ShoppingCart } from 'lucide-react';
 
 export default function IconSidebar() {
   const [location] = useLocation();
 
   const navItems = [
+    {
+      icon: ShoppingCart,
+      path: '/pos',
+      label: 'קופה',
+      testId: 'nav-pos',
+      iconColor: 'text-amber-400',
+      iconHover: 'group-hover:text-amber-300',
+      activeBg: 'bg-gradient-to-br from-amber-500/30 to-amber-500/20',
+      activeBorder: 'border-amber-500/60',
+      hoverBorder: 'hover:border-amber-500/40',
+      tooltipBorder: 'border-amber-500/30',
+      tooltipText: 'text-amber-200',
+      indicator: 'bg-gradient-to-b from-amber-500 to-amber-600'
+    },
     {
       icon: UserPlus,
       path: '/face-registration',

@@ -2,9 +2,9 @@ import { useQuery } from '@tanstack/react-query';
 import ZenCarousel from '@/components/ZenCarousel';
 import Logo from '@/components/Logo';
 import { Button } from '@/components/ui/button';
-import { Search, Package, UserPlus, Info, Plus, RefreshCw } from 'lucide-react';
+import { Search, Package, UserPlus, Info, Plus, RefreshCw, ArrowRight } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { Link } from 'wouter';
+import { Link, useLocation } from 'wouter';
 import {
   Drawer,
   DrawerClose,
@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/drawer";
 
 export default function Shop() {
+  const [, setLocation] = useLocation();
   const { toast } = useToast();
 
   // Fetch bed bronzer products
@@ -131,26 +132,37 @@ export default function Shop() {
       {/* Top Action Bar */}
       <div className="sticky top-0 z-50 bg-gradient-to-r from-slate-950/95 via-purple-950/40 to-slate-950/95 backdrop-blur-lg border-b border-pink-500/20">
         <div className="container mx-auto px-4 py-3">
-          <div className="flex justify-end gap-2">
-            <Button 
-              variant="outline" 
+          <div className="flex justify-between items-center gap-2">
+            <Button
+              onClick={() => setLocation('/')}
+              variant="outline"
               size="icon"
-              className="border-pink-500/50 hover:border-pink-500"
-              data-testid="button-search"
+              className="border-pink-500/30 hover:border-pink-500/50 hover:bg-pink-500/10"
+              data-testid="button-back"
             >
-              <Search className="w-5 h-5" />
+              <ArrowRight className="w-5 h-5" />
             </Button>
-            
-            <Link href="/face-registration">
+            <div className="flex gap-2">
               <Button 
                 variant="outline" 
+                size="icon"
                 className="border-pink-500/50 hover:border-pink-500"
-                data-testid="button-register"
+                data-testid="button-search"
               >
-                <UserPlus className="w-5 h-5 ml-2" />
-                הרשמה
+                <Search className="w-5 h-5" />
               </Button>
-            </Link>
+              
+              <Link href="/face-registration">
+                <Button 
+                  variant="outline" 
+                  className="border-pink-500/50 hover:border-pink-500"
+                  data-testid="button-register"
+                >
+                  <UserPlus className="w-5 h-5 ml-2" />
+                  הרשמה
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
@@ -205,7 +217,7 @@ export default function Shop() {
 
       {/* Additional Products - Compact Grid */}
       {additionalItems.length > 0 && (
-        <section className="relative pb-12">
+        <section className="relative pb-12 bg-[hsl(210,3%,94%)] py-12">
           <div className="container mx-auto px-4">
             <h2 className="text-2xl font-bold text-center mb-8 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
               מוצרים מובילים לשיזוף עצמי
@@ -214,7 +226,7 @@ export default function Shop() {
               {additionalItems.map((product) => (
                 <div 
                   key={product.id}
-                  className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-lg p-3 border-0 transition-all shadow-[inset_-2px_-2px_4px_rgba(255,255,255,0.1),inset_2px_2px_4px_rgba(0,0,0,0.4),0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-[inset_-3px_-3px_6px_rgba(236,72,153,0.15),inset_3px_3px_6px_rgba(0,0,0,0.5),0_8px_30px_rgba(236,72,153,0.25)] hover:-translate-y-1"
+                  className="bg-white rounded-lg p-3 border border-gray-200 transition-all shadow-sm hover:shadow-md hover:-translate-y-1"
                   data-testid={`product-card-${product.id}`}
                 >
                   <img 
@@ -223,16 +235,17 @@ export default function Shop() {
                     className="w-full h-32 object-contain mb-2"
                     data-testid={`product-image-${product.id}`}
                   />
-                  <h3 className="text-xs font-bold text-amber-200 mb-1 text-center line-clamp-2">
+                  <h3 className="text-xs font-bold text-gray-800 mb-1 text-center line-clamp-2">
                     {product.name}
                   </h3>
-                  <p className="text-sm font-bold text-center mb-2 bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+                  <p className="text-sm font-bold text-center mb-2 bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">
                     ₪{product.price}
                   </p>
-                  <div className="flex gap-1">
+                  <div className="flex gap-2 justify-center items-center">
                     <Button
                       size="sm"
-                      className="flex-1 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-xs"
+                      className="border-pink-500 bg-white text-gray-800"
+                      style={{ borderWidth: '1px', borderStyle: 'solid' }}
                       onClick={() => handleAddToCart(product.id)}
                       data-testid={`add-to-cart-${product.id}`}
                     >
@@ -243,9 +256,9 @@ export default function Shop() {
                       <Drawer>
                         <DrawerTrigger asChild>
                           <Button 
-                            variant="outline" 
                             size="sm"
-                            className="border-pink-500/50 hover:border-pink-500 px-2"
+                            className="border-pink-500 bg-white text-gray-800"
+                            style={{ borderWidth: '1px', borderStyle: 'solid' }}
                             data-testid={`info-${product.id}`}
                           >
                             <Info className="w-4 h-4" />

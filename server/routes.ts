@@ -1,16 +1,19 @@
 import express from 'express';
 import crypto from 'crypto';
+import { nanoid } from 'nanoid';
 import { bioStarClient } from './services/biostar-client';
 import { bioStarStartup } from './services/biostar-startup';
 import { requireLocalAccess, rateLimit } from './middleware/auth';
 import { storage } from './storage';
 import { db } from './db';
-import { customers, insertCustomerSchema, insertMembershipSchema } from '@shared/schema';
+import { customers, insertCustomerSchema, insertMembershipSchema, faceUploadTokens, memberships } from '@shared/schema';
 import { z } from 'zod';
 import { whatsappService } from './services/whatsapp-service';
 import { cardcomService } from './services/cardcom-service';
 import { WorkflowService } from './services/workflow-service';
-import { eq } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm';
+import multer from 'multer';
+import XLSX from 'xlsx';
 
 // Validation schemas
 const identifyFaceSchema = z.object({
@@ -455,6 +458,201 @@ export function registerRoutes(app: express.Application) {
       res.status(500).json({
         success: false,
         error: 'Failed to get door logs',
+        details: error.message
+      });
+    }
+  });
+
+  // ============================================================
+  // FACE UPLOAD VIA WHATSAPP ENDPOINTS
+  // ============================================================
+
+  // Send WhatsApp link for face upload
+  app.post('/api/face-upload/send-link', async (req, res) => {
+    try {
+      const { customerId } = req.body;
+      
+      if (!customerId) {
+        return res.status(400).json({
+          success: false,
+          error: 'Customer ID is required'
+        });
+      }
+
+      // Get customer details
+      const customer = await storage.getCustomer(customerId);
+      if (!customer) {
+        return res.status(404).json({
+          success: false,
+          error: 'Customer not found'
+        });
+      }
+
+      // Generate unique token (10 characters)
+      const token = nanoid(10);
+      
+      // Token expires in 30 minutes
+      const expiresAt = new Date(Date.now() + 30 * 60 * 1000);
+
+      // Create token in database
+      await storage.createFaceUploadToken({
+        token,
+        customerId,
+        status: 'pending',
+        expiresAt
+      });
+
+      // Generate upload link
+      const uploadUrl = `${process.env.REPLIT_DEV_DOMAIN || 'http://localhost:5000'}/upload-face/${token}`;
+
+      // Send WhatsApp message
+      const message = `שלום ${customer.fullName}! 👋\n\nלהשלמת הרישום במכון, אנא העלה תמונה ברורה שלך דרך הקישור:\n\n${uploadUrl}\n\nהקישור תקף ל-30 דקות.`;
+      
+      await whatsappService.sendTextMessage(customer.phone, message);
+
+      res.json({
+        success: true,
+        data: {
+          token,
+          uploadUrl,
+          expiresAt
+        }
+      });
+    } catch (error: any) {
+      console.error('Send face upload link failed:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to send upload link',
+        details: error.message
+      });
+    }
+  });
+
+  // Check token status (for polling)
+  app.get('/api/face-upload/check/:token', async (req, res) => {
+    try {
+      const { token } = req.params;
+      
+      const tokenData = await storage.getFaceUploadToken(token);
+      
+      if (!tokenData) {
+        return res.status(404).json({
+          success: false,
+          error: 'Token not found'
+        });
+      }
+
+      // Check if expired
+      if (new Date() > new Date(tokenData.expiresAt)) {
+        return res.json({
+          success: true,
+          data: {
+            status: 'expired',
+            imageUrl: null
+          }
+        });
+      }
+
+      res.json({
+        success: true,
+        data: {
+          status: tokenData.status,
+          imageUrl: tokenData.imageUrl
+        }
+      });
+    } catch (error: any) {
+      console.error('Check token status failed:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to check token status',
+        details: error.message
+      });
+    }
+  });
+
+  // Receive image upload from customer's phone
+  app.post('/api/face-upload/:token', async (req, res) => {
+    try {
+      const { token } = req.params;
+      const { image } = req.body;
+      
+      if (!image) {
+        return res.status(400).json({
+          success: false,
+          error: 'Image data is required'
+        });
+      }
+
+      const tokenData = await storage.getFaceUploadToken(token);
+      
+      if (!tokenData) {
+        return res.status(404).json({
+          success: false,
+          error: 'Invalid token'
+        });
+      }
+
+      // Check if expired
+      if (new Date() > new Date(tokenData.expiresAt)) {
+        return res.status(400).json({
+          success: false,
+          error: 'Token has expired'
+        });
+      }
+
+      // Check if already used
+      if (tokenData.status === 'uploaded' || tokenData.status === 'used') {
+        return res.status(400).json({
+          success: false,
+          error: 'Token has already been used'
+        });
+      }
+
+      // Update token with image data (store base64 temporarily)
+      await storage.updateFaceUploadTokenWithImage(token, image);
+
+      res.json({
+        success: true,
+        message: 'Image uploaded successfully'
+      });
+    } catch (error: any) {
+      console.error('Upload image failed:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to upload image',
+        details: error.message
+      });
+    }
+  });
+
+  // Mark token as used after successful face registration
+  app.put('/api/face-upload/:token/mark-used', async (req, res) => {
+    try {
+      const { token } = req.params;
+      
+      const tokenData = await storage.getFaceUploadToken(token);
+      
+      if (!tokenData) {
+        return res.status(404).json({
+          success: false,
+          error: 'Invalid token'
+        });
+      }
+
+      // Update status to 'used'
+      await db.update(faceUploadTokens)
+        .set({ status: 'used' })
+        .where(eq(faceUploadTokens.token, token));
+
+      res.json({
+        success: true,
+        message: 'Token marked as used'
+      });
+    } catch (error: any) {
+      console.error('Mark token as used failed:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to mark token as used',
         details: error.message
       });
     }
@@ -1574,6 +1772,33 @@ export function registerRoutes(app: express.Application) {
     }
   });
 
+  // Adjust product stock (atomic delta update)
+  app.post('/api/products/:id/adjust-stock', async (req, res) => {
+    try {
+      const { delta } = req.body;
+      if (typeof delta !== 'number') {
+        return res.status(400).json({ success: false, error: 'Delta must be a number' });
+      }
+
+      // Atomic update using raw SQL to prevent race conditions
+      const result = await db.execute(
+        sql`UPDATE products 
+            SET stock = GREATEST(0, COALESCE(stock, 0) + ${delta}),
+                updated_at = NOW()
+            WHERE id = ${req.params.id}
+            RETURNING *`
+      );
+
+      if (!result.rows || result.rows.length === 0) {
+        return res.status(404).json({ success: false, error: 'Product not found' });
+      }
+
+      res.json(result.rows[0]);
+    } catch (error: any) {
+      res.status(400).json({ success: false, error: error.message });
+    }
+  });
+
   // Delete product
   app.delete('/api/products/:id', async (req, res) => {
     try {
@@ -1912,6 +2137,479 @@ export function registerRoutes(app: express.Application) {
       res.status(500).json({
         success: false,
         error: error.message
+      });
+    }
+  });
+
+  // ============================================================
+  // Excel Import Endpoint
+  // ============================================================
+
+  const upload = multer({ storage: multer.memoryStorage() });
+
+  app.post('/api/import/subscribers', upload.single('file'), async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({
+          success: false,
+          error: 'No file uploaded'
+        });
+      }
+
+      // Read Excel file
+      const workbook = XLSX.read(req.file.buffer, { type: 'buffer' });
+      const sheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[sheetName];
+      const data = XLSX.utils.sheet_to_json(worksheet);
+
+      const results = {
+        success: 0,
+        failed: 0,
+        total: data.length,
+        errors: [] as string[],
+        created: [] as { name: string; phone: string; balance: number }[]
+      };
+
+      // Process each row
+      for (const row of data as any[]) {
+        try {
+          const fullName = row.FL || '';
+          const phone = row.Pelephone || row.Phone || '';
+          const packageName = row.Name || '';
+          const totalPurchased = parseInt(row.Amount) || 0;
+          const balance = parseInt(row.AmountNotuseed) || 0;
+          const openDate = row.OpenDate;
+
+          if (!fullName || !phone) {
+            results.failed++;
+            results.errors.push(`שורה חסרה שם או טלפון: ${fullName || 'לא ידוע'}`);
+            continue;
+          }
+
+          // Normalize phone number
+          let normalizedPhone = phone.toString().replace(/\D/g, '');
+          if (normalizedPhone.startsWith('972')) {
+            normalizedPhone = '0' + normalizedPhone.substring(3);
+          } else if (!normalizedPhone.startsWith('0')) {
+            normalizedPhone = '0' + normalizedPhone;
+          }
+
+          // Check if customer exists
+          let customer = await db
+            .select()
+            .from(customers)
+            .where(eq(customers.phone, normalizedPhone))
+            .limit(1);
+
+          let customerId: string;
+
+          if (customer.length === 0) {
+            // Create new customer
+            const [newCustomer] = await db
+              .insert(customers)
+              .values({
+                fullName,
+                phone: normalizedPhone,
+                isNewClient: false,
+                healthFormSigned: false,
+              })
+              .returning();
+            customerId = newCustomer.id;
+          } else {
+            customerId = customer[0].id;
+          }
+
+          // Determine membership type from package name
+          let membershipType = 'sun-beds';
+          if (packageName.includes('עיסוי') || packageName.includes('massage')) {
+            membershipType = 'massage';
+          } else if (packageName.includes('התזה')) {
+            membershipType = 'spray-tan';
+          }
+
+          // Convert Excel date to timestamp if exists
+          let expiryDate = null;
+          if (openDate && typeof openDate === 'number') {
+            // Excel date serial number to JS date
+            const excelEpoch = new Date(1899, 11, 30);
+            const jsDate = new Date(excelEpoch.getTime() + openDate * 86400000);
+            // Add 12 months
+            expiryDate = new Date(jsDate);
+            expiryDate.setMonth(expiryDate.getMonth() + 12);
+          }
+
+          // Create membership
+          await db
+            .insert(memberships)
+            .values({
+              customerId,
+              type: membershipType,
+              balance,
+              totalPurchased,
+              expiryDate,
+              isActive: balance > 0,
+            });
+
+          results.success++;
+          results.created.push({
+            name: fullName,
+            phone: normalizedPhone,
+            balance
+          });
+
+        } catch (error: any) {
+          results.failed++;
+          results.errors.push(`שגיאה בייבוא ${row.FL}: ${error.message}`);
+        }
+      }
+
+      res.json(results);
+    } catch (error: any) {
+      console.error('Import subscribers error:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to import subscribers',
+        details: error.message
+      });
+    }
+  });
+
+  // ============================================================
+  // BioStar Sync Endpoint
+  // ============================================================
+
+  app.post('/api/sync/biostar', upload.single('file'), async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({
+          success: false,
+          error: 'No file uploaded'
+        });
+      }
+
+      // Read CSV file using XLSX (it supports CSV too)
+      const workbook = XLSX.read(req.file.buffer, { type: 'buffer' });
+      const sheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[sheetName];
+      const data = XLSX.utils.sheet_to_json(worksheet);
+
+      const results = {
+        matched: 0,
+        unmatched: 0,
+        total: data.length,
+        unmatchedNames: [] as string[],
+        syncedUsers: [] as { name: string; phone: string; biostarId: string }[]
+      };
+
+      // Process each BioStar user
+      for (const row of data as any[]) {
+        try {
+          const biostarUserId = row.user_id?.toString() || '';
+          const name = row.name || '';
+          const phone = row.phone || '';
+          
+          // Skip rows without essential data
+          if (!biostarUserId || !name) {
+            continue;
+          }
+
+          // Skip special users (like "אופטימוס-פתיחת דלת")
+          if (biostarUserId === '2' || name.includes('אופטימוס') || name.includes('כניסות בודדות')) {
+            continue;
+          }
+
+          // If no phone, can't match - add to unmatched
+          if (!phone) {
+            results.unmatched++;
+            results.unmatchedNames.push(name);
+            continue;
+          }
+
+          // Normalize phone number (same logic as import)
+          let normalizedPhone = phone.toString().replace(/\D/g, '');
+          if (normalizedPhone.startsWith('972')) {
+            normalizedPhone = '0' + normalizedPhone.substring(3);
+          } else if (!normalizedPhone.startsWith('0')) {
+            normalizedPhone = '0' + normalizedPhone;
+          }
+
+          // Find customer by phone
+          const customer = await db
+            .select()
+            .from(customers)
+            .where(eq(customers.phone, normalizedPhone))
+            .limit(1);
+
+          if (customer.length > 0) {
+            // Update customer with BioStar user_id
+            await db
+              .update(customers)
+              .set({ faceRecognitionId: biostarUserId })
+              .where(eq(customers.id, customer[0].id));
+
+            results.matched++;
+            results.syncedUsers.push({
+              name,
+              phone: normalizedPhone,
+              biostarId: biostarUserId
+            });
+          } else {
+            // Customer not found in CRM
+            results.unmatched++;
+            results.unmatchedNames.push(`${name} (${normalizedPhone})`);
+          }
+
+        } catch (error: any) {
+          console.error('Sync row error:', error);
+          // Continue with next row
+        }
+      }
+
+      res.json(results);
+    } catch (error: any) {
+      console.error('BioStar sync error:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to sync BioStar users',
+        details: error.message
+      });
+    }
+  });
+
+  // ============================================================
+  // Product Import Endpoint (PAS TOUCHER & ProShop)
+  // ============================================================
+
+  app.post('/api/import/pas-toucher', async (req, res) => {
+    try {
+      const { url } = req.body;
+      
+      if (!url) {
+        return res.status(400).json({
+          success: false,
+          error: 'URL is required'
+        });
+      }
+
+      // Security: Validate URL belongs to allowed domains and uses HTTPS
+      const urlObj = new URL(url);
+      const isValidPasToucher = urlObj.hostname === 'pas-toucher.com' || urlObj.hostname.endsWith('.pas-toucher.com');
+      const isValidProShop = urlObj.hostname === 'proshop.co.il' || urlObj.hostname.endsWith('.proshop.co.il');
+      const isValidHost = isValidPasToucher || isValidProShop;
+      
+      if (urlObj.protocol !== 'https:' || !isValidHost) {
+        return res.status(400).json({
+          success: false,
+          error: 'URL must be from https://pas-toucher.com, https://www.pas-toucher.com, or https://proshop.co.il'
+        });
+      }
+      
+      const brand = isValidPasToucher ? 'PAS TOUCHER' : 'BALIBODY';
+
+      const { load } = await import('cheerio');
+      const { products: productsTable } = await import('@shared/schema');
+
+      const results = {
+        imported: 0,
+        skipped: 0,
+        total: 0,
+        products: [] as { name: string; color: string; price: number; salePrice?: number }[]
+      };
+
+      // Fetch the HTML content
+      const response = await fetch(url);
+      
+      if (!response.ok) {
+        return res.status(502).json({
+          success: false,
+          error: `Failed to fetch from PAS TOUCHER: ${response.status} ${response.statusText}`
+        });
+      }
+      
+      const html = await response.text();
+
+      // Load HTML with Cheerio
+      const $ = load(html);
+
+      console.log(`[${brand}] Total products found:`, $('.product, li.product').length);
+
+      // Extract products - support both PAS TOUCHER and WooCommerce structures
+      let debugCount = 0;
+      $('li.product, .product').each((_, element) => {
+        const $product = $(element);
+        
+        let name, color, price, salePrice, originalPrice, imageUrl;
+        
+        if (isValidPasToucher) {
+          // PAS TOUCHER structure
+          name = $product.find('.product__name').first().text().trim();
+          color = $product.find('.product__color').first().text().trim();
+          
+          const originalPriceText = $product.find('.product__original-price').first().text().trim();
+          const salePriceText = $product.find('.product__sale-price').first().text().trim();
+          const regularPriceText = $product.find('.product__price').first().text().trim();
+          
+          const originalPriceMatch = originalPriceText.match(/(\d+)/);
+          const salePriceMatch = salePriceText.match(/(\d+)/);
+          const regularPriceMatch = regularPriceText.match(/(\d+)/);
+          
+          originalPrice = originalPriceMatch ? parseInt(originalPriceMatch[1]) : 0;
+          salePrice = salePriceMatch ? parseInt(salePriceMatch[1]) : null;
+          price = salePrice || (regularPriceMatch ? parseInt(regularPriceMatch[1]) : 0);
+          
+          imageUrl = $product.find('.product__thumbnail').first().attr('src') || 
+                    $product.find('.product__thumbnail').first().attr('data-src') || '';
+        } else {
+          // WooCommerce/ProShop structure
+          name = $product.find('.woocommerce-loop-product__title').first().text().trim();
+          color = '';
+          
+          const priceContainer = $product.find('.price').first();
+          const delPrice = priceContainer.find('del .woocommerce-Price-amount bdi').text().trim();
+          const insPrice = priceContainer.find('ins .woocommerce-Price-amount bdi').text().trim();
+          const regularPrice = priceContainer.find('.woocommerce-Price-amount bdi').first().text().trim();
+          
+          const delMatch = delPrice.match(/(\d+)/);
+          const insMatch = insPrice.match(/(\d+)/);
+          const regularMatch = regularPrice.match(/(\d+)/);
+          
+          originalPrice = delMatch ? parseInt(delMatch[1]) : 0;
+          salePrice = insMatch ? parseInt(insMatch[1]) : null;
+          price = salePrice || (regularMatch ? parseInt(regularMatch[1]) : 0);
+          
+          imageUrl = $product.find('img').first().attr('data-lazy-src') || 
+                    $product.find('img').first().attr('src') || '';
+        }
+
+        if (debugCount < 3) {
+          console.log(`[${brand}] Product ${debugCount + 1}:`, {
+            name,
+            color,
+            price,
+            salePrice,
+            originalPrice
+          });
+          debugCount++;
+        }
+
+        if (name && price > 0) {
+          results.total++;
+        }
+      });
+
+      // Now actually import (re-iterate to insert into DB)
+      for (const productElement of $('li.product, .product').toArray()) {
+        const $product = $(productElement);
+        
+        let name, color, price, salePrice, imageUrl, isOutOfStock;
+        
+        if (isValidPasToucher) {
+          // PAS TOUCHER structure
+          name = $product.find('.product__name').first().text().trim();
+          color = $product.find('.product__color').first().text().trim();
+          
+          const originalPriceText = $product.find('.product__original-price').first().text().trim();
+          const salePriceText = $product.find('.product__sale-price').first().text().trim();
+          const regularPriceText = $product.find('.product__price').first().text().trim();
+          
+          const originalPriceMatch = originalPriceText.match(/(\d+)/);
+          const salePriceMatch = salePriceText.match(/(\d+)/);
+          const regularPriceMatch = regularPriceText.match(/(\d+)/);
+          
+          salePrice = salePriceMatch ? parseInt(salePriceMatch[1]) : null;
+          price = salePrice || (regularPriceMatch ? parseInt(regularPriceMatch[1]) : 0);
+          
+          imageUrl = $product.find('.product__thumbnail').first().attr('src') || 
+                    $product.find('.product__thumbnail').first().attr('data-src') || '';
+          
+          isOutOfStock = $product.find('.product__label--out-of-stock').length > 0;
+        } else {
+          // WooCommerce/ProShop structure
+          name = $product.find('.woocommerce-loop-product__title').first().text().trim();
+          color = '';
+          
+          const priceContainer = $product.find('.price').first();
+          const delPrice = priceContainer.find('del .woocommerce-Price-amount bdi').text().trim();
+          const insPrice = priceContainer.find('ins .woocommerce-Price-amount bdi').text().trim();
+          const regularPrice = priceContainer.find('.woocommerce-Price-amount bdi').first().text().trim();
+          
+          const insMatch = insPrice.match(/(\d+)/);
+          const regularMatch = regularPrice.match(/(\d+)/);
+          
+          salePrice = insMatch ? parseInt(insMatch[1]) : null;
+          price = salePrice || (regularMatch ? parseInt(regularMatch[1]) : 0);
+          
+          imageUrl = $product.find('img').first().attr('data-lazy-src') || 
+                    $product.find('img').first().attr('src') || '';
+          
+          isOutOfStock = $product.hasClass('outofstock') || $product.find('.out-of-stock').length > 0;
+        }
+
+        if (!name || price <= 0) {
+          continue;
+        }
+
+        // Create unique product key (name + color)
+        const productKey = `${name}${color}`.trim();
+
+        // Check if product already exists
+        const existing = await db
+          .select()
+          .from(productsTable)
+          .where(eq(productsTable.name, productKey))
+          .limit(1);
+
+        if (existing.length > 0) {
+          results.skipped++;
+          continue;
+        }
+
+        // Determine category and features based on brand
+        const category = isValidPasToucher ? 'sunglasses' : 'tanning';
+        const features = isValidPasToucher ? [
+          'הגנה מלאה מקרינת UV',
+          'עיצוב אלכסנדר ברקמן',
+          'איכות פרימיום'
+        ] : [
+          'מוצר איכותי של BALIBODY',
+          'לשיזוף מושלם',
+          'מומלץ למשתמשי מיטות שיזוף'
+        ];
+
+        // Create product
+        await db.insert(productsTable).values({
+          name: productKey,
+          nameHe: `${name}${color}`,
+          description: `${name}${color ? ' ' + color : ''}`,
+          descriptionHe: `${name}${color ? ' ' + color : ''}`,
+          price: price.toString(),
+          salePrice: salePrice ? salePrice.toString() : null,
+          productType: 'product',
+          category: category,
+          brand: brand,
+          stock: isOutOfStock ? 0 : 10,
+          isActive: !isOutOfStock,
+          isFeatured: false,
+          images: imageUrl ? [imageUrl] : null,
+          features: features
+        });
+
+        results.imported++;
+        results.products.push({
+          name,
+          color,
+          price,
+          salePrice: salePrice || undefined
+        });
+      }
+
+      res.json(results);
+    } catch (error: any) {
+      console.error('PAS TOUCHER import error:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to import PAS TOUCHER products',
+        details: error.message
       });
     }
   });

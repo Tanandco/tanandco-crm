@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Search, UserPlus, Edit, Trash2, Phone, Mail, Calendar, Star, ScanFace, Link } from 'lucide-react';
+import { Search, UserPlus, Edit, Trash2, Phone, Mail, Calendar, Star, ScanFace, Link, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
+import { useLocation } from 'wouter';
 import { apiRequest } from '@/lib/queryClient';
 import CustomerForm from '@/components/CustomerForm';
 import type { Customer, Membership } from '@shared/schema';
@@ -16,12 +17,13 @@ interface CustomerWithMemberships extends Customer {
 }
 
 export default function CustomerManagement() {
+  const [, setLocation] = useLocation();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCustomer, setSelectedCustomer] = useState<CustomerWithMemberships | null>(null);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   
-  const { toast } = useToast();
+  const { toast} = useToast();
   const queryClient = useQueryClient();
 
   // Fetch customers
@@ -160,13 +162,23 @@ export default function CustomerManagement() {
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-              ניהול לקוחות
-            </h1>
-            <p className="text-slate-400 mt-2">
-              מערכת ניהול לקוחות מתקדמת עם זיהוי פנים
-            </p>
+          <div className="flex items-center gap-4">
+            <Button
+              onClick={() => setLocation('/')}
+              variant="outline"
+              size="icon"
+              data-testid="button-back"
+            >
+              <ArrowRight className="w-5 h-5" />
+            </Button>
+            <div>
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                ניהול לקוחות
+              </h1>
+              <p className="text-slate-400 mt-2">
+                מערכת ניהול לקוחות מתקדמת עם זיהוי פנים
+              </p>
+            </div>
           </div>
           
           <div className="flex gap-3">

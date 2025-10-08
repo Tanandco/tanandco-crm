@@ -12,9 +12,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Edit, Trash2, Package, Image as ImageIcon } from 'lucide-react';
+import { Plus, Edit, Trash2, Package, Image as ImageIcon, AlertCircle, TrendingDown, TrendingUp, Minus, ArrowRight } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest, queryClient } from '@/lib/queryClient';
+import { useLocation } from 'wouter';
 import Logo from '@/components/Logo';
 
 const productFormSchema = z.object({
@@ -72,9 +73,11 @@ const BRAND_LABELS: Record<string, string> = {
 };
 
 export default function ProductManagement() {
+  const [, setLocation] = useLocation();
   const { toast } = useToast();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<any>(null);
+  const [stockFilter, setStockFilter] = useState<'all' | 'low' | 'out'>('all');
 
   const { data: products, isLoading } = useQuery<any>({
     queryKey: ['/api/products'],
@@ -160,6 +163,15 @@ export default function ProductManagement() {
     },
   });
 
+  const quickStockMutation = useMutation({
+    mutationFn: async ({ id, delta }: { id: string; delta: number }) => {
+      return await apiRequest('POST', `/api/products/${id}/adjust-stock`, { delta });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/products'] });
+    },
+  });
+
   const handleEdit = (product: any) => {
     setEditingProduct(product);
     form.reset({
@@ -192,16 +204,37 @@ export default function ProductManagement() {
     setIsDialogOpen(true);
   };
 
+  const getStockStatus = (stock: number) => {
+    if (stock === 0) return { label: 'אזל', color: 'bg-red-500', icon: AlertCircle };
+    if (stock < 5) return { label: 'נמוך', color: 'bg-yellow-500', icon: TrendingDown };
+    return { label: 'תקין', color: 'bg-green-500', icon: TrendingUp };
+  };
+
+  const filteredProducts = products?.filter((product: any) => {
+    if (product.productType !== 'product') return stockFilter === 'all';
+    if (stockFilter === 'out') return product.stock === 0;
+    if (stockFilter === 'low') return product.stock > 0 && product.stock < 5;
+    return true;
+  }) || [];
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 p-6" dir="rtl">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-4">
+            <Button
+              onClick={() => setLocation('/')}
+              variant="outline"
+              size="icon"
+              data-testid="button-back"
+            >
+              <ArrowRight className="w-5 h-5" />
+            </Button>
             <Logo size="header" showGlow={false} showUnderline={false} />
             <div>
               <h1 className="text-3xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">
-                ניהול מוצרים
+                ניהול מלאים
               </h1>
               <p className="text-muted-foreground">נהל את המלאי והמוצרים בחנות</p>
             </div>
@@ -555,6 +588,45 @@ export default function ProductManagement() {
           </Dialog>
         </div>
 
+        {/* Stock Filter & Stats */}
+        <div className="mb-6 grid grid-cols-1 md:grid-cols-4 gap-4">
+          <Button
+            onClick={() => setStockFilter('all')}
+            variant={stockFilter === 'all' ? 'default' : 'outline'}
+            className={stockFilter === 'all' ? 'bg-gradient-to-r from-pink-500 to-purple-500' : ''}
+            data-testid="filter-all"
+          >
+            <Package className="w-4 h-4 ml-2" />
+            הכל ({products?.length || 0})
+          </Button>
+          <Button
+            onClick={() => setStockFilter('low')}
+            variant={stockFilter === 'low' ? 'default' : 'outline'}
+            className={stockFilter === 'low' ? 'bg-yellow-600 hover:bg-yellow-700' : ''}
+            data-testid="filter-low"
+          >
+            <TrendingDown className="w-4 h-4 ml-2" />
+            מלאי נמוך ({products?.filter((p: any) => p.productType === 'product' && p.stock > 0 && p.stock < 5).length || 0})
+          </Button>
+          <Button
+            onClick={() => setStockFilter('out')}
+            variant={stockFilter === 'out' ? 'default' : 'outline'}
+            className={stockFilter === 'out' ? 'bg-red-600 hover:bg-red-700' : ''}
+            data-testid="filter-out"
+          >
+            <AlertCircle className="w-4 h-4 ml-2" />
+            אזל מהמלאי ({products?.filter((p: any) => p.productType === 'product' && p.stock === 0).length || 0})
+          </Button>
+          <Button
+            onClick={handleNewProduct}
+            className="bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600"
+            data-testid="button-add-product-top"
+          >
+            <Plus className="w-4 h-4 ml-2" />
+            הוסף מוצר
+          </Button>
+        </div>
+
         {/* Products Grid */}
         {isLoading ? (
           <div className="text-center py-12">
@@ -575,7 +647,11 @@ export default function ProductManagement() {
           </Card>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {products?.map((product: any) => (
+            {filteredProducts.map((product: any) => {
+              const stockStatus = product.productType === 'product' ? getStockStatus(product.stock || 0) : null;
+              const StockIcon = stockStatus?.icon;
+              
+              return (
               <Card key={product.id} className="overflow-hidden" data-testid={`product-card-${product.id}`}>
                 <CardHeader className="pb-3">
                   <div className="flex items-start justify-between gap-2">
@@ -621,10 +697,51 @@ export default function ProductManagement() {
                       </span>
                     </div>
                     {product.productType === 'product' ? (
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">מלאי:</span>
-                        <span>{product.stock}</span>
-                      </div>
+                      <>
+                        <div className="flex justify-between items-center">
+                          <span className="text-muted-foreground">מלאי:</span>
+                          <div className="flex items-center gap-2">
+                            {stockStatus && StockIcon && (
+                              <StockIcon className="w-4 h-4" style={{ color: stockStatus.color.replace('bg-', '') === 'red-500' ? '#ef4444' : stockStatus.color.replace('bg-', '') === 'yellow-500' ? '#eab308' : '#22c55e' }} />
+                            )}
+                            <Badge className={stockStatus?.color}>
+                              {product.stock} {stockStatus?.label && `(${stockStatus.label})`}
+                            </Badge>
+                          </div>
+                        </div>
+                        <div className="flex gap-2 mt-2">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => quickStockMutation.mutate({ id: product.id, delta: -1 })}
+                            disabled={quickStockMutation.isPending || product.stock === 0}
+                            className="flex-1"
+                            data-testid={`button-decrease-stock-${product.id}`}
+                          >
+                            <Minus className="w-3 h-3" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => quickStockMutation.mutate({ id: product.id, delta: 1 })}
+                            disabled={quickStockMutation.isPending}
+                            className="flex-1"
+                            data-testid={`button-increase-stock-${product.id}`}
+                          >
+                            <Plus className="w-3 h-3" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => quickStockMutation.mutate({ id: product.id, delta: 10 })}
+                            disabled={quickStockMutation.isPending}
+                            className="flex-1"
+                            data-testid={`button-add-10-stock-${product.id}`}
+                          >
+                            +10
+                          </Button>
+                        </div>
+                      </>
                     ) : (
                       <>
                         {product.duration && (
@@ -675,7 +792,8 @@ export default function ProductManagement() {
                   </div>
                 </CardContent>
               </Card>
-            ))}
+            );
+            })}
           </div>
         )}
       </div>

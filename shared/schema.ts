@@ -199,6 +199,25 @@ export const insertDoorAccessLogSchema = createInsertSchema(doorAccessLogs).omit
 export type InsertDoorAccessLog = z.infer<typeof insertDoorAccessLogSchema>;
 export type DoorAccessLog = typeof doorAccessLogs.$inferSelect;
 
+// Face Upload Tokens - For WhatsApp-based face registration
+export const faceUploadTokens = pgTable("face_upload_tokens", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  token: text("token").notNull().unique(), // Unique token for URL
+  customerId: varchar("customer_id").notNull().references(() => customers.id),
+  imageUrl: text("image_url"), // URL of uploaded image
+  status: text("status").default("pending").notNull(), // 'pending', 'uploaded', 'expired', 'used'
+  expiresAt: timestamp("expires_at").notNull(), // Token expiration time (30 minutes)
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertFaceUploadTokenSchema = createInsertSchema(faceUploadTokens).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertFaceUploadToken = z.infer<typeof insertFaceUploadTokenSchema>;
+export type FaceUploadToken = typeof faceUploadTokens.$inferSelect;
+
 // ============================================================
 // SOCIAL MEDIA AUTOMATION TABLES
 // ============================================================
