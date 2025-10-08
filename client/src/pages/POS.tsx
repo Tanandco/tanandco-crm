@@ -3,7 +3,7 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
-import { Search, ShoppingCart, Trash2, Plus, Minus, CreditCard, X, ImageOff, Image } from 'lucide-react';
+import { Search, ShoppingCart, Trash2, Plus, Minus, CreditCard, X, ImageOff, Image, User, UserX } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest, queryClient } from '@/lib/queryClient';
 import Logo from '@/components/Logo';
@@ -20,6 +20,13 @@ interface Product {
   images?: string[];
 }
 
+interface Customer {
+  id: string;
+  fullName: string;
+  phone: string;
+  email?: string;
+}
+
 interface CartItem {
   product: Product;
   quantity: number;
@@ -30,6 +37,9 @@ export default function POS() {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [showImages, setShowImages] = useState(false);
+  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
+  const [customerSearchQuery, setCustomerSearchQuery] = useState('');
+  const [showCustomerSearch, setShowCustomerSearch] = useState(false);
   const { toast } = useToast();
 
   const { data: productsData, isLoading } = useQuery({
@@ -39,6 +49,15 @@ export default function POS() {
   const products: Product[] = Array.isArray(productsData) 
     ? productsData 
     : (productsData as any)?.data ?? (productsData as any)?.products ?? [];
+
+  const { data: customersData } = useQuery({
+    queryKey: ['/api/customers'],
+    enabled: showCustomerSearch && customerSearchQuery.length > 0,
+  });
+
+  const customers: Customer[] = Array.isArray(customersData) 
+    ? customersData 
+    : (customersData as any)?.data ?? [];
 
   const categories = [
     { id: 'all', label: 'הכל' },
@@ -117,6 +136,30 @@ export default function POS() {
     sum + (parseFloat(item.product.price) * item.quantity), 0
   );
 
+  const filteredCustomers = customers.filter(c => 
+    c.fullName.toLowerCase().includes(customerSearchQuery.toLowerCase()) ||
+    c.phone.includes(customerSearchQuery)
+  );
+
+  const selectCustomer = (customer: Customer) => {
+    setSelectedCustomer(customer);
+    setShowCustomerSearch(false);
+    setCustomerSearchQuery('');
+    toast({
+      title: "לקוח נבחר",
+      description: customer.fullName,
+    });
+  };
+
+  const selectGuest = () => {
+    setSelectedCustomer(null);
+    setShowCustomerSearch(false);
+    toast({
+      title: "מכירה כאורח",
+      description: "העסקה תירשם ללא לקוח",
+    });
+  };
+
   const handleCheckout = () => {
     if (cart.length === 0) {
       toast({
@@ -127,9 +170,10 @@ export default function POS() {
       return;
     }
 
+    const customerInfo = selectedCustomer ? selectedCustomer.fullName : "אורח";
     toast({
       title: "מעבר לתשלום",
-      description: `סה"כ לתשלום: ₪${totalAmount.toFixed(2)}`,
+      description: `לקוח: ${customerInfo} | סה"כ: ₪${totalAmount.toFixed(2)}`,
     });
   };
 
@@ -261,6 +305,106 @@ export default function POS() {
             <div className="flex justify-start">
               <Logo size="medium" />
             </div>
+
+            {/* Customer Selection */}
+            <Card 
+              className="p-4 bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border-pink-500/30 backdrop-blur-sm"
+              style={{
+                boxShadow: '0 0 20px rgba(236, 72, 153, 0.2)',
+              }}
+            >
+              {selectedCustomer ? (
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <User className="w-4 h-4 text-pink-400" />
+                      <span className="text-white font-semibold">{selectedCustomer.fullName}</span>
+                    </div>
+                    <Button
+                      onClick={() => setSelectedCustomer(null)}
+                      variant="ghost"
+                      size="sm"
+                      className="text-gray-400 hover:text-white h-7"
+                      data-testid="button-remove-customer"
+                    >
+                      <X className="w-4 h-4" />
+                    </Button>
+                  </div>
+                  <p className="text-sm text-gray-400">{selectedCustomer.phone}</p>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  {!showCustomerSearch ? (
+                    <div className="flex gap-2">
+                      <Button
+                        onClick={() => setShowCustomerSearch(true)}
+                        variant="outline"
+                        size="sm"
+                        className="flex-1 bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border-pink-500/30 hover:border-pink-500/50"
+                        data-testid="button-search-customer"
+                      >
+                        <User className="w-4 h-4 ml-2" />
+                        חפש לקוח
+                      </Button>
+                      <Button
+                        onClick={selectGuest}
+                        variant="outline"
+                        size="sm"
+                        className="flex-1 bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border-pink-500/30 hover:border-pink-500/50"
+                        data-testid="button-guest-sale"
+                      >
+                        <UserX className="w-4 h-4 ml-2" />
+                        אורח
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="space-y-2">
+                      <div className="relative">
+                        <Input
+                          value={customerSearchQuery}
+                          onChange={(e) => setCustomerSearchQuery(e.target.value)}
+                          placeholder="שם או טלפון..."
+                          className="pr-10 bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border-pink-500/30 text-white"
+                          data-testid="input-customer-search"
+                          autoFocus
+                        />
+                        <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                        <Button
+                          onClick={() => {
+                            setShowCustomerSearch(false);
+                            setCustomerSearchQuery('');
+                          }}
+                          variant="ghost"
+                          size="icon"
+                          className="absolute left-1 top-1/2 -translate-y-1/2 h-7 w-7 text-gray-400 hover:text-white"
+                        >
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                      {customerSearchQuery.length > 0 && (
+                        <div className="max-h-40 overflow-y-auto space-y-1">
+                          {filteredCustomers.length === 0 ? (
+                            <p className="text-sm text-gray-400 text-center py-2">לא נמצאו לקוחות</p>
+                          ) : (
+                            filteredCustomers.map(customer => (
+                              <button
+                                key={customer.id}
+                                onClick={() => selectCustomer(customer)}
+                                className="w-full text-right p-2 rounded-md bg-gray-800/50 hover:bg-gray-700/50 transition-colors"
+                                data-testid={`button-select-customer-${customer.id}`}
+                              >
+                                <p className="text-white text-sm font-medium">{customer.fullName}</p>
+                                <p className="text-gray-400 text-xs">{customer.phone}</p>
+                              </button>
+                            ))
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
+            </Card>
             
             <Card 
               className="p-6 bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border-pink-500/30 sticky top-6 backdrop-blur-sm"
