@@ -14,6 +14,7 @@ import { apiRequest, queryClient } from '@/lib/queryClient';
 import { z } from 'zod';
 
 const registrationSchema = insertCustomerSchema.extend({
+  dateOfBirth: z.string().min(1, 'תאריך לידה הוא שדה חובה'),
   membershipType: z.string().min(1, 'יש לבחור סוג כרטיסיה'),
   membershipSessions: z.string().min(1, 'יש לבחור מספר כניסות'),
 });
@@ -29,6 +30,28 @@ export default function NewCustomerDialog({ open, onOpenChange }: NewCustomerDia
   const { toast } = useToast();
   const [step, setStep] = useState<'details' | 'membership' | 'payment' | 'success'>('details');
   const [customerId, setCustomerId] = useState<string | null>(null);
+  const [age, setAge] = useState<string>('');
+
+  const calculateAge = (birthDate: string) => {
+    if (!birthDate) return '';
+    
+    const birth = new Date(birthDate);
+    const today = new Date();
+    
+    let years = today.getFullYear() - birth.getFullYear();
+    let months = today.getMonth() - birth.getMonth();
+    
+    if (months < 0) {
+      years--;
+      months += 12;
+    }
+    
+    if (months === 0) {
+      return `${years} שנים`;
+    }
+    
+    return `${years} שנים ו-${months} חודשים`;
+  };
 
   const form = useForm<RegistrationFormData>({
     resolver: zodResolver(registrationSchema),
@@ -36,7 +59,7 @@ export default function NewCustomerDialog({ open, onOpenChange }: NewCustomerDia
       fullName: '',
       phone: '',
       email: null,
-      dateOfBirth: null,
+      dateOfBirth: '',
       isNewClient: true,
       healthFormSigned: false,
       faceRecognitionId: null,
@@ -283,7 +306,14 @@ export default function NewCustomerDialog({ open, onOpenChange }: NewCustomerDia
                     name="dateOfBirth"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-white">תאריך לידה (אופציונלי)</FormLabel>
+                        <div className="flex justify-between items-center mb-2">
+                          <FormLabel className="text-white">תאריך לידה *</FormLabel>
+                          {age && (
+                            <span className="text-pink-400 text-sm font-bold">
+                              גיל: {age}
+                            </span>
+                          )}
+                        </div>
                         <FormControl>
                           <Input
                             {...field}
@@ -291,6 +321,10 @@ export default function NewCustomerDialog({ open, onOpenChange }: NewCustomerDia
                             type="date"
                             className="bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border-pink-500/30 text-white h-12"
                             data-testid="input-dob"
+                            onChange={(e) => {
+                              field.onChange(e);
+                              setAge(calculateAge(e.target.value));
+                            }}
                           />
                         </FormControl>
                         <FormMessage />
