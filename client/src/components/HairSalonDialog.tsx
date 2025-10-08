@@ -64,8 +64,8 @@ export default function HairSalonDialog({ open, onOpenChange }: HairSalonDialogP
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Purple/Indigo Gradient Background */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-indigo-500/15 to-black opacity-95 backdrop-blur-md" />
-        <div className="absolute inset-0 bg-gradient-to-tr from-black via-transparent to-indigo-500/5" />
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-indigo-500/8 to-black opacity-98 backdrop-blur-lg" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-black via-transparent to-indigo-500/3" />
       </div>
 
       {/* Back Button */}
@@ -113,15 +113,15 @@ export default function HairSalonDialog({ open, onOpenChange }: HairSalonDialogP
           {/* Introduction Text */}
           <div className="mt-6 max-w-3xl mx-auto px-6">
             <div className="text-center space-y-4">
-              <p className="text-white/90 text-base leading-relaxed">
+              <p className="text-white/90 text-lg leading-relaxed">
                 <span className="text-purple-400 font-semibold">טאן אנד קו</span> מובילה בגאווה את המהפכה הבאה של תעשיית היופי עם <span className="text-pink-400">המודל ההיברידי-אוטונומי הראשון מסוגו</span>: שירותים בטכנולוגיה פורצת דרך, באוטומציה מלאה, 24/7 – וללא תלות בכוח אדם.
               </p>
               
-              <p className="text-white/80 text-sm leading-relaxed">
+              <p className="text-white/80 text-base leading-relaxed">
                 ובכל זאת, אנחנו מאמינים בלב שלם במה שלא ניתן להחליף בשום אלגוריתם – <span className="text-purple-300">הקשר האנושי</span>. מגע. קרבה. חיוך. שיחה טובה. 
               </p>
 
-              <p className="text-white/80 text-sm leading-relaxed">
+              <p className="text-white/80 text-base leading-relaxed">
                 ולכן, תחת קורת גג אחת, אנחנו מאחדים את <span className="text-pink-300">מקצועני היופי והשיער מהשורה הראשונה</span> – כל אחד מהם הוא עולם ומלואו של כישרון, יצירתיות, ועצמאות אמיתית שמאפשרת להם להמריא – ולהעיף את הלקוחות יחד איתם.
               </p>
 
