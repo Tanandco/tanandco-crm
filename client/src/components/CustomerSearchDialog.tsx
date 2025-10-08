@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Search, X, User, Phone, Calendar, CreditCard, AlertCircle } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 
 interface Customer {
@@ -82,6 +82,9 @@ export default function CustomerSearchDialog({ open, onOpenChange, onCustomerSel
           <DialogTitle className="text-2xl font-bold text-white text-right font-hebrew">
             חיפוש לקוח קיים
           </DialogTitle>
+          <DialogDescription className="text-right text-gray-400">
+            חפש לקוח לפי שם, טלפון או מייל
+          </DialogDescription>
         </DialogHeader>
 
         <div className="flex-1 overflow-auto p-6 space-y-6" dir="rtl">

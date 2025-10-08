@@ -8,6 +8,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -90,6 +91,9 @@ export default function CustomerForm({
             <User className="ml-2 h-5 w-5 text-pink-500" />
             {isEditMode ? 'עריכת לקוח' : 'לקוח חדש'}
           </DialogTitle>
+          <DialogDescription>
+            {isEditMode ? 'עדכן את פרטי הלקוח' : 'הוסף לקוח חדש למערכת'}
+          </DialogDescription>
         </DialogHeader>
 
         <Form {...form}>

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { CreditCard, User, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -222,6 +222,9 @@ export default function NewCustomerDialog({ open, onOpenChange }: NewCustomerDia
           >
             הרשמת לקוח חדש
           </DialogTitle>
+          <DialogDescription className="text-center text-white/70">
+            מלא את הפרטים להרשמת לקוח חדש במערכת
+          </DialogDescription>
         </DialogHeader>
 
         <div className="px-2">
