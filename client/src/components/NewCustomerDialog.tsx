@@ -13,13 +13,18 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { apiRequest, queryClient } from '@/lib/queryClient';
 import { z } from 'zod';
 
-const registrationSchema = insertCustomerSchema.omit({ dateOfBirth: true, email: true }).extend({
+// Schema for Step 1: Customer Details
+const customerDetailsSchema = insertCustomerSchema.omit({ dateOfBirth: true, email: true }).extend({
   dateOfBirth: z.string()
     .min(1, 'תאריך לידה הוא שדה חובה')
     .regex(/^\d{4}-\d{2}-\d{2}$/, "תאריך לידה חייב להיות בפורמט YYYY-MM-DD"),
   email: z.string().email("כתובת אימייל לא תקינה").or(z.literal('')).optional(),
-  membershipType: z.string().min(1, 'יש לבחור סוג כרטיסיה'),
-  membershipSessions: z.string().min(1, 'יש לבחור מספר כניסות'),
+});
+
+// Full schema including membership fields (for form state)
+const registrationSchema = customerDetailsSchema.extend({
+  membershipType: z.string().optional(),
+  membershipSessions: z.string().optional(),
 });
 
 type RegistrationFormData = z.infer<typeof registrationSchema>;
@@ -134,6 +139,8 @@ export default function NewCustomerDialog({ open, onOpenChange }: NewCustomerDia
   });
 
   const onSubmitDetails = (data: RegistrationFormData) => {
+    console.log('onSubmitDetails called with data:', data);
+    console.log('Form errors:', form.formState.errors);
     createCustomerMutation.mutate(data);
   };
 
@@ -355,9 +362,10 @@ export default function NewCustomerDialog({ open, onOpenChange }: NewCustomerDia
           {/* Step 2: Membership */}
           {step === 'membership' && (
             <div className="space-y-4">
-              <FormField
-                control={form.control}
-                name="membershipType"
+              <Form {...form}>
+                <FormField
+                  control={form.control}
+                  name="membershipType"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-white">סוג כרטיסיה *</FormLabel>
@@ -424,6 +432,7 @@ export default function NewCustomerDialog({ open, onOpenChange }: NewCustomerDia
               >
                 {createMembershipMutation.isPending ? 'יוצר כרטיסיה...' : 'המשך לתשלום →'}
               </Button>
+              </Form>
             </div>
           )}
 
