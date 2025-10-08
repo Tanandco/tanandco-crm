@@ -11,7 +11,7 @@ export default function HairStudio() {
     <section dir="rtl" className="w-full bg-black text-white">
       {/* LOGO HEADER */}
       <div className="py-6 px-6 flex justify-center border-b border-white/10">
-        <Logo size="medium" showGlow={true} showUnderline={false} />
+        <Logo size="large" showGlow={true} showUnderline={false} />
       </div>
 
       {/* HERO */}
