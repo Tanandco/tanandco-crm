@@ -927,10 +927,10 @@ export default function AITan() {
                      animation: 'float-3d 6s ease-in-out infinite',
                      animationDelay: '0.5s'
                    }}>
-                {/* תג "מומלץ" */}
+                {/* תג "שווה במיוחד" */}
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
                   <div className="px-4 py-1 rounded-full bg-[hsl(var(--primary))] text-black text-sm font-bold shadow-lg">
-                    ⭐ מומלץ ביותר
+                    💎 שווה במיוחד
                   </div>
                 </div>
                 
@@ -943,7 +943,7 @@ export default function AITan() {
                      }}
                      data-testid="package-premium">
                   <div className="text-center mb-6">
-                    <h3 className="text-xl font-bold text-[hsl(var(--primary))] mb-2">חבילה פרמיום</h3>
+                    <h3 className="text-xl font-bold text-[hsl(var(--primary))] mb-2">חבילה פרמיום + ברונזר</h3>
                     <p className="text-sm text-white/60">עם ברונזר BALIBODY</p>
                   </div>
                   
