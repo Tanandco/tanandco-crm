@@ -13,10 +13,11 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { apiRequest, queryClient } from '@/lib/queryClient';
 import { z } from 'zod';
 
-const registrationSchema = insertCustomerSchema.omit({ dateOfBirth: true }).extend({
+const registrationSchema = insertCustomerSchema.omit({ dateOfBirth: true, email: true }).extend({
   dateOfBirth: z.string()
     .min(1, 'תאריך לידה הוא שדה חובה')
     .regex(/^\d{4}-\d{2}-\d{2}$/, "תאריך לידה חייב להיות בפורמט YYYY-MM-DD"),
+  email: z.string().email("כתובת אימייל לא תקינה").or(z.literal('')).optional(),
   membershipType: z.string().min(1, 'יש לבחור סוג כרטיסיה'),
   membershipSessions: z.string().min(1, 'יש לבחור מספר כניסות'),
 });
