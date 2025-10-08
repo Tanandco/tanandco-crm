@@ -3,7 +3,7 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
-import { Search, ShoppingCart, Trash2, Plus, Minus, CreditCard, X } from 'lucide-react';
+import { Search, ShoppingCart, Trash2, Plus, Minus, CreditCard, X, ImageOff, Image } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest, queryClient } from '@/lib/queryClient';
 import Logo from '@/components/Logo';
@@ -29,6 +29,7 @@ export default function POS() {
   const [searchQuery, setSearchQuery] = useState('');
   const [cart, setCart] = useState<CartItem[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [showImages, setShowImages] = useState(true);
   const { toast } = useToast();
 
   const { data: productsData, isLoading } = useQuery({
@@ -178,20 +179,42 @@ export default function POS() {
               )}
             </div>
 
-            {/* Categories */}
-            <div className="flex gap-2 flex-wrap">
-              {categories.map(cat => (
-                <Button
-                  key={cat.id}
-                  onClick={() => setSelectedCategory(cat.id)}
-                  variant={selectedCategory === cat.id ? 'default' : 'outline'}
-                  size="sm"
-                  className={selectedCategory === cat.id ? 'bg-blue-600 hover:bg-blue-700' : ''}
-                  data-testid={`button-category-${cat.id}`}
-                >
-                  {cat.label}
-                </Button>
-              ))}
+            {/* Categories & Image Toggle */}
+            <div className="flex gap-2 flex-wrap items-center justify-between">
+              <div className="flex gap-2 flex-wrap">
+                {categories.map(cat => (
+                  <Button
+                    key={cat.id}
+                    onClick={() => setSelectedCategory(cat.id)}
+                    variant={selectedCategory === cat.id ? 'default' : 'outline'}
+                    size="sm"
+                    className={selectedCategory === cat.id ? 'bg-blue-600 hover:bg-blue-700' : ''}
+                    data-testid={`button-category-${cat.id}`}
+                  >
+                    {cat.label}
+                  </Button>
+                ))}
+              </div>
+              
+              <Button
+                onClick={() => setShowImages(!showImages)}
+                variant="outline"
+                size="sm"
+                className="flex items-center gap-2"
+                data-testid="button-toggle-images"
+              >
+                {showImages ? (
+                  <>
+                    <ImageOff className="w-4 h-4" />
+                    הסתר תמונות
+                  </>
+                ) : (
+                  <>
+                    <Image className="w-4 h-4" />
+                    הצג תמונות
+                  </>
+                )}
+              </Button>
             </div>
 
             {/* Products Grid */}
@@ -210,7 +233,7 @@ export default function POS() {
                     onClick={() => addToCart(product)}
                     data-testid={`card-product-${product.id}`}
                   >
-                    {product.images && product.images[0] && (
+                    {showImages && product.images && product.images[0] && (
                       <img 
                         src={product.images[0]} 
                         alt={product.nameHe}
