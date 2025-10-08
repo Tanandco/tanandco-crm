@@ -50,7 +50,23 @@ export default function POS() {
   ];
 
   const filteredProducts = products.filter(p => {
-    const matchesSearch = p.nameHe.includes(searchQuery) || p.name.toLowerCase().includes(searchQuery.toLowerCase());
+    if (!searchQuery.trim()) {
+      const matchesCategory = selectedCategory === 'all' || p.category === selectedCategory;
+      return matchesCategory;
+    }
+    
+    const query = searchQuery.toLowerCase().trim();
+    const nameHe = p.nameHe.toLowerCase();
+    const nameEn = p.name.toLowerCase();
+    const brand = (p.brand || '').toLowerCase();
+    
+    const matchesSearch = 
+      nameHe.includes(query) || 
+      nameEn.includes(query) || 
+      brand.includes(query) ||
+      nameHe.split(' ').some(word => word.startsWith(query)) ||
+      nameEn.split(' ').some(word => word.startsWith(query));
+    
     const matchesCategory = selectedCategory === 'all' || p.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
@@ -144,10 +160,22 @@ export default function POS() {
               <Input
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="חפש מוצר או שירות..."
-                className="pr-10 bg-slate-800/50 border-blue-500/30 text-white"
+                placeholder="חפש מוצר או שירות... (הקלד כדי לחפש)"
+                className="pr-10 bg-slate-800/50 border-blue-500/30 text-white placeholder:text-gray-500"
                 data-testid="input-search"
+                autoFocus
               />
+              {searchQuery && (
+                <Button
+                  onClick={() => setSearchQuery('')}
+                  variant="ghost"
+                  size="icon"
+                  className="absolute left-1 top-1/2 -translate-y-1/2 h-7 w-7 text-gray-400 hover:text-white"
+                  data-testid="button-clear-search"
+                >
+                  <X className="w-4 h-4" />
+                </Button>
+              )}
             </div>
 
             {/* Categories */}
@@ -171,7 +199,9 @@ export default function POS() {
               {isLoading ? (
                 <div className="col-span-full text-center py-12 text-gray-400">טוען מוצרים...</div>
               ) : filteredProducts.length === 0 ? (
-                <div className="col-span-full text-center py-12 text-gray-400">לא נמצאו מוצרים</div>
+                <div className="col-span-full text-center py-12 text-gray-400">
+                  {searchQuery ? `לא נמצאו תוצאות עבור "${searchQuery}"` : 'לא נמצאו מוצרים'}
+                </div>
               ) : (
                 filteredProducts.map(product => (
                   <Card
