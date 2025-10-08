@@ -245,7 +245,7 @@ export default function Shop() {
                     <Button
                       variant="outline"
                       size="sm"
-                      className="border-pink-500 hover:border-pink-600 hover:bg-pink-50 text-pink-600 hover:text-pink-700 bg-transparent"
+                      className="border-pink-500 hover:border-pink-600 hover:bg-pink-50 text-pink-500 hover:text-pink-600 bg-transparent"
                       onClick={() => handleAddToCart(product.id)}
                       data-testid={`add-to-cart-${product.id}`}
                     >
@@ -258,7 +258,7 @@ export default function Shop() {
                           <Button 
                             variant="outline" 
                             size="sm"
-                            className="border-pink-500 hover:border-pink-600 hover:bg-pink-50 text-pink-600 hover:text-pink-700 bg-transparent"
+                            className="border-pink-500 hover:border-pink-600 hover:bg-pink-50 text-pink-500 hover:text-pink-600 bg-transparent"
                             data-testid={`info-${product.id}`}
                           >
                             <Info className="w-4 h-4" />
