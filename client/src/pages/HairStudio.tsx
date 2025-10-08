@@ -1,3 +1,5 @@
+import Logo from '@/components/Logo';
+
 export default function HairStudio() {
   const profiles = [
     { handle: "tanandco_hair", url: "https://instagram.com/tanandco_hair", name: "Tan & Co Hair" },
@@ -7,6 +9,11 @@ export default function HairStudio() {
   
   return (
     <section dir="rtl" className="w-full bg-black text-white">
+      {/* LOGO HEADER */}
+      <div className="py-6 px-6 flex justify-center border-b border-white/10">
+        <Logo size="medium" showGlow={true} showUnderline={false} />
+      </div>
+
       {/* HERO */}
       <div className="relative overflow-hidden">
         <div className="absolute inset-0 opacity-30 pointer-events-none" aria-hidden>
@@ -18,10 +25,29 @@ export default function HairStudio() {
           <div className="max-w-3xl">
             <p className="text-sm tracking-widest text-pink-200/80">Tan & Co. Hair Studio</p>
             <h1 className="mt-3 text-4xl font-semibold leading-tight md:text-5xl">
-              היופי החדש מתחיל כאן
+              היופי החדש מתחיל כאן.
             </h1>
             <p className="mt-5 text-lg text-white/80 leading-8">
-              טאן אנד קו מובילה בגאווה את המהפכה הבאה של תעשיית היופי עם המודל ההיברידי־אוטונומי: שירותים בטכנולוגיה פורצת דרך, באוטומציה מלאה, 24/7 – וללא תלות בכוח אדם. ובכל זאת, בלב שלנו תמיד נשאר המקום למה שלא ניתן להחליף: הקשר האנושי, המגע, החיוך והשיחה הטובה. תחת קורת גג אחת תמצאו מיטות שיזוף אוטומטיות שמחכות לכם 24 שעות ביממה, לצד סטודיו שיער חי ותוסס שבו מעצבי/ות שיער עצמאיים/יות יוצרים לכם מראה מושלם.
+              טאן אנד קו מובילה בגאווה את המהפכה הבאה של תעשיית היופי<br/>
+              עם המודל ההיברידי־אוטונומי הראשון מסוגו:<br/>
+              שירותים בטכנולוגיה פורצת דרך, באוטומציה מלאה, 24/7 –<br/>
+              וללא תלות בכוח אדם.
+            </p>
+            <p className="mt-5 text-lg text-white/80 leading-8">
+              ובכל זאת, בלב שלנו – תמיד נשאר המקום למה שלא ניתן להחליף באף אלגוריתם:<br/>
+              הקשר האנושי. המגע. הקרבה. החיוך. השיחה הטובה.
+            </p>
+            <p className="mt-5 text-lg text-white/80 leading-8">
+              ולכן, תחת קורת גג אחת, אנחנו מאחדים את מקצועני היופי והשיער המובילים –<br/>
+              כל אחד מהם עצמאי, יוצר, אמן אמיתי.<br/>
+              יחד הם יוצרים מרחב חופשי, יצירתי ומלא השראה –<br/>
+              שבו גם אתם יכולים פשוט… לנשום.
+            </p>
+            <p className="mt-5 text-lg text-white/80 leading-8">
+              אז קחו רגע לעצמכם.<br/>
+              שבו בנחת.<br/>
+              ותנו לנו להוציא אתכם מכאן עם תחושה אחת ברורה:<br/>
+              שהגעתם בדיוק למקום הנכון.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <a href="#book" className="rounded-2xl bg-[#d12fc6] px-6 py-3 text-base font-semibold shadow-lg shadow-[#d12fc6]/30 hover:shadow-[#d12fc6]/50 transition" data-testid="button-book-appointment">
