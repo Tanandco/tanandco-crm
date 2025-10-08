@@ -17,13 +17,16 @@ export default function QuickSearch() {
   const [selectedMembership, setSelectedMembership] = useState<any>(null);
   const [isScanning, setIsScanning] = useState(false);
 
-  const { data: customers } = useQuery<any[]>({
+  const { data: customersResponse } = useQuery<{success: boolean; data: any[]}>({
     queryKey: ['/api/customers'],
   });
 
-  const { data: memberships } = useQuery<any[]>({
+  const { data: membershipsResponse } = useQuery<{success: boolean; data: any[]}>({
     queryKey: ['/api/memberships'],
   });
+
+  const customers = customersResponse?.data;
+  const memberships = membershipsResponse?.data;
 
   const filteredCustomers = customers?.filter(customer => {
     if (!searchQuery) return false;
@@ -78,6 +81,34 @@ export default function QuickSearch() {
     }
   };
 
+  const handleMarkMembership = () => {
+    if (!selectedMembership || !selectedCustomer) return;
+    
+    // Store selected membership and customer in localStorage for other pages to use
+    localStorage.setItem('markedMembership', JSON.stringify({
+      membership: selectedMembership,
+      customer: selectedCustomer
+    }));
+    
+    toast({
+      title: '✅ כרטיסיה סומנה בהצלחה',
+      description: `${selectedCustomer.fullName} - ${getMembershipLabel(selectedMembership.type)} (יתרה: ${selectedMembership.balance} כניסות)`,
+    });
+    
+    // Navigate back to home
+    setLocation('/');
+  };
+
+  const getMembershipLabel = (type: string) => {
+    const labels: Record<string, string> = {
+      'sun-beds': 'מיטות שיזוף',
+      'spray-tan': 'שיזוף בהתזה',
+      'hair-salon': 'מספרה',
+      'massage': 'עיסוי',
+      'facial': 'טיפולי פנים',
+    };
+    return labels[type] || type;
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950/30 to-slate-950" dir="rtl">
@@ -101,7 +132,7 @@ export default function QuickSearch() {
               }}
               data-testid="text-quick-search-title"
             >
-              חיפוש מהיר
+              חיפוש מהיר - סימון כרטיסיה
             </h1>
           </div>
         </div>
@@ -147,7 +178,10 @@ export default function QuickSearch() {
                     ? 'bg-pink-500/20 border-pink-500'
                     : 'bg-slate-800/50 border-slate-700 hover:bg-slate-800/70'
                 }`}
-                onClick={() => setSelectedCustomer(customer)}
+                onClick={() => {
+                  setSelectedCustomer(customer);
+                  setSelectedMembership(null);
+                }}
                 data-testid={`card-customer-${customer.id}`}
               >
                 <CardContent className="p-4">
@@ -171,62 +205,104 @@ export default function QuickSearch() {
           </div>
         )}
 
-        {/* Selected Customer Card */}
+        {/* Selected Customer & Memberships */}
         {selectedCustomer && (
-          <Card className="bg-gradient-to-br from-slate-800/90 to-purple-900/30 border-pink-500/30">
-            <CardHeader>
-              <CardTitle className="text-2xl text-white flex items-center gap-2">
-                <CheckCircle2 className="w-6 h-6 text-pink-400" />
-                לקוח נבחר
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="w-16 h-16 rounded-full bg-pink-500/20 flex items-center justify-center">
-                  <User className="w-8 h-8 text-pink-400" />
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold text-white">{selectedCustomer.fullName}</h3>
-                  {selectedCustomer.membershipType && (
-                    <Badge className="mt-1 bg-pink-500/20 text-pink-300 border-pink-500/30">
-                      {selectedCustomer.membershipType === 'vip' ? 'VIP' : 
-                       selectedCustomer.membershipType === 'premium' ? 'פרימיום' : 'רגיל'}
-                    </Badge>
+          <div className="space-y-6">
+            <Card className="bg-gradient-to-br from-slate-800/90 to-purple-900/30 border-pink-500/30">
+              <CardHeader>
+                <CardTitle className="text-2xl text-white flex items-center gap-2">
+                  <User className="w-6 h-6 text-pink-400" />
+                  {selectedCustomer.fullName}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="grid grid-cols-1 gap-2">
+                  {selectedCustomer.phone && (
+                    <div className="flex items-center gap-2 text-gray-300">
+                      <Phone className="w-4 h-4 text-pink-400" />
+                      <span>{selectedCustomer.phone}</span>
+                    </div>
+                  )}
+                  {selectedCustomer.email && (
+                    <div className="flex items-center gap-2 text-gray-300">
+                      <Mail className="w-4 h-4 text-pink-400" />
+                      <span>{selectedCustomer.email}</span>
+                    </div>
+                  )}
+                  {selectedCustomer.dateOfBirth && (
+                    <div className="flex items-center gap-2 text-gray-300">
+                      <Calendar className="w-4 h-4 text-pink-400" />
+                      <span>{new Date(selectedCustomer.dateOfBirth).toLocaleDateString('he-IL')}</span>
+                    </div>
                   )}
                 </div>
-              </div>
+              </CardContent>
+            </Card>
 
-              <div className="grid grid-cols-1 gap-3 pt-4 border-t border-slate-700">
-                {selectedCustomer.phone && (
-                  <div className="flex items-center gap-2 text-gray-300">
-                    <Phone className="w-4 h-4 text-pink-400" />
-                    <span>{selectedCustomer.phone}</span>
-                  </div>
-                )}
-                {selectedCustomer.email && (
-                  <div className="flex items-center gap-2 text-gray-300">
-                    <Mail className="w-4 h-4 text-pink-400" />
-                    <span>{selectedCustomer.email}</span>
-                  </div>
-                )}
-                {selectedCustomer.dateOfBirth && (
-                  <div className="flex items-center gap-2 text-gray-300">
-                    <Calendar className="w-4 h-4 text-pink-400" />
-                    <span>{new Date(selectedCustomer.dateOfBirth).toLocaleDateString('he-IL')}</span>
-                  </div>
+            {/* Active Memberships */}
+            {customerMemberships && customerMemberships.length > 0 ? (
+              <div>
+                <h2 className="text-2xl font-bold text-white mb-4">כרטיסיות פעילות</h2>
+                <div className="space-y-3">
+                  {customerMemberships.map((membership: any) => (
+                    <Card
+                      key={membership.id}
+                      className={`cursor-pointer transition-all ${
+                        selectedMembership?.id === membership.id
+                          ? 'bg-pink-500/20 border-pink-500'
+                          : 'bg-slate-800/50 border-slate-700 hover:bg-slate-800/70'
+                      }`}
+                      onClick={() => setSelectedMembership(membership)}
+                      data-testid={`card-membership-${membership.id}`}
+                    >
+                      <CardContent className="p-4">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <div className="w-12 h-12 rounded-full bg-pink-500/20 flex items-center justify-center">
+                              <Ticket className="w-6 h-6 text-pink-400" />
+                            </div>
+                            <div>
+                              <h3 className="text-lg font-bold text-white">{getMembershipLabel(membership.type)}</h3>
+                              <p className="text-sm text-gray-400">
+                                יתרה: {membership.balance} כניסות
+                              </p>
+                              {membership.expiryDate && (
+                                <p className="text-xs text-gray-500">
+                                  תוקף עד: {new Date(membership.expiryDate).toLocaleDateString('he-IL')}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                          {selectedMembership?.id === membership.id && (
+                            <CheckCircle2 className="w-6 h-6 text-pink-400" />
+                          )}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+
+                {selectedMembership && (
+                  <Button
+                    onClick={handleMarkMembership}
+                    className="w-full h-16 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-bold text-xl mt-6"
+                    data-testid="button-mark-membership"
+                  >
+                    <CheckCircle2 className="w-6 h-6 ml-2" />
+                    סמן כרטיסיה זו
+                  </Button>
                 )}
               </div>
-
-              <Button
-                onClick={handleMarkCustomer}
-                className="w-full h-14 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-bold text-lg mt-4"
-                data-testid="button-mark-customer"
-              >
-                <CheckCircle2 className="w-5 h-5 ml-2" />
-                סמן לקוח זה
-              </Button>
-            </CardContent>
-          </Card>
+            ) : (
+              <Card className="bg-slate-800/50 border-slate-700">
+                <CardContent className="p-8 text-center">
+                  <Ticket className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                  <p className="text-xl text-gray-400">אין כרטיסיות פעילות</p>
+                  <p className="text-sm text-gray-500 mt-2">ללקוח זה אין כרטיסיות פעילות עם יתרה</p>
+                </CardContent>
+              </Card>
+            )}
+          </div>
         )}
 
         {/* Empty State */}

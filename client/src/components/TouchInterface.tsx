@@ -161,7 +161,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
             }}
             onMouseEnter={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 1)'}
             onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.6)'}
-            onClick={() => navigate('/products')}
+            onClick={() => navigate('/quick-search')}
             data-testid="button-search"
           >
             <Search 
