@@ -233,6 +233,83 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
 
         {/* Self Service Button */}
         <div className="mt-24">
+        <style>{`
+          @keyframes sparkle-orbit {
+            0% {
+              transform: rotate(0deg) translateX(150px) rotate(0deg);
+              opacity: 0;
+            }
+            10% {
+              opacity: 1;
+            }
+            90% {
+              opacity: 1;
+            }
+            100% {
+              transform: rotate(360deg) translateX(150px) rotate(-360deg);
+              opacity: 0;
+            }
+          }
+          
+          @keyframes sparkle-twinkle {
+            0%, 100% {
+              transform: scale(0.8);
+              filter: brightness(1);
+            }
+            50% {
+              transform: scale(1.2);
+              filter: brightness(1.5);
+            }
+          }
+
+          .sparkle-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            pointer-events: none;
+          }
+
+          .sparkle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: radial-gradient(circle, rgba(236, 72, 153, 1) 0%, rgba(147, 51, 234, 0.8) 50%, transparent 100%);
+            border-radius: 50%;
+            box-shadow: 
+              0 0 8px rgba(236, 72, 153, 0.8),
+              0 0 16px rgba(147, 51, 234, 0.6),
+              0 0 24px rgba(236, 72, 153, 0.4);
+            animation: sparkle-orbit 8s linear infinite, sparkle-twinkle 2s ease-in-out infinite;
+          }
+
+          .sparkle:nth-child(1) { animation-delay: 0s, 0s; }
+          .sparkle:nth-child(2) { animation-delay: 1s, 0.2s; }
+          .sparkle:nth-child(3) { animation-delay: 2s, 0.4s; }
+          .sparkle:nth-child(4) { animation-delay: 3s, 0.6s; }
+          .sparkle:nth-child(5) { animation-delay: 4s, 0.8s; }
+          .sparkle:nth-child(6) { animation-delay: 5s, 1s; }
+          .sparkle:nth-child(7) { animation-delay: 6s, 1.2s; }
+          .sparkle:nth-child(8) { animation-delay: 7s, 1.4s; }
+
+          /* Diamond sparkles at corners */
+          .sparkle-corner {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: linear-gradient(45deg, rgba(236, 72, 153, 1), rgba(147, 51, 234, 1));
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            animation: sparkle-twinkle 1.5s ease-in-out infinite;
+            filter: drop-shadow(0 0 8px rgba(236, 72, 153, 0.8));
+          }
+
+          .sparkle-corner.top-right { top: -4px; right: -4px; animation-delay: 0s; }
+          .sparkle-corner.top-left { top: -4px; left: -4px; animation-delay: 0.5s; }
+          .sparkle-corner.bottom-right { bottom: -4px; right: -4px; animation-delay: 1s; }
+          .sparkle-corner.bottom-left { bottom: -4px; left: -4px; animation-delay: 1.5s; }
+        `}</style>
+        
         <button
           data-testid="button-ai-tan-face-recognition"
           className="
@@ -256,6 +333,24 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
           onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.6)'}
           onClick={() => navigate('/self-service')}
         >
+          {/* Orbiting Sparkles */}
+          <div className="sparkle-container">
+            <div className="sparkle"></div>
+            <div className="sparkle"></div>
+            <div className="sparkle"></div>
+            <div className="sparkle"></div>
+            <div className="sparkle"></div>
+            <div className="sparkle"></div>
+            <div className="sparkle"></div>
+            <div className="sparkle"></div>
+          </div>
+
+          {/* Corner Diamond Sparkles */}
+          <div className="sparkle-corner top-right"></div>
+          <div className="sparkle-corner top-left"></div>
+          <div className="sparkle-corner bottom-right"></div>
+          <div className="sparkle-corner bottom-left"></div>
+
           <img 
             src={selfServiceIcon} 
             alt="שירות עצמי" 
