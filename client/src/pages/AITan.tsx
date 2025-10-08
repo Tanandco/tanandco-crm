@@ -492,14 +492,14 @@ export default function AITan() {
             בחר את גוון העור הנוכחי שלך
           </h2>
 
-          <div className="flex gap-3 mb-8 overflow-x-auto pb-4 px-2" style={{ scrollbarWidth: 'thin' }}>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
             {skinTones.map((tone, index) => (
               <button
                 key={tone.id}
                 onClick={() => setSkinTone(tone.id)}
                 onMouseMove={handleRippleMove}
                 className={`
-                  group ripple p-6 rounded-xl transition-all duration-300 ease-in-out overflow-visible flex-shrink-0
+                  group ripple p-4 rounded-xl transition-all duration-300 ease-in-out overflow-visible
                   bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 
                   hover:from-transparent hover:via-transparent hover:to-transparent
                   ${skinTone === tone.id
@@ -512,11 +512,10 @@ export default function AITan() {
                   }
                   hover:scale-105 active:scale-100 backdrop-blur-sm hover:backdrop-blur-none
                 `}
-                style={{ minWidth: '180px' }}
                 data-testid={`button-skintone-${tone.id}`}
               >
                 <div
-                  className="w-20 h-20 rounded-full mx-auto mb-3 relative transition-all duration-300 group-hover:scale-150 group-hover:shadow-[0_0_40px_rgba(255,255,255,0.6),0_0_80px_rgba(255,255,255,0.3)]"
+                  className="w-16 h-16 rounded-full mx-auto mb-2 relative transition-all duration-300 group-hover:scale-125 group-hover:shadow-[0_0_40px_rgba(255,255,255,0.6),0_0_80px_rgba(255,255,255,0.3)]"
                   style={{ 
                     background: `
                       radial-gradient(circle at 30% 30%, 
