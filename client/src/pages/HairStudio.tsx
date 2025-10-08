@@ -23,8 +23,7 @@ export default function HairStudio() {
 
         <div className="relative mx-auto max-w-6xl px-6 py-20 lg:py-28">
           <div className="max-w-3xl">
-            <p className="text-sm tracking-widest text-pink-200/80">Tan & Co. Hair Studio</p>
-            <h1 className="mt-3 text-4xl font-semibold leading-tight md:text-5xl">
+            <h1 className="text-4xl font-semibold leading-tight md:text-5xl">
               היופי החדש מתחיל כאן.
             </h1>
             <p className="mt-5 text-lg text-white/80 leading-8">
