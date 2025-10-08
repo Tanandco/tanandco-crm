@@ -3,9 +3,10 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
-import { Search, ShoppingCart, Trash2, Plus, Minus, CreditCard, X, ImageOff, Image, User, UserX } from 'lucide-react';
+import { Search, ShoppingCart, Trash2, Plus, Minus, CreditCard, X, ImageOff, Image, User, UserX, ArrowRight } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest, queryClient } from '@/lib/queryClient';
+import { useLocation } from 'wouter';
 import Logo from '@/components/Logo';
 
 interface Product {
@@ -33,6 +34,7 @@ interface CartItem {
 }
 
 export default function POS() {
+  const [, setLocation] = useLocation();
   const [searchQuery, setSearchQuery] = useState('');
   const [cart, setCart] = useState<CartItem[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -160,6 +162,37 @@ export default function POS() {
     });
   };
 
+  const checkoutMutation = useMutation({
+    mutationFn: async () => {
+      // Update stock for all products in cart using delta updates
+      for (const item of cart) {
+        if (item.product.productType === 'product') {
+          await apiRequest('POST', `/api/products/${item.product.id}/adjust-stock`, { 
+            delta: -item.quantity 
+          });
+        }
+      }
+      return { success: true };
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/products'] });
+      const customerInfo = selectedCustomer ? selectedCustomer.fullName : "אורח";
+      toast({
+        title: "✅ עסקה הושלמה",
+        description: `לקוח: ${customerInfo} | סה"כ: ₪${totalAmount.toFixed(2)}`,
+      });
+      setCart([]);
+      setSelectedCustomer(null);
+    },
+    onError: (error: any) => {
+      toast({
+        title: "❌ שגיאה",
+        description: error.message || "אירעה שגיאה בעדכון המלאי",
+        variant: "destructive",
+      });
+    },
+  });
+
   const handleCheckout = () => {
     if (cart.length === 0) {
       toast({
@@ -170,20 +203,25 @@ export default function POS() {
       return;
     }
 
-    const customerInfo = selectedCustomer ? selectedCustomer.fullName : "אורח";
-    toast({
-      title: "מעבר לתשלום",
-      description: `לקוח: ${customerInfo} | סה"כ: ₪${totalAmount.toFixed(2)}`,
-    });
+    checkoutMutation.mutate();
   };
 
   return (
     <div className="min-h-screen bg-black text-white p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-6">
+        <div className="mb-6 flex items-center justify-between gap-4">
+          <Button
+            onClick={() => setLocation('/')}
+            variant="outline"
+            size="icon"
+            className="border-pink-500/30 hover:border-pink-500/50 hover:bg-pink-500/10"
+            data-testid="button-back"
+          >
+            <ArrowRight className="w-5 h-5" />
+          </Button>
           <h1 
-            className="text-3xl font-bold text-white"
+            className="text-3xl font-bold text-white flex-1"
             style={{
               textShadow: '0 0 20px rgba(69, 114, 182, 0.6)',
             }}
@@ -496,13 +534,14 @@ export default function POS() {
                   onClick={handleCheckout}
                   className="w-full bg-gradient-to-br from-pink-600 via-pink-500 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white border-pink-500/50"
                   size="lg"
+                  disabled={checkoutMutation.isPending}
                   data-testid="button-checkout"
                   style={{
                     boxShadow: '0 0 20px rgba(236, 72, 153, 0.4)',
                   }}
                 >
                   <CreditCard className="w-5 h-5 ml-2" />
-                  סיום ותשלום
+                  {checkoutMutation.isPending ? 'מעבד...' : 'סיום ותשלום'}
                 </Button>
               </div>
             </Card>

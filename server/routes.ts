@@ -10,7 +10,7 @@ import { z } from 'zod';
 import { whatsappService } from './services/whatsapp-service';
 import { cardcomService } from './services/cardcom-service';
 import { WorkflowService } from './services/workflow-service';
-import { eq } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm';
 
 // Validation schemas
 const identifyFaceSchema = z.object({
@@ -1569,6 +1569,33 @@ export function registerRoutes(app: express.Application) {
         return res.status(404).json({ success: false, error: 'Product not found' });
       }
       res.json(product);
+    } catch (error: any) {
+      res.status(400).json({ success: false, error: error.message });
+    }
+  });
+
+  // Adjust product stock (atomic delta update)
+  app.post('/api/products/:id/adjust-stock', async (req, res) => {
+    try {
+      const { delta } = req.body;
+      if (typeof delta !== 'number') {
+        return res.status(400).json({ success: false, error: 'Delta must be a number' });
+      }
+
+      // Atomic update using raw SQL to prevent race conditions
+      const result = await db.execute(
+        sql`UPDATE products 
+            SET stock = GREATEST(0, COALESCE(stock, 0) + ${delta}),
+                updated_at = NOW()
+            WHERE id = ${req.params.id}
+            RETURNING *`
+      );
+
+      if (!result.rows || result.rows.length === 0) {
+        return res.status(404).json({ success: false, error: 'Product not found' });
+      }
+
+      res.json(result.rows[0]);
     } catch (error: any) {
       res.status(400).json({ success: false, error: error.message });
     }

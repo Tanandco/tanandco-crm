@@ -1,6 +1,8 @@
 import Logo from '@/components/Logo';
-import { Calendar, Scissors, Sparkles, ShoppingCart } from 'lucide-react';
+import { Calendar, Scissors, Sparkles, ShoppingCart, ArrowRight } from 'lucide-react';
 import { useState } from 'react';
+import { useLocation } from 'wouter';
+import { Button } from '@/components/ui/button';
 import icon1 from '@assets/8_1759907913839.png';
 import icon2 from '@assets/10_1759907919939.png';
 import icon3 from '@assets/11_1759907922694.png';
@@ -10,6 +12,7 @@ import icon6 from '@assets/13_1759907937800.png';
 import icon7 from '@assets/12_1759907940433.png';
 
 export default function HairStudio() {
+  const [, setLocation] = useLocation();
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   const services = {
@@ -44,7 +47,16 @@ export default function HairStudio() {
   return (
     <section dir="rtl" className="w-full min-h-screen bg-black text-white">
       {/* LOGO HEADER */}
-      <div className="absolute top-4 right-6 z-10">
+      <div className="absolute top-4 right-6 z-10 flex items-center gap-4">
+        <Button
+          onClick={() => setLocation('/')}
+          variant="outline"
+          size="icon"
+          className="border-pink-500/30 hover:border-pink-500/50 hover:bg-pink-500/10"
+          data-testid="button-back"
+        >
+          <ArrowRight className="w-5 h-5" />
+        </Button>
         <Logo size="small" showGlow={true} showUnderline={false} />
       </div>
 

@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Send, MessageSquare } from "lucide-react";
+import { Send, MessageSquare, ArrowRight } from "lucide-react";
+import { useLocation } from "wouter";
 
 interface Message {
   from: string;
@@ -21,6 +22,7 @@ interface Contact {
 }
 
 export default function Chat() {
+  const [, setLocation] = useLocation();
   const [messages, setMessages] = useState<Message[]>([]);
   const [selectedContact, setSelectedContact] = useState<string | null>(null);
   const [input, setInput] = useState("");
