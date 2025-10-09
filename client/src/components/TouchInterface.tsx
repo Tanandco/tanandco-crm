@@ -169,7 +169,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
           >
             <Users 
               className="text-pink-400 group-hover:text-pink-300 transition-colors duration-300"
-              size={14}
+              size={20}
               style={{
                 filter: 'drop-shadow(0 0 12px rgba(236, 72, 153, 0.8))'
               }}
@@ -197,7 +197,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
           >
             <Search 
               className="text-pink-400 group-hover:text-pink-300 transition-colors duration-300"
-              size={14}
+              size={20}
               style={{
                 filter: 'drop-shadow(0 0 12px rgba(236, 72, 153, 0.8))'
               }}
@@ -226,7 +226,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
             <img 
               src={newCustomerIcon} 
               alt="לקוח חדש" 
-              className="w-3.5 h-3.5 object-contain transition-all duration-300"
+              className="w-5 h-5 object-contain transition-all duration-300"
               style={{
                 filter: 'drop-shadow(0 0 12px rgba(236, 72, 153, 0.8))'
               }}
