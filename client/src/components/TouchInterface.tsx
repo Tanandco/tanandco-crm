@@ -245,7 +245,8 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
             hover:scale-105
           "
           style={{
-            filter: 'drop-shadow(0 0 20px rgba(59, 130, 246, 0.5)) drop-shadow(0 0 40px rgba(59, 130, 246, 0.4)) drop-shadow(0 0 60px rgba(59, 130, 246, 0.3))'
+            filter: 'drop-shadow(0 0 20px rgba(59, 130, 246, 0.5)) drop-shadow(0 0 40px rgba(59, 130, 246, 0.4)) drop-shadow(0 0 60px rgba(59, 130, 246, 0.3))',
+            animation: 'float 1.5s ease-in-out infinite'
           }}
           onClick={() => navigate('/self-service')}
         >
