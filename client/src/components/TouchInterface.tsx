@@ -246,7 +246,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
             animate-float
           "
           style={{
-            filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.5)) drop-shadow(0 0 40px rgba(236, 72, 153, 0.4)) drop-shadow(0 0 60px rgba(236, 72, 153, 0.3))',
+            filter: 'drop-shadow(0 0 20px rgba(59, 130, 246, 0.5)) drop-shadow(0 0 40px rgba(59, 130, 246, 0.4)) drop-shadow(0 0 60px rgba(59, 130, 246, 0.3))',
             animation: 'float 3s ease-in-out infinite'
           }}
           onClick={() => navigate('/self-service')}
@@ -258,7 +258,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
               alt="Self Service" 
               className="w-24 h-24 object-contain transition-all duration-300 group-hover:scale-110"
               style={{
-                filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.6)) drop-shadow(0 0 40px rgba(59, 130, 246, 0.4))',
+                filter: 'drop-shadow(0 0 20px rgba(59, 130, 246, 0.6)) drop-shadow(0 0 40px rgba(59, 130, 246, 0.4))',
                 animation: 'pulse-glow 2s ease-in-out infinite'
               }}
             />
@@ -282,10 +282,10 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
           
           @keyframes pulse-glow {
             0%, 100% { 
-              filter: drop-shadow(0 0 20px rgba(236, 72, 153, 0.6)) drop-shadow(0 0 40px rgba(59, 130, 246, 0.4));
+              filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.6)) drop-shadow(0 0 40px rgba(59, 130, 246, 0.4));
             }
             50% { 
-              filter: drop-shadow(0 0 30px rgba(236, 72, 153, 0.9)) drop-shadow(0 0 60px rgba(59, 130, 246, 0.6)) drop-shadow(0 0 80px rgba(236, 72, 153, 0.4));
+              filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.9)) drop-shadow(0 0 60px rgba(59, 130, 246, 0.7)) drop-shadow(0 0 80px rgba(59, 130, 246, 0.5));
             }
           }
         `}</style>
