@@ -300,7 +300,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
                 top: '50%',
                 left: '50%',
                 transform: 'translate(-50%, -50%) scale(1.5) translateZ(-20px)',
-                background: 'radial-gradient(circle, rgba(236, 72, 153, 0.7) 0%, rgba(236, 72, 153, 0.4) 40%, transparent 70%)',
+                background: 'radial-gradient(circle, rgba(236, 72, 153, 0.8) 0%, rgba(236, 72, 153, 0.5) 40%, transparent 70%)',
                 animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                 transformStyle: 'preserve-3d'
               }}
@@ -347,7 +347,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
                   </feMerge>
                 </filter>
                 <linearGradient id="star3DGradient" x1="12" y1="2" x2="12" y2="22">
-                  <stop offset="0%" stopColor="#f9a8d4" />
+                  <stop offset="0%" stopColor="#ec4899" />
                   <stop offset="50%" stopColor="#ec4899" />
                   <stop offset="100%" stopColor="#db2777" />
                 </linearGradient>
@@ -355,11 +355,11 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
               <path
                 d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
                 fill="url(#star3DGradient)"
-                stroke="rgba(249, 168, 212, 1)"
+                stroke="rgba(236, 72, 153, 1)"
                 strokeWidth="1.5"
                 filter="url(#glow)"
                 style={{
-                  filter: 'drop-shadow(0 0 30px rgba(236, 72, 153, 1)) drop-shadow(0 0 60px rgba(236, 72, 153, 1)) drop-shadow(0 0 90px rgba(236, 72, 153, 0.9)) drop-shadow(0 4px 20px rgba(0, 0, 0, 0.5))'
+                  filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8)) drop-shadow(0 0 40px rgba(236, 72, 153, 0.8)) drop-shadow(0 0 60px rgba(236, 72, 153, 0.8)) drop-shadow(0 4px 20px rgba(0, 0, 0, 0.5))'
                 }}
               />
             </svg>
