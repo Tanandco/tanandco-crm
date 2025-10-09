@@ -110,10 +110,6 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
     <div 
       className="h-screen bg-black text-white font-hebrew relative overflow-hidden flex"
       data-testid="touch-interface"
-      style={{
-        boxShadow: 'inset 0 0 60px rgba(236, 72, 153, 0.3), inset 0 0 100px rgba(236, 72, 153, 0.15)',
-        border: '2px solid rgba(236, 72, 153, 0.4)'
-      }}
     >
       {/* Main Content */}
       <div className="relative z-10 mx-auto max-w-[1280px] w-full px-6 py-6 flex flex-col items-center flex-1">
