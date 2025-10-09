@@ -55,17 +55,6 @@ export default function ServiceCard({ title, icon, onClick, disabled = false, cl
         {title}
       </span>
       
-      {/* Inner pink neon border for blue cards */}
-      {borderColor === 'blue' && (
-        <div 
-          className="absolute inset-[3px] rounded-md pointer-events-none"
-          style={{
-            border: '1px solid rgba(236, 72, 153, 0.8)',
-            boxShadow: '0 0 10px rgba(236, 72, 153, 0.4)'
-          }}
-        />
-      )}
-      
       {/* Ripple effect */}
       <div className="absolute inset-0 rounded-md overflow-hidden">
         <div className="absolute inset-0 bg-gradient-radial from-pink-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
