@@ -202,7 +202,9 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                       src={option.icon as string}
                       alt={option.title}
                       className={`${
-                        option.title === "רכישת ברונזרים" || option.title === "חיפוש משתזף קיים"
+                        option.title === "רכישת חבילה"
+                          ? "w-36 h-36"
+                          : option.title === "רכישת ברונזרים" || option.title === "חיפוש משתזף קיים"
                           ? "w-28 h-28"
                           : "w-32 h-32"
                       } object-contain group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]`}
