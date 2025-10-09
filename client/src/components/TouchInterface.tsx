@@ -263,14 +263,25 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
           }}
           onClick={() => navigate('/self-service')}
         >
-          {/* Blue Neon Star */}
+          {/* Blue Neon Star with Glowing Background */}
           <div className="relative">
+            {/* Glowing Background */}
+            <div 
+              className="absolute inset-0 rounded-full blur-3xl transition-all duration-500 group-hover:blur-2xl group-hover:scale-110"
+              style={{
+                background: 'radial-gradient(circle, rgba(59, 130, 246, 0.6) 0%, rgba(59, 130, 246, 0.3) 40%, transparent 70%)',
+                animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                transform: 'scale(1.5)'
+              }}
+            />
+            
+            {/* Star */}
             <svg 
               width="80" 
               height="80" 
               viewBox="0 0 24 24" 
               fill="none"
-              className="transition-all duration-300 group-hover:scale-125"
+              className="relative z-10 transition-all duration-300 group-hover:scale-125"
               style={{
                 animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite, float 3s ease-in-out infinite'
               }}
