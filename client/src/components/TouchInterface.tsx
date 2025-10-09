@@ -237,43 +237,50 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
         <button
           data-testid="button-ai-tan-face-recognition"
           className="
-            group relative h-[80px] w-[280px]
+            group relative h-[160px] w-[280px]
             bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
             border-2
             rounded-md backdrop-blur-sm
-            flex items-center justify-between gap-2
+            flex flex-col items-center justify-center gap-4
             transition-all duration-150 ease-in-out
             hover-elevate active-elevate-2
-            pr-3 pl-6 text-xl font-bold
-            transform perspective-1000
+            text-xl font-bold
           "
           style={{
             borderColor: 'rgba(236, 72, 153, 0.6)',
-            boxShadow: '0 8px 20px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.1)',
-            transform: 'rotateX(5deg) rotateY(-2deg)',
-            transformStyle: 'preserve-3d'
+            boxShadow: '0 8px 20px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.1)'
           }}
           onMouseEnter={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 1)'}
           onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.6)'}
           onClick={() => navigate('/self-service')}
         >
-          <img 
-            src={selfServiceIcon} 
-            alt="שירות עצמי" 
-            className="w-28 h-28 object-contain transition-all duration-150 group-hover:scale-110 group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
-            style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }}
-          />
-          <div className="flex items-center">
-            <span className="text-sm font-medium text-white text-center font-hebrew">שירות עצמי 24/7</span>
+          {/* Blue Neon Star */}
+          <div className="relative">
+            <svg 
+              width="80" 
+              height="80" 
+              viewBox="0 0 24 24" 
+              fill="none"
+              className="transition-all duration-300 group-hover:scale-110"
+            >
+              <path
+                d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+                fill="rgba(59, 130, 246, 0.8)"
+                stroke="rgba(59, 130, 246, 1)"
+                strokeWidth="0.5"
+                style={{
+                  filter: 'drop-shadow(0 0 20px rgba(59, 130, 246, 1)) drop-shadow(0 0 40px rgba(59, 130, 246, 0.8)) drop-shadow(0 0 60px rgba(59, 130, 246, 0.6))'
+                }}
+              />
+            </svg>
           </div>
+          
+          <span className="text-base font-medium text-white text-center font-hebrew">שירות עצמי 24/7</span>
           
           {/* Ripple effect */}
-          <div className="absolute inset-0 rounded-md overflow-hidden">
+          <div className="absolute inset-0 rounded-md overflow-hidden pointer-events-none">
             <div className="absolute inset-0 bg-gradient-radial from-pink-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </div>
-          
-          {/* 3D highlight */}
-          <div className="absolute inset-0 rounded-md border border-white/10 pointer-events-none" />
         </button>
         </div>
       </div>
