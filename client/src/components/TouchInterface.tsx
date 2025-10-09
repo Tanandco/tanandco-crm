@@ -38,7 +38,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
   const services = [
     { 
       title: 'מיטות שיזוף', 
-      icon: <img src={tanningBedIcon} alt="מיטות שיזוף" className="w-44 h-44 object-contain -mt-4" style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }} />, 
+      icon: <img src={tanningBedIcon} alt="מיטות שיזוף" className="w-48 h-48 object-contain -mt-6" style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }} />, 
       id: 'sun-beds' 
     },
     { 
