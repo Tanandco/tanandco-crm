@@ -355,6 +355,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
               <path
                 d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
                 fill="url(#star3DGradient)"
+                fillOpacity="0.9"
                 stroke="rgba(236, 72, 153, 1)"
                 strokeWidth="1.5"
                 filter="url(#glow)"
@@ -362,6 +363,20 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
                   filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8)) drop-shadow(0 0 40px rgba(236, 72, 153, 0.8)) drop-shadow(0 0 60px rgba(236, 72, 153, 0.8)) drop-shadow(0 4px 20px rgba(0, 0, 0, 0.5))'
                 }}
               />
+              
+              {/* Glass reflection overlay - top highlight */}
+              <path
+                d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+                fill="url(#glassHighlight)"
+                opacity="0.4"
+              />
+              
+              <defs>
+                <linearGradient id="glassHighlight" x1="12" y1="2" x2="12" y2="12">
+                  <stop offset="0%" stopColor="white" stopOpacity="0.8" />
+                  <stop offset="100%" stopColor="white" stopOpacity="0" />
+                </linearGradient>
+              </defs>
             </svg>
           </div>
           
