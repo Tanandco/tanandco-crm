@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useLocation } from 'wouter';
-import { Home, Star, Search, Sparkles, Settings, Users, Package } from 'lucide-react';
+import { Home, Star, Search, Sparkles, Settings, Users, Package, Smartphone } from 'lucide-react';
 import Logo from './Logo';
 import ServiceCard from './ServiceCard';
 import StatusDisplay from './StatusDisplay';
@@ -259,35 +259,17 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
           }}
           onClick={() => navigate('/self-service')}
         >
-          {/* Blue Neon Star */}
+          {/* Blue Neon Phone Icon */}
           <div className="relative">
-            <svg 
-              width="80" 
-              height="80" 
-              viewBox="0 0 24 24" 
-              fill="none"
+            <Smartphone 
+              size={80}
               className="transition-all duration-300 group-hover:scale-125"
-            >
-              <defs>
-                <filter id="glow">
-                  <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                  <feMerge>
-                    <feMergeNode in="coloredBlur"/>
-                    <feMergeNode in="SourceGraphic"/>
-                  </feMerge>
-                </filter>
-              </defs>
-              <path
-                d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
-                fill="rgba(96, 165, 250, 1)"
-                stroke="rgba(59, 130, 246, 1)"
-                strokeWidth="1"
-                filter="url(#glow)"
-                style={{
-                  filter: 'drop-shadow(0 0 30px rgba(59, 130, 246, 1)) drop-shadow(0 0 60px rgba(59, 130, 246, 1)) drop-shadow(0 0 90px rgba(59, 130, 246, 0.8)) drop-shadow(0 0 120px rgba(59, 130, 246, 0.6))'
-                }}
-              />
-            </svg>
+              style={{
+                color: 'rgba(96, 165, 250, 1)',
+                strokeWidth: '1.5',
+                filter: 'drop-shadow(0 0 30px rgba(59, 130, 246, 1)) drop-shadow(0 0 60px rgba(59, 130, 246, 1)) drop-shadow(0 0 90px rgba(59, 130, 246, 0.8)) drop-shadow(0 0 120px rgba(59, 130, 246, 0.6))'
+              }}
+            />
           </div>
           
           <span className="text-base font-medium text-white text-center font-hebrew group-hover:text-blue-100 transition-colors">שירות עצמי 24/7</span>
