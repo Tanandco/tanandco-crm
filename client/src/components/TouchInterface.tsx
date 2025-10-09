@@ -39,32 +39,32 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
   const services = [
     { 
       title: 'מיטות שיזוף', 
-      icon: <img src={tanningBedIcon} alt="מיטות שיזוף" className="w-14 md:w-28 h-14 md:h-28 object-contain -mt-1 md:-mt-4" style={{ filter: 'drop-shadow(0 0 15px rgba(236, 72, 153, 0.8))' }} />, 
+      icon: <img src={tanningBedIcon} alt="מיטות שיזוף" className="max-w-[56px] max-h-[56px] md:max-w-[112px] md:max-h-[112px] object-contain" style={{ filter: 'drop-shadow(0 0 15px rgba(236, 72, 153, 0.8))' }} />, 
       id: 'sun-beds' 
     },
     { 
       title: 'שיזוף בהתזה', 
-      icon: <img src={sprayTanIcon} alt="שיזוף בהתזה" className="w-12 md:w-22 h-12 md:h-22 object-contain" style={{ filter: 'drop-shadow(0 0 15px rgba(236, 72, 153, 0.8))' }} />, 
+      icon: <img src={sprayTanIcon} alt="שיזוף בהתזה" className="max-w-[56px] max-h-[56px] md:max-w-[112px] md:max-h-[112px] object-contain" style={{ filter: 'drop-shadow(0 0 15px rgba(236, 72, 153, 0.8))' }} />, 
       id: 'spray-tan' 
     },
     { 
       title: 'מספרה', 
-      icon: <img src={hairSalonIcon} alt="מספרה" className="w-14 md:w-24 h-14 md:h-24 object-contain" style={{ filter: 'drop-shadow(0 0 15px rgba(236, 72, 153, 0.8))' }} />, 
+      icon: <img src={hairSalonIcon} alt="מספרה" className="max-w-[56px] max-h-[56px] md:max-w-[112px] md:max-h-[112px] object-contain" style={{ filter: 'drop-shadow(0 0 15px rgba(236, 72, 153, 0.8))' }} />, 
       id: 'hair-salon' 
     },
     { 
       title: 'קוסמטיקה', 
-      icon: <img src={cosmeticsIcon} alt="קוסמטיקה" className="w-14 md:w-24 h-14 md:h-24 object-contain mt-1 md:mt-3" style={{ filter: 'drop-shadow(0 0 15px rgba(236, 72, 153, 0.8))' }} />, 
+      icon: <img src={cosmeticsIcon} alt="קוסמטיקה" className="max-w-[56px] max-h-[56px] md:max-w-[112px] md:max-h-[112px] object-contain" style={{ filter: 'drop-shadow(0 0 15px rgba(236, 72, 153, 0.8))' }} />, 
       id: 'cosmetics' 
     },
     { 
       title: 'החנות שלכם', 
-      icon: <img src={storeIcon} alt="החנות שלכם" className="w-12 md:w-22 h-12 md:h-22 object-contain" style={{ filter: 'drop-shadow(0 0 15px rgba(236, 72, 153, 0.8))' }} />, 
+      icon: <img src={storeIcon} alt="החנות שלכם" className="max-w-[56px] max-h-[56px] md:max-w-[112px] md:max-h-[112px] object-contain" style={{ filter: 'drop-shadow(0 0 15px rgba(236, 72, 153, 0.8))' }} />, 
       id: 'your-store' 
     },
     { 
       title: 'AI TAN', 
-      icon: <div className="-mt-4 md:-mt-10 -mb-4 md:-mb-8 scale-[0.6] md:scale-100"><Alin size={90} className="md:w-[130px] md:h-[130px]" /></div>, 
+      icon: <Alin size={72} className="w-[72px] h-[72px] md:w-[140px] md:h-[140px]" />, 
       id: 'ai-tan' 
     },
   ];

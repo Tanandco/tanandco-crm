@@ -6,6 +6,9 @@ interface AlinProps {
 }
 
 export default function Alin({ className = "", size = 20 }: AlinProps) {
+  // If className contains width/height, use it; otherwise use size prop
+  const hasCustomSize = className.includes('w-[') || className.includes('h-[');
+  
   return (
     <div className={`relative inline-block ${className}`} data-testid="alin-chatbot">
       <img 
@@ -13,8 +16,7 @@ export default function Alin({ className = "", size = 20 }: AlinProps) {
         alt="אלין הצ'טבוט"
         className="object-contain"
         style={{
-          width: `${size}px`,
-          height: `${size}px`,
+          ...(!hasCustomSize && { width: `${size}px`, height: `${size}px` }),
           filter: 'drop-shadow(0 0 15px rgba(236, 72, 153, 0.8))'
         }}
       />
