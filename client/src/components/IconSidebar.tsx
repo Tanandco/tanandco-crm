@@ -1,10 +1,24 @@
 import { Link, useLocation } from 'wouter';
-import { MessageCircle, DoorOpen, BarChart3, UserPlus, Fingerprint, ShoppingCart } from 'lucide-react';
+import { MessageCircle, DoorOpen, BarChart3, UserPlus, Fingerprint, ShoppingCart, Home, Settings } from 'lucide-react';
 
 export default function IconSidebar() {
   const [location] = useLocation();
 
   const navItems = [
+    {
+      icon: Home,
+      path: '/',
+      label: 'בית',
+      testId: 'nav-home',
+      iconColor: 'text-blue-400',
+      iconHover: 'group-hover:text-blue-300',
+      activeBg: 'bg-gradient-to-br from-blue-500/30 to-blue-500/20',
+      activeBorder: 'border-blue-500/60',
+      hoverBorder: 'hover:border-blue-500/40',
+      tooltipBorder: 'border-blue-500/30',
+      tooltipText: 'text-blue-200',
+      indicator: 'bg-gradient-to-b from-blue-500 to-blue-600'
+    },
     {
       icon: ShoppingCart,
       path: '/pos',
@@ -88,6 +102,20 @@ export default function IconSidebar() {
       tooltipBorder: 'border-pink-500/30',
       tooltipText: 'text-amber-200',
       indicator: 'bg-gradient-to-b from-pink-500 to-pink-600'
+    },
+    {
+      icon: Settings,
+      path: '/products',
+      label: 'הגדרות',
+      testId: 'nav-settings',
+      iconColor: 'text-blue-400',
+      iconHover: 'group-hover:text-blue-300',
+      activeBg: 'bg-gradient-to-br from-blue-500/30 to-blue-500/20',
+      activeBorder: 'border-blue-500/60',
+      hoverBorder: 'hover:border-blue-500/40',
+      tooltipBorder: 'border-blue-500/30',
+      tooltipText: 'text-blue-200',
+      indicator: 'bg-gradient-to-b from-blue-500 to-blue-600'
     },
   ];
 
