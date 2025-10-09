@@ -196,7 +196,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                   onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.6)'}
                   data-testid={(option as any).testId || `action-tile-${index}`}
                 >
-                <div className="flex-1 flex items-center justify-center transition-all duration-150 group-hover:scale-110">
+                <div className="h-28 flex items-center justify-center transition-all duration-150 group-hover:scale-110">
                   {option.iconType === 'image' ? (
                     <img 
                       src={option.icon as string}
@@ -221,7 +221,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                     />
                   )}
                 </div>
-                <span className="text-sm font-medium text-white text-center font-hebrew px-2">
+                <span className="text-sm font-medium text-white text-center font-hebrew px-2 mt-2">
                   {option.title}
                 </span>
                 
