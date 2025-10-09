@@ -238,7 +238,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
           data-testid="button-ai-tan-face-recognition"
           className="
             group relative h-[160px] w-[280px]
-            bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
+            bg-gradient-to-br from-pink-900/30 via-pink-800/20 to-purple-900/30
             border-2
             rounded-md backdrop-blur-sm
             flex flex-col items-center justify-center gap-4
@@ -249,7 +249,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
           "
           style={{
             borderColor: 'rgba(236, 72, 153, 0.6)',
-            boxShadow: '0 12px 30px rgba(0, 0, 0, 0.5), 0 0 60px rgba(59, 130, 246, 0.3), inset 0 2px 4px rgba(255, 255, 255, 0.1)',
+            boxShadow: '0 12px 30px rgba(0, 0, 0, 0.5), 0 0 60px rgba(236, 72, 153, 0.3), inset 0 2px 4px rgba(255, 255, 255, 0.1)',
             transform: 'perspective(1000px) rotateX(2deg)',
             transformStyle: 'preserve-3d'
           }}
@@ -295,27 +295,17 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
                 }}
               />
             </svg>
-            
-            {/* Animated rings around star */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div 
-                className="w-24 h-24 border-2 border-blue-400/30 rounded-full"
-                style={{
-                  animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite'
-                }}
-              />
-            </div>
           </div>
           
           <span className="text-base font-medium text-white text-center font-hebrew group-hover:text-blue-100 transition-colors">שירות עצמי 24/7</span>
           
           {/* Ripple effect */}
           <div className="absolute inset-0 rounded-md overflow-hidden pointer-events-none">
-            <div className="absolute inset-0 bg-gradient-radial from-blue-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <div className="absolute inset-0 bg-gradient-radial from-pink-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </div>
           
           {/* 3D Depth effect */}
-          <div className="absolute inset-0 rounded-md border border-blue-400/20 pointer-events-none" style={{ transform: 'translateZ(10px)' }} />
+          <div className="absolute inset-0 rounded-md border border-pink-400/20 pointer-events-none" style={{ transform: 'translateZ(10px)' }} />
         </button>
         </div>
         
