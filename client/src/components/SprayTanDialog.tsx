@@ -1,4 +1,5 @@
-import { ArrowLeft, Droplets, Sparkles, Share2 } from 'lucide-react';
+import { useState } from 'react';
+import { ArrowLeft, Droplets, Sparkles, Share2, Calendar, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 
 interface SprayTanDialogProps {
@@ -7,7 +8,39 @@ interface SprayTanDialogProps {
 }
 
 export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogProps) {
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [currentMonth, setCurrentMonth] = useState(new Date());
+
   if (!open) return null;
+
+  // Calendar helpers
+  const getDaysInMonth = (date: Date) => {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const daysInMonth = lastDay.getDate();
+    const startDayOfWeek = firstDay.getDay();
+    
+    return { daysInMonth, startDayOfWeek };
+  };
+
+  const getMonthName = (date: Date) => {
+    const hebrewMonths = [
+      'ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני',
+      'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר'
+    ];
+    return hebrewMonths[date.getMonth()];
+  };
+
+  const getDayName = (dayIndex: number) => {
+    const hebrewDays = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ש'];
+    return hebrewDays[dayIndex];
+  };
+
+  const { daysInMonth, startDayOfWeek } = getDaysInMonth(currentMonth);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto">
@@ -65,37 +98,6 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
 
       {/* Content Section */}
       <div className="relative w-full max-w-4xl mt-32 px-4">
-        {/* Pricing Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
-          {[
-            { title: 'התזה בודדת', price: '₪170', sessions: '1 טיפול', badge: null, special: false },
-            { title: 'חבילת 3 התזות', price: '₪450', sessions: '3 טיפולים', badge: 'חיסכון ₪60', special: false },
-            { title: 'חבילת 6 התזות', price: '₪800', sessions: '6 טיפולים', badge: 'חיסכון ₪220', special: false },
-            { title: 'שירות עד הבית', price: '₪350', sessions: 'טיפול מקצועי בנוחות הבית', badge: null, special: false },
-            { title: 'חבילת כלה', price: '₪320', sessions: '2 טיפולים + שירות', badge: 'מיוחד', special: true },
-          ].map((item, index) => (
-            <div
-              key={index}
-              className={`group relative ${item.special ? 'bg-gradient-to-br from-pink-900/30 via-purple-900/30 to-black' : 'bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90'} border rounded-md p-4 hover-elevate active-elevate-2 transition-all`}
-              style={{
-                borderColor: item.special ? 'rgba(236, 72, 153, 1)' : 'rgba(236, 72, 153, 0.6)',
-                boxShadow: item.special ? '0 0 25px rgba(236, 72, 153, 0.5)' : '0 4px 12px rgba(0, 0, 0, 0.3)'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 1)'}
-              onMouseLeave={(e) => e.currentTarget.style.borderColor = item.special ? 'rgba(236, 72, 153, 1)' : 'rgba(236, 72, 153, 0.6)'}
-            >
-              {item.badge && (
-                <div className="absolute -top-2 -right-2 bg-pink-500 text-white text-xs px-2 py-1 rounded-full font-bold" style={{ boxShadow: '0 0 15px rgba(236, 72, 153, 0.6)' }}>
-                  {item.badge}
-                </div>
-              )}
-              <h3 className="text-white font-bold text-lg mb-2 font-hebrew text-center">{item.title}</h3>
-              <p className="text-pink-400 font-bold text-2xl mb-1 text-center" style={{ filter: 'drop-shadow(0 0 10px rgba(236, 72, 153, 0.6))' }}>{item.price}</p>
-              <p className="text-gray-300 text-sm font-hebrew text-center">{item.sessions}</p>
-            </div>
-          ))}
-        </div>
-
         {/* Info Text */}
         <div className="bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border rounded-md p-6 mb-8" style={{ borderColor: 'rgba(236, 72, 153, 0.6)' }}>
           <p className="text-white text-center font-hebrew leading-relaxed mb-4">
@@ -145,6 +147,140 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
               <li>גוון ברונזה תוך 2-4 שעות</li>
             </ol>
           </div>
+        </div>
+
+        {/* Pricing Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
+          {[
+            { title: 'התזה בודדת', price: '₪170', sessions: '1 טיפול', badge: null, special: false },
+            { title: 'חבילת 3 התזות', price: '₪450', sessions: '3 טיפולים', badge: 'חיסכון ₪60', special: false },
+            { title: 'חבילת 6 התזות', price: '₪800', sessions: '6 טיפולים', badge: 'חיסכון ₪220', special: false },
+            { title: 'שירות עד הבית', price: '₪350', sessions: 'טיפול מקצועי בנוחות הבית', badge: null, special: false },
+            { title: 'חבילת כלה', price: '₪320', sessions: '2 טיפולים + שירות', badge: 'מיוחד', special: true },
+          ].map((item, index) => (
+            <div
+              key={index}
+              className={`group relative ${item.special ? 'bg-gradient-to-br from-pink-900/30 via-purple-900/30 to-black' : 'bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90'} border rounded-md p-4 hover-elevate active-elevate-2 transition-all`}
+              style={{
+                borderColor: item.special ? 'rgba(236, 72, 153, 1)' : 'rgba(236, 72, 153, 0.6)',
+                boxShadow: item.special ? '0 0 25px rgba(236, 72, 153, 0.5)' : '0 4px 12px rgba(0, 0, 0, 0.3)'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 1)'}
+              onMouseLeave={(e) => e.currentTarget.style.borderColor = item.special ? 'rgba(236, 72, 153, 1)' : 'rgba(236, 72, 153, 0.6)'}
+              data-testid={`pricing-card-${index}`}
+            >
+              {item.badge && (
+                <div className="absolute -top-2 -right-2 bg-pink-500 text-white text-xs px-2 py-1 rounded-full font-bold" style={{ boxShadow: '0 0 15px rgba(236, 72, 153, 0.6)' }}>
+                  {item.badge}
+                </div>
+              )}
+              <h3 className="text-white font-bold text-lg mb-2 font-hebrew text-center">{item.title}</h3>
+              <p className="text-pink-400 font-bold text-2xl mb-1 text-center" style={{ filter: 'drop-shadow(0 0 10px rgba(236, 72, 153, 0.6))' }}>{item.price}</p>
+              <p className="text-gray-300 text-sm font-hebrew text-center">{item.sessions}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Appointment Calendar */}
+        <div className="bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border rounded-md p-6 mb-8" style={{ borderColor: 'rgba(236, 72, 153, 0.6)' }}>
+          <div className="flex items-center justify-between mb-6">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => {
+                const newMonth = new Date(currentMonth);
+                newMonth.setMonth(newMonth.getMonth() + 1);
+                setCurrentMonth(newMonth);
+              }}
+              className="text-white hover:text-pink-400"
+              data-testid="button-next-month"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </Button>
+            
+            <div className="flex items-center gap-3">
+              <Calendar className="w-6 h-6 text-pink-400" style={{ filter: 'drop-shadow(0 0 10px rgba(236, 72, 153, 0.6))' }} />
+              <h3 className="text-2xl font-bold text-white font-hebrew">
+                קביעת תור - {getMonthName(currentMonth)} {currentMonth.getFullYear()}
+              </h3>
+            </div>
+
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => {
+                const newMonth = new Date(currentMonth);
+                newMonth.setMonth(newMonth.getMonth() - 1);
+                setCurrentMonth(newMonth);
+              }}
+              className="text-white hover:text-pink-400"
+              data-testid="button-prev-month"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </Button>
+          </div>
+
+          {/* Day names */}
+          <div className="grid grid-cols-7 gap-2 mb-4">
+            {['ש', 'ו', 'ה', 'ד', 'ג', 'ב', 'א'].map((day, index) => (
+              <div key={index} className="text-center text-pink-400 font-bold text-sm font-hebrew">
+                {day}
+              </div>
+            ))}
+          </div>
+
+          {/* Calendar Grid */}
+          <div className="grid grid-cols-7 gap-2">
+            {/* Empty cells for days before month starts */}
+            {Array.from({ length: (7 - startDayOfWeek) % 7 }).map((_, index) => (
+              <div key={`empty-${index}`} className="aspect-square" />
+            ))}
+            
+            {/* Days of the month */}
+            {Array.from({ length: daysInMonth }).map((_, index) => {
+              const day = index + 1;
+              const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
+              date.setHours(0, 0, 0, 0);
+              const isPast = date < today;
+              const isSelected = selectedDate?.getTime() === date.getTime();
+              const isToday = date.getTime() === today.getTime();
+
+              return (
+                <button
+                  key={day}
+                  onClick={() => !isPast && setSelectedDate(date)}
+                  disabled={isPast}
+                  className={`
+                    aspect-square rounded-md flex items-center justify-center font-hebrew text-sm transition-all
+                    ${isPast ? 'text-gray-600 cursor-not-allowed' : 'text-white hover-elevate active-elevate-2 cursor-pointer'}
+                    ${isSelected ? 'bg-pink-500 border-2 border-pink-400' : 'bg-gray-800/50 border border-gray-700'}
+                    ${isToday && !isSelected ? 'border-pink-400/50' : ''}
+                  `}
+                  style={isSelected ? { 
+                    boxShadow: '0 0 20px rgba(236, 72, 153, 0.6)',
+                    filter: 'drop-shadow(0 0 10px rgba(236, 72, 153, 0.4))'
+                  } : {}}
+                  data-testid={`calendar-day-${day}`}
+                >
+                  {day}
+                </button>
+              );
+            })}
+          </div>
+
+          {selectedDate && (
+            <div className="mt-6 p-4 bg-pink-500/20 border border-pink-500/50 rounded-md">
+              <p className="text-white font-hebrew text-center">
+                תאריך נבחר: {selectedDate.getDate()} {getMonthName(selectedDate)} {selectedDate.getFullYear()}
+              </p>
+              <Button
+                className="w-full mt-4 bg-pink-500 hover:bg-pink-600 text-white font-hebrew"
+                data-testid="button-confirm-appointment"
+              >
+                אישור תור
+              </Button>
+            </div>
+          )}
         </div>
 
         {/* Solution Types */}
