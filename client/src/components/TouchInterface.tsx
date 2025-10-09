@@ -112,16 +112,16 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
       data-testid="touch-interface"
     >
       {/* Main Content */}
-      <div className="relative z-10 mx-auto max-w-[1280px] w-full px-6 py-6 flex flex-col items-center flex-1">
+      <div className="relative z-10 mx-auto max-w-[1280px] w-full px-3 md:px-6 py-3 md:py-6 flex flex-col items-center flex-1">
         {/* Top Buttons - Management */}
-        <div className="flex gap-4 mb-4 w-full justify-center">
+        <div className="flex gap-2 md:gap-4 mb-3 md:mb-4 w-full justify-center">
           <button
             className="
-              group relative h-[48px] px-6
+              group relative h-10 md:h-12 px-3 md:px-6
               bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
               border hover:border-2
               rounded-md backdrop-blur-sm
-              flex items-center justify-center gap-2
+              flex items-center justify-center gap-1 md:gap-2
               transition-all duration-300 ease-in-out
               hover-elevate active-elevate-2
             "
@@ -136,12 +136,12 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
           >
             <Users 
               className="text-pink-400 group-hover:text-pink-300 transition-colors duration-300"
-              size={20}
+              size={16}
               style={{
                 filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))'
               }}
             />
-            <span className="text-white font-hebrew">לקוחות</span>
+            <span className="text-white font-hebrew text-sm md:text-base">לקוחות</span>
             
             <div className="absolute inset-0 rounded-md overflow-hidden">
               <div className="absolute inset-0 bg-gradient-radial from-pink-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -150,11 +150,11 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
 
           <button
             className="
-              group relative h-[48px] px-6
+              group relative h-10 md:h-12 px-3 md:px-6
               bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
               border hover:border-2
               rounded-md backdrop-blur-sm
-              flex items-center justify-center gap-2
+              flex items-center justify-center gap-1 md:gap-2
               transition-all duration-300 ease-in-out
               hover-elevate active-elevate-2
             "
@@ -169,12 +169,12 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
           >
             <Search 
               className="text-pink-400 group-hover:text-pink-300 transition-colors duration-300"
-              size={20}
+              size={16}
               style={{
                 filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))'
               }}
             />
-            <span className="text-white font-hebrew">חיפוש</span>
+            <span className="text-white font-hebrew text-sm md:text-base">חיפוש</span>
             
             <div className="absolute inset-0 rounded-md overflow-hidden">
               <div className="absolute inset-0 bg-gradient-radial from-pink-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -183,11 +183,11 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
           
           <button
             className="
-              group relative h-[48px] px-6
+              group relative h-10 md:h-12 px-3 md:px-6
               bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
               border hover:border-2
               rounded-md backdrop-blur-sm
-              flex items-center justify-center gap-2
+              flex items-center justify-center gap-1 md:gap-2
               transition-all duration-300 ease-in-out
               hover-elevate active-elevate-2
             "
@@ -203,12 +203,12 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
             <img 
               src={newCustomerIcon} 
               alt="לקוח חדש" 
-              className="w-5 h-5 object-contain transition-all duration-300"
+              className="w-4 h-4 md:w-5 md:h-5 object-contain transition-all duration-300"
               style={{
                 filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))'
               }}
             />
-            <span className="text-white font-hebrew">הרשמה</span>
+            <span className="text-white font-hebrew text-sm md:text-base">הרשמה</span>
             
             <div className="absolute inset-0 rounded-md overflow-hidden">
               <div className="absolute inset-0 bg-gradient-radial from-pink-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
