@@ -261,11 +261,11 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
           onClick={() => navigate('/self-service')}
         >
           {/* Neon Touch Button Icon */}
-          <div className="relative">
+          <div className="relative overflow-visible">
             <img 
               src={selfServiceButtonIcon} 
               alt="Self Service" 
-              className="w-20 h-20 object-contain transition-all duration-300 group-hover:scale-110"
+              className="w-24 h-24 object-contain transition-all duration-300 group-hover:scale-110"
               style={{
                 filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.6)) drop-shadow(0 0 40px rgba(59, 130, 246, 0.4))'
               }}
