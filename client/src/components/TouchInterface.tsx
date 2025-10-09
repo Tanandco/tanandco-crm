@@ -239,7 +239,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
           data-testid="button-ai-tan-face-recognition"
           className="
             group relative
-            flex flex-col items-center justify-center gap-3
+            flex flex-col items-center justify-center
             transition-all duration-300 ease-in-out
             text-xl font-bold
             hover:scale-105
