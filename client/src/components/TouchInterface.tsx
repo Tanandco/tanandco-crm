@@ -243,9 +243,11 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
             transition-all duration-300 ease-in-out
             text-xl font-bold
             hover:scale-105
+            animate-float
           "
           style={{
-            filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.5)) drop-shadow(0 0 40px rgba(236, 72, 153, 0.4)) drop-shadow(0 0 60px rgba(236, 72, 153, 0.3))'
+            filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.5)) drop-shadow(0 0 40px rgba(236, 72, 153, 0.4)) drop-shadow(0 0 60px rgba(236, 72, 153, 0.3))',
+            animation: 'float 3s ease-in-out infinite'
           }}
           onClick={() => navigate('/self-service')}
         >
