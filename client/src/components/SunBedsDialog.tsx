@@ -3,11 +3,13 @@ import { useLocation } from 'wouter';
 import { ArrowLeft, X, Lightbulb } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useQuery } from '@tanstack/react-query';
+import { useToast } from '@/hooks/use-toast';
 import AlinChatBox from "@/components/AlinChatBox";
 import Alin from "@/components/Alin";
 import { NewClientDialog } from "@/components/NewClientDialog";
 import { PurchaseOverlay } from "@/components/PurchaseOverlay";
-import TanningProductCarousel from "@/components/TanningProductCarousel";
+import ZenCarousel from "@/components/ZenCarousel";
 import CustomerSearchDialog from "@/components/CustomerSearchDialog";
 import searchIcon from '@assets/3_1759474572534.png';
 import bronzerIcon from '@assets/4_1759474624696.png';
@@ -21,10 +23,44 @@ interface SunBedsDialogProps {
 
 export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps) {
   const [, navigate] = useLocation();
+  const { toast } = useToast();
   const [showPricingOverlay, setShowPricingOverlay] = useState(false);
   const [showNewClientDialog, setShowNewClientDialog] = useState(false);
   const [showProductCarousel, setShowProductCarousel] = useState(false);
   const [showCustomerSearch, setShowCustomerSearch] = useState(false);
+
+  // Fetch bed bronzer products for carousel
+  const { data: bedBronzers, isLoading: loadingBedBronzers } = useQuery<any[]>({
+    queryKey: ['/api/products', { tanningType: 'bed-bronzer' }],
+    queryFn: async () => {
+      const res = await fetch(`/api/products?tanningType=bed-bronzer`, { cache: 'no-store' });
+      if (!res.ok) throw new Error('Failed to fetch bed bronzers');
+      return res.json();
+    },
+    enabled: showProductCarousel,
+  });
+
+  // Transform bed bronzer products for ZenCarousel
+  const bedBronzerProducts = bedBronzers?.filter(p => p.is_featured || p.isFeatured).map((p) => ({
+    id: p.id,
+    name: p.name_he || p.nameHe || p.name,
+    price: parseFloat(p.sale_price || p.salePrice || p.price),
+    image: p.images?.[0] || 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=500&q=80',
+    images: p.images || [],
+    category: (p.brand && p.brand !== 'OTHER') ? p.brand : 'ברונזרים למיטות שיזוף',
+    description: p.description_he || p.descriptionHe || p.description,
+    badge: p.badge,
+    bronzerStrength: p.bronzer_strength || p.bronzerStrength,
+  })) || [];
+
+  const handleAddToCart = (productId: string) => {
+    const product = bedBronzerProducts.find(p => p.id === productId);
+    toast({
+      title: '✨ נוסף!',
+      description: `${product?.name} נוסף בהצלחה`,
+      duration: 2000,
+    });
+  };
 
   if (!open) return null;
 
@@ -257,24 +293,35 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
 
       {/* Product Carousel */}
       {showProductCarousel && (
-        <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-sm flex items-center justify-center p-4 overflow-auto">
-          <div className="relative w-full max-w-5xl max-h-[80vh]">
+        <div className="fixed inset-0 z-50 bg-gradient-to-br from-slate-950 via-purple-950/30 to-slate-950 backdrop-blur-sm flex items-center justify-center p-4 overflow-auto" dir="rtl">
+          <div className="relative w-full max-w-5xl">
             <Button 
               onClick={() => setShowProductCarousel(false)} 
               variant="outline" 
               size="lg" 
-              className="absolute top-4 right-4 z-10 bg-white/10 border-white/20 text-white"
+              className="absolute top-4 right-4 z-10 bg-white/10 border-white/20 text-white hover:bg-white/20"
               data-testid="button-close-carousel"
             >
               <X className="w-6 h-6 ml-2" />
               סגור
             </Button>
-            <div className="h-full overflow-y-auto">
-              <TanningProductCarousel 
-                onAddToCart={(productId) => {
-                  // Add your cart logic here
-                }} 
-              />
+            
+            {/* Carousel Title */}
+            <h2 className="text-xl md:text-2xl font-semibold text-center mt-6 mb-8 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
+              ברונזרים למיטות שיזוף
+            </h2>
+            
+            <div className="mt-12">
+              {bedBronzerProducts.length > 0 ? (
+                <ZenCarousel 
+                  products={bedBronzerProducts} 
+                  onAddToCart={handleAddToCart}
+                />
+              ) : (
+                <div className="text-center py-12">
+                  <p className="text-white">טוען מוצרים...</p>
+                </div>
+              )}
             </div>
           </div>
         </div>
