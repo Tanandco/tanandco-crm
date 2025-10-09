@@ -11,7 +11,6 @@ import TanningProductCarousel from "@/components/TanningProductCarousel";
 import CustomerSearchDialog from "@/components/CustomerSearchDialog";
 import searchIcon from '@assets/3_1759474572534.png';
 import bronzerIcon from '@assets/4_1759474624696.png';
-import signup247Icon from '@assets/1_1759474644978.png';
 import packageIcon from '@assets/member-card-icon.png';
 import newCustomerIcon from '@assets/Dהורדותfreepik__spray-tan-variation-b-modern-flatbadge-3d-spray-gu__47717.png_1759805942437.png';
 
@@ -25,7 +24,6 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
   const [showPricingOverlay, setShowPricingOverlay] = useState(false);
   const [showNewClientDialog, setShowNewClientDialog] = useState(false);
   const [showProductCarousel, setShowProductCarousel] = useState(false);
-  const [showFaceRecognitionDialog, setShowFaceRecognitionDialog] = useState(false);
   const [showCustomerSearch, setShowCustomerSearch] = useState(false);
 
   if (!open) return null;
@@ -54,15 +52,6 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
       isFunction: false,
       onClick: () => {
         setShowCustomerSearch(true);
-      }
-    },
-    {
-      icon: signup247Icon,
-      iconType: 'image' as const,
-      title: "הרשמה לשירותי 24/7",
-      isFunction: false,
-      onClick: () => {
-        setShowFaceRecognitionDialog(true);
       }
     },
     {
@@ -284,65 +273,6 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                   // Add your cart logic here
                 }} 
               />
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Face Recognition Registration Dialog */}
-      {showFaceRecognitionDialog && (
-        <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="relative bg-gradient-to-br from-gray-900/95 via-black/90 to-gray-800/95 rounded-xl border border-primary/30 p-8 max-w-md w-full">
-            <Button 
-              onClick={() => setShowFaceRecognitionDialog(false)} 
-              variant="ghost" 
-              size="icon" 
-              className="absolute top-4 right-4 text-white"
-              data-testid="button-close-face-recognition"
-            >
-              <X className="w-6 h-6" />
-            </Button>
-            
-            <div className="text-center space-y-6">
-              <div className="w-20 h-20 mx-auto bg-primary/20 rounded-full flex items-center justify-center">
-                <img src={signup247Icon} alt="24/7" className="w-14 h-14 object-contain" />
-              </div>
-              
-              <div>
-                <h3 className="text-xl font-bold text-white mb-2">הרשמה לשירותי 24/7</h3>
-                <p className="text-gray-300 text-sm">
-                  הרשמה למערכת זיהוי פנים לכניסה עצמאית לאחר שעות הפעילות
-                </p>
-              </div>
-              
-              <div className="space-y-4">
-                <Input 
-                  placeholder="שם מלא" 
-                  className="bg-black/50 border-primary/30 text-white" 
-                  data-testid="input-full-name"
-                />
-                <Input 
-                  placeholder="מספר טלפון" 
-                  className="bg-black/50 border-primary/30 text-white"
-                  data-testid="input-phone"
-                />
-                <Input 
-                  placeholder="כתובת אימייל" 
-                  className="bg-black/50 border-primary/30 text-white"
-                  data-testid="input-email"
-                />
-              </div>
-              
-              <Button 
-                className="w-full bg-primary text-white font-bold"
-                data-testid="button-start-registration"
-              >
-                התחל הרשמה
-              </Button>
-              
-              <p className="text-xs text-gray-400 text-center">
-                ההרשמה כוללת צילום תמונה ואימות זהות
-              </p>
             </div>
           </div>
         </div>
