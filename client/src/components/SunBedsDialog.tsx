@@ -203,18 +203,18 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                       alt={option.title}
                       className={`${
                         option.title === "רכישת ברונזרים" || option.title === "חיפוש משתזף קיים"
-                          ? "w-20 h-20"
-                          : "w-24 h-24"
+                          ? "w-28 h-28"
+                          : "w-32 h-32"
                       } object-contain group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]`}
                       style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }}
                     />
                   ) : option.iconType === 'component' ? (
                     <div className="-mt-6">
-                      <option.icon size={160} />
+                      <option.icon size={180} />
                     </div>
                   ) : option.icon && !option.isFunction && (
                     <option.icon 
-                      className="w-24 h-24 text-pink-400 group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
+                      className="w-32 h-32 text-pink-400 group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
                       style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }}
                     />
                   )}
