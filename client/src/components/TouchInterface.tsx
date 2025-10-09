@@ -238,7 +238,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
           data-testid="button-ai-tan-face-recognition"
           className="
             group relative h-[160px] w-[280px]
-            bg-gradient-to-br from-pink-900/30 via-pink-800/20 to-purple-900/30
+            bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
             border-2
             rounded-md backdrop-blur-sm
             flex flex-col items-center justify-center gap-4
