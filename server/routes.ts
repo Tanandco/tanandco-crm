@@ -2275,6 +2275,126 @@ export function registerRoutes(app: express.Application) {
   });
 
   // ============================================================
+  // Seed Tanning Product Images
+  // ============================================================
+
+  app.post('/api/seed/tanning-products', async (req, res) => {
+    try {
+      const { products: productsTable } = await import('@shared/schema');
+
+      const tanningProducts = [
+        {
+          name: 'Thatso Spray Tan',
+          nameHe: 'תרסיס שיזוף Thatso',
+          description: 'Professional spray tan solution for instant bronzing',
+          descriptionHe: 'תרסיס שיזוף מקצועי להשמרה מיידית',
+          price: '180',
+          productType: 'product',
+          category: 'tanning',
+          brand: 'Thatso',
+          tanningType: 'self-tanning',
+          stock: 15,
+          isActive: true,
+          isFeatured: true,
+          images: ['https://i.ibb.co/7KXqH9y/Thatso-Spray.jpg'],
+          features: [
+            'תרסיס שיזוף מקצועי',
+            'תוצאה מיידית',
+            'נוסחה איכותית של Thatso',
+            'מתאים לכל סוגי העור'
+          ]
+        },
+        {
+          name: 'Jet Set Sun Tanning Lotion',
+          nameHe: 'Jet Set Sun - תחליב שיזוף',
+          description: 'Premium tanning lotion with sun-activated formula',
+          descriptionHe: 'תחליב שיזוף פרימיום עם נוסחה מופעלת שמש',
+          price: '150',
+          productType: 'product',
+          category: 'tanning',
+          brand: 'OTHER',
+          tanningType: 'bed-bronzer',
+          bronzerStrength: 8,
+          stock: 20,
+          isActive: true,
+          isFeatured: true,
+          images: ['https://i.ibb.co/9yHQcXy/Jet-Set-Sun.jpg'],
+          features: [
+            'נוסחה מופעלת שמש',
+            'מתאים למיטות שיזוף',
+            'חוזק ברונזר: 8',
+            'לחות עמוקה'
+          ]
+        },
+        {
+          name: 'Glam Body Extra Dark Bronzer',
+          nameHe: 'Glam Body - ברונזר כהה במיוחד',
+          description: 'Extra dark bronzing lotion for deep, long-lasting color',
+          descriptionHe: 'ברונזר כהה במיוחד לצבע עמוק ועמיד',
+          price: '200',
+          salePrice: '170',
+          productType: 'product',
+          category: 'tanning',
+          brand: 'OTHER',
+          tanningType: 'bed-bronzer',
+          bronzerStrength: 12,
+          stock: 10,
+          isActive: true,
+          isFeatured: true,
+          badge: 'bestseller',
+          images: ['https://i.ibb.co/7y4gZVL/Glam-Body-Extra-Dark.jpg'],
+          features: [
+            'ברונזר כהה במיוחד',
+            'חוזק ברונזר: 12',
+            'צבע עמוק ועמיד',
+            'מומלץ למשתמשים מנוסים'
+          ]
+        }
+      ];
+
+      const results = {
+        created: 0,
+        skipped: 0,
+        errors: [] as string[]
+      };
+
+      for (const product of tanningProducts) {
+        try {
+          // Check if product already exists
+          const existing = await db
+            .select()
+            .from(productsTable)
+            .where(eq(productsTable.nameHe, product.nameHe))
+            .limit(1);
+
+          if (existing.length > 0) {
+            results.skipped++;
+            continue;
+          }
+
+          // Insert product
+          await db.insert(productsTable).values(product);
+          results.created++;
+        } catch (error: any) {
+          results.errors.push(`Failed to create ${product.nameHe}: ${error.message}`);
+        }
+      }
+
+      res.json({
+        success: true,
+        data: results
+      });
+    } catch (error: any) {
+      console.error('Seed tanning products error:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to seed tanning products',
+        details: error.message
+      });
+    }
+  });
+
+  // ============================================================
   // BioStar Sync Endpoint
   // ============================================================
 
