@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { ArrowLeft, Droplets, Sparkles, Share2, Calendar, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from "@/components/ui/button";
-import sprayTanBg from '@assets/thatso spray_1759968021995.webp';
 
 interface SprayTanDialogProps {
   open: boolean;
@@ -54,27 +53,35 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
       <div className="min-h-screen flex flex-col items-center justify-start p-4 pb-20">
         {/* Back Button */}
       <div className="absolute top-6 right-6 z-30">
-        <Button
+        <button
           onClick={() => onOpenChange(false)}
-          variant="outline"
-          size="lg"
-          className="bg-white/10 border-white/20 text-white backdrop-blur-sm"
+          className="
+            group relative h-[52px] px-8
+            bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
+            border hover:border-2
+            rounded-md backdrop-blur-sm
+            flex items-center justify-center gap-3
+            transition-all duration-300 ease-in-out
+            hover-elevate active-elevate-2
+          "
+          style={{
+            borderColor: 'rgba(236, 72, 153, 0.6)',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 1)'}
+          onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.6)'}
           data-testid="button-back-spray-tan"
         >
-          <ArrowLeft className="w-5 h-5 ml-2" />
-          חזרה לשירות עצמי
-        </Button>
-      </div>
-
-      {/* Background Image Header - Full Width */}
-      <div className="absolute top-0 left-0 right-0 h-64 z-10 overflow-hidden">
-        <div 
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ 
-            backgroundImage: `url(${sprayTanBg})`,
-            opacity: 0.15
-          }}
-        />
+          <ArrowLeft 
+            className="w-5 h-5 text-pink-400 group-hover:text-pink-300 transition-colors duration-300" 
+            style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }}
+          />
+          <span className="text-white font-hebrew text-lg">חזרה לשירות עצמי</span>
+          
+          <div className="absolute inset-0 rounded-md overflow-hidden pointer-events-none">
+            <div className="absolute inset-0 bg-gradient-radial from-pink-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          </div>
+        </button>
       </div>
 
       {/* Welcome Header */}
@@ -179,19 +186,37 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
         {/* Appointment Calendar */}
         <div className="bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border rounded-md p-6 mb-8" style={{ borderColor: 'rgba(236, 72, 153, 0.6)' }}>
           <div className="flex items-center justify-between mb-6">
-            <Button
-              variant="ghost"
-              size="icon"
+            <button
               onClick={() => {
                 const newMonth = new Date(currentMonth);
                 newMonth.setMonth(newMonth.getMonth() + 1);
                 setCurrentMonth(newMonth);
               }}
-              className="text-white hover:text-pink-400"
+              className="
+                group relative w-12 h-12
+                bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
+                border hover:border-2
+                rounded-md
+                flex items-center justify-center
+                transition-all duration-300 ease-in-out
+                hover-elevate active-elevate-2
+              "
+              style={{
+                borderColor: 'rgba(236, 72, 153, 0.6)',
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 1)'}
+              onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.6)'}
               data-testid="button-next-month"
             >
-              <ChevronLeft className="w-6 h-6" />
-            </Button>
+              <ChevronLeft 
+                className="w-6 h-6 text-pink-400 group-hover:text-pink-300 transition-colors duration-300" 
+                style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }}
+              />
+              <div className="absolute inset-0 rounded-md overflow-hidden pointer-events-none">
+                <div className="absolute inset-0 bg-gradient-radial from-pink-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
+            </button>
             
             <div className="flex items-center gap-3">
               <Calendar className="w-6 h-6 text-pink-400" style={{ filter: 'drop-shadow(0 0 10px rgba(236, 72, 153, 0.6))' }} />
@@ -200,19 +225,37 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
               </h3>
             </div>
 
-            <Button
-              variant="ghost"
-              size="icon"
+            <button
               onClick={() => {
                 const newMonth = new Date(currentMonth);
                 newMonth.setMonth(newMonth.getMonth() - 1);
                 setCurrentMonth(newMonth);
               }}
-              className="text-white hover:text-pink-400"
+              className="
+                group relative w-12 h-12
+                bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
+                border hover:border-2
+                rounded-md
+                flex items-center justify-center
+                transition-all duration-300 ease-in-out
+                hover-elevate active-elevate-2
+              "
+              style={{
+                borderColor: 'rgba(236, 72, 153, 0.6)',
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 1)'}
+              onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.6)'}
               data-testid="button-prev-month"
             >
-              <ChevronRight className="w-6 h-6" />
-            </Button>
+              <ChevronRight 
+                className="w-6 h-6 text-pink-400 group-hover:text-pink-300 transition-colors duration-300" 
+                style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }}
+              />
+              <div className="absolute inset-0 rounded-md overflow-hidden pointer-events-none">
+                <div className="absolute inset-0 bg-gradient-radial from-pink-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
+            </button>
           </div>
 
           {/* Day names */}
@@ -246,18 +289,27 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
                   onClick={() => !isPast && setSelectedDate(date)}
                   disabled={isPast}
                   className={`
-                    h-10 rounded-md flex items-center justify-center font-hebrew text-sm transition-all
-                    ${isPast ? 'text-gray-600 cursor-not-allowed' : 'text-white hover-elevate active-elevate-2 cursor-pointer'}
-                    ${isSelected ? 'bg-pink-500 border-2 border-pink-400' : 'bg-gray-800/50 border border-gray-700'}
-                    ${isToday && !isSelected ? 'border-pink-400/50' : ''}
+                    group relative h-10 rounded-md flex items-center justify-center font-hebrew text-sm transition-all duration-300
+                    ${isPast ? 'text-gray-600 cursor-not-allowed bg-gray-900/30' : 'text-white hover-elevate active-elevate-2 cursor-pointer'}
+                    ${isSelected ? 'bg-pink-500 border-2 border-pink-400' : 'bg-gray-800/50 border'}
+                    ${isToday && !isSelected ? 'border-pink-400/50' : !isSelected ? 'border-gray-700' : ''}
                   `}
                   style={isSelected ? { 
                     boxShadow: '0 0 20px rgba(236, 72, 153, 0.6)',
                     filter: 'drop-shadow(0 0 10px rgba(236, 72, 153, 0.4))'
+                  } : !isPast ? {
+                    borderColor: 'rgba(236, 72, 153, 0.3)'
                   } : {}}
+                  onMouseEnter={(e) => !isPast && !isSelected && (e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.8)')}
+                  onMouseLeave={(e) => !isPast && !isSelected && (e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.3)')}
                   data-testid={`calendar-day-${day}`}
                 >
                   {day}
+                  {!isPast && !isSelected && (
+                    <div className="absolute inset-0 rounded-md overflow-hidden pointer-events-none">
+                      <div className="absolute inset-0 bg-gradient-radial from-pink-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    </div>
+                  )}
                 </button>
               );
             })}
