@@ -196,7 +196,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                   onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.6)'}
                   data-testid={(option as any).testId || `action-tile-${index}`}
                 >
-                <div className="h-28 flex items-center justify-center transition-all duration-150 group-hover:scale-110">
+                <div className={`${option.title === "AI TAN" ? "h-20" : "h-28"} flex items-center justify-center transition-all duration-150 group-hover:scale-110`}>
                   {option.iconType === 'image' ? (
                     <img 
                       src={option.icon as string}
@@ -211,8 +211,8 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                       style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }}
                     />
                   ) : option.iconType === 'component' ? (
-                    <div className="-mt-10">
-                      <option.icon size={180} />
+                    <div className="-mt-6">
+                      <option.icon size={160} />
                     </div>
                   ) : option.icon && !option.isFunction && (
                     <option.icon 
