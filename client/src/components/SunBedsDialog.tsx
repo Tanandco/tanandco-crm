@@ -76,7 +76,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
     {
       icon: Alin,
       iconType: 'component' as const,
-      title: "",
+      title: "AI TAN",
       isFunction: false,
       onClick: () => {
         window.open('https://preview--radiant-booth-studio.lovable.app/', '_blank');
