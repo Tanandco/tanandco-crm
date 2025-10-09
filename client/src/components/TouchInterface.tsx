@@ -365,7 +365,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
             </svg>
           </div>
           
-          <span className="text-sm font-medium text-white text-center font-hebrew group-hover:text-blue-100 transition-colors mt-10">שירות עצמי 24/7</span>
+          <span className="text-base font-medium text-white text-center font-hebrew group-hover:text-blue-100 transition-colors mt-10">שירות עצמי 24/7</span>
           
           {/* Ripple effect */}
           <div className="absolute inset-0 rounded-md overflow-hidden pointer-events-none">
