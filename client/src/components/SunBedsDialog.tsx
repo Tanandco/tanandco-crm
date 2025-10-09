@@ -245,19 +245,6 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
         </div>
       </div>
 
-      {/* Safety reminder */}
-      <div className="fixed bottom-4 left-4 z-20 max-w-xs">
-        <div className="bg-gray-900/80 backdrop-blur-sm border border-cyan-400/20 rounded-lg p-3 text-xs">
-          <p className="text-cyan-200 font-hebrew text-right mb-1 flex items-center justify-end gap-1">
-            <span>זכרו</span>
-            <Lightbulb className="w-4 h-4" />
-          </p>
-          <p className="text-gray-300 font-hebrew text-right leading-relaxed">
-            שיזוף בטוח מתחיל בזיהוי סוג העור ומנוחה של 48 שעות בין סשנים
-          </p>
-        </div>
-      </div>
-
       {/* Alin Chat Box */}
       <div className="fixed top-80 right-6 z-30">
         <AlinChatBox 
