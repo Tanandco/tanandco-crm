@@ -238,18 +238,12 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
         <button
           data-testid="button-ai-tan-face-recognition"
           className="
-            group relative h-[140px] w-[260px]
-            bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
-            rounded-md backdrop-blur-sm
+            group relative
             flex flex-col items-center justify-center gap-3
             transition-all duration-300 ease-in-out
-            hover-elevate active-elevate-2
             text-xl font-bold
             hover:scale-105
           "
-          style={{
-            boxShadow: '0 12px 30px rgba(0, 0, 0, 0.5), 0 0 60px rgba(236, 72, 153, 0.3), inset 0 2px 4px rgba(255, 255, 255, 0.1)'
-          }}
           onClick={() => navigate('/self-service')}
         >
           {/* Neon Touch Button Icon */}
