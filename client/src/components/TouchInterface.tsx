@@ -320,7 +320,6 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
           className="
             group relative w-12 h-12
             bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
-            border border-gray-500/60 hover:border-gray-400/80
             rounded-lg backdrop-blur-sm
             flex items-center justify-center
             transition-all duration-300 ease-in-out
@@ -328,16 +327,19 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
             hover-elevate active-elevate-2
           "
           style={{
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1)'
+            border: '1px solid rgba(59, 130, 246, 0.6)',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3), 0 0 20px rgba(59, 130, 246, 0.3)'
           }}
+          onMouseEnter={(e) => e.currentTarget.style.border = '1px solid rgba(59, 130, 246, 1)'}
+          onMouseLeave={(e) => e.currentTarget.style.border = '1px solid rgba(59, 130, 246, 0.6)'}
           onClick={() => navigate('/')}
           data-testid="button-home"
         >
           <Home 
-            className="text-white group-hover:text-pink-400 transition-colors duration-300" 
+            className="text-blue-400 group-hover:text-blue-300 transition-colors duration-300" 
             size={20}
             style={{
-              filter: 'drop-shadow(0 0 8px rgba(255, 255, 255, 0.3))'
+              filter: 'drop-shadow(0 0 10px rgba(59, 130, 246, 0.6))'
             }}
           />
         </button>
@@ -346,7 +348,6 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
           className="
             group relative w-12 h-12
             bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
-            border border-gray-500/60 hover:border-gray-400/80
             rounded-lg backdrop-blur-sm
             flex items-center justify-center
             transition-all duration-300 ease-in-out
@@ -354,16 +355,19 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
             hover-elevate active-elevate-2
           "
           style={{
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1)'
+            border: '1px solid rgba(59, 130, 246, 0.6)',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3), 0 0 20px rgba(59, 130, 246, 0.3)'
           }}
+          onMouseEnter={(e) => e.currentTarget.style.border = '1px solid rgba(59, 130, 246, 1)'}
+          onMouseLeave={(e) => e.currentTarget.style.border = '1px solid rgba(59, 130, 246, 0.6)'}
           onClick={() => navigate('/products')}
           data-testid="button-settings"
         >
           <Settings 
-            className="text-white group-hover:text-pink-400 transition-colors duration-300" 
+            className="text-blue-400 group-hover:text-blue-300 transition-colors duration-300" 
             size={20}
             style={{
-              filter: 'drop-shadow(0 0 8px rgba(255, 255, 255, 0.3))'
+              filter: 'drop-shadow(0 0 10px rgba(59, 130, 246, 0.6))'
             }}
           />
         </button>
