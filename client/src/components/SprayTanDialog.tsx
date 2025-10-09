@@ -75,7 +75,6 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
             opacity: 0.15
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black" />
       </div>
 
       {/* Welcome Header */}
