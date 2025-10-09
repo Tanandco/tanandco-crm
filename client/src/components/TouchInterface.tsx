@@ -233,15 +233,15 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
         </div>
 
         {/* Self Service Button */}
-        <div className="mt-24">
+        <div className="mt-16">
         <button
           data-testid="button-ai-tan-face-recognition"
           className="
-            group relative h-[160px] w-[280px]
+            group relative h-[140px] w-[260px]
             bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
             border-2
             rounded-md backdrop-blur-sm
-            flex flex-col items-center justify-center gap-4
+            flex flex-col items-center justify-center gap-3
             transition-all duration-300 ease-in-out
             hover-elevate active-elevate-2
             text-xl font-bold
@@ -262,7 +262,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
           {/* Blue Neon Phone Icon */}
           <div className="relative">
             <Smartphone 
-              size={80}
+              size={64}
               className="transition-all duration-300 group-hover:scale-125"
               style={{
                 color: 'rgba(96, 165, 250, 1)',
