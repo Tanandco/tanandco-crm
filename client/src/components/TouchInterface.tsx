@@ -63,7 +63,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
     },
     { 
       title: 'AI TAN', 
-      icon: <div className="-mt-14 -mb-12"><Alin size={204} /></div>, 
+      icon: <div className="-mt-14 -mb-12 scale-150"><Alin size={204} /></div>, 
       id: 'ai-tan' 
     },
   ];
