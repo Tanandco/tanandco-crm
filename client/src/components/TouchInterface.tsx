@@ -244,6 +244,9 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
             text-xl font-bold
             hover:scale-105
           "
+          style={{
+            filter: 'drop-shadow(0 0 40px rgba(236, 72, 153, 0.9)) drop-shadow(0 0 80px rgba(236, 72, 153, 0.8)) drop-shadow(0 0 120px rgba(236, 72, 153, 0.6))'
+          }}
           onClick={() => navigate('/self-service')}
         >
           {/* Neon Touch Button Icon */}
