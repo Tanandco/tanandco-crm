@@ -39,32 +39,32 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
   const services = [
     { 
       title: 'מיטות שיזוף', 
-      icon: <img src={tanningBedIcon} alt="מיטות שיזוף" className="w-20 md:w-36 h-20 md:h-36 object-contain -mt-1 md:-mt-4" style={{ filter: 'drop-shadow(0 0 15px rgba(236, 72, 153, 0.8))' }} />, 
+      icon: <img src={tanningBedIcon} alt="מיטות שיזוף" className="w-14 md:w-28 h-14 md:h-28 object-contain -mt-1 md:-mt-4" style={{ filter: 'drop-shadow(0 0 15px rgba(236, 72, 153, 0.8))' }} />, 
       id: 'sun-beds' 
     },
     { 
       title: 'שיזוף בהתזה', 
-      icon: <img src={sprayTanIcon} alt="שיזוף בהתזה" className="w-16 md:w-28 h-16 md:h-28 object-contain" style={{ filter: 'drop-shadow(0 0 15px rgba(236, 72, 153, 0.8))' }} />, 
+      icon: <img src={sprayTanIcon} alt="שיזוף בהתזה" className="w-12 md:w-22 h-12 md:h-22 object-contain" style={{ filter: 'drop-shadow(0 0 15px rgba(236, 72, 153, 0.8))' }} />, 
       id: 'spray-tan' 
     },
     { 
       title: 'מספרה', 
-      icon: <img src={hairSalonIcon} alt="מספרה" className="w-18 md:w-32 h-18 md:h-32 object-contain" style={{ filter: 'drop-shadow(0 0 15px rgba(236, 72, 153, 0.8))' }} />, 
+      icon: <img src={hairSalonIcon} alt="מספרה" className="w-14 md:w-24 h-14 md:h-24 object-contain" style={{ filter: 'drop-shadow(0 0 15px rgba(236, 72, 153, 0.8))' }} />, 
       id: 'hair-salon' 
     },
     { 
       title: 'קוסמטיקה', 
-      icon: <img src={cosmeticsIcon} alt="קוסמטיקה" className="w-18 md:w-32 h-18 md:h-32 object-contain mt-1 md:mt-3" style={{ filter: 'drop-shadow(0 0 15px rgba(236, 72, 153, 0.8))' }} />, 
+      icon: <img src={cosmeticsIcon} alt="קוסמטיקה" className="w-14 md:w-24 h-14 md:h-24 object-contain mt-1 md:mt-3" style={{ filter: 'drop-shadow(0 0 15px rgba(236, 72, 153, 0.8))' }} />, 
       id: 'cosmetics' 
     },
     { 
       title: 'החנות שלכם', 
-      icon: <img src={storeIcon} alt="החנות שלכם" className="w-16 md:w-28 h-16 md:h-28 object-contain" style={{ filter: 'drop-shadow(0 0 15px rgba(236, 72, 153, 0.8))' }} />, 
+      icon: <img src={storeIcon} alt="החנות שלכם" className="w-12 md:w-22 h-12 md:h-22 object-contain" style={{ filter: 'drop-shadow(0 0 15px rgba(236, 72, 153, 0.8))' }} />, 
       id: 'your-store' 
     },
     { 
       title: 'AI TAN', 
-      icon: <div className="-mt-4 md:-mt-10 -mb-4 md:-mb-8 scale-75 md:scale-125"><Alin size={120} className="md:w-[170px] md:h-[170px]" /></div>, 
+      icon: <div className="-mt-4 md:-mt-10 -mb-4 md:-mb-8 scale-[0.6] md:scale-100"><Alin size={90} className="md:w-[130px] md:h-[130px]" /></div>, 
       id: 'ai-tan' 
     },
   ];
@@ -138,7 +138,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
           >
             <Menu 
               className="text-blue-400 group-hover:text-blue-300 transition-colors duration-300"
-              size={18}
+              size={14}
               style={{
                 filter: 'drop-shadow(0 0 12px rgba(59, 130, 246, 0.8))'
               }}
@@ -168,7 +168,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
             >
               <Users 
                 className="text-pink-400 group-hover:text-pink-300 transition-colors duration-300"
-                size={18}
+                size={14}
                 style={{
                   filter: 'drop-shadow(0 0 12px rgba(236, 72, 153, 0.8))'
                 }}
@@ -196,7 +196,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
             >
               <Search 
                 className="text-pink-400 group-hover:text-pink-300 transition-colors duration-300"
-                size={18}
+                size={14}
                 style={{
                   filter: 'drop-shadow(0 0 12px rgba(236, 72, 153, 0.8))'
                 }}
@@ -225,7 +225,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
               <img 
                 src={newCustomerIcon} 
                 alt="לקוח חדש" 
-                className="w-4 h-4 object-contain transition-all duration-300"
+                className="w-3.5 h-3.5 object-contain transition-all duration-300"
                 style={{
                   filter: 'drop-shadow(0 0 12px rgba(236, 72, 153, 0.8))'
                 }}
@@ -279,7 +279,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
             <img 
               src={selfServiceButtonIcon} 
               alt="Self Service" 
-              className="w-12 h-12 md:w-16 md:h-16 object-contain transition-all duration-300 group-hover:scale-110 relative z-10"
+              className="w-10 h-10 md:w-12 md:h-12 object-contain transition-all duration-300 group-hover:scale-110 relative z-10"
               style={{
                 opacity: 0.9,
                 filter: 'drop-shadow(0 0 12px rgba(59, 130, 246, 0.5))',
@@ -359,7 +359,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
               className="flex items-center gap-3 px-6 py-3 hover-elevate active-elevate-2 transition-all"
               data-testid="menu-home"
             >
-              <Home className="w-5 h-5 text-blue-400" />
+              <Home className="w-4 h-4 text-blue-400" />
               <span className="text-white font-hebrew">בית</span>
             </button>
 
@@ -371,7 +371,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
               className="flex items-center gap-3 px-6 py-3 hover-elevate active-elevate-2 transition-all"
               data-testid="menu-pos"
             >
-              <ShoppingCart className="w-5 h-5 text-amber-400" />
+              <ShoppingCart className="w-4 h-4 text-amber-400" />
               <span className="text-white font-hebrew">קופה</span>
             </button>
 
@@ -383,7 +383,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
               className="flex items-center gap-3 px-6 py-3 hover-elevate active-elevate-2 transition-all"
               data-testid="menu-registration"
             >
-              <UserPlus className="w-5 h-5 text-pink-400" />
+              <UserPlus className="w-4 h-4 text-pink-400" />
               <span className="text-white font-hebrew">הרשמה</span>
             </button>
 
@@ -395,7 +395,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
               className="flex items-center gap-3 px-6 py-3 hover-elevate active-elevate-2 transition-all"
               data-testid="menu-whatsapp"
             >
-              <MessageCircle className="w-5 h-5 text-green-400" />
+              <MessageCircle className="w-4 h-4 text-green-400" />
               <span className="text-white font-hebrew">WhatsApp</span>
             </button>
 
@@ -407,7 +407,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
               className="flex items-center gap-3 px-6 py-3 hover-elevate active-elevate-2 transition-all"
               data-testid="menu-door"
             >
-              <DoorOpen className="w-5 h-5 text-blue-400" />
+              <DoorOpen className="w-4 h-4 text-blue-400" />
               <span className="text-white font-hebrew">פתיחת דלת</span>
             </button>
 
@@ -419,7 +419,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
               className="flex items-center gap-3 px-6 py-3 hover-elevate active-elevate-2 transition-all"
               data-testid="menu-automation"
             >
-              <BarChart3 className="w-5 h-5 text-purple-400" />
+              <BarChart3 className="w-4 h-4 text-purple-400" />
               <span className="text-white font-hebrew">אוטומציה</span>
             </button>
 
@@ -431,7 +431,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
               className="flex items-center gap-3 px-6 py-3 hover-elevate active-elevate-2 transition-all"
               data-testid="menu-biostar"
             >
-              <Fingerprint className="w-5 h-5 text-pink-400" />
+              <Fingerprint className="w-4 h-4 text-pink-400" />
               <span className="text-white font-hebrew">BioStar</span>
             </button>
 
@@ -443,7 +443,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
               className="flex items-center gap-3 px-6 py-3 hover-elevate active-elevate-2 transition-all"
               data-testid="menu-settings"
             >
-              <Settings className="w-5 h-5 text-blue-400" />
+              <Settings className="w-4 h-4 text-blue-400" />
               <span className="text-white font-hebrew">הגדרות</span>
             </button>
           </div>

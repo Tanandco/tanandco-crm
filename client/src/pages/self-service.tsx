@@ -306,7 +306,7 @@ export default function SelfService() {
                 data-testid="card-sun-beds"
               >
                 <div className="h-full w-full flex flex-col items-center justify-center text-center">
-                  <img src={tanningBedIcon} alt="מיטות שיזוף" className="w-28 h-28 mb-2 neon-glow object-contain" />
+                  <img src={tanningBedIcon} alt="מיטות שיזוף" className="w-20 h-20 mb-2 neon-glow object-contain" />
                   <div className="text-sm font-bold tracking-tight">מיטות שיזוף</div>
                 </div>
               </button>
@@ -319,7 +319,7 @@ export default function SelfService() {
                 data-testid="card-spray-tan"
               >
                 <div className="h-full w-full flex flex-col items-center justify-center text-center">
-                  <img src={sprayTanIcon} alt="שיזוף בהתזה" className="w-28 h-28 mb-2 neon-glow object-contain" />
+                  <img src={sprayTanIcon} alt="שיזוף בהתזה" className="w-20 h-20 mb-2 neon-glow object-contain" />
                   <div className="text-sm font-bold tracking-tight">שיזוף בהתזה</div>
                 </div>
               </button>
@@ -332,7 +332,7 @@ export default function SelfService() {
                 data-testid="card-hair-salon"
               >
                 <div className="flex flex-col items-center justify-center">
-                  <img src={hairSalonIcon} alt="מספרה" className="w-28 h-28 mb-2 neon-glow object-contain" />
+                  <img src={hairSalonIcon} alt="מספרה" className="w-20 h-20 mb-2 neon-glow object-contain" />
                   <div className="text-sm font-bold tracking-tight">מספרה</div>
                 </div>
               </a>
@@ -345,7 +345,7 @@ export default function SelfService() {
                 data-testid="card-cosmetics"
               >
                 <div className="h-full w-full flex flex-col items-center justify-center text-center">
-                  <img src={cosmeticsIcon} alt="קוסמטיקה" className="w-28 h-28 mb-2 neon-glow object-contain" />
+                  <img src={cosmeticsIcon} alt="קוסמטיקה" className="w-20 h-20 mb-2 neon-glow object-contain" />
                   <div className="text-sm font-bold tracking-tight">קוסמטיקה</div>
                 </div>
               </button>
@@ -358,7 +358,7 @@ export default function SelfService() {
                 data-testid="card-store"
               >
                 <div className="flex flex-col items-center justify-center">
-                  <img src={storeIcon} alt="החנות שלכם" className="w-24 h-24 mb-2 neon-glow object-contain" />
+                  <img src={storeIcon} alt="החנות שלכם" className="w-18 h-18 mb-2 neon-glow object-contain" />
                   <div className="text-sm font-bold tracking-tight mt-3">החנות שלכם</div>
                 </div>
               </a>
@@ -371,7 +371,7 @@ export default function SelfService() {
                 data-testid="card-ai-tan"
               >
                 <div className="h-full w-full flex flex-col items-center justify-center text-center -my-6">
-                  <Alin size={204} />
+                  <Alin size={150} />
                   <div className="text-base font-bold tracking-tight text-[hsl(var(--primary))] drop-shadow-[0_0_10px_rgba(236,72,153,0.8)] -mt-12">
                     AI TAN
                   </div>
@@ -391,7 +391,7 @@ export default function SelfService() {
                 className="relative shrink-0 group animate-bounce-slow hover:scale-110 transition-transform -mt-8"
                 data-testid="button-chat-with-alin"
               >
-                <Alin size={180} />
+                <Alin size={130} />
               </button>
               
               {/* Flowing Text Bubble with Typing Effect */}
