@@ -720,12 +720,6 @@ export function PurchaseOverlay({ open, onClose }: PurchaseOverlayProps) {
                         <div className="w-2 h-2 rounded-full bg-purple-400 flex-shrink-0 mt-0.5" />
                         <span className="text-xs text-muted-foreground font-hebrew leading-tight">ניתן לשיתוף</span>
                       </div>
-                      {customTanSessions >= 10 && (
-                        <div className="flex items-start gap-1">
-                          <div className="w-2 h-2 rounded-full bg-green-400 flex-shrink-0 mt-0.5 animate-pulse" />
-                          <span className="text-xs text-green-400 font-hebrew leading-tight animate-pulse">🎁 ברונזר במתנה!</span>
-                        </div>
-                      )}
                     </div>
 
                     {/* Select Button */}
