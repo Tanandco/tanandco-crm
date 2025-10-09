@@ -263,19 +263,40 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
           }}
           onClick={() => navigate('/self-service')}
         >
-          {/* Blue Neon Star with Glowing Background */}
-          <div className="relative">
-            {/* Glowing Background */}
+          {/* Blue Neon Star with 3D Effect */}
+          <div className="relative" style={{ perspective: '1000px', transformStyle: 'preserve-3d' }}>
+            {/* Glowing Background - Back Layer */}
             <div 
               className="absolute inset-0 rounded-full blur-3xl transition-all duration-500 group-hover:blur-2xl group-hover:scale-110"
               style={{
                 background: 'radial-gradient(circle, rgba(59, 130, 246, 0.6) 0%, rgba(59, 130, 246, 0.3) 40%, transparent 70%)',
                 animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                transform: 'scale(1.5)'
+                transform: 'scale(1.5) translateZ(-20px)',
+                transformStyle: 'preserve-3d'
               }}
             />
             
-            {/* Star */}
+            {/* Shadow Layer - Middle */}
+            <svg 
+              width="80" 
+              height="80" 
+              viewBox="0 0 24 24" 
+              fill="none"
+              className="absolute inset-0 z-0 opacity-40"
+              style={{
+                transform: 'translateZ(-10px) translateY(4px) translateX(2px)',
+                transformStyle: 'preserve-3d',
+                animation: 'float 3s ease-in-out infinite'
+              }}
+            >
+              <path
+                d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+                fill="rgba(0, 0, 0, 0.5)"
+                filter="url(#glow)"
+              />
+            </svg>
+            
+            {/* Main Star - Front Layer */}
             <svg 
               width="80" 
               height="80" 
@@ -283,7 +304,9 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
               fill="none"
               className="relative z-10 transition-all duration-300 group-hover:scale-125"
               style={{
-                animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite, float 3s ease-in-out infinite'
+                animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite, float 3s ease-in-out infinite',
+                transform: 'translateZ(20px)',
+                transformStyle: 'preserve-3d'
               }}
             >
               <defs>
@@ -294,15 +317,20 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
                     <feMergeNode in="SourceGraphic"/>
                   </feMerge>
                 </filter>
+                <linearGradient id="star3DGradient" x1="12" y1="2" x2="12" y2="22">
+                  <stop offset="0%" stopColor="#93c5fd" />
+                  <stop offset="50%" stopColor="#60a5fa" />
+                  <stop offset="100%" stopColor="#3b82f6" />
+                </linearGradient>
               </defs>
               <path
                 d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
-                fill="rgba(96, 165, 250, 1)"
-                stroke="rgba(59, 130, 246, 1)"
-                strokeWidth="1"
+                fill="url(#star3DGradient)"
+                stroke="rgba(147, 197, 253, 1)"
+                strokeWidth="1.5"
                 filter="url(#glow)"
                 style={{
-                  filter: 'drop-shadow(0 0 30px rgba(59, 130, 246, 1)) drop-shadow(0 0 60px rgba(59, 130, 246, 1)) drop-shadow(0 0 90px rgba(59, 130, 246, 0.8)) drop-shadow(0 0 120px rgba(59, 130, 246, 0.6))'
+                  filter: 'drop-shadow(0 0 30px rgba(59, 130, 246, 1)) drop-shadow(0 0 60px rgba(59, 130, 246, 1)) drop-shadow(0 0 90px rgba(59, 130, 246, 0.8)) drop-shadow(0 4px 20px rgba(0, 0, 0, 0.5))'
                 }}
               />
             </svg>
