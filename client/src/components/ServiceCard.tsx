@@ -30,11 +30,11 @@ export default function ServiceCard({ title, icon, onClick, disabled = false, cl
       onClick={onClick}
       disabled={disabled}
       className={`
-        group relative h-[140px] w-[130px] sm:h-[150px] sm:w-[140px] md:h-[160px] md:w-[150px]
+        group relative h-[110px] w-[100px] sm:h-[130px] sm:w-[120px] md:h-[160px] md:w-[150px]
         bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
         border hover:border-2
         rounded-md backdrop-blur-sm
-        flex flex-col items-center justify-between pb-4
+        flex flex-col items-center justify-between pb-3
         transition-all duration-150 ease-in-out
         disabled:opacity-50 disabled:cursor-not-allowed
         hover-elevate active-elevate-2
@@ -51,7 +51,7 @@ export default function ServiceCard({ title, icon, onClick, disabled = false, cl
       <div className="h-28 flex items-center justify-center transition-all duration-150 group-hover:scale-110 group-hover:drop-shadow-[0_0_15px_rgba(236,72,153,0.9)]">
         {icon}
       </div>
-      <span className="text-base md:text-lg font-medium text-white text-center font-hebrew px-2 mt-2">
+      <span className="text-xs md:text-lg font-medium text-white text-center font-hebrew px-1 mt-1">
         {title}
       </span>
       
