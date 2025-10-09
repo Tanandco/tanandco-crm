@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ArrowLeft, Droplets, Sparkles, Share2, Calendar, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import sprayTanBg from '@assets/thatso spray_1759968021995.webp';
 
 interface SprayTanDialogProps {
   open: boolean;
@@ -65,6 +66,18 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
         </Button>
       </div>
 
+      {/* Background Image Header - Full Width */}
+      <div className="absolute top-0 left-0 right-0 h-64 z-10 overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ 
+            backgroundImage: `url(${sprayTanBg})`,
+            opacity: 0.15
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black" />
+      </div>
+
       {/* Welcome Header */}
       <div className="absolute top-16 left-0 right-0 z-20">
         <div className="text-center space-y-4 px-4">
@@ -123,29 +136,12 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
             </ul>
           </div>
 
-          {/* Process & Benefits */}
+          {/* Process & Benefits - Formatted Paragraph */}
           <div className="bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border rounded-md p-6" style={{ borderColor: 'rgba(236, 72, 153, 0.6)' }}>
-            <h3 className="text-xl font-bold text-pink-400 mb-4 font-hebrew text-center" style={{ filter: 'drop-shadow(0 0 10px rgba(236, 72, 153, 0.6))' }}>יתרונות:</h3>
-            <ul className="text-white font-hebrew space-y-2 text-right">
-              <li className="flex items-center justify-end gap-2">
-                <span>בטוח - ללא קרינת UV</span>
-                <span className="text-pink-400">✓</span>
-              </li>
-              <li className="flex items-center justify-end gap-2">
-                <span>מהיר - 15 דקות</span>
-                <span className="text-pink-400">✓</span>
-              </li>
-              <li className="flex items-center justify-end gap-2">
-                <span>אחיד - גוון שווה</span>
-                <span className="text-pink-400">✓</span>
-              </li>
-            </ul>
-            <h3 className="text-xl font-bold text-pink-400 mt-6 mb-3 font-hebrew text-center" style={{ filter: 'drop-shadow(0 0 10px rgba(236, 72, 153, 0.6))' }}>התהליך:</h3>
-            <ol className="text-white font-hebrew space-y-1 text-right list-decimal list-inside">
-              <li>התזת תמיסה עם DHA</li>
-              <li>תגובה עם חלבוני העור</li>
-              <li>גוון ברונזה תוך 2-4 שעות</li>
-            </ol>
+            <h3 className="text-xl font-bold text-pink-400 mb-4 font-hebrew text-center" style={{ filter: 'drop-shadow(0 0 10px rgba(236, 72, 153, 0.6))' }}>יתרונות ותהליך הטיפול</h3>
+            <p className="text-white font-hebrew leading-relaxed text-right">
+              שיזוף בהתזה מציע יתרונות ייחודיים: הוא <span className="text-pink-400 font-bold">בטוח לחלוטין</span> ללא חשיפה לקרינת UV מזיקה, <span className="text-pink-400 font-bold">מהיר</span> ונמשך רק 15 דקות, ומעניק <span className="text-pink-400 font-bold">גוון אחיד ושווה</span> ללא פסים או כתמים. התהליך פשוט ויעיל: תמיסת DHA מותזת על העור, מגיבה עם חלבוני העור, ויוצרת גוון ברונזה טבעי תוך 2-4 שעות בלבד.
+            </p>
           </div>
         </div>
 
@@ -229,11 +225,11 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
             ))}
           </div>
 
-          {/* Calendar Grid */}
+          {/* Calendar Grid - Reduced height by 1/3 */}
           <div className="grid grid-cols-7 gap-2">
             {/* Empty cells for days before month starts */}
             {Array.from({ length: (7 - startDayOfWeek) % 7 }).map((_, index) => (
-              <div key={`empty-${index}`} className="aspect-square" />
+              <div key={`empty-${index}`} className="h-10" />
             ))}
             
             {/* Days of the month */}
@@ -251,7 +247,7 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
                   onClick={() => !isPast && setSelectedDate(date)}
                   disabled={isPast}
                   className={`
-                    aspect-square rounded-md flex items-center justify-center font-hebrew text-sm transition-all
+                    h-10 rounded-md flex items-center justify-center font-hebrew text-sm transition-all
                     ${isPast ? 'text-gray-600 cursor-not-allowed' : 'text-white hover-elevate active-elevate-2 cursor-pointer'}
                     ${isSelected ? 'bg-pink-500 border-2 border-pink-400' : 'bg-gray-800/50 border border-gray-700'}
                     ${isToday && !isSelected ? 'border-pink-400/50' : ''}
