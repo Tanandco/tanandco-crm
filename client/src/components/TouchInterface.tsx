@@ -253,13 +253,23 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
         >
           {/* Neon Touch Button Icon */}
           <div className="relative overflow-visible">
+            {/* Background glow effect */}
+            <div className="absolute inset-0 -m-4"
+              style={{
+                background: 'radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, rgba(59, 130, 246, 0.15) 40%, transparent 70%)',
+                animation: 'pulse-bg 3s ease-in-out infinite',
+                filter: 'blur(12px)'
+              }}
+            />
+            
             <img 
               src={selfServiceButtonIcon} 
               alt="Self Service" 
-              className="w-20 h-20 object-contain transition-all duration-300 group-hover:scale-110"
+              className="w-20 h-20 object-contain transition-all duration-300 group-hover:scale-110 relative z-10"
               style={{
-                filter: 'drop-shadow(0 0 20px rgba(59, 130, 246, 0.6)) drop-shadow(0 0 40px rgba(59, 130, 246, 0.4))',
-                animation: 'pulse-glow 2s ease-in-out infinite'
+                opacity: 0.9,
+                filter: 'drop-shadow(0 0 15px rgba(59, 130, 246, 0.5))',
+                animation: 'shine 3s ease-in-out infinite'
               }}
             />
           </div>
@@ -273,19 +283,32 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
         </button>
         </div>
         
-        {/* Add floating and pulse animations */}
+        {/* Add floating and smooth animations */}
         <style>{`
           @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-8px); }
           }
           
-          @keyframes pulse-glow {
+          @keyframes pulse-bg {
             0%, 100% { 
-              filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.6)) drop-shadow(0 0 40px rgba(59, 130, 246, 0.4));
+              opacity: 0.7;
+              transform: scale(1);
             }
             50% { 
-              filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.9)) drop-shadow(0 0 60px rgba(59, 130, 246, 0.7)) drop-shadow(0 0 80px rgba(59, 130, 246, 0.5));
+              opacity: 1;
+              transform: scale(1.15);
+            }
+          }
+          
+          @keyframes shine {
+            0%, 100% { 
+              opacity: 0.85;
+              filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.5));
+            }
+            50% { 
+              opacity: 1;
+              filter: drop-shadow(0 0 25px rgba(59, 130, 246, 0.8)) drop-shadow(0 0 40px rgba(59, 130, 246, 0.4));
             }
           }
         `}</style>
