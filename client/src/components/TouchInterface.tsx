@@ -17,6 +17,7 @@ import cosmeticsIcon from '@assets/עיצוב ללא שם (31)_1759413948155.png
 import storeIcon from '@assets/freepik__online-store-shopping-bag-variation-a-3d-shopping-__47713_1759413103497.png';
 import selfServiceIcon from '@assets/עיצוב ללא שם (32)_1759414540774.png';
 import newCustomerIcon from '@assets/Dהורדותfreepik__spray-tan-variation-b-modern-flatbadge-3d-spray-gu__47717.png_1759805942437.png';
+import selfServiceButtonIcon from '@assets/עיצוב ללא שם (36)_1759989283954.png';
 
 interface TouchInterfaceProps {
   onServiceSelect?: (service: string) => void;
@@ -259,15 +260,14 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
           }}
           onClick={() => navigate('/self-service')}
         >
-          {/* Blue Neon Hand Icon */}
+          {/* Neon Touch Button Icon */}
           <div className="relative">
-            <Hand 
-              size={72}
-              className="transition-all duration-300 group-hover:scale-125"
+            <img 
+              src={selfServiceButtonIcon} 
+              alt="Self Service" 
+              className="w-20 h-20 object-contain transition-all duration-300 group-hover:scale-110"
               style={{
-                color: 'rgba(96, 165, 250, 1)',
-                strokeWidth: '1.5',
-                filter: 'drop-shadow(0 0 30px rgba(59, 130, 246, 1)) drop-shadow(0 0 60px rgba(59, 130, 246, 1)) drop-shadow(0 0 90px rgba(59, 130, 246, 0.8)) drop-shadow(0 0 120px rgba(59, 130, 246, 0.6))'
+                filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.6)) drop-shadow(0 0 40px rgba(59, 130, 246, 0.4))'
               }}
             />
           </div>
