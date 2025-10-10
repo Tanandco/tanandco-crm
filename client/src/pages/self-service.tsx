@@ -395,7 +395,7 @@ export default function SelfService() {
                     className="max-w-[95px] max-h-[95px] md:max-w-[155px] md:max-h-[155px] mb-0.5 md:mb-2 object-contain"
                     style={{ filter: 'drop-shadow(0 0 20px rgb(59, 130, 246)) contrast(1.15) brightness(1.05)' }}
                   />
-                  <div className="text-[10px] md:text-base font-bold tracking-tight leading-tight text-[rgb(59,130,246)] drop-shadow-[0_0_10px_rgba(59,130,246,0.8)]">
+                  <div className="text-[10px] md:text-sm font-bold tracking-tight leading-tight text-[rgb(59,130,246)] drop-shadow-[0_0_10px_rgba(59,130,246,0.8)]">
                     AI TAN
                   </div>
                 </div>

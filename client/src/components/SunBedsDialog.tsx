@@ -247,7 +247,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
         {/* Service Fields - All in one row on desktop, two rows on mobile */}
         <div className="w-full max-w-6xl mx-auto pl-14 pr-6 md:px-4 space-y-2 mt-6 md:mt-0">
           {/* Service Buttons */}
-          <div className="grid grid-cols-2 md:flex gap-2 justify-center md:flex-nowrap animate-scale-in max-w-[188px] md:max-w-none mx-auto">
+          <div className="grid grid-cols-2 md:flex gap-2 justify-center md:flex-nowrap animate-scale-in max-w-[228px] md:max-w-none mx-auto">
             {tanningOptions.map((option, index) => (
               <div key={index} className="relative">
                 {/* Solid black background */}
@@ -256,11 +256,11 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                 <button
                   onClick={option.onClick}
                   className="
-                    group relative h-[95px] w-[90px] md:h-[160px] md:w-[150px]
+                    group relative h-[100px] w-[110px] md:h-[145px] md:w-[150px]
                     bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
                     border hover:border-2
                     rounded-md backdrop-blur-sm
-                    flex flex-col items-center justify-between pb-1 md:pb-4
+                    flex flex-col items-center justify-center
                     transition-all duration-150 ease-in-out
                     hover-elevate active-elevate-2
                     overflow-visible
@@ -273,21 +273,21 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                   onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.6)'}
                   data-testid={(option as any).testId || `action-tile-${index}`}
                 >
-                <div className="h-12 md:h-32 flex items-center justify-center transition-all duration-150 group-hover:scale-110 overflow-visible">
+                <div className="flex items-center justify-center mb-1 md:mb-2 transition-all duration-150 group-hover:scale-110 overflow-visible">
                   {option.iconType === 'image' ? (
                     <img 
                       src={option.icon as string}
                       alt={option.title}
                       className={`${
                         option.title === "AI TAN"
-                          ? "scale-[1.0] md:scale-[1.9] mt-2"
+                          ? "w-[60px] h-[60px] md:w-[80px] md:h-[80px]"
                           : option.title === "רכישת חבילה"
-                          ? "w-16 h-16 md:w-40 md:h-40"
+                          ? "w-[50px] h-[50px] md:w-[70px] md:h-[70px]"
                           : option.title === "רכישת ברונזרים"
-                          ? "w-14 h-14 md:w-30 md:h-30"
+                          ? "w-[45px] h-[45px] md:w-[65px] md:h-[65px]"
                           : option.title === "לקוח חדש - הרשמה"
-                          ? "w-12 h-12 md:w-28 md:h-28"
-                          : "w-14 h-14 md:w-32 md:h-32"
+                          ? "w-[40px] h-[40px] md:w-[60px] md:h-[60px]"
+                          : "w-[50px] h-[50px] md:w-[70px] md:h-[70px]"
                       } object-contain ${
                         option.title === "AI TAN"
                           ? "group-hover:drop-shadow-[0_0_30px_rgb(59,130,246)]"
@@ -300,22 +300,18 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                       }}
                     />
                   ) : option.iconType === 'component' ? (
-                    <div className="scale-[0.85] md:scale-[1.4] flex items-center justify-center mt-2">
-                      <option.icon size={160} className="max-w-[95px] md:max-w-[190px] max-h-[95px] md:max-h-[190px]" />
+                    <div className="scale-[0.6] md:scale-[0.9] flex items-center justify-center">
+                      <option.icon size={120} className="max-w-[80px] md:max-w-[120px] max-h-[80px] md:max-h-[120px]" />
                     </div>
                   ) : option.icon && !option.isFunction && (
                     <option.icon 
-                      className="w-14 h-14 md:w-32 md:h-32 text-pink-400 group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
+                      className="w-[50px] h-[50px] md:w-[70px] md:h-[70px] text-pink-400 group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
                       style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }}
                     />
                   )}
                 </div>
-                {/* Mobile text with line breaks */}
-                <span className="block md:hidden font-medium text-white text-center font-hebrew px-1 leading-tight whitespace-pre-line" style={{ fontSize: '12px' }}>
-                  {option.mobileTitle || option.title}
-                </span>
-                {/* Desktop text single line */}
-                <span className="hidden md:inline-block text-base font-medium text-white text-center font-hebrew px-3 leading-tight">
+                {/* Text - single line on all screens */}
+                <span className="text-[11px] md:text-sm font-medium text-white text-center font-hebrew px-1 leading-tight">
                   {option.title}
                 </span>
                 
