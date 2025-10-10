@@ -147,17 +147,16 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
       </div>
       
       {/* Back to Self Service Button - moved to top corner */}
-      <div className="absolute top-6 right-6 z-30">
+      <div className="absolute top-4 right-4 z-30">
         <Button 
           onClick={() => onOpenChange(false)} 
           variant="outline" 
           size="sm" 
-          className="bg-white/10 border-white/20 text-white backdrop-blur-sm px-2 py-1 text-xs md:text-base h-auto min-h-0 md:min-h-10"
+          className="bg-white/10 border-white/20 text-white backdrop-blur-sm text-xs md:text-sm"
           data-testid="button-back-to-self-service"
         >
-          <ArrowLeft className="w-3 h-3 md:w-5 md:h-5 ml-1" />
-          <span className="md:hidden">חזרה</span>
-          <span className="hidden md:inline">חזרה</span>
+          <ArrowLeft className="w-3 h-3 md:w-4 md:h-4 ml-1" />
+          חזרה
         </Button>
       </div>
 
@@ -348,7 +347,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
           </div>
 
           {/* Service Buttons */}
-          <div className="flex gap-2 justify-center flex-wrap md:flex-nowrap animate-scale-in">
+          <div className="grid grid-cols-2 md:flex gap-2 justify-center md:flex-nowrap animate-scale-in max-w-[178px] md:max-w-none mx-auto">
             {tanningOptions.map((option, index) => (
               <div key={index} className="relative">
                 {/* Solid black background */}
