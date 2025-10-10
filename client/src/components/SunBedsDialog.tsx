@@ -401,7 +401,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                     />
                   )}
                 </div>
-                <span className="text-xs md:text-sm font-medium text-white text-center font-hebrew px-1 md:px-2 -mt-2 md:-mt-4">
+                <span className="text-xs md:text-sm font-medium text-white text-center font-hebrew px-1 md:px-2">
                   {option.title}
                 </span>
                 
