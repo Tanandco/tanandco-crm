@@ -291,8 +291,8 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                       }`}
                       style={{
                         filter: option.title === "AI TAN"
-                          ? 'drop-shadow(0 0 20px rgb(59, 130, 246)) drop-shadow(0 0 35px rgba(59, 130, 246, 0.8))'
-                          : 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))'
+                          ? 'contrast(1.15) brightness(1.05) drop-shadow(0 0 20px rgb(59, 130, 246)) drop-shadow(0 0 35px rgba(59, 130, 246, 0.8))'
+                          : 'contrast(1.15) brightness(1.05) drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))'
                       }}
                     />
                   ) : option.iconType === 'component' ? (
@@ -514,7 +514,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
           onClick={() => window.open('https://preview--radiant-booth-studio.lovable.app/', '_blank')}
           className="hover:scale-110 transition-transform duration-200 relative z-10"
           data-testid="button-alin-chatbot"
-          style={{ filter: 'drop-shadow(0 0 15px rgba(236, 72, 153, 0.8))' }}
+          style={{ filter: 'contrast(1.15) brightness(1.05) drop-shadow(0 0 15px rgba(236, 72, 153, 0.8))' }}
         >
           <Alin className="scale-[1.05] md:scale-[1.35] max-w-[120px] max-h-[120px] md:max-w-[150px] md:max-h-[150px]" />
         </button>

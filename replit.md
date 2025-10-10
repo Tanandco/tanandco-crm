@@ -38,9 +38,9 @@ This project is a premium touch-screen kiosk CRM system designed for Tan & Co sa
     * Search bar width: 178px mobile (2×85px + 8px), 308px desktop (2×150px + 8px)
     * Search icon optimized: w-3.5 h-3.5 with pink neon glow
     * Reduced spacing between buttons and search bar (space-y-2) for compact layout
-    * Icon sizes optimized: AI TAN scale 1.3/1.9 (enlarged), New Customer 12px/28px, Bronzers 14px/30px, Package 16px/40px
+    * Icon sizes optimized: AI TAN scale 1.3/1.9 (enlarged) with mt-2 vertical adjustment, New Customer 12px/28px, Bronzers 14px/30px, Package 16px/40px
     * Replaced New Customer icon with pink plus icon (PNG) for modern neon aesthetic
-    * AI TAN button: Blue neon Alin GIF (עיצוב ללא שם (5)_1760108712417.gif) with cyan glow (rgb(59, 130, 246)) to differentiate from pink chatbot
+    * AI TAN button: Blue neon Alin GIF (עיצוב ללא שם (5)_1760108712417.gif) with cyan glow (rgb(59, 130, 246)) to differentiate from pink chatbot, enhanced with contrast(1.15) brightness(1.05) for sharper visuals
     * Alin Chatbot (bottom-right corner): Clickable chatbot that opens chat interface, positioned with bottom-0 + translate-y-4 for optimal placement
     * Chatbot speech bubble: Black gradient background matching field styling (from-gray-900/90 via-black/80), pink border, typing animation (80ms/char)
     * Speech bubble displays single-line message: "היי אני אלין , אני פה לעזור לכם בכל שלב בכל שעה , מבטיחה לא לחפור"
