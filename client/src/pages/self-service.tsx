@@ -285,14 +285,14 @@ export default function SelfService() {
             {/* Neon line under logo */}
             <div className="mt-2 h-px w-64 mx-auto bg-gradient-to-r from-transparent via-[rgba(236,72,153,.6)] via-[rgba(147,51,234,.5)] to-transparent" />
             
-            <h2 className="mt-4 text-base md:text-lg font-extrabold leading-tight">
+            <h2 className="mt-4 text-lg md:text-2xl font-extrabold leading-tight">
               המודל ההיברידי של תעשיית השיזוף - העולם של המחר
             </h2>
           </div>
         </section>
 
         {/* HYBRID MODEL TEXT */}
-        <div className="max-w-5xl mx-auto px-6 text-center py-4 pb-6">
+        <div className="max-w-5xl mx-auto px-6 text-center py-4 pb-8 md:pb-10">
           <div className="space-y-2 md:space-y-3">
             <p className="text-white/95 text-xs md:text-base leading-relaxed">
               <span className="text-[hsl(var(--primary))] font-bold">טאן אנד קו</span> מביאה את מהפכת היופי הבאה – מודל היברידי-אוטונומי ייחודי, עם שירותים בטכנולוגיה פורצת דרך וללא תלות בכוח אדם.
@@ -313,7 +313,7 @@ export default function SelfService() {
         </div>
 
         {/* SERVICE CARDS */}
-        <section id="services" className="relative py-2 pb-6 flex-shrink-0">
+        <section id="services" className="relative py-2 pb-6 flex-shrink-0 mt-2 md:mt-4">
           <div className="max-w-6xl mx-auto px-3 text-center">
             <div className="grid grid-cols-3 md:flex gap-1.5 md:gap-2 justify-center md:flex-wrap max-w-5xl mx-auto">
               {/* Sun Beds */}
