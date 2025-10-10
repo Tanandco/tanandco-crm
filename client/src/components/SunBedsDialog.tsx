@@ -374,25 +374,25 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                   onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.6)'}
                   data-testid={(option as any).testId || `action-tile-${index}`}
                 >
-                <div className={`${option.title === "AI TAN" ? "h-20 md:h-32" : "h-16 md:h-28"} flex items-center justify-center transition-all duration-150 group-hover:scale-110 ${option.title === "AI TAN" ? "overflow-visible" : ""}`}>
+                <div className="h-20 md:h-32 flex items-center justify-center transition-all duration-150 group-hover:scale-110 overflow-visible">
                   {option.iconType === 'image' ? (
                     <img 
                       src={option.icon as string}
                       alt={option.title}
                       className={`${
                         option.title === "רכישת חבילה"
-                          ? "w-20 h-20 md:w-36 md:h-36"
+                          ? "w-22 h-22 md:w-40 md:h-40"
                           : option.title === "רכישת ברונזרים"
-                          ? "w-16 h-16 md:w-28 md:h-28"
+                          ? "w-18 h-18 md:w-32 md:h-32"
                           : option.title === "לקוח חדש - הרשמה"
-                          ? "w-20 h-20 md:w-32 md:h-32"
+                          ? "w-16 h-16 md:w-28 md:h-28"
                           : "w-18 h-18 md:w-32 md:h-32"
                       } object-contain group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]`}
                       style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }}
                     />
                   ) : option.iconType === 'component' ? (
-                    <div className="-mt-2 md:-mt-6 scale-[0.79] md:scale-100">
-                      <option.icon size={140} className="max-w-[95px] md:max-w-[140px] max-h-[95px] md:max-h-[140px]" />
+                    <div className="-mt-2 md:-mt-6 scale-[0.85] md:scale-110">
+                      <option.icon size={140} className="max-w-[100px] md:max-w-[150px] max-h-[100px] md:max-h-[150px]" />
                     </div>
                   ) : option.icon && !option.isFunction && (
                     <option.icon 
@@ -401,7 +401,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                     />
                   )}
                 </div>
-                <span className={`text-xs md:text-sm font-medium text-white text-center font-hebrew px-1 md:px-2 ${option.title === "AI TAN" ? "-mt-2 md:-mt-4" : "mt-1 md:mt-2"}`}>
+                <span className="text-xs md:text-sm font-medium text-white text-center font-hebrew px-1 md:px-2 -mt-2 md:-mt-4">
                   {option.title}
                 </span>
                 
