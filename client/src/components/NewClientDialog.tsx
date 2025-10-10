@@ -1,7 +1,7 @@
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { UserPlus } from 'lucide-react';
+import { UserPlus, ArrowLeft } from 'lucide-react';
 import { useState, useMemo } from 'react';
 import { useLocation } from 'wouter';
 
@@ -54,6 +54,18 @@ export function NewClientDialog({ open, onOpenChange }: NewClientDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="bg-gradient-to-br from-gray-900/95 via-black/90 to-gray-800/95 border-pink-500/30 max-w-md" dir="rtl">
+        <div className="flex items-center justify-between mb-2">
+          <Button
+            onClick={() => onOpenChange(false)}
+            variant="ghost"
+            size="sm"
+            className="text-white/70 hover:text-white"
+            data-testid="button-back-new-client"
+          >
+            <ArrowLeft className="w-5 h-5 ml-1" />
+            חזרה
+          </Button>
+        </div>
         <DialogTitle className="text-xl font-bold text-white text-center">
           הרשמת לקוח חדש
         </DialogTitle>

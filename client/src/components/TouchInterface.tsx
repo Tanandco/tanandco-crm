@@ -64,7 +64,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
     },
     { 
       title: 'AI TAN', 
-      icon: <Alin size={85} className="max-w-[85px] max-h-[85px] md:max-w-[125px] md:max-h-[125px]" />, 
+      icon: <Alin size={95} className="max-w-[95px] max-h-[95px] md:max-w-[140px] md:max-h-[140px]" />, 
       id: 'ai-tan' 
     },
   ];
@@ -260,7 +260,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
             text-xl font-bold
           "
           style={{
-            filter: 'drop-shadow(0 0 20px rgba(59, 130, 246, 0.5)) drop-shadow(0 0 40px rgba(59, 130, 246, 0.4)) drop-shadow(0 0 60px rgba(59, 130, 246, 0.3))'
+            filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.6)) drop-shadow(0 0 40px rgba(236, 72, 153, 0.5)) drop-shadow(0 0 60px rgba(236, 72, 153, 0.4))'
           }}
           onClick={() => navigate('/self-service')}
         >
@@ -269,7 +269,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
             {/* Background glow effect */}
             <div className="absolute inset-0 -m-4"
               style={{
-                background: 'radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, rgba(59, 130, 246, 0.15) 40%, transparent 70%)',
+                background: 'radial-gradient(circle, rgba(236, 72, 153, 0.4) 0%, rgba(236, 72, 153, 0.2) 40%, transparent 70%)',
                 animation: 'pulse-bg 3s ease-in-out infinite',
                 filter: 'blur(12px)'
               }}
@@ -281,15 +281,31 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
               className="w-10 h-10 md:w-12 md:h-12 object-contain transition-all duration-300 group-hover:scale-110 relative z-10"
               style={{
                 opacity: 0.9,
-                filter: 'drop-shadow(0 0 12px rgba(59, 130, 246, 0.5))',
+                filter: 'drop-shadow(0 0 12px rgba(236, 72, 153, 0.6))',
                 animation: 'shine 3s ease-in-out infinite'
               }}
             />
           </div>
           
           <div className="text-center mt-0.5" style={{ fontFamily: 'Varela Round, sans-serif' }}>
-            <div className="text-sm md:text-base font-semibold text-white group-hover:text-blue-100 transition-colors">מעבר לשירות עצמי</div>
-            <div className="text-sm md:text-base font-semibold text-white group-hover:text-blue-100 transition-colors">24/7</div>
+            <div 
+              className="text-sm md:text-base font-semibold transition-colors"
+              style={{
+                color: 'rgb(236, 72, 153)',
+                textShadow: '0 0 8px rgba(236, 72, 153, 0.5)'
+              }}
+            >
+              מעבר לשירות עצמי
+            </div>
+            <div 
+              className="text-sm md:text-base font-semibold transition-colors"
+              style={{
+                color: 'rgb(236, 72, 153)',
+                textShadow: '0 0 8px rgba(236, 72, 153, 0.5)'
+              }}
+            >
+              24/7
+            </div>
           </div>
           
           {/* Ripple effect */}
@@ -320,11 +336,11 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
           @keyframes shine {
             0%, 100% { 
               opacity: 0.85;
-              filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.5));
+              filter: drop-shadow(0 0 15px rgba(236, 72, 153, 0.6));
             }
             50% { 
               opacity: 1;
-              filter: drop-shadow(0 0 25px rgba(59, 130, 246, 0.8)) drop-shadow(0 0 40px rgba(59, 130, 246, 0.4));
+              filter: drop-shadow(0 0 25px rgba(236, 72, 153, 0.8)) drop-shadow(0 0 40px rgba(236, 72, 153, 0.5));
             }
           }
         `}</style>

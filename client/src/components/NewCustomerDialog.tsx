@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CreditCard, User, CheckCircle2 } from 'lucide-react';
+import { CreditCard, User, CheckCircle2, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
@@ -213,6 +213,18 @@ export default function NewCustomerDialog({ open, onOpenChange }: NewCustomerDia
         dir="rtl"
       >
         <DialogHeader>
+          <div className="flex items-center justify-between mb-2">
+            <Button
+              onClick={handleClose}
+              variant="ghost"
+              size="sm"
+              className="text-white/70 hover:text-white"
+              data-testid="button-back-new-customer"
+            >
+              <ArrowLeft className="w-5 h-5 ml-1" />
+              חזרה
+            </Button>
+          </div>
           <DialogTitle 
             className="text-3xl font-bold text-center"
             style={{
