@@ -160,7 +160,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
       </div>
 
       {/* Welcome Header */}
-      <div className="absolute top-2 left-0 right-0 z-20">
+      <div className={`absolute top-2 left-0 right-0 z-20 transition-opacity duration-300 ${searchQuery.length >= 2 ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
         <div className="text-center space-y-2 md:space-y-4 px-4">
           <div className="flex items-center justify-center mb-1">
             <h1 
