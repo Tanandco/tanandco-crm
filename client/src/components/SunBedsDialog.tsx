@@ -151,18 +151,18 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
         <Button 
           onClick={() => onOpenChange(false)} 
           variant="outline" 
-          size="lg" 
-          className="bg-white/10 border-white/20 text-white backdrop-blur-sm px-2 py-1 md:px-4 md:py-2 text-xs md:text-base h-auto min-h-0 md:min-h-10"
+          size="sm" 
+          className="bg-white/10 border-white/20 text-white backdrop-blur-sm px-2 py-1 text-xs md:text-base h-auto min-h-0 md:min-h-10"
           data-testid="button-back-to-self-service"
         >
-          <ArrowLeft className="w-3 h-3 md:w-5 md:h-5 ml-1 md:ml-2" />
-          <span className="hidden md:inline">חזרה לשירות עצמי</span>
+          <ArrowLeft className="w-3 h-3 md:w-5 md:h-5 ml-1" />
           <span className="md:hidden">חזרה</span>
+          <span className="hidden md:inline">חזרה</span>
         </Button>
       </div>
 
       {/* Welcome Header */}
-      <div className="absolute top-16 left-0 right-0 z-20">
+      <div className="absolute top-4 left-0 right-0 z-20">
         <div className="text-center space-y-2 md:space-y-4 px-4">
           <div className="flex items-center justify-center mb-1">
             <h1 
@@ -188,7 +188,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
           </div>
           
           {/* About Us Section */}
-          <div className="px-2 mx-[9px]">
+          <div className="px-2 mx-[9px] hidden md:block">
             <p className="text-xs md:text-sm font-semibold text-white mb-2 md:mb-3 text-center font-varela">
               גאים להוביל את המודל ההייברידי של עולם השיזוף
             </p>
@@ -208,7 +208,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
 
       {/* Content Container - positioned lower to avoid overlap */}
       <div 
-        className="relative w-full max-w-4xl flex items-center justify-center mt-64 md:mt-80"
+        className="relative w-full max-w-4xl flex items-center justify-center mt-24 md:mt-80"
       >
         {/* Close Button */}
         <Button 
@@ -357,7 +357,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                 <button
                   onClick={option.onClick}
                   className="
-                    group relative h-[110px] w-[100px] md:h-[160px] md:w-[150px]
+                    group relative h-[90px] w-[85px] md:h-[160px] md:w-[150px]
                     bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
                     border hover:border-2
                     rounded-md backdrop-blur-sm
@@ -374,34 +374,34 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                   onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.6)'}
                   data-testid={(option as any).testId || `action-tile-${index}`}
                 >
-                <div className="h-16 md:h-32 flex items-center justify-center transition-all duration-150 group-hover:scale-110 overflow-visible">
+                <div className="h-14 md:h-32 flex items-center justify-center transition-all duration-150 group-hover:scale-110 overflow-visible">
                   {option.iconType === 'image' ? (
                     <img 
                       src={option.icon as string}
                       alt={option.title}
                       className={`${
                         option.title === "רכישת חבילה"
-                          ? "w-20 h-20 md:w-40 md:h-40"
+                          ? "w-16 h-16 md:w-40 md:h-40"
                           : option.title === "רכישת ברונזרים"
-                          ? "w-16 h-16 md:w-30 md:h-30"
+                          ? "w-14 h-14 md:w-30 md:h-30"
                           : option.title === "לקוח חדש - הרשמה"
-                          ? "w-14 h-14 md:w-28 md:h-28"
-                          : "w-16 h-16 md:w-32 md:h-32"
+                          ? "w-12 h-12 md:w-28 md:h-28"
+                          : "w-14 h-14 md:w-32 md:h-32"
                       } object-contain group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]`}
                       style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }}
                     />
                   ) : option.iconType === 'component' ? (
-                    <div className="scale-[0.85] md:scale-[1.25]">
-                      <option.icon size={140} className="max-w-[100px] md:max-w-[170px] max-h-[100px] md:max-h-[170px]" />
+                    <div className="scale-[0.7] md:scale-[1.25]">
+                      <option.icon size={140} className="max-w-[85px] md:max-w-[170px] max-h-[85px] md:max-h-[170px]" />
                     </div>
                   ) : option.icon && !option.isFunction && (
                     <option.icon 
-                      className="w-16 h-16 md:w-32 md:h-32 text-pink-400 group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
+                      className="w-14 h-14 md:w-32 md:h-32 text-pink-400 group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
                       style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }}
                     />
                   )}
                 </div>
-                <span className="text-xs md:text-sm font-medium text-white text-center font-hebrew px-1 md:px-2">
+                <span className="text-[10px] md:text-sm font-medium text-white text-center font-hebrew px-1 md:px-2 leading-tight">
                   {option.title}
                 </span>
                 
