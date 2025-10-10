@@ -29,7 +29,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
   const [selectedCustomerId, setSelectedCustomerId] = useState<string | null>(null);
   const [typedText, setTypedText] = useState("");
   
-  const fullText = "היי אני אלין , אני פה לעזור לכם בכל שלב בכל שעה\nמבטיחה לא לחפור";
+  const fullText = "היי אני אלין , אני פה לעזור לכם בכל שלב בכל שעה , מבטיחה לא לחפור";
   
   useEffect(() => {
     if (open) {
@@ -495,12 +495,12 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
         {/* Text bubble with typing animation */}
         {typedText && (
           <div 
-            className="bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border-2 border-pink-500/60 text-white px-4 py-2 rounded-lg backdrop-blur-md animate-in slide-in-from-right duration-700 -ml-16 max-w-[75vw] md:max-w-md transition-all duration-200"
+            className="bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border-2 border-pink-500/60 text-white px-4 py-2 rounded-lg backdrop-blur-md animate-in slide-in-from-right duration-700 -ml-16 max-w-[85vw] md:max-w-2xl transition-all duration-200"
             style={{ 
               boxShadow: '0 0 20px rgba(236, 72, 153, 0.3), inset 0 0 20px rgba(0, 0, 0, 0.3)'
             }}
           >
-            <p className="text-xs md:text-sm font-hebrew leading-snug whitespace-pre-line">
+            <p className="text-[10px] md:text-sm font-hebrew leading-snug whitespace-nowrap">
               {typedText}
               <span className="animate-pulse">|</span>
             </p>
