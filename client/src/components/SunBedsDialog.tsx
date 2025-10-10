@@ -222,7 +222,74 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
 
         {/* Service Fields - All in one row on desktop, two rows on mobile */}
         <div className="w-full max-w-6xl mx-auto px-4 space-y-6">
-          {/* Customer Search Bar - Moved to top */}
+          {/* Service Buttons */}
+          <div className="grid grid-cols-2 md:flex gap-2 justify-center md:flex-nowrap animate-scale-in max-w-[178px] md:max-w-none mx-auto">
+            {tanningOptions.map((option, index) => (
+              <div key={index} className="relative">
+                {/* Solid black background */}
+                <div className="absolute inset-0 bg-black rounded-md" />
+                
+                <button
+                  onClick={option.onClick}
+                  className="
+                    group relative h-[90px] w-[85px] md:h-[160px] md:w-[150px]
+                    bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
+                    border hover:border-2
+                    rounded-md backdrop-blur-sm
+                    flex flex-col items-center justify-between pb-2 md:pb-4
+                    transition-all duration-150 ease-in-out
+                    hover-elevate active-elevate-2
+                    overflow-visible
+                  "
+                  style={{
+                    borderColor: 'rgba(236, 72, 153, 0.6)',
+                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 1)'}
+                  onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.6)'}
+                  data-testid={(option as any).testId || `action-tile-${index}`}
+                >
+                <div className="h-14 md:h-32 flex items-center justify-center transition-all duration-150 group-hover:scale-110 overflow-visible">
+                  {option.iconType === 'image' ? (
+                    <img 
+                      src={option.icon as string}
+                      alt={option.title}
+                      className={`${
+                        option.title === "רכישת חבילה"
+                          ? "w-16 h-16 md:w-40 md:h-40"
+                          : option.title === "רכישת ברונזרים"
+                          ? "w-14 h-14 md:w-30 md:h-30"
+                          : option.title === "לקוח חדש - הרשמה"
+                          ? "w-12 h-12 md:w-28 md:h-28"
+                          : "w-14 h-14 md:w-32 md:h-32"
+                      } object-contain group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]`}
+                      style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }}
+                    />
+                  ) : option.iconType === 'component' ? (
+                    <div className="scale-[0.85] md:scale-[1.4] flex items-center justify-center mt-2">
+                      <option.icon size={160} className="max-w-[95px] md:max-w-[190px] max-h-[95px] md:max-h-[190px]" />
+                    </div>
+                  ) : option.icon && !option.isFunction && (
+                    <option.icon 
+                      className="w-14 h-14 md:w-32 md:h-32 text-pink-400 group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
+                      style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }}
+                    />
+                  )}
+                </div>
+                <span className="text-[10px] md:text-sm font-medium text-white text-center font-hebrew px-1 md:px-2 leading-tight">
+                  {option.title}
+                </span>
+                
+                {/* Ripple effect */}
+                <div className="absolute inset-0 rounded-md overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-radial from-pink-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </div>
+              </button>
+              </div>
+            ))}
+          </div>
+
+          {/* Customer Search Bar - Moved below buttons */}
           <div className="w-[218px] md:w-[308px] mx-auto" dir="rtl">
             <div className="relative">
               <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-pink-500" 
@@ -344,73 +411,6 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                 )}
               </div>
             )}
-          </div>
-
-          {/* Service Buttons */}
-          <div className="grid grid-cols-2 md:flex gap-2 justify-center md:flex-nowrap animate-scale-in max-w-[178px] md:max-w-none mx-auto">
-            {tanningOptions.map((option, index) => (
-              <div key={index} className="relative">
-                {/* Solid black background */}
-                <div className="absolute inset-0 bg-black rounded-md" />
-                
-                <button
-                  onClick={option.onClick}
-                  className="
-                    group relative h-[90px] w-[85px] md:h-[160px] md:w-[150px]
-                    bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
-                    border hover:border-2
-                    rounded-md backdrop-blur-sm
-                    flex flex-col items-center justify-between pb-2 md:pb-4
-                    transition-all duration-150 ease-in-out
-                    hover-elevate active-elevate-2
-                    overflow-visible
-                  "
-                  style={{
-                    borderColor: 'rgba(236, 72, 153, 0.6)',
-                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 1)'}
-                  onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.6)'}
-                  data-testid={(option as any).testId || `action-tile-${index}`}
-                >
-                <div className="h-14 md:h-32 flex items-center justify-center transition-all duration-150 group-hover:scale-110 overflow-visible">
-                  {option.iconType === 'image' ? (
-                    <img 
-                      src={option.icon as string}
-                      alt={option.title}
-                      className={`${
-                        option.title === "רכישת חבילה"
-                          ? "w-16 h-16 md:w-40 md:h-40"
-                          : option.title === "רכישת ברונזרים"
-                          ? "w-14 h-14 md:w-30 md:h-30"
-                          : option.title === "לקוח חדש - הרשמה"
-                          ? "w-12 h-12 md:w-28 md:h-28"
-                          : "w-14 h-14 md:w-32 md:h-32"
-                      } object-contain group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]`}
-                      style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }}
-                    />
-                  ) : option.iconType === 'component' ? (
-                    <div className="scale-[0.85] md:scale-[1.4] flex items-center justify-center mt-2">
-                      <option.icon size={160} className="max-w-[95px] md:max-w-[190px] max-h-[95px] md:max-h-[190px]" />
-                    </div>
-                  ) : option.icon && !option.isFunction && (
-                    <option.icon 
-                      className="w-14 h-14 md:w-32 md:h-32 text-pink-400 group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
-                      style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }}
-                    />
-                  )}
-                </div>
-                <span className="text-[10px] md:text-sm font-medium text-white text-center font-hebrew px-1 md:px-2 leading-tight">
-                  {option.title}
-                </span>
-                
-                {/* Ripple effect */}
-                <div className="absolute inset-0 rounded-md overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-radial from-pink-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </div>
-              </button>
-              </div>
-            ))}
           </div>
         </div>
       </div>
