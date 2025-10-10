@@ -97,7 +97,7 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
             </div>
 
             {/* Pricing Cards */}
-            <div className="grid grid-cols-3 gap-3 md:gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
               {packages.map((pkg, index) => (
                 <button
                   key={index}
@@ -107,8 +107,8 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
                   className={`
                     group relative
                     ${pkg.highlight 
-                      ? 'bg-gradient-to-br from-pink-900/40 via-purple-900/30 to-black border-2 border-pink-500' 
-                      : 'bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-pink-500/40'
+                      ? 'bg-gradient-to-br from-pink-900/40 via-purple-900/30 to-black border-2 border-pink-500 hover:border-pink-400' 
+                      : 'bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-pink-500/40 hover:border-pink-500'
                     }
                     rounded-lg p-4 md:p-6
                     hover-elevate active-elevate-2
@@ -118,14 +118,6 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
                     boxShadow: pkg.highlight 
                       ? '0 0 30px rgba(236, 72, 153, 0.4)' 
                       : '0 4px 12px rgba(0, 0, 0, 0.4)'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 1)';
-                    e.currentTarget.style.boxShadow = '0 0 35px rgba(236, 72, 153, 0.6)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = pkg.highlight ? 'rgba(236, 72, 153, 1)' : 'rgba(236, 72, 153, 0.4)';
-                    e.currentTarget.style.boxShadow = pkg.highlight ? '0 0 30px rgba(236, 72, 153, 0.4)' : '0 4px 12px rgba(0, 0, 0, 0.4)';
                   }}
                   data-testid={`package-${index}`}
                 >
