@@ -17,7 +17,7 @@ import cosmeticsIcon from '@assets/עיצוב ללא שם (31)_1759413948155.png
 import storeIcon from '@assets/freepik__online-store-shopping-bag-variation-a-3d-shopping-__47713_1759413103497.png';
 import selfServiceIcon from '@assets/עיצוב ללא שם (32)_1759414540774.png';
 import newCustomerIcon from '@assets/עיצוב ללא שם (4)_1760090011932.png';
-import selfServiceButtonIcon from '@assets/ללא שם (300 x 300 פיקסל)_1759994496500.gif';
+import selfServiceButtonVideo from '@assets/עיצוב ללא שם (11)_1760131088419.mp4';
 
 interface TouchInterfaceProps {
   onServiceSelect?: (service: string) => void;
@@ -275,14 +275,15 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
               }}
             />
             
-            <img 
-              src={selfServiceButtonIcon} 
-              alt="Self Service" 
+            <video 
+              src={selfServiceButtonVideo} 
+              autoPlay 
+              loop 
+              muted 
+              playsInline
               className="w-10 h-10 md:w-12 md:h-12 object-contain transition-all duration-300 group-hover:scale-110 relative z-10"
               style={{
-                opacity: 0.9,
-                filter: 'drop-shadow(0 0 12px rgba(236, 72, 153, 0.6))',
-                animation: 'shine 3s ease-in-out infinite'
+                opacity: 0.9
               }}
             />
           </div>
