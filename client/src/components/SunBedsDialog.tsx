@@ -311,11 +311,11 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                   )}
                 </div>
                 {/* Mobile text with line breaks */}
-                <span className="md:hidden font-medium text-white text-center font-hebrew px-1 leading-tight whitespace-pre-line" style={{ fontSize: '12px' }}>
+                <span className="block md:hidden font-medium text-white text-center font-hebrew px-1 leading-tight whitespace-pre-line" style={{ fontSize: '12px' }}>
                   {option.mobileTitle || option.title}
                 </span>
                 {/* Desktop text single line */}
-                <span className="hidden md:block text-base font-medium text-white text-center font-hebrew px-3 leading-tight">
+                <span className="hidden md:inline-block text-base font-medium text-white text-center font-hebrew px-3 leading-tight">
                   {option.title}
                 </span>
                 

@@ -33,8 +33,9 @@ This project is a premium touch-screen kiosk CRM system designed for Tan & Co sa
     * Back button minimalist icon-only design (h-8 w-8, ArrowLeft icon, no "חזרה" text)
     * Service fields positioned lower on mobile (mt-6) with right shift (pr-8) for better layout
     * Service button dimensions: 90×95px mobile with two-line text layout (12px inline style), 150×160px desktop with single-line text (text-base/16px)
-    * Button text uses separate spans for mobile/desktop: mobile displays mobileTitle with \n breaks, desktop shows full title
+    * Button text uses separate spans for mobile/desktop: mobile span (block md:hidden) displays mobileTitle with \n breaks, desktop span (hidden md:inline-block) shows full title
     * Text properly sized: 12px mobile (inline style to override CSS), 16px desktop (text-base)
+    * Responsive display fixed: mobile text hidden on desktop, desktop text hidden on mobile (explicit display states)
     * Service buttons arranged in 2×2 grid on mobile (grid-cols-2), single row on desktop
     * Customer search bar repositioned below service buttons (was above)
     * Search bar width: 188px mobile (2×90px + 8px), 308px desktop (2×150px + 8px)
