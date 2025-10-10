@@ -243,7 +243,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
         {/* Service Fields - All in one row on desktop, two rows on mobile */}
         <div className="w-full max-w-6xl mx-auto pl-14 pr-6 md:px-4 space-y-2 mt-6 md:mt-0">
           {/* Service Buttons */}
-          <div className="grid grid-cols-2 md:flex gap-2 justify-center md:flex-nowrap animate-scale-in max-w-[158px] md:max-w-none mx-auto">
+          <div className="grid grid-cols-2 md:flex gap-2 justify-center md:flex-nowrap animate-scale-in max-w-[188px] md:max-w-none mx-auto">
             {tanningOptions.map((option, index) => (
               <div key={index} className="relative">
                 {/* Solid black background */}
@@ -252,7 +252,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                 <button
                   onClick={option.onClick}
                   className="
-                    group relative h-[80px] w-[75px] md:h-[160px] md:w-[150px]
+                    group relative h-[85px] w-[90px] md:h-[160px] md:w-[150px]
                     bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
                     border hover:border-2
                     rounded-md backdrop-blur-sm
@@ -276,7 +276,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                       alt={option.title}
                       className={`${
                         option.title === "AI TAN"
-                          ? "scale-[1.3] md:scale-[1.9] mt-2"
+                          ? "scale-[1.0] md:scale-[1.9] mt-2"
                           : option.title === "רכישת חבילה"
                           ? "w-16 h-16 md:w-40 md:h-40"
                           : option.title === "רכישת ברונזרים"
@@ -306,7 +306,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                     />
                   )}
                 </div>
-                <span className="text-[10px] md:text-sm font-medium text-white text-center font-hebrew px-1 md:px-2 leading-tight">
+                <span className="text-[14px] md:text-base font-medium text-white text-center font-hebrew px-1 md:px-2 leading-tight">
                   {option.title}
                 </span>
                 
@@ -320,7 +320,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
           </div>
 
           {/* Customer Search Bar - Moved below buttons */}
-          <div className="w-[158px] md:w-[308px] mx-auto" dir="rtl">
+          <div className="w-[188px] md:w-[308px] mx-auto" dir="rtl">
             <div className="relative">
               <Search className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-pink-500" 
                 style={{ filter: 'drop-shadow(0 0 8px rgba(236, 72, 153, 0.8))' }}

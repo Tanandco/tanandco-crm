@@ -32,13 +32,13 @@ This project is a premium touch-screen kiosk CRM system designed for Tan & Co sa
     * Info text sizing: text-[10px] on mobile, text-sm on desktop for optimal readability
     * Back button minimalist icon-only design (h-8 w-8, ArrowLeft icon, no "חזרה" text)
     * Service fields positioned lower on mobile (mt-6) with right shift (pr-8) for better layout
-    * Service button dimensions: 90×85px mobile, 160×150px desktop
+    * Service button dimensions: 90×85px mobile with enlarged text (text-sm/14px), 160×150px desktop with enlarged text (text-base/16px)
     * Service buttons arranged in 2×2 grid on mobile (grid-cols-2), single row on desktop
     * Customer search bar repositioned below service buttons (was above)
-    * Search bar width: 178px mobile (2×85px + 8px), 308px desktop (2×150px + 8px)
+    * Search bar width: 188px mobile (2×90px + 8px), 308px desktop (2×150px + 8px)
     * Search icon optimized: w-3.5 h-3.5 with pink neon glow
     * Reduced spacing between buttons and search bar (space-y-2) for compact layout
-    * Icon sizes optimized: AI TAN scale 1.3/1.9 (enlarged) with mt-2 vertical adjustment, New Customer 12px/28px, Bronzers 14px/30px, Package 16px/40px
+    * Icon sizes optimized: AI TAN scale 1.0/1.9 (mobile/desktop) with mt-2 vertical adjustment, New Customer 12px/28px, Bronzers 14px/30px, Package 16px/40px
     * Replaced New Customer icon with pink plus icon (PNG) for modern neon aesthetic
     * AI TAN button: Blue neon Alin GIF (עיצוב ללא שם (5)_1760108712417.gif) with cyan glow (rgb(59, 130, 246)) to differentiate from pink chatbot, enhanced with contrast(1.15) brightness(1.05) for sharper visuals
     * Alin Chatbot (bottom-right corner): Clickable chatbot that opens chat interface, positioned with bottom-0 + translate-y-4 for optimal placement
