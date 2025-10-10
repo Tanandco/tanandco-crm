@@ -57,14 +57,6 @@ export default function SelfService() {
     closeSplash();
   };
 
-  const handleRippleMove = (e: React.MouseEvent<HTMLElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    e.currentTarget.style.setProperty('--x', `${x}px`);
-    e.currentTarget.style.setProperty('--y', `${y}px`);
-  };
-
   const handleLogoClick = () => {
     setPasswordDialogOpen(true);
   };
@@ -90,11 +82,9 @@ export default function SelfService() {
       } as React.CSSProperties}
     >
       <style>{`
-        /* Neon glow effect */
+        /* Neon glow effect - optimized */
         .neon-glow {
-          filter: drop-shadow(0 0 40px hsla(var(--primary)/0.40))
-                  drop-shadow(0 0 80px rgba(147,51,234,0.40))
-                  drop-shadow(0 0 20px rgba(236,72,153,0.50));
+          filter: drop-shadow(0 0 30px rgba(236,72,153,0.5));
         }
 
         /* Glow pulse animation */
@@ -117,18 +107,7 @@ export default function SelfService() {
           animation: fadeOut 0.6s ease forwards;
         }
 
-        /* Ripple effect */
-        .ripple {
-          position: relative;
-          overflow: hidden;
-        }
-        .ripple:hover {
-          background-image: radial-gradient(
-            circle at var(--x, 50%) var(--y, 50%),
-            hsla(var(--primary)/0.18),
-            transparent 40%
-          );
-        }
+        /* Ripple effect - removed for performance */
 
         /* Alin floating bubble animation */
         @keyframes bounce-slow {
@@ -154,22 +133,15 @@ export default function SelfService() {
           animation: slide-in-left 0.6s ease-out forwards;
         }
 
-        /* Typing animation */
+        /* Typing animation - optimized */
         @keyframes typing {
           from { width: 0; }
           to { width: 100%; }
         }
-        @keyframes blink-caret {
-          from, to { border-color: transparent; }
-          50% { border-color: rgba(236, 72, 153, 0.8); }
-        }
         .typing-effect {
           overflow: hidden;
           white-space: nowrap;
-          border-left: 3px solid rgba(236, 72, 153, 0.8);
-          animation: 
-            typing 2.5s steps(50, end) forwards,
-            blink-caret 0.75s step-end infinite;
+          animation: typing 2.5s steps(50, end) forwards;
           animation-delay: 0.3s;
           width: 0;
         }
@@ -319,8 +291,7 @@ export default function SelfService() {
               {/* Sun Beds */}
               <button
                 onClick={() => setSunBedsOpen(true)}
-                className="h-[100px] w-full md:h-[180px] md:w-[160px] rounded-xl p-1.5 md:p-3 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm animate-fade-in-up delay-0"
-                onMouseMove={handleRippleMove}
+                className="h-[100px] w-full md:h-[180px] md:w-[160px] rounded-xl p-1.5 md:p-3 bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm animate-fade-in-up delay-0"
                 data-testid="card-sun-beds"
               >
                 <div className="h-full w-full flex flex-col items-center justify-center text-center">
@@ -332,8 +303,7 @@ export default function SelfService() {
               {/* Spray Tan */}
               <button
                 onClick={() => setSprayTanOpen(true)}
-                className="h-[100px] w-full md:h-[180px] md:w-[160px] rounded-xl p-1.5 md:p-3 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm animate-fade-in-up delay-100"
-                onMouseMove={handleRippleMove}
+                className="h-[100px] w-full md:h-[180px] md:w-[160px] rounded-xl p-1.5 md:p-3 bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm animate-fade-in-up delay-100"
                 data-testid="card-spray-tan"
               >
                 <div className="h-full w-full flex flex-col items-center justify-center text-center">
@@ -345,8 +315,7 @@ export default function SelfService() {
               {/* Hair Salon */}
               <a
                 href="/hair-studio"
-                className="h-[100px] w-full md:h-[180px] md:w-[160px] rounded-xl p-1.5 md:p-3 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm flex items-center justify-center text-center animate-fade-in-up delay-200"
-                onMouseMove={handleRippleMove}
+                className="h-[100px] w-full md:h-[180px] md:w-[160px] rounded-xl p-1.5 md:p-3 bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm flex items-center justify-center text-center animate-fade-in-up delay-200"
                 data-testid="card-hair-salon"
               >
                 <div className="h-full w-full flex flex-col items-center justify-center text-center">
@@ -358,8 +327,7 @@ export default function SelfService() {
               {/* Cosmetics */}
               <button
                 onClick={() => setCosmeticsOpen(true)}
-                className="h-[100px] w-full md:h-[180px] md:w-[160px] rounded-xl p-1.5 md:p-3 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm animate-fade-in-up delay-300"
-                onMouseMove={handleRippleMove}
+                className="h-[100px] w-full md:h-[180px] md:w-[160px] rounded-xl p-1.5 md:p-3 bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm animate-fade-in-up delay-300"
                 data-testid="card-cosmetics"
               >
                 <div className="h-full w-full flex flex-col items-center justify-center text-center">
@@ -371,8 +339,7 @@ export default function SelfService() {
               {/* Store */}
               <a
                 href="/shop"
-                className="h-[100px] w-full md:h-[180px] md:w-[160px] rounded-xl p-1.5 md:p-3 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm flex items-center justify-center text-center animate-fade-in-up delay-400"
-                onMouseMove={handleRippleMove}
+                className="h-[100px] w-full md:h-[180px] md:w-[160px] rounded-xl p-1.5 md:p-3 bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm flex items-center justify-center text-center animate-fade-in-up delay-400"
                 data-testid="card-store"
               >
                 <div className="h-full w-full flex flex-col items-center justify-center text-center">
@@ -384,8 +351,7 @@ export default function SelfService() {
               {/* AI TAN (Alin) */}
               <a
                 href="/ai-tan"
-                className="h-[100px] w-full md:h-[180px] md:w-[160px] rounded-xl p-1.5 md:p-3 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(59,130,246,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm animate-fade-in-up delay-500"
-                onMouseMove={handleRippleMove}
+                className="h-[100px] w-full md:h-[180px] md:w-[160px] rounded-xl p-1.5 md:p-3 bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(59,130,246,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm animate-fade-in-up delay-500"
                 data-testid="card-ai-tan"
               >
                 <div className="h-full w-full flex flex-col items-center justify-center text-center">
