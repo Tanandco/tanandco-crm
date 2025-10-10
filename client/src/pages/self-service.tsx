@@ -231,7 +231,7 @@ export default function SelfService() {
             <h1 className="mt-6 text-3xl md:text-5xl font-extrabold">שירות עצמי 24/7</h1>
             <p className="mt-2 text-white/70">כניסה בזיהוי פנים · ללא תיאום מראש · צוות אנושי זמין</p>
 
-            <div className="mt-20 flex flex-wrap gap-3 justify-center">
+            <div className="mt-24 md:mt-20 flex flex-wrap gap-3 justify-center">
               <a
                 href="#services"
                 className="px-6 py-3 rounded-2xl font-semibold bg-[hsl(var(--primary))] text-black hover:opacity-90 transition-opacity"

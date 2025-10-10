@@ -29,7 +29,7 @@ This project is a premium touch-screen kiosk CRM system designed for Tan & Co sa
     * Increased icon sizes: AI TAN 95px mobile/140px desktop, New Customer 80px mobile/128px desktop
     * Replaced New Customer icon with animated pink plus icon (GIF) for modern neon aesthetic
     * Service buttons arranged in 2 rows on mobile vs 1 row on desktop
-  - Self-service splash screen: Buttons positioned lower on page (mt-16) for better visual balance
+  - Self-service splash screen: Buttons positioned lower on page (mt-24 mobile, mt-20 desktop) for better visual balance and spacing from service cards
   - Hidden Alin floating bubble footer on mobile, visible on desktop only
 - Bug fixes (October 8, 2025):
   - Fixed type error in NewCustomerDialog where parseInt() received undefined values
