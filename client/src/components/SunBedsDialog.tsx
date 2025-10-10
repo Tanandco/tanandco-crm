@@ -276,7 +276,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                       alt={option.title}
                       className={`${
                         option.title === "AI TAN"
-                          ? "scale-[0.85] md:scale-[1.4]"
+                          ? "scale-[1.3] md:scale-[1.9]"
                           : option.title === "רכישת חבילה"
                           ? "w-16 h-16 md:w-40 md:h-40"
                           : option.title === "רכישת ברונזרים"
