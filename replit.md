@@ -19,17 +19,9 @@ This project is a premium touch-screen kiosk CRM system designed for Tan & Co sa
   - **Visual enhancements**: Added pink-purple gradient separator line under logo, removed "בחרו את השירות המועדף עליכם" header
   - **Footer optimization**: Fixed Alin duplication - consolidated to single responsive component with max-w constraints
   - **Layout**: 3-column grid (2 rows) on mobile, flex layout on desktop with all content fitting without excessive scrolling
-- **Spray Tan Dialog Complete Redesign** (October 10, 2025):
-  - Modern minimalist redesign based on user's design mockup featuring spray machine image
-  - Desktop: Two-column layout with content left, spray machine image right with pink glow effect
-  - Mobile: Single-column responsive layout with stacked content and full-width cards
-  - Three pricing packages with modern design (170₪ single, 450₪ for 3 sessions, 800₪ for 6 sessions)
-  - Middle package highlighted with pink border glow, shadow effect, and "פופולרי" badge
-  - Dark gradient background (from-gray-900 via-black to-gray-800) with backdrop blur
-  - Title with gradient pink underline and RTL Hebrew text alignment
-  - Benefits list with pink bullet points describing 24/7 access and face recognition entry
-  - CSS-based hover effects (no imperative handlers) for consistent touch/mouse interaction
-  - Fully tested on mobile (390x844) and desktop (1280x720) viewports
+- **Spray Tan Dialog Reset** (October 10, 2025):
+  - Reset to basic structure - simple dialog with title and back button
+  - Ready for fresh implementation based on user requirements
 - Excel import system for migrating 216 existing subscribers with packages and balances
 - Successfully imported legacy customer data with automated phone normalization and membership creation
 - BioStar sync system to match CRM customers with existing BioStar face recognition users
