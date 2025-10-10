@@ -208,7 +208,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
 
       {/* Content Container - positioned lower to avoid overlap */}
       <div 
-        className="relative w-full max-w-4xl flex items-center justify-center mt-48 md:mt-80"
+        className="relative w-full max-w-4xl flex items-center justify-center mt-64 md:mt-80"
       >
         {/* Close Button */}
         <Button 
