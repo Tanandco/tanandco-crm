@@ -292,7 +292,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
           {/* Customer Search Bar - Moved below buttons */}
           <div className="w-[178px] md:w-[308px] mx-auto" dir="rtl">
             <div className="relative">
-              <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-pink-500" 
+              <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-3 h-3 text-pink-500" 
                 style={{ filter: 'drop-shadow(0 0 8px rgba(236, 72, 153, 0.8))' }}
               />
               <Input
