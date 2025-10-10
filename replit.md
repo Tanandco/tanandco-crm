@@ -39,7 +39,7 @@ This project is a premium touch-screen kiosk CRM system designed for Tan & Co sa
 - UI improvements (October 10, 2025):
   - Optimized service card icon sizing with responsive constraints across TouchInterface and self-service pages
   - AI TAN icon enlarged: 95px mobile (was 85px), 140px desktop (was 125px) for stronger visual hierarchy
-  - Self-service page: Regular icons 115px, AI TAN 125px (on 180px cards)
+  - Self-service page: Regular icons 115px, AI TAN 155px (on 180px cards); All titles uniformly sized at text-[10px] md:text-sm including AI TAN for consistent alignment
   - TouchInterface: Regular icons 70px mobile/115px desktop, AI TAN 95px mobile/140px desktop (on 110px/160px cards)
     * Self-service button positioned lower (mt-10 mobile, mt-16 desktop) for better spacing from service cards
     * Self-service button: Pink neon glow background (rgba(236, 72, 153)) with subtle text-shadow
@@ -52,21 +52,20 @@ This project is a premium touch-screen kiosk CRM system designed for Tan & Co sa
   - Sun Beds Dialog improvements:
     * Removed interfering AlinChatBox floating bubble from dialog
     * Alin upgraded to animated GIF with pink/transparent background (replaced white background version)
-    * Alin sizing enlarged: scale 0.85 mobile, 1.4 desktop with mt-2 vertical adjustment for optimal positioning
+    * Alin sizing: scale 0.6 mobile, 0.9 desktop (reduced for proportional sizing)
     * Welcome header positioned at very top (top-2) with full info text now visible on both mobile and desktop
-    * Info text sizing: text-[10px] on mobile, text-sm on desktop for optimal readability
+    * Info text sizing: text-xs on mobile (improved readability), text-base on desktop
     * Back button minimalist icon-only design (h-8 w-8, ArrowLeft icon, no "חזרה" text)
     * Service fields positioned lower on mobile (mt-6) with right shift (pr-8) for better layout
-    * Service button dimensions: 90×95px mobile with two-line text layout (12px inline style), 150×160px desktop with single-line text (text-base/16px)
-    * Button text uses separate spans for mobile/desktop: mobile span (block md:hidden) displays mobileTitle with \n breaks, desktop span (hidden md:inline-block) shows full title
-    * Text properly sized: 12px mobile (inline style to override CSS), 16px desktop (text-base)
-    * Responsive display fixed: mobile text hidden on desktop, desktop text hidden on mobile (explicit display states)
+    * Service button dimensions: 110×100px mobile, 150×145px desktop (consistent with other dialogs)
+    * Button layout: flex items-center justify-center for proper alignment
+    * Text: Single line only - text-[11px] mobile, text-sm desktop (no mobile/desktop split)
     * Service buttons arranged in 2×2 grid on mobile (grid-cols-2), single row on desktop
     * Customer search bar repositioned below service buttons (was above)
-    * Search bar width: 188px mobile (2×90px + 8px), 308px desktop (2×150px + 8px)
+    * Search bar width: 228px mobile (2×110px + 8px gap), 308px desktop (2×150px + 8px gap)
     * Search icon optimized: w-3.5 h-3.5 with pink neon glow
     * Reduced spacing between buttons and search bar (space-y-2) for compact layout
-    * Icon sizes optimized: AI TAN scale 1.0/1.9 (mobile/desktop) with mt-2 vertical adjustment, New Customer 12px/28px, Bronzers 14px/30px, Package 16px/40px
+    * Icon sizes optimized proportionally: AI TAN 60×60/80×80, Package 50×50/70×70, Bronzers 45×45/65×65, New Customer 40×40/60×60 (mobile/desktop)
     * Replaced New Customer icon with pink plus icon (PNG) for modern neon aesthetic
     * AI TAN button: Blue neon Alin GIF (עיצוב ללא שם (5)_1760108712417.gif) with cyan glow (rgb(59, 130, 246)) to differentiate from pink chatbot, enhanced with contrast(1.15) brightness(1.05) for sharper visuals
     * Alin Chatbot (bottom-right corner): Clickable chatbot that opens chat interface, positioned with bottom-0 + translate-y-4 for optimal placement
