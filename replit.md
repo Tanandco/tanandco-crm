@@ -5,6 +5,12 @@
 This project is a premium touch-screen kiosk CRM system designed for Tan & Co salon/spa operations. It features a modern Hebrew RTL interface with a neon aesthetic, focusing on customer self-service and salon management. The system integrates with multiple external services for payments, customer identification, access control, and automated marketing workflows, aiming to streamline salon operations and enhance the customer experience.
 
 **Recent Updates (October 2025)**:
+- **Password Protection for Self-Service Exit** (October 10, 2025):
+  - Added password dialog when clicking logo in self-service page to return to main screen
+  - Password protection prevents unauthorized exit from self-service mode
+  - Navigation from main screen to self-service is open to all users
+  - Password: 1234 (configured in PasswordDialog component)
+  - RTL dialog with neon aesthetic matching the app design
 - **Self-Service Page Comprehensive Redesign** (October 10, 2025):
   - **Card sizing**: Reduced to 100px height on mobile (from 120px) with p-1.5 padding for compact layout
   - **Text optimization**: text-xs (12px) for descriptions, text-sm (14px) for final message on mobile

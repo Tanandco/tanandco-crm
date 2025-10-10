@@ -8,6 +8,7 @@ import SprayTanDialog from '@/components/SprayTanDialog';
 import HairSalonDialog from '@/components/HairSalonDialog';
 import CosmeticsDialog from '@/components/CosmeticsDialog';
 import ChatBox from '@/components/ChatBox';
+import PasswordDialog from '@/components/PasswordDialog';
 import tanningBedIcon from '@assets/עיצוב ללא שם (30)_1759413689481.png';
 import sprayTanIcon from '@assets/freepik__spray-tan-variation-b-modern-flatbadge-3d-spray-gu__47717_1759413070782.png';
 import hairSalonIcon from '@assets/freepik__3d-neon-pink-icon-of-a-hair-salon-symbol-stylized-__47719_1759413079154.png';
@@ -25,6 +26,7 @@ export default function SelfService() {
   const [hairSalonOpen, setHairSalonOpen] = useState(false);
   const [cosmeticsOpen, setCosmeticsOpen] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
+  const [passwordDialogOpen, setPasswordDialogOpen] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
@@ -61,6 +63,15 @@ export default function SelfService() {
     const y = e.clientY - rect.top;
     e.currentTarget.style.setProperty('--x', `${x}px`);
     e.currentTarget.style.setProperty('--y', `${y}px`);
+  };
+
+  const handleLogoClick = () => {
+    setPasswordDialogOpen(true);
+  };
+
+  const handlePasswordSuccess = () => {
+    setPasswordDialogOpen(false);
+    navigate('/');
   };
 
   return (
@@ -259,12 +270,17 @@ export default function SelfService() {
         <section className="relative overflow-hidden py-2">
           <div className="absolute inset-0 bg-gradient-to-br from-black via-black/95 to-[hsla(var(--primary)/0.05)]" />
           <div className="relative max-w-6xl mx-auto px-3 text-center">
-            <Logo 
-              className="mx-auto"
-              size="medium"
-              showGlow={true}
-              showUnderline={false}
-            />
+            <button 
+              onClick={handleLogoClick}
+              className="mx-auto cursor-pointer hover:opacity-90 transition-opacity"
+              data-testid="button-logo-home"
+            >
+              <Logo 
+                size="medium"
+                showGlow={true}
+                showUnderline={false}
+              />
+            </button>
             
             {/* Neon line under logo */}
             <div className="mt-2 h-px w-64 mx-auto bg-gradient-to-r from-transparent via-[rgba(236,72,153,.6)] via-[rgba(147,51,234,.5)] to-transparent" />
@@ -420,6 +436,13 @@ export default function SelfService() {
       
       {/* CHATBOX */}
       <ChatBox open={chatOpen} onClose={() => setChatOpen(false)} />
+      
+      {/* PASSWORD DIALOG */}
+      <PasswordDialog 
+        open={passwordDialogOpen} 
+        onOpenChange={setPasswordDialogOpen}
+        onSuccess={handlePasswordSuccess}
+      />
     </div>
   );
 }
