@@ -496,7 +496,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
         {/* Alin avatar - clickable chatbot */}
         <button
           onClick={() => window.open('https://preview--radiant-booth-studio.lovable.app/', '_blank')}
-          className="hover:scale-110 transition-transform duration-200 flex-shrink-0"
+          className="hover:scale-110 transition-transform duration-200 flex-shrink-0 -ml-16"
           data-testid="button-alin-chatbot"
         >
           <Alin className="scale-[1.05] md:scale-[1.35] max-w-[120px] max-h-[120px] md:max-w-[150px] md:max-h-[150px]" />
