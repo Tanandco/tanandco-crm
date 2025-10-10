@@ -222,7 +222,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
         {/* Service Fields - All in one row on desktop, two rows on mobile */}
         <div className="w-full max-w-6xl mx-auto pl-4 pr-16 md:px-4 space-y-2 mt-6 md:mt-0">
           {/* Service Buttons */}
-          <div className="grid grid-cols-2 md:flex gap-2 justify-center md:flex-nowrap animate-scale-in max-w-[178px] md:max-w-none mx-auto">
+          <div className="grid grid-cols-2 md:flex gap-2 justify-center md:flex-nowrap animate-scale-in max-w-[158px] md:max-w-none mx-auto">
             {tanningOptions.map((option, index) => (
               <div key={index} className="relative">
                 {/* Solid black background */}
@@ -231,7 +231,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                 <button
                   onClick={option.onClick}
                   className="
-                    group relative h-[90px] w-[85px] md:h-[160px] md:w-[150px]
+                    group relative h-[80px] w-[75px] md:h-[160px] md:w-[150px]
                     bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
                     border hover:border-2
                     rounded-md backdrop-blur-sm
@@ -289,7 +289,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
           </div>
 
           {/* Customer Search Bar - Moved below buttons */}
-          <div className="w-[178px] md:w-[308px] mx-auto" dir="rtl">
+          <div className="w-[158px] md:w-[308px] mx-auto" dir="rtl">
             <div className="relative">
               <Search className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-pink-500" 
                 style={{ filter: 'drop-shadow(0 0 8px rgba(236, 72, 153, 0.8))' }}
