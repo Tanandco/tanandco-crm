@@ -215,14 +215,14 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
             <p className="text-xs md:text-sm font-semibold text-white mb-2 md:mb-3 text-center font-varela">
               גאים להוביל את המודל ההייברידי של עולם השיזוף
             </p>
-            <div className="text-gray-300 space-y-0.5 md:space-y-1 text-[10px] md:text-sm" dir="rtl">
+            <div className="text-gray-300 space-y-0.5 md:space-y-1 text-xs md:text-base" dir="rtl">
               <p>• ללא צורך בתיאום מראש או קביעת תורים</p>
               <p>• כניסה עצמאית בכל שעה של היום ובכל שעה של הלילה</p>
               <p>• מיטות השיזוף זמינות 24/7 ללקוחות הבוטיק</p>
               <p>• הכניסה למתחם השיזוף לאחר שעות הפעילות כרוך בהרשמה למערכת זיהוי פנים מתקדמת</p>
               <p>• צוות מקצועי ומנוסה שיעניק לכם שירות ברמה הגבוהה ביותר</p>
               <p>• שעות פעילות: 10:00-19:00, ימי שישי 10:00-14:00, ימי שבת סגור</p>
-              <p className="text-[10px] md:text-xs text-gray-400 mr-2">* בשירות עצמי לאחר שעות הפעילות</p>
+              <p className="text-xs md:text-sm text-gray-400 mr-2">* בשירות עצמי לאחר שעות הפעילות</p>
               <p>• שירות לקוחות זמין 24/7 • סביבה נקיה, בטוחה ומקצועית</p>
             </div>
           </div>
