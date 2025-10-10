@@ -5,6 +5,15 @@
 This project is a premium touch-screen kiosk CRM system designed for Tan & Co salon/spa operations. It features a modern Hebrew RTL interface with a neon aesthetic, focusing on customer self-service and salon management. The system integrates with multiple external services for payments, customer identification, access control, and automated marketing workflows, aiming to streamline salon operations and enhance the customer experience.
 
 **Recent Updates (October 2025)**:
+- **Spray Tan Dialog Redesign** (October 10, 2025):
+  - Complete modern redesign based on user's design mockup with spray machine image
+  - Two-column layout: content left, spray machine image right (desktop only)
+  - Three pricing cards with modern highlighted design (170₪, 450₪, 800₪)
+  - Middle card (450₪) highlighted with pink border glow and "פופולרי" badge
+  - Dark gradient background (from-gray-900 via-black to-gray-800)
+  - Benefits list with pink bullet points in RTL Hebrew
+  - Responsive mobile layout with single column
+  - Pink/purple neon aesthetic matching overall design system
 - Excel import system for migrating 216 existing subscribers with packages and balances
 - Successfully imported legacy customer data with automated phone normalization and membership creation
 - BioStar sync system to match CRM customers with existing BioStar face recognition users
