@@ -157,86 +157,86 @@ export default function HairStudio() {
 
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
           <div
-            className="group rounded-2xl border-2 border-[#d12fc6] bg-gradient-to-br from-[#9C4695]/20 to-transparent p-4 text-center hover:shadow-[0_0_30px_rgba(209,47,198,0.3)] transition-all duration-300 cursor-pointer"
+            className="group rounded-2xl border-2 border-[#d12fc6] bg-gradient-to-br from-[#9C4695]/20 to-transparent p-2 md:p-4 text-center hover:shadow-[0_0_30px_rgba(209,47,198,0.3)] transition-all duration-300 cursor-pointer"
             data-testid="category-1"
           >
             <div className="flex justify-center">
               <img
                 src={icon7}
                 alt=""
-                className="w-40 h-40 object-contain group-hover:scale-110 transition-transform"
+                className="w-24 h-24 md:w-40 md:h-40 object-contain group-hover:scale-110 transition-transform"
               />
             </div>
           </div>
           <div
-            className="group rounded-2xl border-2 border-[#d12fc6] bg-gradient-to-br from-[#9C4695]/20 to-transparent p-4 text-center hover:shadow-[0_0_30px_rgba(209,47,198,0.3)] transition-all duration-300 cursor-pointer"
+            className="group rounded-2xl border-2 border-[#d12fc6] bg-gradient-to-br from-[#9C4695]/20 to-transparent p-2 md:p-4 text-center hover:shadow-[0_0_30px_rgba(209,47,198,0.3)] transition-all duration-300 cursor-pointer"
             data-testid="category-2"
           >
             <div className="flex justify-center">
               <img
                 src={icon2}
                 alt=""
-                className="w-40 h-40 object-contain group-hover:scale-110 transition-transform"
+                className="w-24 h-24 md:w-40 md:h-40 object-contain group-hover:scale-110 transition-transform"
               />
             </div>
           </div>
           <div
-            className="group rounded-2xl border-2 border-[#d12fc6] bg-gradient-to-br from-[#9C4695]/20 to-transparent p-4 text-center hover:shadow-[0_0_30px_rgba(209,47,198,0.3)] transition-all duration-300 cursor-pointer"
+            className="group rounded-2xl border-2 border-[#d12fc6] bg-gradient-to-br from-[#9C4695]/20 to-transparent p-2 md:p-4 text-center hover:shadow-[0_0_30px_rgba(209,47,198,0.3)] transition-all duration-300 cursor-pointer"
             data-testid="category-3"
           >
             <div className="flex justify-center">
               <img
                 src={icon3}
                 alt=""
-                className="w-40 h-40 object-contain group-hover:scale-110 transition-transform"
+                className="w-24 h-24 md:w-40 md:h-40 object-contain group-hover:scale-110 transition-transform"
               />
             </div>
           </div>
           <div
-            className="group rounded-2xl border-2 border-[#d12fc6] bg-gradient-to-br from-[#9C4695]/20 to-transparent p-4 text-center hover:shadow-[0_0_30px_rgba(209,47,198,0.3)] transition-all duration-300 cursor-pointer"
+            className="group rounded-2xl border-2 border-[#d12fc6] bg-gradient-to-br from-[#9C4695]/20 to-transparent p-2 md:p-4 text-center hover:shadow-[0_0_30px_rgba(209,47,198,0.3)] transition-all duration-300 cursor-pointer"
             data-testid="category-4"
           >
             <div className="flex justify-center">
               <img
                 src={icon5}
                 alt=""
-                className="w-40 h-40 object-contain group-hover:scale-110 transition-transform"
+                className="w-24 h-24 md:w-40 md:h-40 object-contain group-hover:scale-110 transition-transform"
               />
             </div>
           </div>
           <div
-            className="group rounded-2xl border-2 border-[#d12fc6] bg-gradient-to-br from-[#9C4695]/20 to-transparent p-4 text-center hover:shadow-[0_0_30px_rgba(209,47,198,0.3)] transition-all duration-300 cursor-pointer"
+            className="group rounded-2xl border-2 border-[#d12fc6] bg-gradient-to-br from-[#9C4695]/20 to-transparent p-2 md:p-4 text-center hover:shadow-[0_0_30px_rgba(209,47,198,0.3)] transition-all duration-300 cursor-pointer"
             data-testid="category-5"
           >
             <div className="flex justify-center">
               <img
                 src={icon6}
                 alt=""
-                className="w-40 h-40 object-contain group-hover:scale-110 transition-transform"
+                className="w-24 h-24 md:w-40 md:h-40 object-contain group-hover:scale-110 transition-transform"
               />
             </div>
           </div>
           <div
-            className="group rounded-2xl border-2 border-[#d12fc6] bg-gradient-to-br from-[#9C4695]/20 to-transparent p-4 text-center hover:shadow-[0_0_30px_rgba(209,47,198,0.3)] transition-all duration-300 cursor-pointer"
+            className="group rounded-2xl border-2 border-[#d12fc6] bg-gradient-to-br from-[#9C4695]/20 to-transparent p-2 md:p-4 text-center hover:shadow-[0_0_30px_rgba(209,47,198,0.3)] transition-all duration-300 cursor-pointer"
             data-testid="category-6"
           >
             <div className="flex justify-center">
               <img
                 src={icon1}
                 alt=""
-                className="w-40 h-40 object-contain group-hover:scale-110 transition-transform"
+                className="w-24 h-24 md:w-40 md:h-40 object-contain group-hover:scale-110 transition-transform"
               />
             </div>
           </div>
           <div
-            className="group rounded-2xl border-2 border-[#d12fc6] bg-gradient-to-br from-[#9C4695]/20 to-transparent p-4 text-center hover:shadow-[0_0_30px_rgba(209,47,198,0.3)] transition-all duration-300 cursor-pointer"
+            className="group rounded-2xl border-2 border-[#d12fc6] bg-gradient-to-br from-[#9C4695]/20 to-transparent p-2 md:p-4 text-center hover:shadow-[0_0_30px_rgba(209,47,198,0.3)] transition-all duration-300 cursor-pointer"
             data-testid="category-7"
           >
             <div className="flex justify-center">
               <img
                 src={icon4}
                 alt=""
-                className="w-40 h-40 object-contain group-hover:scale-110 transition-transform"
+                className="w-24 h-24 md:w-40 md:h-40 object-contain group-hover:scale-110 transition-transform"
               />
             </div>
           </div>
