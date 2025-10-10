@@ -6,15 +6,15 @@ interface AlinProps {
 }
 
 export default function Alin({ className = "", size = 20 }: AlinProps) {
-  // If className contains width/height, use it; otherwise use size prop
-  const hasCustomSize = className.includes('w-[') || className.includes('h-[');
+  // If className contains width/height (including max), use it; otherwise use size prop
+  const hasCustomSize = className.includes('w-[') || className.includes('h-[') || className.includes('max-w-[') || className.includes('max-h-[');
   
   return (
-    <div className={`relative inline-block ${className}`} data-testid="alin-chatbot">
+    <div className={`relative inline-block ${hasCustomSize ? className : ''}`} data-testid="alin-chatbot">
       <img 
         src={alinImage}
         alt="אלין הצ'טבוט"
-        className="object-contain"
+        className={`object-contain ${hasCustomSize ? className : ''}`}
         style={{
           ...(!hasCustomSize && { width: `${size}px`, height: `${size}px` }),
           filter: 'drop-shadow(0 0 15px rgba(236, 72, 153, 0.8))'
