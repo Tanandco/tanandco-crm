@@ -481,21 +481,12 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
         </div>
       )}
 
-      {/* Alin Chatbot - Bottom center */}
-      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-30 flex items-center justify-center">
-        {/* Alin avatar - clickable chatbot */}
-        <button
-          onClick={() => window.open('https://preview--radiant-booth-studio.lovable.app/', '_blank')}
-          className="hover:scale-110 transition-transform duration-200 relative z-10"
-          data-testid="button-alin-chatbot"
-        >
-          <Alin className="scale-[1.05] md:scale-[1.35] max-w-[120px] max-h-[120px] md:max-w-[150px] md:max-h-[150px]" />
-        </button>
-        
+      {/* Alin Chatbot - Bottom right */}
+      <div className="fixed bottom-4 right-4 z-30 flex items-center justify-end space-x-reverse space-x-4">
         {/* Text bubble with typing animation */}
         {typedText && (
           <div 
-            className="bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border-2 border-pink-500/60 text-white px-4 py-2 rounded-lg backdrop-blur-md animate-in slide-in-from-right duration-700 -ml-16 max-w-[85vw] md:max-w-2xl transition-all duration-200"
+            className="bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border-2 border-pink-500/60 text-white px-4 py-2 rounded-lg backdrop-blur-md animate-in slide-in-from-left duration-700 max-w-[75vw] md:max-w-2xl transition-all duration-200"
             style={{ 
               boxShadow: '0 0 20px rgba(236, 72, 153, 0.3), inset 0 0 20px rgba(0, 0, 0, 0.3)'
             }}
@@ -506,6 +497,15 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
             </p>
           </div>
         )}
+        
+        {/* Alin avatar - clickable chatbot */}
+        <button
+          onClick={() => window.open('https://preview--radiant-booth-studio.lovable.app/', '_blank')}
+          className="hover:scale-110 transition-transform duration-200 relative z-10"
+          data-testid="button-alin-chatbot"
+        >
+          <Alin className="scale-[1.05] md:scale-[1.35] max-w-[120px] max-h-[120px] md:max-w-[150px] md:max-h-[150px]" />
+        </button>
       </div>
 
     </div>
