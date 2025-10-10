@@ -12,7 +12,7 @@ import ZenCarousel from "@/components/ZenCarousel";
 import { Badge } from "@/components/ui/badge";
 import bronzerIcon from '@assets/4_1759474624696.png';
 import packageIcon from '@assets/member-card-icon.png';
-import newCustomerIcon from '@assets/freepik__assistant__10904_1760074941519.png';
+import newCustomerIcon from '@assets/+ אייקון_1760088133966.gif';
 
 interface SunBedsDialogProps {
   open: boolean;
