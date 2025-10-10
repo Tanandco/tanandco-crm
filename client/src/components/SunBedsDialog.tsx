@@ -383,7 +383,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                         option.title === "רכישת חבילה"
                           ? "w-22 h-22 md:w-40 md:h-40"
                           : option.title === "רכישת ברונזרים"
-                          ? "w-18 h-18 md:w-32 md:h-32"
+                          ? "w-17 h-17 md:w-30 md:h-30"
                           : option.title === "לקוח חדש - הרשמה"
                           ? "w-16 h-16 md:w-28 md:h-28"
                           : "w-18 h-18 md:w-32 md:h-32"
