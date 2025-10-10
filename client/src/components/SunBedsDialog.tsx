@@ -482,7 +482,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
       )}
 
       {/* Alin Chatbot - Bottom center */}
-      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-30 flex items-center -space-x-8">
+      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-30 flex items-center -space-x-20">
         {/* Text bubble with typing animation */}
         {typedText && (
           <div className="bg-pink-500/90 text-white px-4 py-2 rounded-l-full rounded-tr-full shadow-lg animate-in slide-in-from-left duration-700" style={{ textShadow: '0 0 10px rgba(0, 0, 0, 0.3)' }}>
