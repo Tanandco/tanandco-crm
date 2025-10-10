@@ -16,7 +16,7 @@ import hairSalonIcon from '@assets/freepik__3d-neon-pink-icon-of-a-hair-salon-sy
 import cosmeticsIcon from '@assets/עיצוב ללא שם (31)_1759413948155.png';
 import storeIcon from '@assets/freepik__online-store-shopping-bag-variation-a-3d-shopping-__47713_1759413103497.png';
 import selfServiceIcon from '@assets/עיצוב ללא שם (32)_1759414540774.png';
-import newCustomerIcon from '@assets/Dהורדותfreepik__spray-tan-variation-b-modern-flatbadge-3d-spray-gu__47717.png_1759805942437.png';
+import newCustomerIcon from '@assets/עיצוב ללא שם (4)_1760090011932.png';
 import selfServiceButtonIcon from '@assets/ללא שם (300 x 300 פיקסל)_1759994496500.gif';
 
 interface TouchInterfaceProps {
