@@ -349,7 +349,7 @@ export default function SelfService() {
                 onMouseMove={handleRippleMove}
                 data-testid="card-hair-salon"
               >
-                <div className="flex flex-col items-center justify-center">
+                <div className="h-full w-full flex flex-col items-center justify-center text-center">
                   <img src={hairSalonIcon} alt="מספרה" className="max-w-[80px] max-h-[80px] md:max-w-[140px] md:max-h-[140px] mb-0.5 md:mb-2 neon-glow object-contain" />
                   <div className="text-[10px] md:text-sm font-bold tracking-tight leading-tight">מספרה</div>
                 </div>
@@ -375,7 +375,7 @@ export default function SelfService() {
                 onMouseMove={handleRippleMove}
                 data-testid="card-store"
               >
-                <div className="flex flex-col items-center justify-center">
+                <div className="h-full w-full flex flex-col items-center justify-center text-center">
                   <img src={storeIcon} alt="החנות שלכם" className="max-w-[60px] max-h-[60px] md:max-w-[115px] md:max-h-[115px] mb-0.5 md:mb-2 neon-glow object-contain" />
                   <div className="text-[10px] md:text-sm font-bold tracking-tight leading-tight">החנות שלכם</div>
                 </div>
@@ -392,10 +392,10 @@ export default function SelfService() {
                   <img 
                     src={blueAlinGif} 
                     alt="AI TAN" 
-                    className="max-w-[95px] max-h-[95px] md:max-w-[155px] md:max-h-[155px] object-contain"
+                    className="max-w-[95px] max-h-[95px] md:max-w-[155px] md:max-h-[155px] mb-0.5 md:mb-2 object-contain"
                     style={{ filter: 'drop-shadow(0 0 20px rgb(59, 130, 246)) contrast(1.15) brightness(1.05)' }}
                   />
-                  <div className="text-[10px] md:text-base font-bold tracking-tight text-[rgb(59,130,246)] drop-shadow-[0_0_10px_rgba(59,130,246,0.8)] mt-0.5 md:-mt-10">
+                  <div className="text-[10px] md:text-base font-bold tracking-tight leading-tight text-[rgb(59,130,246)] drop-shadow-[0_0_10px_rgba(59,130,246,0.8)]">
                     AI TAN
                   </div>
                 </div>
