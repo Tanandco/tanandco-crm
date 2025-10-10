@@ -151,12 +151,11 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
         <Button 
           onClick={() => onOpenChange(false)} 
           variant="outline" 
-          size="sm" 
-          className="bg-white/10 border-white/20 text-white backdrop-blur-sm text-xs md:text-sm"
+          size="icon" 
+          className="bg-white/10 border-white/20 text-white backdrop-blur-sm h-8 w-8"
           data-testid="button-back-to-self-service"
         >
-          <ArrowLeft className="w-3 h-3 md:w-4 md:h-4 ml-1" />
-          חזרה
+          <ArrowLeft className="w-4 h-4" />
         </Button>
       </div>
 
