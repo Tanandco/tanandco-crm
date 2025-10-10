@@ -272,107 +272,107 @@ export default function SelfService() {
 
         {/* HYBRID MODEL TEXT */}
         <div className="max-w-5xl mx-auto px-6 text-center py-4 pb-6">
-          <div className="space-y-3">
-            <p className="text-white/95 text-base leading-relaxed">
+          <div className="space-y-2 md:space-y-3">
+            <p className="text-white/95 text-xs md:text-base leading-relaxed">
               <span className="text-[hsl(var(--primary))] font-bold">טאן אנד קו</span> מביאה את מהפכת היופי הבאה – מודל היברידי-אוטונומי ייחודי, עם שירותים בטכנולוגיה פורצת דרך וללא תלות בכוח אדם.
             </p>
             
-            <p className="text-white/90 text-base leading-relaxed">
+            <p className="text-white/90 text-xs md:text-base leading-relaxed">
               ובאותה נשימה, אנחנו שומרים על מה שהכי חשוב – <span className="text-[hsl(var(--primary))] font-semibold">הקשר האנושי, המגע, החיוך והשיחה הטובה</span>.
             </p>
             
-            <p className="text-white/90 text-base leading-relaxed">
+            <p className="text-white/90 text-xs md:text-base leading-relaxed">
               כאן תמצאו מקצועני יופי ושיער מהשורה הראשונה, עם כישרון ויצירתיות שממריאים – ומרימים אתכם יחד איתם.
             </p>
             
-            <p className="text-[hsl(var(--primary))] text-lg font-bold">
+            <p className="text-[hsl(var(--primary))] text-sm md:text-lg font-bold">
               ברוכים הבאים למקום הנכון.
             </p>
           </div>
         </div>
 
         {/* SERVICE CARDS */}
-        <section id="services" className="relative py-2 pb-20 flex-shrink-0">
+        <section id="services" className="relative py-2 pb-6 flex-shrink-0">
           <div className="max-w-6xl mx-auto px-3 text-center">
-            <h3 className="text-base md:text-lg font-extrabold mb-2 text-[hsl(var(--primary))]">
+            <h3 className="text-sm md:text-lg font-extrabold mb-2 text-[hsl(var(--primary))]">
               בחרו את השירות המועדף עליכם
             </h3>
-            <div className="flex gap-2 justify-center flex-wrap max-w-5xl mx-auto">
+            <div className="grid grid-cols-3 md:flex gap-1.5 md:gap-2 justify-center md:flex-wrap max-w-5xl mx-auto">
               {/* Sun Beds */}
               <button
                 onClick={() => setSunBedsOpen(true)}
-                className="h-[180px] w-[160px] rounded-xl p-3 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm animate-fade-in-up delay-0"
+                className="h-[120px] w-full md:h-[180px] md:w-[160px] rounded-xl p-2 md:p-3 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm animate-fade-in-up delay-0"
                 onMouseMove={handleRippleMove}
                 data-testid="card-sun-beds"
               >
                 <div className="h-full w-full flex flex-col items-center justify-center text-center">
-                  <img src={tanningBedIcon} alt="מיטות שיזוף" className="max-w-[115px] max-h-[115px] mb-2 neon-glow object-contain" />
-                  <div className="text-sm font-bold tracking-tight">מיטות שיזוף</div>
+                  <img src={tanningBedIcon} alt="מיטות שיזוף" className="max-w-[60px] max-h-[60px] md:max-w-[115px] md:max-h-[115px] mb-1 md:mb-2 neon-glow object-contain" />
+                  <div className="text-[10px] md:text-sm font-bold tracking-tight leading-tight">מיטות שיזוף</div>
                 </div>
               </button>
 
               {/* Spray Tan */}
               <button
                 onClick={() => setSprayTanOpen(true)}
-                className="h-[180px] w-[160px] rounded-xl p-3 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm animate-fade-in-up delay-100"
+                className="h-[120px] w-full md:h-[180px] md:w-[160px] rounded-xl p-2 md:p-3 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm animate-fade-in-up delay-100"
                 onMouseMove={handleRippleMove}
                 data-testid="card-spray-tan"
               >
                 <div className="h-full w-full flex flex-col items-center justify-center text-center">
-                  <img src={sprayTanIcon} alt="שיזוף בהתזה" className="max-w-[115px] max-h-[115px] mb-2 neon-glow object-contain" />
-                  <div className="text-sm font-bold tracking-tight">שיזוף בהתזה</div>
+                  <img src={sprayTanIcon} alt="שיזוף בהתזה" className="max-w-[60px] max-h-[60px] md:max-w-[115px] md:max-h-[115px] mb-1 md:mb-2 neon-glow object-contain" />
+                  <div className="text-[10px] md:text-sm font-bold tracking-tight leading-tight">שיזוף בהתזה</div>
                 </div>
               </button>
 
               {/* Hair Salon */}
               <a
                 href="/hair-studio"
-                className="h-[180px] w-[160px] rounded-xl p-3 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm flex items-center justify-center text-center animate-fade-in-up delay-200"
+                className="h-[120px] w-full md:h-[180px] md:w-[160px] rounded-xl p-2 md:p-3 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm flex items-center justify-center text-center animate-fade-in-up delay-200"
                 onMouseMove={handleRippleMove}
                 data-testid="card-hair-salon"
               >
                 <div className="flex flex-col items-center justify-center">
-                  <img src={hairSalonIcon} alt="מספרה" className="max-w-[115px] max-h-[115px] mb-2 neon-glow object-contain" />
-                  <div className="text-sm font-bold tracking-tight">מספרה</div>
+                  <img src={hairSalonIcon} alt="מספרה" className="max-w-[60px] max-h-[60px] md:max-w-[115px] md:max-h-[115px] mb-1 md:mb-2 neon-glow object-contain" />
+                  <div className="text-[10px] md:text-sm font-bold tracking-tight leading-tight">מספרה</div>
                 </div>
               </a>
 
               {/* Cosmetics */}
               <button
                 onClick={() => setCosmeticsOpen(true)}
-                className="h-[180px] w-[160px] rounded-xl p-3 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm animate-fade-in-up delay-300"
+                className="h-[120px] w-full md:h-[180px] md:w-[160px] rounded-xl p-2 md:p-3 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm animate-fade-in-up delay-300"
                 onMouseMove={handleRippleMove}
                 data-testid="card-cosmetics"
               >
                 <div className="h-full w-full flex flex-col items-center justify-center text-center">
-                  <img src={cosmeticsIcon} alt="קוסמטיקה" className="max-w-[115px] max-h-[115px] mb-2 neon-glow object-contain" />
-                  <div className="text-sm font-bold tracking-tight">קוסמטיקה</div>
+                  <img src={cosmeticsIcon} alt="קוסמטיקה" className="max-w-[60px] max-h-[60px] md:max-w-[115px] md:max-h-[115px] mb-1 md:mb-2 neon-glow object-contain" />
+                  <div className="text-[10px] md:text-sm font-bold tracking-tight leading-tight">קוסמטיקה</div>
                 </div>
               </button>
 
               {/* Store */}
               <a
                 href="/shop"
-                className="h-[180px] w-[160px] rounded-xl p-3 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm flex items-center justify-center text-center animate-fade-in-up delay-400"
+                className="h-[120px] w-full md:h-[180px] md:w-[160px] rounded-xl p-2 md:p-3 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm flex items-center justify-center text-center animate-fade-in-up delay-400"
                 onMouseMove={handleRippleMove}
                 data-testid="card-store"
               >
                 <div className="flex flex-col items-center justify-center">
-                  <img src={storeIcon} alt="החנות שלכם" className="max-w-[115px] max-h-[115px] mb-2 neon-glow object-contain" />
-                  <div className="text-sm font-bold tracking-tight mt-3">החנות שלכם</div>
+                  <img src={storeIcon} alt="החנות שלכם" className="max-w-[60px] max-h-[60px] md:max-w-[115px] md:max-h-[115px] mb-1 md:mb-2 neon-glow object-contain" />
+                  <div className="text-[10px] md:text-sm font-bold tracking-tight leading-tight md:mt-3">החנות שלכם</div>
                 </div>
               </a>
 
               {/* AI TAN (Alin) */}
               <a
                 href="/ai-tan"
-                className="h-[180px] w-[160px] rounded-xl p-3 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm animate-fade-in-up delay-500"
+                className="h-[120px] w-full md:h-[180px] md:w-[160px] rounded-xl p-2 md:p-3 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm animate-fade-in-up delay-500"
                 onMouseMove={handleRippleMove}
                 data-testid="card-ai-tan"
               >
-                <div className="h-full w-full flex flex-col items-center justify-center text-center -my-6">
-                  <Alin size={125} className="max-w-[125px] max-h-[125px]" />
-                  <div className="text-base font-bold tracking-tight text-[hsl(var(--primary))] drop-shadow-[0_0_10px_rgba(236,72,153,0.8)] -mt-12">
+                <div className="h-full w-full flex flex-col items-center justify-center text-center">
+                  <Alin size={70} className="max-w-[70px] max-h-[70px] md:max-w-[125px] md:max-h-[125px] md:-my-6" />
+                  <div className="text-[10px] md:text-base font-bold tracking-tight text-[hsl(var(--primary))] drop-shadow-[0_0_10px_rgba(236,72,153,0.8)] md:-mt-12">
                     AI TAN
                   </div>
                 </div>
@@ -382,21 +382,22 @@ export default function SelfService() {
         </section>
 
         {/* FOOTER WITH ALIN */}
-        <footer className="border-t border-[hsl(var(--border))] py-2 flex-shrink-0 mt-auto hidden md:block">
+        <footer className="border-t border-[hsl(var(--border))] py-2 flex-shrink-0 mt-auto">
           <div className="max-w-6xl mx-auto px-3">
             <div className="flex items-center gap-1">
               {/* Alin Avatar */}
               <button
                 onClick={() => setChatOpen(true)}
-                className="relative shrink-0 group animate-bounce-slow hover:scale-110 transition-transform -mt-8"
+                className="relative shrink-0 group animate-bounce-slow hover:scale-110 transition-transform -mt-4 md:-mt-8"
                 data-testid="button-chat-with-alin"
               >
-                <Alin size={130} />
+                <Alin size={80} className="md:hidden" />
+                <Alin size={130} className="hidden md:block" />
               </button>
               
               {/* Flowing Text Bubble with Typing Effect */}
               <div className="relative bg-gradient-to-r from-[hsl(var(--primary))]/20 to-transparent border border-[hsl(var(--primary))]/40 rounded-2xl rounded-tr-sm py-1 px-2 backdrop-blur-sm animate-slide-in-left w-fit">
-                <p className="text-white/90 text-sm typing-effect whitespace-nowrap">
+                <p className="text-white/90 text-[10px] md:text-sm typing-effect whitespace-nowrap">
                   היי, אני אלין! העוזרת הדיגיטלית שלכם זמינה 24/7 - לחצו עליי לצ'אט מיידי
                 </p>
               </div>
