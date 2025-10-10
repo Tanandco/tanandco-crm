@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import bronzerIcon from '@assets/4_1759474624696.png';
 import packageIcon from '@assets/member-card-icon.png';
 import newCustomerIcon from '@assets/עיצוב ללא שם (4)_1760090011932.png';
+import blueAlinGif from '@assets/עיצוב ללא שם (5)_1760108712417.gif';
 
 interface SunBedsDialogProps {
   open: boolean;
@@ -135,8 +136,8 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
       }
     },
     {
-      icon: Alin,
-      iconType: 'component' as const,
+      icon: blueAlinGif,
+      iconType: 'image' as const,
       title: "AI TAN",
       isFunction: false,
       onClick: () => {
@@ -274,21 +275,29 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                       src={option.icon as string}
                       alt={option.title}
                       className={`${
-                        option.title === "רכישת חבילה"
+                        option.title === "AI TAN"
+                          ? "scale-[0.85] md:scale-[1.4]"
+                          : option.title === "רכישת חבילה"
                           ? "w-16 h-16 md:w-40 md:h-40"
                           : option.title === "רכישת ברונזרים"
                           ? "w-14 h-14 md:w-30 md:h-30"
                           : option.title === "לקוח חדש - הרשמה"
                           ? "w-12 h-12 md:w-28 md:h-28"
                           : "w-14 h-14 md:w-32 md:h-32"
-                      } object-contain group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]`}
-                      style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }}
+                      } object-contain ${
+                        option.title === "AI TAN"
+                          ? "group-hover:drop-shadow-[0_0_30px_rgb(59,130,246)]"
+                          : "group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
+                      }`}
+                      style={{
+                        filter: option.title === "AI TAN"
+                          ? 'drop-shadow(0 0 20px rgb(59, 130, 246)) drop-shadow(0 0 35px rgba(59, 130, 246, 0.8))'
+                          : 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))'
+                      }}
                     />
                   ) : option.iconType === 'component' ? (
                     <div className="scale-[0.85] md:scale-[1.4] flex items-center justify-center mt-2">
-                      <div style={{ filter: 'drop-shadow(0 0 20px rgb(59, 130, 246)) drop-shadow(0 0 35px rgba(59, 130, 246, 0.8))' }}>
-                        <option.icon size={160} className="max-w-[95px] md:max-w-[190px] max-h-[95px] md:max-h-[190px]" />
-                      </div>
+                      <option.icon size={160} className="max-w-[95px] md:max-w-[190px] max-h-[95px] md:max-h-[190px]" />
                     </div>
                   ) : option.icon && !option.isFunction && (
                     <option.icon 
