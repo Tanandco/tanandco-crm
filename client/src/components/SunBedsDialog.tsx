@@ -307,7 +307,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
               
               {/* Typing text bubble for Alin */}
               {option.title === "AI TAN" && typedText && (
-                <div className="absolute -bottom-16 left-1/2 -translate-x-1/2 w-max max-w-[200px] md:max-w-[300px] z-40">
+                <div className="absolute -bottom-24 md:-bottom-20 left-1/2 -translate-x-1/2 w-max max-w-[200px] md:max-w-[300px] z-40">
                   <div className="bg-pink-500/90 text-white px-3 py-2 rounded-lg shadow-lg" style={{ textShadow: '0 0 10px rgba(0, 0, 0, 0.3)' }}>
                     <p className="text-[9px] md:text-xs font-hebrew text-center leading-tight">
                       {typedText}
