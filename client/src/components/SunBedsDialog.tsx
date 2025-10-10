@@ -357,7 +357,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                 <button
                   onClick={option.onClick}
                   className="
-                    group relative h-[110px] w-[105px] sm:h-[130px] sm:w-[120px] md:h-[160px] md:w-[150px]
+                    group relative h-[120px] w-[105px] sm:h-[140px] sm:w-[120px] md:h-[160px] md:w-[150px]
                     bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
                     border hover:border-2
                     rounded-md backdrop-blur-sm
@@ -391,8 +391,8 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                       style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }}
                     />
                   ) : option.iconType === 'component' ? (
-                    <div className="-mt-2 md:-mt-6 scale-[0.85] md:scale-110">
-                      <option.icon size={140} className="max-w-[100px] md:max-w-[150px] max-h-[100px] md:max-h-[150px]" />
+                    <div className="-mt-2 md:-mt-6 scale-[1.05] md:scale-[1.25]">
+                      <option.icon size={140} className="max-w-[120px] md:max-w-[170px] max-h-[120px] md:max-h-[170px]" />
                     </div>
                   ) : option.icon && !option.isFunction && (
                     <option.icon 

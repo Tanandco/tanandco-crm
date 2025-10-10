@@ -27,7 +27,8 @@ This project is a premium touch-screen kiosk CRM system designed for Tan & Co sa
     * Fixed search API query to use correct parameter format: { q: searchQuery }
     * Restored full descriptive text visibility across all viewports (removed mobile text hiding)
     * Eliminated Alin avatar duplication: single responsive Alin instance using scale-[0.79] md:scale-100
-    * Icon sizes optimized: AI TAN 100px mobile/150px desktop, New Customer 64px mobile/112px desktop, Bronzers 72px mobile/128px desktop, Package 88px mobile/160px desktop
+    * Icon sizes optimized: AI TAN 120px mobile/170px desktop, New Customer 64px mobile/112px desktop, Bronzers 68px mobile/120px desktop, Package 88px mobile/160px desktop
+    * Service button heights increased in mobile (120px) for better text visibility
     * Replaced New Customer icon with pink plus icon (PNG) for modern neon aesthetic
     * Service buttons arranged in 2 rows on mobile vs 1 row on desktop
   - Self-service splash screen: Buttons positioned lower on page (mt-24 mobile, mt-20 desktop) for better visual balance and spacing from service cards
