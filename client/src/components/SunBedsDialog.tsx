@@ -221,7 +221,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
         </Button>
 
         {/* Service Fields - All in one row on desktop, two rows on mobile */}
-        <div className="w-full max-w-6xl mx-auto px-4 space-y-6">
+        <div className="w-full max-w-6xl mx-auto px-4 space-y-4">
           {/* Service Buttons */}
           <div className="grid grid-cols-2 md:flex gap-2 justify-center md:flex-nowrap animate-scale-in max-w-[178px] md:max-w-none mx-auto">
             {tanningOptions.map((option, index) => (
