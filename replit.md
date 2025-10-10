@@ -12,10 +12,13 @@ This project is a premium touch-screen kiosk CRM system designed for Tan & Co sa
 - PAS TOUCHER product scraper using Cheerio HTML parser to import sunglasses inventory from shop URL
 - Fixed critical SSRF security vulnerabilities with strict hostname validation and HTTPS enforcement
 - UI improvements (October 10, 2025):
-  - Optimized service card icon sizing with responsive constraints
+  - Optimized service card icon sizing with responsive constraints across TouchInterface and self-service pages
   - AI TAN icon maintained 21% larger on mobile, 9% larger on desktop for visual hierarchy
+  - Self-service page: Regular icons 115px, AI TAN 125px (on 180px cards)
+  - TouchInterface: Regular icons 70px mobile/115px desktop, AI TAN 85px mobile/125px desktop (on 110px/160px cards)
   - Fixed title alignment across all service cards using leading-tight and consistent padding
   - Icon containers use max-height constraints to prevent overflow
+  - Enhanced Alin component to support custom sizing via className utilities (max-w-[]/max-h-[])
 - Bug fixes (October 8, 2025):
   - Fixed type error in NewCustomerDialog where parseInt() received undefined values
   - Added defensive programming to HairStudio for safe array mapping
