@@ -17,7 +17,7 @@ import cosmeticsIcon from '@assets/עיצוב ללא שם (31)_1759413948155.png
 import storeIcon from '@assets/freepik__online-store-shopping-bag-variation-a-3d-shopping-__47713_1759413103497.png';
 import selfServiceIcon from '@assets/עיצוב ללא שם (32)_1759414540774.png';
 import newCustomerIcon from '@assets/עיצוב ללא שם (4)_1760090011932.png';
-import selfServiceButtonVideo from '@assets/עיצוב ללא שם (11)_1760131088419.mp4';
+import selfServiceButtonVideo from '@assets/עיצוב ללא שם (12)_1760131498749.mp4';
 
 interface TouchInterfaceProps {
   onServiceSelect?: (service: string) => void;
