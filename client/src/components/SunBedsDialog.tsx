@@ -233,17 +233,6 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
       <div 
         className="relative w-full max-w-4xl flex items-center justify-center mt-24 md:mt-80"
       >
-        {/* Close Button */}
-        <Button 
-          onClick={() => onOpenChange(false)} 
-          variant="ghost" 
-          size="icon" 
-          className="absolute top-4 left-4 text-white z-10"
-          data-testid="button-close-sun-beds"
-        >
-          <X className="w-6 h-6" />
-        </Button>
-
         {/* Service Fields - All in one row on both mobile and desktop */}
         <div className="w-full max-w-6xl mx-auto space-y-2 mt-6 md:mt-0">
           {/* Container for buttons and search - all in one row */}
