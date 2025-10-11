@@ -270,22 +270,30 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                     <img 
                       src={option.icon as string}
                       alt={option.title}
-                      className={`${
-                        option.title === "AI TAN"
-                          ? "w-[90px] h-[90px] md:w-[145px] md:h-[145px]"
-                          : option.title === "רכישת חבילה"
-                          ? "w-[88px] h-[88px] md:w-[135px] md:h-[135px]"
-                          : option.title === "רכישת ברונזרים"
-                          ? "w-[54px] h-[54px] md:w-[130px] md:h-[130px]"
-                          : option.title === "לקוח חדש - הרשמה"
-                          ? "w-[52px] h-[52px] md:w-[125px] md:h-[125px]"
-                          : "w-[56px] h-[56px] md:w-[135px] md:h-[135px]"
-                      } ${
+                      className={`object-contain ${
                         option.title === "AI TAN"
                           ? "group-hover:drop-shadow-[0_0_30px_rgb(59,130,246)]"
                           : "group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
                       }`}
                       style={{
+                        width: option.title === "AI TAN" 
+                          ? window.innerWidth < 768 ? '100px' : '145px'
+                          : option.title === "רכישת חבילה"
+                          ? window.innerWidth < 768 ? '98px' : '135px'
+                          : option.title === "רכישת ברונזרים"
+                          ? window.innerWidth < 768 ? '54px' : '130px'
+                          : option.title === "לקוח חדש - הרשמה"
+                          ? window.innerWidth < 768 ? '52px' : '125px'
+                          : window.innerWidth < 768 ? '56px' : '135px',
+                        height: option.title === "AI TAN" 
+                          ? window.innerWidth < 768 ? '100px' : '145px'
+                          : option.title === "רכישת חבילה"
+                          ? window.innerWidth < 768 ? '98px' : '135px'
+                          : option.title === "רכישת ברונזרים"
+                          ? window.innerWidth < 768 ? '54px' : '130px'
+                          : option.title === "לקוח חדש - הרשמה"
+                          ? window.innerWidth < 768 ? '52px' : '125px'
+                          : window.innerWidth < 768 ? '56px' : '135px',
                         filter: option.title === "AI TAN"
                           ? 'contrast(1.15) brightness(1.05) drop-shadow(0 0 20px rgb(59, 130, 246)) drop-shadow(0 0 35px rgba(59, 130, 246, 0.8))'
                           : 'contrast(1.15) brightness(1.05) drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))'
