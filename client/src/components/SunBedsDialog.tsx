@@ -110,6 +110,15 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
     onClick: () => void;
   }> = [
     {
+      icon: blueAlinGif,
+      iconType: 'image' as const,
+      title: "AI TAN",
+      isFunction: false,
+      onClick: () => {
+        window.open('https://preview--radiant-booth-studio.lovable.app/', '_blank');
+      }
+    },
+    {
       icon: newCustomerIcon,
       iconType: 'image' as const,
       title: "לקוח חדש - הרשמה",
@@ -138,15 +147,6 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
       testId: "button-purchase-overlay",
       onClick: () => {
         setShowPricingOverlay(true);
-      }
-    },
-    {
-      icon: blueAlinGif,
-      iconType: 'image' as const,
-      title: "AI TAN",
-      isFunction: false,
-      onClick: () => {
-        window.open('https://preview--radiant-booth-studio.lovable.app/', '_blank');
       }
     }
   ];
@@ -258,11 +258,11 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                       overflow-visible
                     "
                     style={{
-                      borderColor: 'rgba(236, 72, 153, 0.6)',
+                      borderColor: option.title === "AI TAN" ? 'rgba(59, 130, 246, 0.6)' : 'rgba(236, 72, 153, 0.6)',
                       boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
                     }}
-                    onMouseEnter={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 1)'}
-                    onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.6)'}
+                    onMouseEnter={(e) => e.currentTarget.style.borderColor = option.title === "AI TAN" ? 'rgba(59, 130, 246, 1)' : 'rgba(236, 72, 153, 1)'}
+                    onMouseLeave={(e) => e.currentTarget.style.borderColor = option.title === "AI TAN" ? 'rgba(59, 130, 246, 0.6)' : 'rgba(236, 72, 153, 0.6)'}
                     data-testid={(option as any).testId || `action-tile-${index}`}
                   >
                 {/* Icon container with fixed height */}
@@ -310,7 +310,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                 
                 {/* Ripple effect */}
                 <div className="absolute inset-0 rounded-md overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-radial from-pink-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className={`absolute inset-0 bg-gradient-radial ${option.title === "AI TAN" ? "from-blue-400/20" : "from-pink-400/20"} to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
                 </div>
               </button>
               </div>
