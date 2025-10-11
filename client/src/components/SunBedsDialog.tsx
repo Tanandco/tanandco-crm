@@ -298,10 +298,12 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                       <img 
                         src={option.icon as string}
                         alt={option.title}
-                        className={`w-full h-full object-contain ${
+                        className={`object-contain ${
                           option.title === "AI TAN"
-                            ? "group-hover:drop-shadow-[0_0_30px_rgb(59,130,246)]"
-                            : "group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
+                            ? "w-[110%] h-[110%] group-hover:drop-shadow-[0_0_30px_rgb(59,130,246)]"
+                            : option.title === "רכישת חבילה"
+                            ? "w-[105%] h-[105%] group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
+                            : "w-full h-full group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
                         }`}
                         style={{
                           filter: option.title === "AI TAN"
@@ -343,7 +345,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                   <img 
                     src={searchIconImage}
                     alt="search"
-                    className="w-full h-full object-contain" 
+                    className="w-4/5 h-4/5 object-contain" 
                     style={{ filter: 'drop-shadow(0 0 8px rgba(236, 72, 153, 0.8))' }}
                   />
                 </div>
@@ -358,7 +360,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                       setSearchQuery(e.target.value);
                       setSelectedCustomerId(null);
                     }}
-                    className="w-full bg-transparent border-0 text-[8px] md:text-sm text-white placeholder:text-gray-400 text-center focus:outline-none focus:ring-0 font-hebrew"
+                    className="w-full bg-transparent border-0 text-[8px] md:text-sm font-medium text-white placeholder:text-gray-400 text-center focus:outline-none focus:ring-0 font-hebrew"
                     data-testid="input-search-existing-customer"
                   />
                 </div>
