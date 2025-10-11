@@ -168,10 +168,10 @@ export default function Shop() {
       </div>
 
       {/* Hero Logo Section */}
-      <div className="relative py-4">
+      <div className="relative pt-2 pb-6">
         <div className="container mx-auto px-4">
-          {/* Centered Logo with Neon Glow */}
-          <div className="flex justify-center mb-4">
+          {/* Centered Logo with Neon Glow - Closer to Top */}
+          <div className="flex justify-center mb-6">
             <div className="relative p-4">
               {/* Outer Glow Background */}
               <div className="absolute inset-0 bg-gradient-to-r from-pink-500 via-pink-600 to-pink-500 blur-[100px] opacity-40 animate-pulse"></div>
@@ -186,8 +186,25 @@ export default function Shop() {
             </div>
           </div>
 
+          {/* Categories Section - Below Logo */}
+          <div className="mt-8">
+            <h3 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">קטגוריות פופולריות</h3>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+              {['שיזוף', 'קוסמטיקה', 'אביזרים', 'טיפוח שיער', 'תכשיטים', 'מוצרים ירוקים'].map((category) => (
+                <Button
+                  key={category}
+                  variant="outline"
+                  className="h-24 text-lg border-pink-500/30 hover:border-pink-500 hover:bg-pink-500/10"
+                  data-testid={`category-${category}`}
+                >
+                  {category}
+                </Button>
+              ))}
+            </div>
+          </div>
+
           {/* Carousel Title */}
-          <h2 className="text-xl md:text-2xl font-semibold text-center mt-6 mb-4 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
+          <h2 className="text-xl md:text-2xl font-semibold text-center mt-12 mb-4 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
             ברונזרים למיטות שיזוף
           </h2>
         </div>
@@ -218,24 +235,6 @@ export default function Shop() {
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
-
-        {/* Categories Section */}
-        <div className="mt-20">
-          <h3 className="text-3xl font-bold text-center mb-8">קטגוריות פופולריות</h3>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {['שיזוף', 'קוסמטיקה', 'אביזרים', 'טיפוח שיער', 'תכשיטים', 'מוצרים ירוקים'].map((category) => (
-              <Button
-                key={category}
-                variant="outline"
-                className="h-24 text-lg border-pink-500/30 hover:border-pink-500 hover:bg-pink-500/10"
-                data-testid={`category-${category}`}
-              >
-                {category}
-              </Button>
-            ))}
-          </div>
-        </div>
-
         {/* Features */}
         <div className="grid md:grid-cols-3 gap-8 mt-20 mb-12">
           <div className="text-center p-6 rounded-lg bg-slate-900/50 border border-pink-500/20">
