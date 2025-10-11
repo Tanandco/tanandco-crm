@@ -168,7 +168,7 @@ export default function Shop() {
       </div>
 
       {/* Hero Logo Section */}
-      <div className="relative pt-2 pb-6">
+      <div className="relative pt-0 pb-6">
         <div className="container mx-auto px-4">
           {/* Centered Logo with Neon Glow - Closer to Top */}
           <div className="flex justify-center mb-6">
