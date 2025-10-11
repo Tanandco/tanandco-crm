@@ -147,7 +147,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
         </div>
 
         {/* Action Buttons - Above Logo */}
-        <div className="flex gap-2 mb-2 md:mb-3 mt-8 md:mt-10 justify-between w-full px-4 md:px-8">
+        <div className="flex gap-2 mb-2 md:mb-3 mt-8 md:mt-10 justify-center">
           <button
             className="
               group relative w-9 h-9 md:w-10 md:h-10
