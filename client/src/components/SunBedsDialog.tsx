@@ -244,12 +244,12 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
           <X className="w-6 h-6" />
         </Button>
 
-        {/* Service Fields - All in one row on desktop, two rows on mobile */}
+        {/* Service Fields - All in one row on both mobile and desktop */}
         <div className="w-full max-w-6xl mx-auto space-y-2 mt-6 md:mt-0">
-          {/* Container for buttons and search - separate layouts for mobile and desktop */}
-          <div className="md:flex md:gap-2 md:justify-center md:items-start">
+          {/* Container for buttons and search - all in one row */}
+          <div className="flex gap-1.5 md:gap-2 justify-center items-start px-2 md:px-0">
             {/* Service Buttons */}
-            <div className="grid grid-cols-2 md:flex gap-2 justify-center md:flex-nowrap animate-scale-in max-w-[228px] md:max-w-none mx-auto pl-14 pr-6 md:pl-0 md:pr-0">
+            <div className="flex gap-1.5 md:gap-2 justify-center flex-nowrap animate-scale-in">
               {tanningOptions.map((option, index) => (
                 <div key={index} className="relative">
                   {/* Solid black background */}
@@ -258,7 +258,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                   <button
                     onClick={option.onClick}
                     className="
-                      group relative h-[100px] w-[110px] md:h-[145px] md:w-[150px]
+                      group relative h-[85px] w-[60px] md:h-[145px] md:w-[150px]
                       bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
                       border hover:border-2
                       rounded-md backdrop-blur-sm
@@ -275,21 +275,21 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                     onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.6)'}
                     data-testid={(option as any).testId || `action-tile-${index}`}
                   >
-                <div className="flex items-center justify-center mb-1 md:mb-2 transition-all duration-150 group-hover:scale-110 overflow-visible">
+                <div className="flex items-center justify-center mb-0.5 md:mb-2 transition-all duration-150 group-hover:scale-110 overflow-visible">
                   {option.iconType === 'image' ? (
                     <img 
                       src={option.icon as string}
                       alt={option.title}
                       className={`${
                         option.title === "AI TAN"
-                          ? "w-[60px] h-[60px] md:w-[100px] md:h-[100px]"
+                          ? "w-[35px] h-[35px] md:w-[100px] md:h-[100px]"
                           : option.title === "רכישת חבילה"
-                          ? "w-[50px] h-[50px] md:w-[90px] md:h-[90px]"
+                          ? "w-[30px] h-[30px] md:w-[90px] md:h-[90px]"
                           : option.title === "רכישת ברונזרים"
-                          ? "w-[45px] h-[45px] md:w-[85px] md:h-[85px]"
+                          ? "w-[28px] h-[28px] md:w-[85px] md:h-[85px]"
                           : option.title === "לקוח חדש - הרשמה"
-                          ? "w-[40px] h-[40px] md:w-[75px] md:h-[75px]"
-                          : "w-[50px] h-[50px] md:w-[90px] md:h-[90px]"
+                          ? "w-[25px] h-[25px] md:w-[75px] md:h-[75px]"
+                          : "w-[30px] h-[30px] md:w-[90px] md:h-[90px]"
                       } object-contain ${
                         option.title === "AI TAN"
                           ? "group-hover:drop-shadow-[0_0_30px_rgb(59,130,246)]"
@@ -302,18 +302,18 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                       }}
                     />
                   ) : option.iconType === 'component' ? (
-                    <div className="scale-[0.6] md:scale-[0.9] flex items-center justify-center">
-                      <option.icon size={120} className="max-w-[80px] md:max-w-[120px] max-h-[80px] md:max-h-[120px]" />
+                    <div className="scale-[0.4] md:scale-[0.9] flex items-center justify-center">
+                      <option.icon size={120} className="max-w-[50px] md:max-w-[120px] max-h-[50px] md:max-h-[120px]" />
                     </div>
                   ) : option.icon && !option.isFunction && (
                     <option.icon 
-                      className="w-[50px] h-[50px] md:w-[70px] md:h-[70px] text-pink-400 group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
+                      className="w-[30px] h-[30px] md:w-[70px] md:h-[70px] text-pink-400 group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
                       style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }}
                     />
                   )}
                 </div>
-                {/* Text - single line on all screens */}
-                <span className="text-[11px] md:text-sm font-medium text-white text-center font-hebrew px-1 leading-tight">
+                {/* Text - smaller on mobile */}
+                <span className="text-[7px] md:text-sm font-medium text-white text-center font-hebrew px-0.5 md:px-1 leading-tight">
                   {option.title}
                 </span>
                 
@@ -326,21 +326,21 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
             ))}
           </div>
 
-          {/* Customer Search Bar - Moved below buttons */}
-          <div className="w-[188px] md:w-[150px] mx-auto" dir="rtl">
+          {/* Customer Search Bar - Same size as buttons */}
+          <div className="w-[60px] md:w-[150px]" dir="rtl">
             <div className="relative">
-              <Search className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 md:w-6 md:h-6 text-pink-500" 
+              <Search className="absolute right-1.5 top-1/2 -translate-y-1/2 w-3 h-3 md:w-6 md:h-6 text-pink-500" 
                 style={{ filter: 'drop-shadow(0 0 8px rgba(236, 72, 153, 0.8))' }}
               />
               <Input
                 type="text"
-                placeholder="חיפוש לקוח קיים..."
+                placeholder="חיפוש..."
                 value={searchQuery}
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
                   setSelectedCustomerId(null);
                 }}
-                className="pr-10 pl-3 h-10 md:h-[145px] text-sm bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border md:border-2 border-pink-500/60 hover:border-pink-500 focus:border-pink-500 text-white placeholder:text-gray-400 text-right backdrop-blur-md rounded-lg transition-all duration-200"
+                className="pr-7 pl-1 md:pr-10 md:pl-3 h-[85px] md:h-[145px] text-[7px] md:text-sm bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border hover:border-2 border-pink-500/60 hover:border-pink-500 focus:border-pink-500 text-white placeholder:text-gray-400 text-right backdrop-blur-md rounded-md transition-all duration-200"
                 style={{
                   boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
                 }}
