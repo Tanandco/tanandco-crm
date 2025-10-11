@@ -14,6 +14,7 @@ import bronzerIcon from '@assets/4_1759474624696.png';
 import packageIcon from '@assets/member-card-icon.png';
 import newCustomerIcon from '@assets/עיצוב ללא שם (4)_1760090011932.png';
 import blueAlinGif from '@assets/עיצוב ללא שם (5)_1760108712417.gif';
+import searchIconImage from '@assets/Dהורדותfreepik__spray-tan-variation-b-modern-flatbadge-3d-spray-gu__47717.png_1760190379755.png';
 
 interface SunBedsDialogProps {
   open: boolean;
@@ -271,9 +272,9 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                       alt={option.title}
                       className={`${
                         option.title === "AI TAN"
-                          ? "w-[60px] h-[60px] md:w-[145px] md:h-[145px]"
+                          ? "w-[64px] h-[64px] md:w-[145px] md:h-[145px]"
                           : option.title === "רכישת חבילה"
-                          ? "w-[56px] h-[56px] md:w-[135px] md:h-[135px]"
+                          ? "w-[62px] h-[62px] md:w-[135px] md:h-[135px]"
                           : option.title === "רכישת ברונזרים"
                           ? "w-[54px] h-[54px] md:w-[130px] md:h-[130px]"
                           : option.title === "לקוח חדש - הרשמה"
@@ -318,7 +319,10 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
           {/* Customer Search Bar - Same size as buttons */}
           <div className="w-[68px] md:w-[170px]" dir="rtl">
             <div className="relative">
-              <Search className="absolute right-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5 md:w-6 md:h-6 text-pink-500" 
+              <img 
+                src={searchIconImage}
+                alt="search"
+                className="absolute right-2 top-1/2 -translate-y-1/2 w-5 h-5 md:w-8 md:h-8 object-contain" 
                 style={{ filter: 'drop-shadow(0 0 8px rgba(236, 72, 153, 0.8))' }}
               />
               <Input
