@@ -303,6 +303,8 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                             ? "w-[110%] h-[110%] group-hover:drop-shadow-[0_0_30px_rgb(59,130,246)]"
                             : option.title === "רכישת חבילה"
                             ? "w-[105%] h-[105%] group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
+                            : option.title === "לקוח חדש - הרשמה"
+                            ? "w-[85%] h-[85%] group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
                             : "w-full h-full group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
                         }`}
                         style={{
