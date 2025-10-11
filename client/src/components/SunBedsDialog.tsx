@@ -323,8 +323,8 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
               <img 
                 src={searchIconImage}
                 alt="search"
-                className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 object-contain" 
-                style={{ filter: 'drop-shadow(0 0 12px rgba(236, 72, 153, 1))' }}
+                className="absolute right-1 top-1/2 -translate-y-1/2 w-[28px] h-[28px] md:w-12 md:h-12 object-contain pointer-events-none z-10" 
+                style={{ filter: 'drop-shadow(0 0 8px rgba(236, 72, 153, 0.8))' }}
               />
               <Input
                 type="text"
@@ -334,7 +334,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                   setSearchQuery(e.target.value);
                   setSelectedCustomerId(null);
                 }}
-                className="pr-8 pl-1 md:pr-10 md:pl-3 h-[95px] md:h-[160px] text-[8px] md:text-sm bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border hover:border-2 border-pink-500/60 hover:border-pink-500 focus:border-pink-500 text-white placeholder:text-gray-400 text-right backdrop-blur-md rounded-md transition-all duration-200"
+                className="pr-8 pl-1 md:pr-14 md:pl-3 h-[95px] md:h-[160px] text-[8px] md:text-sm bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border hover:border-2 border-pink-500/60 hover:border-pink-500 focus:border-pink-500 text-white placeholder:text-gray-400 text-right backdrop-blur-md rounded-md transition-all duration-200"
                 style={{
                   boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
                 }}
