@@ -143,7 +143,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
     {
       icon: blueAlinGif,
       iconType: 'image' as const,
-      title: "AI TAN",
+      title: "🔵 TEST 🔵",
       isFunction: false,
       onClick: () => {
         window.open('https://preview--radiant-booth-studio.lovable.app/', '_blank');
