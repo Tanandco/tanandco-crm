@@ -247,7 +247,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                   <button
                     onClick={option.onClick}
                     className="
-                      group relative h-[85px] w-[60px] md:h-[145px] md:w-[150px]
+                      group relative h-[95px] w-[68px] md:h-[160px] md:w-[170px]
                       bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
                       border hover:border-2
                       rounded-md backdrop-blur-sm
@@ -271,14 +271,14 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                       alt={option.title}
                       className={`${
                         option.title === "AI TAN"
-                          ? "w-[52px] h-[52px] md:w-[130px] md:h-[130px]"
+                          ? "w-[60px] h-[60px] md:w-[145px] md:h-[145px]"
                           : option.title === "רכישת חבילה"
-                          ? "w-[48px] h-[48px] md:w-[120px] md:h-[120px]"
+                          ? "w-[56px] h-[56px] md:w-[135px] md:h-[135px]"
                           : option.title === "רכישת ברונזרים"
-                          ? "w-[45px] h-[45px] md:w-[115px] md:h-[115px]"
+                          ? "w-[54px] h-[54px] md:w-[130px] md:h-[130px]"
                           : option.title === "לקוח חדש - הרשמה"
-                          ? "w-[42px] h-[42px] md:w-[110px] md:h-[110px]"
-                          : "w-[48px] h-[48px] md:w-[120px] md:h-[120px]"
+                          ? "w-[52px] h-[52px] md:w-[125px] md:h-[125px]"
+                          : "w-[56px] h-[56px] md:w-[135px] md:h-[135px]"
                       } object-contain ${
                         option.title === "AI TAN"
                           ? "group-hover:drop-shadow-[0_0_30px_rgb(59,130,246)]"
@@ -291,18 +291,18 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                       }}
                     />
                   ) : option.iconType === 'component' ? (
-                    <div className="scale-[0.55] md:scale-[1.1] flex items-center justify-center">
-                      <option.icon size={120} className="max-w-[55px] md:max-w-[135px] max-h-[55px] md:max-h-[135px]" />
+                    <div className="scale-[0.65] md:scale-[1.2] flex items-center justify-center">
+                      <option.icon size={120} className="max-w-[62px] md:max-w-[145px] max-h-[62px] md:max-h-[145px]" />
                     </div>
                   ) : option.icon && !option.isFunction && (
                     <option.icon 
-                      className="w-[48px] h-[48px] md:w-[120px] md:h-[120px] text-pink-400 group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
+                      className="w-[56px] h-[56px] md:w-[135px] md:h-[135px] text-pink-400 group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
                       style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }}
                     />
                   )}
                 </div>
                 {/* Text - smaller on mobile */}
-                <span className="text-[7px] md:text-sm font-medium text-white text-center font-hebrew px-0.5 md:px-1 leading-tight">
+                <span className="text-[8px] md:text-sm font-medium text-white text-center font-hebrew px-0.5 md:px-1 leading-tight">
                   {option.title}
                 </span>
                 
@@ -316,9 +316,9 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
           </div>
 
           {/* Customer Search Bar - Same size as buttons */}
-          <div className="w-[60px] md:w-[150px]" dir="rtl">
+          <div className="w-[68px] md:w-[170px]" dir="rtl">
             <div className="relative">
-              <Search className="absolute right-1.5 top-1/2 -translate-y-1/2 w-3 h-3 md:w-6 md:h-6 text-pink-500" 
+              <Search className="absolute right-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5 md:w-6 md:h-6 text-pink-500" 
                 style={{ filter: 'drop-shadow(0 0 8px rgba(236, 72, 153, 0.8))' }}
               />
               <Input
@@ -329,7 +329,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                   setSearchQuery(e.target.value);
                   setSelectedCustomerId(null);
                 }}
-                className="pr-7 pl-1 md:pr-10 md:pl-3 h-[85px] md:h-[145px] text-[7px] md:text-sm bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border hover:border-2 border-pink-500/60 hover:border-pink-500 focus:border-pink-500 text-white placeholder:text-gray-400 text-right backdrop-blur-md rounded-md transition-all duration-200"
+                className="pr-8 pl-1 md:pr-10 md:pl-3 h-[95px] md:h-[160px] text-[8px] md:text-sm bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border hover:border-2 border-pink-500/60 hover:border-pink-500 focus:border-pink-500 text-white placeholder:text-gray-400 text-right backdrop-blur-md rounded-md transition-all duration-200"
                 style={{
                   boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
                 }}
