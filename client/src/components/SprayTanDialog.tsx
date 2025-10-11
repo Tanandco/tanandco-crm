@@ -47,7 +47,7 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
           <Button
             variant="outline"
             className="border-2 hover:border-[#2c2c2c] h-auto p-3 md:p-4 flex-col"
-            style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)' }}
+            style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: '4px 4px 8px rgba(0, 0, 0, 0.5)' }}
             data-testid="price-body-only"
           >
             <div className="text-xs md:text-sm mb-1" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>גוף בלבד</div>
@@ -57,7 +57,7 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
           <Button
             variant="outline"
             className="border-2 hover:border-[#2c2c2c] h-auto p-3 md:p-4 flex-col"
-            style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)' }}
+            style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: '4px 4px 8px rgba(0, 0, 0, 0.5)' }}
             data-testid="price-body-face"
           >
             <div className="text-xs md:text-sm mb-1" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>גוף + פנים</div>
@@ -67,7 +67,7 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
           <Button
             variant="outline"
             className="border-2 hover:border-[#2c2c2c] h-auto p-3 md:p-4 flex-col"
-            style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)' }}
+            style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: '4px 4px 8px rgba(0, 0, 0, 0.5)' }}
             data-testid="price-body-arms"
           >
             <div className="text-xs md:text-sm mb-1" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>גוף + זרועות</div>
@@ -77,7 +77,7 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
           <Button
             variant="outline"
             className="border-2 hover:border-[#2c2c2c] h-auto p-3 md:p-4 flex-col"
-            style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)' }}
+            style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: '4px 4px 8px rgba(0, 0, 0, 0.5)' }}
             data-testid="price-body-legs"
           >
             <div className="text-xs md:text-sm mb-1" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>גוף + רגליים</div>
@@ -87,7 +87,7 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
           <Button
             variant="outline"
             className="border-2 hover:border-[#2c2c2c] h-auto p-3 md:p-4 flex-col col-span-2 md:col-span-1"
-            style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)' }}
+            style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: '4px 4px 8px rgba(0, 0, 0, 0.5)' }}
             data-testid="price-vip-full"
           >
             <div className="text-xs md:text-sm mb-1" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>VIP גוף מלא</div>
@@ -99,7 +99,7 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-6xl mx-auto">
           
           {/* בלוק שמאלי - אזהרות והוראות */}
-          <div className="border-2 rounded-lg p-4 md:p-6" style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: '0 0 30px rgba(44, 44, 44, 0.3)' }} data-testid="block-warnings">
+          <div className="border-2 rounded-lg p-4 md:p-6" style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.5)' }} data-testid="block-warnings">
             <h3 className="text-lg md:text-xl font-bold text-center mb-4" style={{ 
               color: '#e064d5',
               fontFamily: 'Varela Round, sans-serif'
@@ -114,7 +114,7 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
           </div>
 
           {/* בלוק אמצעי - מתי מומלץ */}
-          <div className="border-2 rounded-lg p-4 md:p-6" style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: '0 0 30px rgba(44, 44, 44, 0.3)' }} data-testid="block-when-recommended">
+          <div className="border-2 rounded-lg p-4 md:p-6" style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.5)' }} data-testid="block-when-recommended">
             <h3 className="text-lg md:text-xl font-bold text-center mb-4" style={{ 
               color: '#e064d5',
               fontFamily: 'Varela Round, sans-serif'
@@ -129,7 +129,7 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
           </div>
 
           {/* בלוק ימני - מתי להימנע */}
-          <div className="border-2 rounded-lg p-4 md:p-6" style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: '0 0 30px rgba(44, 44, 44, 0.3)' }} data-testid="block-when-avoid">
+          <div className="border-2 rounded-lg p-4 md:p-6" style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.5)' }} data-testid="block-when-avoid">
             <h3 className="text-lg md:text-xl font-bold text-center mb-4" style={{ 
               color: '#e064d5',
               fontFamily: 'Varela Round, sans-serif'
