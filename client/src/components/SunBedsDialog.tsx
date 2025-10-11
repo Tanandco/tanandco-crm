@@ -323,7 +323,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
               <img 
                 src={searchIconImage}
                 alt="search"
-                className="absolute right-1 top-[40px] md:top-[75px] w-[45px] h-[45px] md:w-20 md:h-20 object-contain pointer-events-none z-10" 
+                className="absolute right-1 top-[28px] md:top-[55px] w-[45px] h-[45px] md:w-20 md:h-20 object-contain pointer-events-none z-10" 
                 style={{ filter: 'drop-shadow(0 0 8px rgba(236, 72, 153, 0.8))' }}
               />
               <Input
