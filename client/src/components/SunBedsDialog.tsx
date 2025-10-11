@@ -160,7 +160,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
       title: "AI TAN",
       isFunction: false,
       onClick: () => {
-        window.open('https://preview--radiant-booth-studio.lovable.app/', '_blank');
+        navigate('/ai-tan');
       }
     },
     {
