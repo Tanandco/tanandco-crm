@@ -247,16 +247,16 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                   
                   <button
                     onClick={option.onClick}
-                    className={`
+                    className="
                       group relative h-[95px] w-[68px] md:h-[160px] md:w-[170px]
-                      ${option.title === "AI TAN" ? "bg-red-500" : "bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90"}
+                      bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
                       border hover:border-2
                       rounded-md backdrop-blur-sm
                       flex flex-col items-center justify-center
                       transition-all duration-150 ease-in-out
                       hover-elevate active-elevate-2
                       overflow-visible
-                    `}
+                    "
                     style={{
                       borderColor: 'rgba(236, 72, 153, 0.6)',
                       boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
@@ -280,7 +280,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                           : option.title === "לקוח חדש - הרשמה"
                           ? "w-[52px] h-[52px] md:w-[125px] md:h-[125px]"
                           : "w-[56px] h-[56px] md:w-[135px] md:h-[135px]"
-                      } object-contain ${
+                      } ${
                         option.title === "AI TAN"
                           ? "group-hover:drop-shadow-[0_0_30px_rgb(59,130,246)]"
                           : "group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
