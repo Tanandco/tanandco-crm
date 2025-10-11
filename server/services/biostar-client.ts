@@ -335,30 +335,60 @@ export class BioStarClient {
       throw new Error('Not authenticated');
     }
 
-    try {
-      const url = `${this.config.serverUrl}${BIOSTAR_ENDPOINTS.DOORS.OPEN.replace(':id', doorId)}`;
-      
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'bs-session-id': this.credentials!.sessionToken,
-          'Accept': 'application/json'
-        },
-        agent: this.createHttpsAgent()
-      } as any);
+    const sessionId = this.credentials!.sessionToken;
+    const headers = {
+      'bs-session-id': sessionId,
+      'be-session-id': sessionId,
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
 
-      if (!response.ok) {
-        throw new Error(`Open door failed: ${response.statusText}`);
-      }
+    // Try multiple endpoints with fallbacks (BioStar 2 has inconsistent APIs)
+    const endpoints = [
+      // Single door endpoints
+      { path: `/api/doors/${doorId}/open`, method: 'POST', body: null },
+      { path: `/api/doors/${doorId}/unlock`, method: 'POST', body: null },
+      { path: `/api/doors/${doorId}/unlatch`, method: 'POST', body: null },
+      { path: `/api/v2/doors/${doorId}/open`, method: 'POST', body: null },
+      { path: `/api/v2/doors/${doorId}/unlock`, method: 'POST', body: null },
+      // Bulk door endpoints with different payload formats
+      { path: '/api/doors/open', method: 'POST', body: JSON.stringify({ ids: [Number(doorId)] }) },
+      { path: '/api/doors/open', method: 'POST', body: JSON.stringify({ door_ids: [Number(doorId)] }) },
+      { path: '/api/doors/open', method: 'POST', body: JSON.stringify({ id: [Number(doorId)] }) },
+      { path: '/api/door/open', method: 'POST', body: JSON.stringify({ id: Number(doorId) }) },
+      { path: '/api/v2/doors/open', method: 'POST', body: JSON.stringify({ ids: [Number(doorId)] }) },
+    ];
 
-      const result = await response.json() as BioStarResponse<any>;
-      return result.success || false;
-    } catch (error) {
-      if (this.config.debug) {
-        console.error('Open door error:', error);
+    for (const endpoint of endpoints) {
+      try {
+        const response = await fetch(`${this.config.serverUrl}${endpoint.path}`, {
+          method: endpoint.method,
+          headers,
+          body: endpoint.body,
+          agent: this.createHttpsAgent()
+        } as any);
+
+        const text = await response.text();
+        
+        // Check if successful - BioStar uses "code":"0" for success
+        const isSuccess = response.ok && (/"code"\s*:\s*"0"/.test(text) || text.includes('"success":true'));
+        
+        if (isSuccess) {
+          if (this.config.debug) {
+            console.log(`✅ Door opened successfully via ${endpoint.path}`);
+          }
+          return true;
+        }
+      } catch (error) {
+        // Continue to next endpoint
+        if (this.config.debug) {
+          console.log(`Failed endpoint ${endpoint.path}:`, error);
+        }
       }
-      throw error;
     }
+
+    // All endpoints failed
+    throw new Error('All door control endpoints failed');
   }
 
   disconnect(): void {
