@@ -265,7 +265,8 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                     onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.6)'}
                     data-testid={(option as any).testId || `action-tile-${index}`}
                   >
-                <div className="flex items-center justify-center mb-0.5 md:mb-1 transition-all duration-150 group-hover:scale-110 overflow-visible">
+                {/* Icon container with fixed height */}
+                <div className="flex items-center justify-center min-h-[80px] md:min-h-[135px] mb-1 md:mb-2 transition-all duration-150 group-hover:scale-110 overflow-visible">
                   {option.iconType === 'image' ? (
                     <img 
                       src={option.icon as string}
@@ -302,8 +303,8 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                     />
                   )}
                 </div>
-                {/* Text - smaller on mobile */}
-                <span className="text-[8px] md:text-sm font-medium text-white text-center font-hebrew px-0.5 md:px-1 leading-tight">
+                {/* Text - aligned consistently */}
+                <span className="block text-[8px] md:text-sm font-medium text-white text-center font-hebrew px-0.5 md:px-1 leading-tight">
                   {option.title}
                 </span>
                 
