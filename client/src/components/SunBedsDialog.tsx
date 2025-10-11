@@ -277,18 +277,18 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                       }`}
                       style={{
                         width: option.title === "AI TAN" 
-                          ? window.innerWidth < 768 ? '100px' : '145px'
+                          ? window.innerWidth < 768 ? '110px' : '145px'
                           : option.title === "רכישת חבילה"
-                          ? window.innerWidth < 768 ? '98px' : '135px'
+                          ? window.innerWidth < 768 ? '108px' : '135px'
                           : option.title === "רכישת ברונזרים"
                           ? window.innerWidth < 768 ? '54px' : '130px'
                           : option.title === "לקוח חדש - הרשמה"
                           ? window.innerWidth < 768 ? '52px' : '125px'
                           : window.innerWidth < 768 ? '56px' : '135px',
                         height: option.title === "AI TAN" 
-                          ? window.innerWidth < 768 ? '100px' : '145px'
+                          ? window.innerWidth < 768 ? '110px' : '145px'
                           : option.title === "רכישת חבילה"
-                          ? window.innerWidth < 768 ? '98px' : '135px'
+                          ? window.innerWidth < 768 ? '108px' : '135px'
                           : option.title === "רכישת ברונזרים"
                           ? window.innerWidth < 768 ? '54px' : '130px'
                           : option.title === "לקוח חדש - הרשמה"
