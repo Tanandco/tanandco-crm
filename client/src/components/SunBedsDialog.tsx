@@ -519,24 +519,64 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
 
               {selectedCustomerId && memberships.length > 0 && (
                 <div className="mt-6 pt-6 border-t border-pink-500/30">
-                  <h3 className="text-lg font-semibold text-white mb-3">חבילות פעילות:</h3>
-                  <div className="space-y-2">
-                    {memberships.map((membership: any) => (
-                      <div
-                        key={membership.id}
-                        className="p-3 bg-gradient-to-br from-purple-900/40 to-pink-900/40 border border-pink-500/30 rounded-lg"
-                      >
-                        <div className="flex items-center justify-between gap-3">
-                          <div className="flex-1">
-                            <p className="text-white font-medium">{getMembershipTypeLabel(membership.membership_type)}</p>
-                            <p className="text-sm text-gray-400">נותרו: {membership.balance} שימושים</p>
-                            {membership.expires_at && (
-                              <div className="text-xs text-gray-500 mt-1">
-                                <Calendar className="w-3 h-3 inline ml-1" />
-                                {new Date(membership.expires_at).toLocaleDateString('he-IL')}
-                              </div>
-                            )}
+                  <h3 className="text-lg font-semibold text-white mb-4">כרטיסיות פעילות:</h3>
+                  <div className="space-y-4">
+                    {memberships.map((membership: any) => {
+                      const totalPurchased = membership.total_purchased || membership.totalPurchased || 10;
+                      const used = totalPurchased - membership.balance;
+                      
+                      return (
+                        <div
+                          key={membership.id}
+                          className="p-4 bg-gradient-to-br from-purple-900/40 to-pink-900/40 border border-pink-500/40 rounded-lg"
+                          style={{
+                            boxShadow: '0 0 20px rgba(236, 72, 153, 0.2)',
+                          }}
+                        >
+                          {/* Header */}
+                          <div className="flex items-center justify-between mb-3">
+                            <div>
+                              <p className="text-white font-bold text-lg">{getMembershipTypeLabel(membership.membership_type)}</p>
+                              {membership.expires_at && (
+                                <div className="text-xs text-gray-400 mt-0.5">
+                                  <Calendar className="w-3 h-3 inline ml-1" />
+                                  תוקף עד: {new Date(membership.expires_at).toLocaleDateString('he-IL')}
+                                </div>
+                              )}
+                            </div>
+                            <div className="text-left">
+                              <div className="text-2xl font-bold text-pink-400">{membership.balance}</div>
+                              <div className="text-xs text-gray-400">נותרו</div>
+                            </div>
                           </div>
+
+                          {/* Punch Card Grid */}
+                          <div className="mb-3">
+                            <div className="grid grid-cols-5 gap-2 p-3 bg-black/30 rounded-md">
+                              {Array.from({ length: totalPurchased }).map((_, index) => (
+                                <div
+                                  key={index}
+                                  className={`
+                                    aspect-square rounded-md border-2 flex items-center justify-center font-bold text-sm
+                                    transition-all duration-200
+                                    ${index < used 
+                                      ? 'bg-pink-500/30 border-pink-500/60 text-pink-300' 
+                                      : 'bg-gray-700/30 border-gray-600/60 text-gray-400'
+                                    }
+                                  `}
+                                  style={{
+                                    boxShadow: index < used 
+                                      ? '0 0 10px rgba(236, 72, 153, 0.4), inset 0 0 10px rgba(236, 72, 153, 0.2)' 
+                                      : 'none'
+                                  }}
+                                >
+                                  {index < used ? '✓' : index + 1}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Action Button */}
                           <Button
                             onClick={async () => {
                               try {
@@ -550,7 +590,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                                 }
                                 toast({
                                   title: '✅ סומן בהצלחה',
-                                  description: `שימוש נוסף נרשם בחבילה`,
+                                  description: `כניסה ${used + 1} נוקבה בהצלחה`,
                                   duration: 2000,
                                 });
                                 // Refresh memberships data
@@ -564,18 +604,18 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                                 });
                               }
                             }}
-                            size="sm"
-                            className="bg-pink-500/20 border-pink-500/40 hover:bg-pink-500/30 hover:border-pink-500/60 text-white"
+                            disabled={membership.balance === 0}
+                            className="w-full bg-pink-500/20 border-pink-500/40 hover:bg-pink-500/30 hover:border-pink-500/60 text-white disabled:opacity-50 disabled:cursor-not-allowed"
                             style={{
                               boxShadow: '0 0 15px rgba(236, 72, 153, 0.3)',
                             }}
                             data-testid={`button-mark-usage-${membership.id}`}
                           >
-                            ✓ סמן שימוש
+                            {membership.balance === 0 ? '❌ אין שימושים' : '✓ נקב כניסה'}
                           </Button>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
               )}
