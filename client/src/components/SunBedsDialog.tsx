@@ -518,105 +518,67 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
               )}
 
               {selectedCustomerId && memberships.length > 0 && (
-                <div className="mt-6 pt-6 border-t border-pink-500/30">
-                  <h3 className="text-lg font-semibold text-white mb-4">כרטיסיות פעילות:</h3>
-                  <div className="space-y-4">
-                    {memberships.map((membership: any) => {
-                      const totalPurchased = membership.total_purchased || membership.totalPurchased || 10;
-                      const used = totalPurchased - membership.balance;
-                      
-                      return (
-                        <div
-                          key={membership.id}
-                          className="p-4 bg-gradient-to-br from-purple-900/40 to-pink-900/40 border border-pink-500/40 rounded-lg"
-                          style={{
-                            boxShadow: '0 0 20px rgba(236, 72, 153, 0.2)',
-                          }}
-                        >
-                          {/* Header */}
-                          <div className="flex items-center justify-between mb-3">
-                            <div>
-                              <p className="text-white font-bold text-lg">{getMembershipTypeLabel(membership.membership_type)}</p>
-                              {membership.expires_at && (
-                                <div className="text-xs text-gray-400 mt-0.5">
-                                  <Calendar className="w-3 h-3 inline ml-1" />
-                                  תוקף עד: {new Date(membership.expires_at).toLocaleDateString('he-IL')}
-                                </div>
-                              )}
+                <div className="mt-6 pt-6 border-t border-pink-500/30 space-y-2">
+                  {memberships.map((membership: any) => {
+                    const totalPurchased = membership.total_purchased || membership.totalPurchased || 10;
+                    const used = totalPurchased - membership.balance;
+                    
+                    return (
+                      <div
+                        key={membership.id}
+                        className="flex items-center gap-3 p-2 bg-gradient-to-br from-purple-900/40 to-pink-900/40 border border-pink-500/30 rounded-lg"
+                      >
+                        <span className="text-white font-semibold text-sm whitespace-nowrap">{getMembershipTypeLabel(membership.membership_type)}</span>
+                        <div className="flex gap-1 flex-1">
+                          {Array.from({ length: totalPurchased }).map((_, index) => (
+                            <div
+                              key={index}
+                              className={`w-6 h-6 rounded flex items-center justify-center text-xs font-bold transition-all ${
+                                index < used 
+                                  ? 'bg-pink-500/40 text-pink-300' 
+                                  : 'bg-gray-700/40 text-gray-500'
+                              }`}
+                            >
+                              {index < used ? '✓' : '○'}
                             </div>
-                            <div className="text-left">
-                              <div className="text-2xl font-bold text-pink-400">{membership.balance}</div>
-                              <div className="text-xs text-gray-400">נותרו</div>
-                            </div>
-                          </div>
-
-                          {/* Punch Card Grid */}
-                          <div className="mb-3">
-                            <div className="grid grid-cols-5 gap-2 p-3 bg-black/30 rounded-md">
-                              {Array.from({ length: totalPurchased }).map((_, index) => (
-                                <div
-                                  key={index}
-                                  className={`
-                                    aspect-square rounded-md border-2 flex items-center justify-center font-bold text-sm
-                                    transition-all duration-200
-                                    ${index < used 
-                                      ? 'bg-pink-500/30 border-pink-500/60 text-pink-300' 
-                                      : 'bg-gray-700/30 border-gray-600/60 text-gray-400'
-                                    }
-                                  `}
-                                  style={{
-                                    boxShadow: index < used 
-                                      ? '0 0 10px rgba(236, 72, 153, 0.4), inset 0 0 10px rgba(236, 72, 153, 0.2)' 
-                                      : 'none'
-                                  }}
-                                >
-                                  {index < used ? '✓' : index + 1}
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-
-                          {/* Action Button */}
-                          <Button
-                            onClick={async () => {
-                              try {
-                                const response = await fetch(`/api/memberships/${membership.id}/use`, {
-                                  method: 'POST',
-                                  headers: { 'Content-Type': 'application/json' },
-                                });
-                                if (!response.ok) {
-                                  const error = await response.json();
-                                  throw new Error(error.error || 'Failed to mark usage');
-                                }
-                                toast({
-                                  title: '✅ סומן בהצלחה',
-                                  description: `כניסה ${used + 1} נוקבה בהצלחה`,
-                                  duration: 2000,
-                                });
-                                // Refresh memberships data
-                                queryClient.invalidateQueries({ queryKey: ['/api/customers', selectedCustomerId, 'memberships'] });
-                              } catch (error: any) {
-                                toast({
-                                  title: '❌ שגיאה',
-                                  description: error.message || 'לא הצלחנו לסמן את השימוש',
-                                  variant: 'destructive',
-                                  duration: 3000,
-                                });
-                              }
-                            }}
-                            disabled={membership.balance === 0}
-                            className="w-full bg-pink-500/20 border-pink-500/40 hover:bg-pink-500/30 hover:border-pink-500/60 text-white disabled:opacity-50 disabled:cursor-not-allowed"
-                            style={{
-                              boxShadow: '0 0 15px rgba(236, 72, 153, 0.3)',
-                            }}
-                            data-testid={`button-mark-usage-${membership.id}`}
-                          >
-                            {membership.balance === 0 ? '❌ אין שימושים' : '✓ נקב כניסה'}
-                          </Button>
+                          ))}
                         </div>
-                      );
-                    })}
-                  </div>
+                        <Button
+                          onClick={async () => {
+                            try {
+                              const response = await fetch(`/api/memberships/${membership.id}/use`, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                              });
+                              if (!response.ok) {
+                                const error = await response.json();
+                                throw new Error(error.error || 'Failed to mark usage');
+                              }
+                              toast({
+                                title: '✅ סומן',
+                                description: `כניסה ${used + 1}`,
+                                duration: 2000,
+                              });
+                              queryClient.invalidateQueries({ queryKey: ['/api/customers', selectedCustomerId, 'memberships'] });
+                            } catch (error: any) {
+                              toast({
+                                title: '❌ שגיאה',
+                                description: error.message || 'נכשל',
+                                variant: 'destructive',
+                                duration: 3000,
+                              });
+                            }
+                          }}
+                          disabled={membership.balance === 0}
+                          size="sm"
+                          className="bg-pink-500/20 hover:bg-pink-500/30 text-white text-xs disabled:opacity-50"
+                          data-testid={`button-mark-usage-${membership.id}`}
+                        >
+                          ✓ סמן
+                        </Button>
+                      </div>
+                    );
+                  })}
                 </div>
               )}
 
