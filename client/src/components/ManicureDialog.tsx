@@ -55,10 +55,10 @@ export default function ManicureDialog({ open, onOpenChange }: ManicureDialogPro
       </div>
 
       {/* Content - Split into two sections */}
-      <div className="relative w-full h-[90vh] max-w-7xl flex flex-col md:flex-row gap-0">
+      <div className="relative w-full h-[90vh] max-w-7xl flex flex-col md:flex-row gap-4">
         
         {/* Right Section (50%) */}
-        <div className="w-full md:w-1/2 h-1/2 md:h-full bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border-2 border-pink-500/60 rounded-t-lg md:rounded-r-none md:rounded-l-lg p-8 flex flex-col items-center justify-center">
+        <div className="w-full md:w-1/2 h-1/2 md:h-full bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border-2 border-pink-500/60 rounded-lg p-8 flex flex-col items-center justify-center">
           <div className="text-center space-y-6">
             <div className="flex items-center justify-center gap-3">
               <Sparkles className="w-12 h-12 text-pink-500 animate-pulse" style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 1))' }} />
@@ -73,7 +73,7 @@ export default function ManicureDialog({ open, onOpenChange }: ManicureDialogPro
         </div>
 
         {/* Left Section (50%) */}
-        <div className="w-full md:w-1/2 h-1/2 md:h-full bg-gradient-to-br from-pink-900/30 via-black/80 to-gray-800/90 border-2 border-pink-500/60 rounded-b-lg md:rounded-l-none md:rounded-r-lg p-8 flex flex-col items-center justify-center">
+        <div className="w-full md:w-1/2 h-1/2 md:h-full bg-gradient-to-br from-pink-900/30 via-black/80 to-gray-800/90 border-2 border-pink-500/60 rounded-lg p-8 flex flex-col items-center justify-center">
           <div className="text-center space-y-6">
             <div className="flex items-center justify-center gap-3">
               <Sparkles className="w-12 h-12 text-pink-500 animate-pulse" style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 1))' }} />
