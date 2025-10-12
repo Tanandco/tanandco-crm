@@ -292,8 +292,10 @@ export default function SelfService() {
                 className="h-[100px] w-full md:h-[180px] md:w-[160px] rounded-xl p-1.5 md:p-3 bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm animate-fade-in-up delay-0"
                 data-testid="card-sun-beds"
               >
-                <div className="h-full w-full flex flex-col items-center justify-center text-center gap-1">
-                  <img src={tanningBedIcon} alt="מיטות שיזוף" className="max-w-[60px] max-h-[60px] md:max-w-[115px] md:max-h-[115px] neon-glow object-contain" />
+                <div className="h-full w-full flex flex-col items-center justify-between text-center py-2">
+                  <div className="flex-1 flex items-center justify-center">
+                    <img src={tanningBedIcon} alt="מיטות שיזוף" className="max-w-[60px] max-h-[60px] md:max-w-[115px] md:max-h-[115px] neon-glow object-contain" />
+                  </div>
                   <div className="text-[10px] md:text-sm font-bold tracking-tight leading-tight">מיטות שיזוף</div>
                 </div>
               </button>
@@ -304,8 +306,10 @@ export default function SelfService() {
                 className="h-[100px] w-full md:h-[180px] md:w-[160px] rounded-xl p-1.5 md:p-3 bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm animate-fade-in-up delay-100"
                 data-testid="card-spray-tan"
               >
-                <div className="h-full w-full flex flex-col items-center justify-center text-center gap-1">
-                  <img src={sprayTanIcon} alt="שיזוף בהתזה" className="max-w-[70px] max-h-[70px] md:max-w-[125px] md:max-h-[125px] neon-glow object-contain" />
+                <div className="h-full w-full flex flex-col items-center justify-between text-center py-2">
+                  <div className="flex-1 flex items-center justify-center">
+                    <img src={sprayTanIcon} alt="שיזוף בהתזה" className="max-w-[70px] max-h-[70px] md:max-w-[125px] md:max-h-[125px] neon-glow object-contain" />
+                  </div>
                   <div className="text-[10px] md:text-sm font-bold tracking-tight leading-tight">שיזוף בהתזה</div>
                 </div>
               </button>
@@ -316,8 +320,10 @@ export default function SelfService() {
                 className="h-[100px] w-full md:h-[180px] md:w-[160px] rounded-xl p-1.5 md:p-3 bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm flex items-center justify-center text-center animate-fade-in-up delay-200"
                 data-testid="card-hair-salon"
               >
-                <div className="h-full w-full flex flex-col items-center justify-center text-center gap-1">
-                  <img src={hairSalonIcon} alt="מספרה" className="max-w-[80px] max-h-[80px] md:max-w-[140px] md:max-h-[140px] neon-glow object-contain" />
+                <div className="h-full w-full flex flex-col items-center justify-between text-center py-2">
+                  <div className="flex-1 flex items-center justify-center">
+                    <img src={hairSalonIcon} alt="מספרה" className="max-w-[80px] max-h-[80px] md:max-w-[140px] md:max-h-[140px] neon-glow object-contain" />
+                  </div>
                   <div className="text-[10px] md:text-sm font-bold tracking-tight leading-tight">מספרה</div>
                 </div>
               </a>
@@ -328,8 +334,10 @@ export default function SelfService() {
                 className="h-[100px] w-full md:h-[180px] md:w-[160px] rounded-xl p-1.5 md:p-3 bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm animate-fade-in-up delay-300"
                 data-testid="card-cosmetics"
               >
-                <div className="h-full w-full flex flex-col items-center justify-center text-center gap-1">
-                  <img src={cosmeticsIcon} alt="קוסמטיקה" className="max-w-[75px] max-h-[75px] md:max-w-[135px] md:max-h-[135px] neon-glow object-contain" />
+                <div className="h-full w-full flex flex-col items-center justify-between text-center py-2">
+                  <div className="flex-1 flex items-center justify-center">
+                    <img src={cosmeticsIcon} alt="קוסמטיקה" className="max-w-[75px] max-h-[75px] md:max-w-[135px] md:max-h-[135px] neon-glow object-contain" />
+                  </div>
                   <div className="text-[10px] md:text-sm font-bold tracking-tight leading-tight">קוסמטיקה</div>
                 </div>
               </button>
@@ -340,8 +348,10 @@ export default function SelfService() {
                 className="h-[100px] w-full md:h-[180px] md:w-[160px] rounded-xl p-1.5 md:p-3 bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm flex items-center justify-center text-center animate-fade-in-up delay-400"
                 data-testid="card-store"
               >
-                <div className="h-full w-full flex flex-col items-center justify-center text-center gap-1">
-                  <img src={storeIcon} alt="החנות שלכם" className="max-w-[60px] max-h-[60px] md:max-w-[115px] md:max-h-[115px] neon-glow object-contain" />
+                <div className="h-full w-full flex flex-col items-center justify-between text-center py-2">
+                  <div className="flex-1 flex items-center justify-center">
+                    <img src={storeIcon} alt="החנות שלכם" className="max-w-[60px] max-h-[60px] md:max-w-[115px] md:max-h-[115px] neon-glow object-contain" />
+                  </div>
                   <div className="text-[10px] md:text-sm font-bold tracking-tight leading-tight">החנות שלכם</div>
                 </div>
               </a>
@@ -352,13 +362,15 @@ export default function SelfService() {
                 className="h-[100px] w-full md:h-[180px] md:w-[160px] rounded-xl p-1.5 md:p-3 bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(59,130,246,.3)] transition-all duration-150 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm animate-fade-in-up delay-500"
                 data-testid="card-ai-tan"
               >
-                <div className="h-full w-full flex flex-col items-center justify-center text-center gap-1">
-                  <img 
-                    src={blueAlinGif} 
-                    alt="AI TAN" 
-                    className="max-w-[95px] max-h-[95px] md:max-w-[155px] md:max-h-[155px] object-contain"
-                    style={{ filter: 'drop-shadow(0 0 20px rgb(59, 130, 246)) contrast(1.15) brightness(1.05)' }}
-                  />
+                <div className="h-full w-full flex flex-col items-center justify-between text-center py-2">
+                  <div className="flex-1 flex items-center justify-center">
+                    <img 
+                      src={blueAlinGif} 
+                      alt="AI TAN" 
+                      className="max-w-[95px] max-h-[95px] md:max-w-[155px] md:max-h-[155px] object-contain"
+                      style={{ filter: 'drop-shadow(0 0 20px rgb(59, 130, 246)) contrast(1.15) brightness(1.05)' }}
+                    />
+                  </div>
                   <div className="text-[10px] md:text-sm font-bold tracking-tight leading-tight text-[rgb(59,130,246)] drop-shadow-[0_0_10px_rgba(59,130,246,0.8)]">
                     AI TAN
                   </div>
