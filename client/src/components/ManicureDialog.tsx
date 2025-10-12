@@ -115,16 +115,27 @@ export default function ManicureDialog({ open, onOpenChange }: ManicureDialogPro
               <div className="relative">
                 <div className="overflow-hidden" ref={emblaRef1}>
                   <div className="flex gap-2">
-                    {[1, 2, 3, 4, 5, 6].map((i) => (
-                      <div 
-                        key={i}
-                        className="flex-[0_0_33%] min-w-0"
-                      >
-                        <div className="aspect-square bg-gradient-to-br from-pink-500/20 to-purple-500/20 rounded-lg border border-pink-500/30 flex items-center justify-center">
-                          <Sparkles className="w-6 h-6 text-pink-400/50" />
-                        </div>
-                      </div>
-                    ))}
+                    <div className="flex-[0_0_33%] min-w-0">
+                      <img 
+                        src="/attached_assets/4_1760265219421.png" 
+                        alt="עיצוב ציפורניים 1"
+                        className="aspect-square object-cover rounded-lg border border-pink-500/30"
+                      />
+                    </div>
+                    <div className="flex-[0_0_33%] min-w-0">
+                      <img 
+                        src="/attached_assets/3_1760265240401.png" 
+                        alt="עיצוב ציפורניים 2"
+                        className="aspect-square object-cover rounded-lg border border-pink-500/30"
+                      />
+                    </div>
+                    <div className="flex-[0_0_33%] min-w-0">
+                      <img 
+                        src="/attached_assets/2_1760265240402.png" 
+                        alt="עיצוב ציפורניים 3"
+                        className="aspect-square object-cover rounded-lg border border-pink-500/30"
+                      />
+                    </div>
                   </div>
                 </div>
                 <button 
@@ -207,16 +218,20 @@ export default function ManicureDialog({ open, onOpenChange }: ManicureDialogPro
               <div className="relative">
                 <div className="overflow-hidden" ref={emblaRef2}>
                   <div className="flex gap-2">
-                    {[1, 2, 3, 4, 5, 6].map((i) => (
-                      <div 
-                        key={i}
-                        className="flex-[0_0_33%] min-w-0"
-                      >
-                        <div className="aspect-square bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-lg border border-pink-500/30 flex items-center justify-center">
-                          <Sparkles className="w-6 h-6 text-pink-400/50" />
-                        </div>
-                      </div>
-                    ))}
+                    <div className="flex-[0_0_33%] min-w-0">
+                      <img 
+                        src="/attached_assets/1_1760265240402.png" 
+                        alt="עיצוב ציפורניים 4"
+                        className="aspect-square object-cover rounded-lg border border-pink-500/30"
+                      />
+                    </div>
+                    <div className="flex-[0_0_33%] min-w-0">
+                      <img 
+                        src="/attached_assets/4_1760265240402.png" 
+                        alt="עיצוב ציפורניים 5"
+                        className="aspect-square object-cover rounded-lg border border-pink-500/30"
+                      />
+                    </div>
                   </div>
                 </div>
                 <button 

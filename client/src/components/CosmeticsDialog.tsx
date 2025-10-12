@@ -54,55 +54,24 @@ export default function CosmeticsDialog({ open, onOpenChange }: CosmeticsDialogP
       </div>
 
       {/* Back Button */}
-      <div className="absolute top-6 right-6 z-30">
+      <div className="absolute top-4 md:top-6 right-4 md:right-6 z-30">
         <Button
           onClick={() => onOpenChange(false)}
           variant="outline"
-          size="lg"
-          className="bg-white/10 border-white/20 text-white backdrop-blur-sm"
+          size="icon"
+          className="bg-white/10 border-white/20 text-white backdrop-blur-sm h-10 w-10 md:h-auto md:w-auto md:px-4"
           data-testid="button-back-cosmetics"
         >
-          <ArrowLeft className="w-5 h-5 ml-2" />
-          חזרה לשירות עצמי
+          <ArrowLeft className="w-5 h-5 md:ml-2" />
+          <span className="hidden md:inline">חזרה לשירות עצמי</span>
         </Button>
       </div>
 
-      {/* Welcome Header */}
-      <div className="absolute top-16 left-0 right-0 z-20">
-        <div className="text-center space-y-4 px-4">
-          <div className="flex items-center justify-center gap-3">
-            <Star className="w-12 h-12 text-pink-500" style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 1))' }} />
-            <h1 
-              className="text-xl font-bold text-white font-varela tracking-wide" 
-              style={{ fontFamily: "'Varela Round', sans-serif !important" }}
-            >
-              קוסמטיקה ויופי - טיפולי יופי מקצועיים
-            </h1>
-            <Sparkles className="w-10 h-10 text-pink-500 animate-pulse" style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 1))' }} />
-          </div>
-          
-          {/* Pink Neon Separator */}
-          <div className="relative py-1 flex justify-center">
-            <div 
-              className="w-1/2 h-px bg-gradient-to-r from-transparent via-pink-500 to-transparent animate-pulse" 
-              style={{
-                filter: 'drop-shadow(0 0 16px rgba(236, 72, 153, 1)) drop-shadow(0 0 32px rgba(236, 72, 153, 1)) drop-shadow(0 0 48px rgba(236, 72, 153, 0.8)) drop-shadow(0 0 64px rgba(236, 72, 153, 0.6))',
-                boxShadow: '0 0 35px rgba(236, 72, 153, 1), 0 0 60px rgba(236, 72, 153, 0.8), 0 0 80px rgba(236, 72, 153, 0.6), inset 0 0 20px rgba(236, 72, 153, 0.5)'
-              }}
-            />
-            <div className="absolute inset-0 flex justify-center">
-              <div className="w-1/2 h-px bg-gradient-to-r from-transparent via-pink-300 to-transparent opacity-80 blur-sm animate-pulse" />
-            </div>
-          </div>
-          
-        </div>
-      </div>
-
-      {/* Content Container - positioned lower to avoid overlap */}
-      <div className="relative w-full max-w-4xl flex items-center justify-center mt-80">
-        {/* Service Fields - All in one row */}
+      {/* Content Container - Centered */}
+      <div className="relative w-full max-w-4xl flex items-center justify-center">
+        {/* Service Fields - Grid on mobile, Row on desktop */}
         <div className="w-full max-w-6xl mx-auto px-4">
-          <div className="flex gap-6 md:gap-8 justify-center flex-nowrap animate-scale-in">
+          <div className="grid grid-cols-1 md:flex gap-4 md:gap-8 justify-center animate-scale-in">
             {cosmeticsActions.map((action, index) => (
               <div key={index} className="relative">
                 {/* Solid black background */}
@@ -111,7 +80,7 @@ export default function CosmeticsDialog({ open, onOpenChange }: CosmeticsDialogP
                 <button
                   onClick={action.onClick}
                   className="
-                    group relative h-[200px] w-[350px] md:h-[280px] md:w-[450px]
+                    group relative h-[120px] w-full md:h-[280px] md:w-[450px]
                     bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
                     border hover:border-2
                     rounded-md backdrop-blur-sm
@@ -128,12 +97,12 @@ export default function CosmeticsDialog({ open, onOpenChange }: CosmeticsDialogP
                   onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.6)'}
                   data-testid={`cosmetics-action-${index}`}
                 >
-                  <div className="px-4 text-center space-y-3">
+                  <div className="px-4 text-center space-y-2 md:space-y-3">
                     <action.icon 
-                      className="w-10 h-10 md:w-12 md:h-12 mx-auto text-pink-400 group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
+                      className="w-8 h-8 md:w-12 md:h-12 mx-auto text-pink-400 group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
                       style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }}
                     />
-                    <p className="text-white text-xl md:text-2xl font-bold leading-tight font-hebrew">
+                    <p className="text-white text-base md:text-2xl font-bold leading-tight font-hebrew">
                       {action.title}
                     </p>
                   </div>
