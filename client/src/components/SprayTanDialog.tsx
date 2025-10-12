@@ -98,48 +98,48 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
         {/* 3 בלוקים עיקריים */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-6xl mx-auto">
           
-          {/* בלוק שמאלי - אזהרות והוראות */}
-          <div className="border-2 rounded-lg p-4 md:p-6" style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: '8px 0 12px rgba(0, 0, 0, 0.6)' }} data-testid="block-warnings">
+          {/* בלוק ראשון - הנחיות לפני ואחרי טיפול */}
+          <div className="border-2 rounded-lg p-4 md:p-6" style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: '8px 0 12px rgba(0, 0, 0, 0.6)' }} data-testid="block-guidelines">
             <h3 className="text-lg md:text-xl font-bold text-center mb-4" style={{ 
               color: '#e064d5',
               fontFamily: 'Varela Round, sans-serif'
             }}>
-              אזהרות והוראות חשובות
+              הנחיות לפני ואחרי טיפול
             </h3>
             <div className="text-xs md:text-sm leading-relaxed space-y-3" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>
-              <p>לפני ביצוע התזה: מומלץ לעשות פילינג עדין 24 שעות לפני, להימנע מקרמים שמנוניים ביום הטיפול ולהגיע עם לבוש רפוי וכהה. בנוסף, להימנע מכל טיפול שיער ביום הטיפול.</p>
-              <p>אחרי ההתזה: אסור - לקלח או לטבוע תוך 6-8 שעות לפחות, להזיע (כגון פעילות ספורטיבית), לשים בושם, קרמים וכל חומר כימי על העור ולהימנע מפעילות מאומצת.</p>
-              <p>טיפול והחזקה: להימנע משמשייה ומשטף מים שופע, ולשמור על לחות העור באמצעות קרמים מיוחדים לשיזוף בהתזה כדי להאריך את תוצאת השיזוף.</p>
+              <p><strong>לפני הטיפול:</strong> קלחת סבון פילינג/גרגירים יום לפני. גילוח במידת הצורך 24 שעות לפני. אין למרוח שמן/קרם/דאודורנט ביום הטיפול. הגיעו בבגדים קלילים, רחבים, כהים וכפכפים.</p>
+              <p><strong>אחרי הטיפול:</strong> המתנה 4 שעות. הימנעו מהזעה ומגע מים עד למקלחת הראשונה. שטפו עם מים זורמים ללא סבון/קירצוף. התנגבו בטפיחות.</p>
+              <p><strong>תחזוקה:</strong> הגוון הסופי יתפתח למחרת. הימנעו מפילינג/ליפה במהלך השבוע. המרחו פעמיים ביום בחמאת גוף איכותית לשימור תוצאת השיזוף.</p>
             </div>
           </div>
 
-          {/* בלוק אמצעי - מתי מומלץ */}
-          <div className="border-2 rounded-lg p-4 md:p-6" style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: '8px 0 12px rgba(0, 0, 0, 0.6)' }} data-testid="block-when-recommended">
+          {/* בלוק אמצעי - עמידות והתאמה אישית */}
+          <div className="border-2 rounded-lg p-4 md:p-6" style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: '8px 0 12px rgba(0, 0, 0, 0.6)' }} data-testid="block-durability">
             <h3 className="text-lg md:text-xl font-bold text-center mb-4" style={{ 
               color: '#e064d5',
               fontFamily: 'Varela Round, sans-serif'
             }}>
-              מתי מומלץ לעשות שיזוף בהתזה?
+              עמידות והתאמה אישית
             </h3>
             <div className="text-xs md:text-sm leading-relaxed space-y-3" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>
-              <p>לקראת אירוע מיוחד: זהו הפתרון האידיאלי למי שרוצה להופיע זוהר ואחיד במיוחד לפני חתונה, יום הולדת, חופשה או כל אירוע חשוב. ניתן להשיג גוון כל שהוא בכל עונה.</p>
-              <p>חלופה לשיזוף בשמש: מומלץ לאנשים בעלי עור רגיש, לאלו שמעדיפים להימנע מחשיפה לשמש או מקרינת UV בגלל החשש לנזק לעור, או לאנשים אשר שיזוף טבעי אינו מתאים להם.</p>
-              <p>תיקון אזורים לא אחידים: התזה עוזרת להעלים פסים, כתמים או אזורים לא מושלמים מהשיזוף הקיים, ומעניקה מראה חלק ואחיד בזמן קצר.</p>
+              <p><strong>עמידות:</strong> השיזוף מחזיק 5-10 ימים, תלוי בסוג העור והטיפול. דהייה הדרגתית ואחידה בדומה לשיזוף טבעי.</p>
+              <p><strong>התאמה אישית:</strong> התאמה לפי גוון עור טבעי ולאירועים ספציפיים. עבודה עם המותגים המובילים בעולם - תמיסות איכותיות, טבעיות, ללא פראבנים, עם רכיבי לחות וויטמינים.</p>
+              <p><strong>מיתוסים:</strong> עם תכשירים איכותיים התוצאה טבעית ואחידה, ללא כתמים או גוון כתום. תכשירים מודרניים פתרו את בעיית הריח האופייני.</p>
             </div>
           </div>
 
-          {/* בלוק ימני - מתי להימנע */}
-          <div className="border-2 rounded-lg p-4 md:p-6" style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: '8px 0 12px rgba(0, 0, 0, 0.6)' }} data-testid="block-when-avoid">
+          {/* בלוק שלישי - יתרונות והסתרת פגמים */}
+          <div className="border-2 rounded-lg p-4 md:p-6" style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: '8px 0 12px rgba(0, 0, 0, 0.6)' }} data-testid="block-benefits">
             <h3 className="text-lg md:text-xl font-bold text-center mb-4" style={{ 
               color: '#e064d5',
               fontFamily: 'Varela Round, sans-serif'
             }}>
-              מתי להימנע משיזוף בהתזה?
+              יתרונות והסתרת פגמים
             </h3>
             <div className="text-xs md:text-sm leading-relaxed space-y-3" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>
-              <p>עור פצוע או מגורה: יש להימנע מהתזה אם יש פצעים פתוחים, כוויות שמש, פריחה, אקנה דלקתי או כל מצב בו העור אינו שלם ובריא.</p>
-              <p>הריון והנקה: למרות שטופל על בסיס DHA נחשב בטוח באופן כללי, מומלץ להתייעץ עם רופא לפני ביצוע הטיפול בתקופת הריון או הנקה.</p>
-              <p>רגישות או אלרגיה: אם יש היסטוריה של אלרגיה לקוסמטיקה, ריחות או לחומרים כימיים, מומלץ לבצע מבחן על שטח קטן ביממה לפני הטיפול המלא, או להימנע ממנו לחלוטין.</p>
+              <p><strong>אלטרנטיבה בריאה:</strong> אלטרנטיבה מעולה לשיזוף בשמש, ללא סיכונים בריאותיים. מתאים לכל סוגי העור, כולל בהירי עור שעלולים להיכוות בשמש.</p>
+              <p><strong>הסתרת פגמים:</strong> טשטוש קל של צלקות, ורידים, סימני מתיחה או אקנה על ידי יצירת גוון אחיד. מראה בריא, זוהר וחטוב באופן מיידי.</p>
+              <p><strong>תיאום:</strong> יש לתאם את הטיפול יום/יומיים לפני השיזוף הרצוי לקבלת התוצאה האופטימלית.</p>
             </div>
           </div>
 
