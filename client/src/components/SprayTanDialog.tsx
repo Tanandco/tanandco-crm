@@ -79,7 +79,7 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
             </div>
             <Button
               variant="outline"
-              className="border hover:border-[#2c2c2c] w-full"
+              className="hidden md:flex border hover:border-[#2c2c2c] w-full"
               style={{ borderColor: '#e064d5', backgroundColor: 'rgba(224, 100, 213, 0.1)', color: '#e064d5', fontFamily: 'Varela Round, sans-serif' }}
               data-testid="book-single"
             >
@@ -94,7 +94,7 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
             </div>
             <Button
               variant="outline"
-              className="border hover:border-[#2c2c2c] w-full"
+              className="hidden md:flex border hover:border-[#2c2c2c] w-full"
               style={{ borderColor: '#e064d5', backgroundColor: 'rgba(224, 100, 213, 0.1)', color: '#e064d5', fontFamily: 'Varela Round, sans-serif' }}
               data-testid="book-package-3"
             >
@@ -109,7 +109,7 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
             </div>
             <Button
               variant="outline"
-              className="border hover:border-[#2c2c2c] w-full"
+              className="hidden md:flex border hover:border-[#2c2c2c] w-full"
               style={{ borderColor: '#e064d5', backgroundColor: 'rgba(224, 100, 213, 0.1)', color: '#e064d5', fontFamily: 'Varela Round, sans-serif' }}
               data-testid="book-package-6"
             >
@@ -138,7 +138,7 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
             </div>
             <Button
               variant="outline"
-              className="border hover:border-[#2c2c2c] w-full"
+              className="hidden md:flex border hover:border-[#2c2c2c] w-full"
               style={{ borderColor: '#e064d5', backgroundColor: 'rgba(224, 100, 213, 0.1)', color: '#e064d5', fontFamily: 'Varela Round, sans-serif' }}
               data-testid="book-bride"
             >
@@ -153,7 +153,7 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
             </div>
             <Button
               variant="outline"
-              className="border hover:border-[#2c2c2c] w-full"
+              className="hidden md:flex border hover:border-[#2c2c2c] w-full"
               style={{ borderColor: '#e064d5', backgroundColor: 'rgba(224, 100, 213, 0.1)', color: '#e064d5', fontFamily: 'Varela Round, sans-serif' }}
               data-testid="book-home-service"
             >
