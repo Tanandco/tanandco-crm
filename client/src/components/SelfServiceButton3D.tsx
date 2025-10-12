@@ -8,32 +8,35 @@ export const SelfServiceButton3D = ({
   className = "" 
 }: SelfServiceButton3DProps) => {
   return (
-    <div className={`w-full max-w-[180px] mx-auto mt-10 md:mt-16 ${className}`}>
+    <div className={`w-full max-w-[200px] mx-auto mt-10 md:mt-16 ${className}`}>
       <button
         onClick={onClick}
-        className="relative w-full h-10 md:h-12 rounded-md bg-black/80 backdrop-blur-sm touch-target transition-all duration-300 active:scale-95 hover:scale-105 group overflow-hidden"
+        className="relative w-full h-11 md:h-12 rounded-md bg-black/90 backdrop-blur-sm touch-target transition-all duration-200 active:scale-95 group"
         data-testid="button-self-service-3d"
-        style={{
-          border: '3px solid transparent',
-          backgroundImage: 'linear-gradient(black, black), linear-gradient(90deg, rgb(59, 130, 246) 0%, rgb(59, 130, 246) 50%, #ec4899 50%, #ec4899 100%)',
-          backgroundOrigin: 'border-box',
-          backgroundClip: 'padding-box, border-box'
-        }}
       >
+        {/* מסגרת גרדיאנט זורמת מסביב */}
+        <div 
+          className="absolute -inset-[3px] rounded-md"
+          style={{
+            background: 'linear-gradient(45deg, rgb(59, 130, 246), #ec4899, rgb(59, 130, 246), #ec4899)',
+            backgroundSize: '300% 300%',
+            animation: 'gradientFlow 4s ease infinite',
+            boxShadow: '0 0 20px rgba(59, 130, 246, 0.6), 0 0 40px rgba(236, 72, 153, 0.4)'
+          }}
+        />
+        
+        {/* רקע שחור פנימי */}
+        <div className="absolute inset-0 bg-black/90 rounded-md" />
+
         {/* תוכן הכפתור */}
-        <div className="relative h-full flex items-center justify-center px-3">
+        <div className="relative h-full flex items-center justify-center gap-2 px-3">
           <h2 className="text-xs md:text-sm font-bold text-white" 
               style={{ fontFamily: 'Varela Round, sans-serif' }}>
             מעבר לשירות עצמי
           </h2>
+          <span className="text-[10px] md:text-xs text-white/70 font-bold">24/7</span>
         </div>
       </button>
-
-      {/* הודעת מצב מתחת לכפתור */}
-      <div className="mt-1 flex items-center justify-center gap-1 text-white/50 text-[8px] md:text-[10px]" style={{ fontFamily: 'Varela Round, sans-serif' }}>
-        <div className="w-1 h-1 bg-green-400 rounded-full animate-pulse" />
-        <span>24/7</span>
-      </div>
     </div>
   );
 };
