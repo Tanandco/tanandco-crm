@@ -94,11 +94,11 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
           </div>
           
           <div className="flex flex-col gap-2">
-            <div className="border-2 rounded-lg p-2 md:p-3 flex flex-col items-center" style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.5)' }}>
-              <div className="text-xs md:text-sm mb-0.5" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>חבילה לכלה</div>
-              <div className="text-base md:text-lg font-bold" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>340 ש״ח</div>
+            <div className="border-2 rounded-lg p-3 md:p-4 flex flex-col items-center" style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.8)' }}>
+              <div className="text-xs md:text-sm mb-1" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>חבילה לכלה</div>
+              <div className="text-lg md:text-xl font-bold" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>340 ש״ח</div>
               <button 
-                className="flex items-center gap-1 mt-0.5 cursor-pointer hover:opacity-100 transition-opacity"
+                className="flex items-center gap-1 mt-1 cursor-pointer hover:opacity-100 transition-opacity"
                 onClick={() => setBrideInfoOpen(true)}
                 style={{ opacity: 0.8 }}
               >
