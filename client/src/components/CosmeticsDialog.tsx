@@ -26,11 +26,14 @@ export default function CosmeticsDialog({ open, onOpenChange }: CosmeticsDialogP
 
   const cosmeticsActions: Array<{
     title: string;
+    subtitle?: string;
+    byLine?: string;
     icon: any;
     onClick: () => void;
   }> = [
     {
       title: "אומנות גבות",
+      byLine: "BY ELIT EYEBROWS",
       icon: Droplet,
       onClick: () => {
         setShowEyebrowsDialog(true);
@@ -38,13 +41,15 @@ export default function CosmeticsDialog({ open, onOpenChange }: CosmeticsDialogP
     },
     {
       title: "מניקור גל",
+      subtitle: "ידיים & רגליים",
+      byLine: "BY רבקה סולטן",
       icon: Droplet,
       onClick: () => {
         setShowManicureDialog(true);
       }
     },
     {
-      title: "פדיקור גל",
+      title: "מניקור ג'ל BY שי לניאדו",
       icon: Droplet,
       onClick: () => {
         setShowManicureDialog(true);
@@ -104,7 +109,7 @@ export default function CosmeticsDialog({ open, onOpenChange }: CosmeticsDialogP
                   onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.6)'}
                   data-testid={`cosmetics-action-${index}`}
                 >
-                  <div className="px-4 text-center space-y-2 md:space-y-3">
+                  <div className="px-4 text-center space-y-1 md:space-y-2">
                     <action.icon 
                       className="w-8 h-8 md:w-12 md:h-12 mx-auto text-pink-400 group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
                       style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }}
@@ -112,6 +117,16 @@ export default function CosmeticsDialog({ open, onOpenChange }: CosmeticsDialogP
                     <p className="text-white text-base md:text-2xl font-bold leading-tight font-hebrew">
                       {action.title}
                     </p>
+                    {action.subtitle && (
+                      <p className="text-pink-300 text-xs md:text-sm font-medium leading-tight">
+                        {action.subtitle}
+                      </p>
+                    )}
+                    {action.byLine && (
+                      <p className="text-pink-400 text-[10px] md:text-xs font-semibold leading-tight">
+                        {action.byLine}
+                      </p>
+                    )}
                   </div>
 
                   {/* Ripple effect container */}
