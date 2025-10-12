@@ -29,12 +29,12 @@ export const SelfServiceButton3D = ({
         <div className="absolute inset-0 bg-black/90 rounded-md" />
 
         {/* תוכן הכפתור */}
-        <div className="relative h-full flex items-center justify-center gap-2 px-3">
+        <div className="relative h-full flex flex-col items-center justify-center px-3">
           <h2 className="text-xs md:text-sm font-bold text-white" 
               style={{ fontFamily: 'Varela Round, sans-serif' }}>
             מעבר לשירות עצמי
           </h2>
-          <span className="text-[10px] md:text-xs text-white/70 font-bold">24/7</span>
+          <span className="text-[9px] md:text-[10px] text-white/60 font-bold">24/7</span>
         </div>
       </button>
     </div>
