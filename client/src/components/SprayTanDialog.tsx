@@ -56,7 +56,7 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
 
         {/* כותרת עליונה */}
         <div className="relative z-10 text-center mb-2 md:mb-3">
-          <h1 className="text-lg md:text-2xl font-bold mb-1" style={{ 
+          <h1 className="text-lg md:text-2xl font-bold mb-3 md:mb-4" style={{ 
             color: '#e064d5',
             textShadow: '0 0 20px rgba(224, 100, 213, 0.6)',
             fontFamily: 'Varela Round, sans-serif'
@@ -65,7 +65,7 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
           </h1>
           
           {/* טקסט הסבר */}
-          <p className="text-[10px] md:text-xs leading-tight max-w-5xl mx-auto" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>
+          <p className="text-xs md:text-sm leading-relaxed max-w-5xl mx-auto" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>
             שיזוף בהתזה הוא למעשה תהליך קוסמטי מהיר ובטוח ליצירת גוון שיזוף באופן מלאכותי, ללא צורך בחשיפה לשמש או לקרינת UV מזיקה. הוא מבוסס על תומצית סוכר טבעי (DHA) שצובע את שכבת העור העליונה, ומספק תוצאה אחידה ומזהירה.
           </p>
         </div>
