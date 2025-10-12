@@ -16,7 +16,7 @@ export const SelfServiceButton3D = ({
       >
         {/* מסגרת גרדיאנט זורמת מסביב */}
         <div 
-          className="absolute -inset-[3px] rounded-md"
+          className="absolute -inset-[1.5px] rounded-md"
           style={{
             background: 'linear-gradient(45deg, rgb(59, 130, 246), #ec4899, rgb(59, 130, 246), #ec4899)',
             backgroundSize: '300% 300%',
