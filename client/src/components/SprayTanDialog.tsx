@@ -93,6 +93,16 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
             <div className="border-2 rounded-lg p-3 md:p-4 flex flex-col items-center" style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.8)' }}>
               <div className="text-xs md:text-sm mb-1" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>חבילה לכלה</div>
               <div className="text-lg md:text-xl font-bold" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>340 ש״ח</div>
+              <div className="flex items-center gap-1 mt-1">
+                <span className="text-[9px] md:text-[10px]" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5', opacity: 0.8 }}>
+                  טסט מלא + טיפול לפני אירוע
+                </span>
+                <svg className="w-3 h-3" fill="none" stroke="#e064d5" strokeWidth="2" viewBox="0 0 24 24" style={{ opacity: 0.8 }}>
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="12" y1="16" x2="12" y2="12"/>
+                  <circle cx="12" cy="8" r="0.5" fill="#e064d5"/>
+                </svg>
+              </div>
             </div>
             <Button
               variant="outline"
