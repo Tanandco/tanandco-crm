@@ -166,20 +166,20 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
         <div className="mb-5 md:mb-8 max-w-6xl mx-auto flex justify-center">
           <Drawer open={calendarOpen} onOpenChange={setCalendarOpen}>
             <DrawerTrigger asChild>
-              <Button
-                variant="outline"
-                className="border-2 hover:border-[#2c2c2c] gap-2"
+              <div 
+                className="border-2 rounded-lg flex items-center justify-center gap-2 h-[100px] md:h-[110px] px-6 cursor-pointer hover:opacity-90 transition-opacity"
                 style={{ 
-                  borderColor: '#e064d5', 
-                  backgroundColor: 'rgba(224, 100, 213, 0.1)', 
-                  color: '#e064d5',
-                  fontFamily: 'Varela Round, sans-serif'
+                  borderColor: '#1a1a1a', 
+                  backgroundColor: 'rgba(44, 44, 44, 0.15)', 
+                  boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.8)'
                 }}
                 data-testid="open-calendar"
               >
-                <Calendar className="w-5 h-5" />
-                בחרו תאריך לטיפול
-              </Button>
+                <Calendar className="w-5 h-5" style={{ color: '#e064d5' }} />
+                <span className="text-sm md:text-base font-bold text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>
+                  בחרו תאריך לטיפול
+                </span>
+              </div>
             </DrawerTrigger>
             <DrawerContent className="bg-gradient-to-b from-gray-900 to-black border-2" style={{ borderColor: '#2c2c2c' }}>
               <DrawerHeader>
