@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowLeft, X, Star, Sparkles, Eye, Hand } from 'lucide-react';
+import { ArrowLeft, X, Star, Sparkles, Droplet } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { NewClientDialog } from "@/components/NewClientDialog";
 import CustomerSearchDialog from "@/components/CustomerSearchDialog";
@@ -27,14 +27,14 @@ export default function CosmeticsDialog({ open, onOpenChange }: CosmeticsDialogP
   }> = [
     {
       title: "אומנות גבות",
-      icon: Eye,
+      icon: Droplet,
       onClick: () => {
         console.log('Eyebrow art service');
       }
     },
     {
       title: "מניקור ג'ל",
-      icon: Hand,
+      icon: Droplet,
       onClick: () => {
         console.log('Gel manicure service');
       }
