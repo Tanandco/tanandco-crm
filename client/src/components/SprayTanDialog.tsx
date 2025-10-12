@@ -37,7 +37,7 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
             textShadow: '0 0 30px rgba(224, 100, 213, 0.8)',
             fontFamily: 'Varela Round, sans-serif'
           }}>
-            השיזוף המושלם והבטוח במרכז התדה
+            השיזוף המושלם והבטוח במרחק של התזה
           </h1>
           
           {/* טקסט הסבר */}
