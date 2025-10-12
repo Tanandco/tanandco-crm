@@ -333,124 +333,17 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
             ))}
           </div>
 
-          {/* Customer Search Bar - Separate field below buttons */}
-          <div className="w-full max-w-md mx-auto mt-4 px-2 md:px-0" dir="rtl">
-            <div className="relative">
-              <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-pink-500 pointer-events-none" />
-              <input
-                type="text"
-                placeholder="חיפוש לקוח קיים (שם / טלפון)"
-                value={searchQuery}
-                onChange={(e) => {
-                  setSearchQuery(e.target.value);
-                  setSelectedCustomerId(null);
-                }}
-                className="w-full h-12 md:h-14 bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-pink-500/60 hover:border-pink-500 focus:border-pink-500 rounded-lg backdrop-blur-sm pr-12 pl-4 text-sm md:text-base text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-500/50 transition-all"
-                style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)' }}
-                data-testid="input-search-existing-customer"
-              />
-            </div>
-
-            {/* Search Results */}
-            {searchQuery.length >= 2 && (
-              <div className="mt-4 space-y-3 max-h-[280px] overflow-y-auto">
-                {isSearching ? (
-                  <div className="text-center py-6 text-gray-400 bg-slate-900/70 rounded-lg backdrop-blur-sm border border-pink-500/20">
-                    מחפש...
-                  </div>
-                ) : customers.length === 0 ? (
-                  <div className="text-center py-6 space-y-2 bg-slate-900/70 rounded-lg backdrop-blur-sm border border-pink-500/20">
-                    <p className="text-gray-400">לא נמצאו לקוחות</p>
-                  </div>
-                ) : (
-                  <>
-                    {customers.map((customer: any) => (
-                      <div
-                        key={customer.id}
-                        onClick={() => setSelectedCustomerId(customer.id)}
-                        className={`p-4 rounded-lg border cursor-pointer transition-all duration-200 backdrop-blur-sm ${
-                          selectedCustomerId === customer.id
-                            ? 'bg-pink-500/20 border-pink-500 shadow-[0_0_20px_rgba(236,72,153,0.4)]'
-                            : 'bg-slate-900/70 border-slate-700 hover:border-pink-500/50'
-                        }`}
-                        data-testid={`customer-result-${customer.id}`}
-                      >
-                        <div className="flex items-start justify-between">
-                          <div className="space-y-2 flex-1">
-                            <div className="flex items-center gap-2">
-                              <User className="w-5 h-5 text-pink-500" />
-                              <span className="text-lg font-semibold text-white">{customer.fullName}</span>
-                            </div>
-                            
-                            <div className="flex flex-wrap gap-4 text-sm text-gray-400">
-                              <div className="flex items-center gap-1">
-                                <Phone className="w-4 h-4" />
-                                <span>{customer.phone}</span>
-                              </div>
-                              
-                              {customer.email && (
-                                <div className="flex items-center gap-1">
-                                  <span>📧</span>
-                                  <span>{customer.email}</span>
-                                </div>
-                              )}
-                              
-                              {customer.dateOfBirth && (
-                                <div className="flex items-center gap-1">
-                                  <Calendar className="w-4 h-4" />
-                                  <span>{new Date(customer.dateOfBirth).toLocaleDateString('he-IL')}</span>
-                                </div>
-                              )}
-                            </div>
-
-                            <div className="flex gap-2">
-                              {customer.healthFormSigned && (
-                                <Badge variant="outline" className="text-green-500 border-green-500/50 text-xs">
-                                  ✓ טופס בריאות
-                                </Badge>
-                              )}
-                              {customer.faceRecognitionId && (
-                                <Badge variant="outline" className="text-blue-500 border-blue-500/50 text-xs">
-                                  ✓ זיהוי פנים
-                                </Badge>
-                              )}
-                            </div>
-
-                            {/* Customer Memberships */}
-                            {selectedCustomerId === customer.id && memberships.length > 0 && (
-                              <div className="mt-3 pt-3 border-t border-pink-500/20">
-                                <h4 className="text-sm font-bold text-white mb-2">מנויים פעילים:</h4>
-                                <div className="space-y-2">
-                                  {memberships.map((membership: any) => (
-                                    <div
-                                      key={membership.id}
-                                      className={`p-2 rounded border text-xs ${
-                                        membership.isActive && membership.balance > 0
-                                          ? 'bg-green-500/10 border-green-500/50'
-                                          : 'bg-gray-500/10 border-gray-500/50'
-                                      }`}
-                                    >
-                                      <div className="flex items-center justify-between">
-                                        <span className="text-white font-semibold">
-                                          {getMembershipTypeLabel(membership.type)}
-                                        </span>
-                                        <span className="text-pink-400">
-                                          יתרה: {membership.balance} כניסות
-                                        </span>
-                                      </div>
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </>
-                )}
-              </div>
-            )}
+          {/* Customer Search Button - Simple row */}
+          <div className="w-full max-w-md mx-auto mt-4 px-2 md:px-0 flex justify-center">
+            <Button
+              variant="outline"
+              className="h-12 md:h-14 px-6 md:px-8 text-sm md:text-base font-bold border-pink-500/60 hover:border-pink-500 text-white bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 backdrop-blur-sm"
+              style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)' }}
+              data-testid="button-search-existing-customer"
+            >
+              <Search className="w-5 h-5 md:w-6 md:h-6 ml-2 text-pink-500" />
+              חיפוש לקוח קיים
+            </Button>
           </div>
         </div>
       </div>
