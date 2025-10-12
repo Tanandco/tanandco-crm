@@ -269,7 +269,7 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 max-w-6xl mx-auto mb-6 md:mb-10">
           
           {/* בלוק ראשון - הנחיות לפני ואחרי טיפול */}
-          <div className="border-2 rounded-lg p-3 md:p-4" style={{ borderColor: '#e064d5', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: '0 0 20px rgba(224, 100, 213, 0.6), 0 4px 12px rgba(0, 0, 0, 0.8)' }} data-testid="block-guidelines">
+          <div className="flowing-border rounded-lg p-3 md:p-4" style={{ backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: '0 0 20px rgba(224, 100, 213, 0.6), 0 4px 12px rgba(0, 0, 0, 0.8)' }} data-testid="block-guidelines">
             <div className="flex items-center justify-between mb-3">
               <div className="flex-1"></div>
               <h3 className="text-base md:text-xl font-bold text-center flex-1 whitespace-nowrap" style={{ 
@@ -318,7 +318,7 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
           </div>
 
           {/* בלוק אמצעי - עמידות והתאמה אישית */}
-          <div className="border-2 rounded-lg p-3 md:p-4" style={{ borderColor: '#e064d5', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: '0 0 20px rgba(224, 100, 213, 0.6), 0 4px 12px rgba(0, 0, 0, 0.8)' }} data-testid="block-durability">
+          <div className="flowing-border rounded-lg p-3 md:p-4" style={{ backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: '0 0 20px rgba(224, 100, 213, 0.6), 0 4px 12px rgba(0, 0, 0, 0.8)' }} data-testid="block-durability">
             <h3 className="text-base md:text-xl font-bold text-center mb-3" style={{ 
               color: '#e064d5',
               fontFamily: 'Varela Round, sans-serif'
