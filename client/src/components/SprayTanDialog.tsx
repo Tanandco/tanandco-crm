@@ -334,7 +334,7 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
             </div>
           </div>
           
-          <div className="mt-4 p-3 rounded-lg" style={{ backgroundColor: 'rgba(224, 100, 213, 0.1)', borderColor: '#e064d5', borderWidth: '1px' }}>
+          <div className="mt-4 p-3 rounded-lg border" style={{ borderColor: 'rgba(224, 100, 213, 0.3)' }}>
             <p className="text-center text-sm font-bold" style={{ color: '#e064d5', fontFamily: 'Varela Round, sans-serif' }}>
               היום הכי חשוב שלך מגיע רק פעם אחת - תהיי בטוחה שאת נראית מושלמת!
             </p>
