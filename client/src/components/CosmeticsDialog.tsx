@@ -41,7 +41,6 @@ export default function CosmeticsDialog({ open, onOpenChange }: CosmeticsDialogP
     },
     {
       title: "מניקור גל",
-      subtitle: "ידיים & רגליים",
       byLine: "BY רבקה סולטן",
       icon: Droplet,
       onClick: () => {
@@ -49,7 +48,8 @@ export default function CosmeticsDialog({ open, onOpenChange }: CosmeticsDialogP
       }
     },
     {
-      title: "מניקור ג'ל BY שי לניאדו",
+      title: "מניקור ג'ל",
+      byLine: "BY שי לניאדו",
       icon: Droplet,
       onClick: () => {
         setShowManicureDialog(true);
