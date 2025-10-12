@@ -439,12 +439,36 @@
   }
 
   /* נקודה מבריקה שרצה על המסגרת */
-  @keyframes border-glow-spin {
+  @keyframes glow-rotate {
     0% {
-      transform: rotate(0deg);
+      box-shadow: 
+        inset 0 2px 6px rgba(0, 0, 0, 0.8),
+        0 -2px 8px 2px rgba(255, 255, 255, 0.8),
+        0 -2px 12px 4px rgba(224, 100, 213, 0.6);
+    }
+    25% {
+      box-shadow: 
+        inset 0 2px 6px rgba(0, 0, 0, 0.8),
+        2px 0 8px 2px rgba(255, 255, 255, 0.8),
+        2px 0 12px 4px rgba(224, 100, 213, 0.6);
+    }
+    50% {
+      box-shadow: 
+        inset 0 2px 6px rgba(0, 0, 0, 0.8),
+        0 2px 8px 2px rgba(255, 255, 255, 0.8),
+        0 2px 12px 4px rgba(224, 100, 213, 0.6);
+    }
+    75% {
+      box-shadow: 
+        inset 0 2px 6px rgba(0, 0, 0, 0.8),
+        -2px 0 8px 2px rgba(255, 255, 255, 0.8),
+        -2px 0 12px 4px rgba(224, 100, 213, 0.6);
     }
     100% {
-      transform: rotate(360deg);
+      box-shadow: 
+        inset 0 2px 6px rgba(0, 0, 0, 0.8),
+        0 -2px 8px 2px rgba(255, 255, 255, 0.8),
+        0 -2px 12px 4px rgba(224, 100, 213, 0.6);
     }
   }
 
@@ -453,26 +477,6 @@
     border: 2px solid #1a1a1a;
     border-radius: 0.5rem;
     background: rgba(44, 44, 44, 0.15);
-    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.8);
-  }
-
-  .glow-border::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    border-radius: 0.5rem;
-    background: conic-gradient(
-      from 0deg,
-      transparent 0deg,
-      transparent 340deg,
-      rgba(255, 255, 255, 1) 350deg,
-      rgba(224, 100, 213, 0.9) 355deg,
-      transparent 360deg
-    );
-    animation: border-glow-spin 3s linear infinite;
-    z-index: -1;
+    animation: glow-rotate 2s linear infinite;
   }
 }
