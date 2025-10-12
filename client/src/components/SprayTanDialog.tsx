@@ -32,8 +32,8 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
           />
         </div>
 
-        {/* תמונת מכשיר התזה - צד שמאלי בין הבלוקים (מובייל בלבד) */}
-        <div className="absolute top-[450px] md:top-[200px] left-0 w-[180px] md:w-[500px] h-[180px] md:h-[500px] pointer-events-none z-[1]">
+        {/* תמונת מכשיר התזה */}
+        <div className="absolute top-[550px] right-0 md:top-[200px] md:left-0 w-[180px] md:w-[500px] h-[180px] md:h-[500px] pointer-events-none z-[1]">
           <img 
             src={sprayGun} 
             alt="" 
