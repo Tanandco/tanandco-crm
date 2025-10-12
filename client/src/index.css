@@ -437,4 +437,45 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none;  /* Chrome, Safari and Opera */
   }
+
+  /* אנימציית נקודה מבריקה שרצה על המסגרת */
+  @keyframes shine-around {
+    0% {
+      background-position: 0% 0%;
+    }
+    25% {
+      background-position: 100% 0%;
+    }
+    50% {
+      background-position: 100% 100%;
+    }
+    75% {
+      background-position: 0% 100%;
+    }
+    100% {
+      background-position: 0% 0%;
+    }
+  }
+
+  .animated-border {
+    position: relative;
+    border-radius: 0.5rem;
+    padding: 2px;
+    background: 
+      linear-gradient(90deg, 
+        transparent 0%, transparent 45%, 
+        white 50%, 
+        rgba(224, 100, 213, 0.9) 52%, 
+        transparent 55%, transparent 100%
+      );
+    background-size: 200% 200%;
+    animation: shine-around 2s linear infinite;
+    background-color: rgba(26, 26, 26, 1);
+  }
+
+  .animated-border-inner {
+    background: rgba(44, 44, 44, 0.15);
+    border-radius: calc(0.5rem - 2px);
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.8);
+  }
 }

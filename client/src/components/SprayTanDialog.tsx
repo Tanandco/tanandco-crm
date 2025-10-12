@@ -73,9 +73,11 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
         {/* 5 כפתורי מחירון עם כפתורי הזמנה */}
         <div className="grid grid-cols-5 gap-2 md:gap-3 mb-4 md:mb-6 max-w-6xl mx-auto mt-8 md:mt-12">
           <div className="flex flex-col gap-2">
-            <div className="border-2 rounded-lg p-2 md:p-2.5 flex flex-col items-center justify-center h-[100px] md:h-[110px]" style={{ borderColor: '#1a1a1a', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.8)' }}>
-              <div className="text-[10px] md:text-xs mb-1 text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>טיפול בודד</div>
-              <div className="text-sm md:text-base font-bold text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>170</div>
+            <div className="animated-border">
+              <div className="animated-border-inner p-2 md:p-2.5 flex flex-col items-center justify-center h-[96px] md:h-[106px]">
+                <div className="text-[10px] md:text-xs mb-1 text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>טיפול בודד</div>
+                <div className="text-sm md:text-base font-bold text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>170</div>
+              </div>
             </div>
             <Button
               variant="outline"
@@ -88,9 +90,11 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
           </div>
           
           <div className="flex flex-col gap-2">
-            <div className="border-2 rounded-lg p-2 md:p-2.5 flex flex-col items-center justify-center h-[100px] md:h-[110px]" style={{ borderColor: '#1a1a1a', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.8)' }}>
-              <div className="text-[10px] md:text-xs mb-1 text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>חבילה 3 טיפולים</div>
-              <div className="text-sm md:text-base font-bold text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>450</div>
+            <div className="animated-border">
+              <div className="animated-border-inner p-2 md:p-2.5 flex flex-col items-center justify-center h-[96px] md:h-[106px]">
+                <div className="text-[10px] md:text-xs mb-1 text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>חבילה 3 טיפולים</div>
+                <div className="text-sm md:text-base font-bold text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>450</div>
+              </div>
             </div>
             <Button
               variant="outline"
@@ -103,9 +107,11 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
           </div>
           
           <div className="flex flex-col gap-2">
-            <div className="border-2 rounded-lg p-2 md:p-2.5 flex flex-col items-center justify-center h-[100px] md:h-[110px]" style={{ borderColor: '#1a1a1a', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.8)' }}>
-              <div className="text-[10px] md:text-xs mb-1 text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>חבילה 6 טיפולים</div>
-              <div className="text-sm md:text-base font-bold text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>800</div>
+            <div className="animated-border">
+              <div className="animated-border-inner p-2 md:p-2.5 flex flex-col items-center justify-center h-[96px] md:h-[106px]">
+                <div className="text-[10px] md:text-xs mb-1 text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>חבילה 6 טיפולים</div>
+                <div className="text-sm md:text-base font-bold text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>800</div>
+              </div>
             </div>
             <Button
               variant="outline"
@@ -118,23 +124,25 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
           </div>
           
           <div className="flex flex-col gap-2">
-            <div className="border-2 rounded-lg p-2 md:p-2.5 flex flex-col items-center justify-center h-[100px] md:h-[110px]" style={{ borderColor: '#1a1a1a', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.8)' }}>
-              <div className="text-[10px] md:text-xs mb-1 text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>חבילה לכלה</div>
-              <div className="text-sm md:text-base font-bold text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>340</div>
-              <button 
-                className="flex items-center gap-1 cursor-pointer hover:opacity-100 transition-opacity"
-                onClick={() => setBrideInfoOpen(true)}
-                style={{ opacity: 0.8 }}
-              >
-                <span className="text-[7px] md:text-[8px]" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>
-                  טסט מלא + טיפול לפני אירוע
-                </span>
-                <svg className="w-2 h-2" fill="none" stroke="#e064d5" strokeWidth="2" viewBox="0 0 24 24">
-                  <circle cx="12" cy="12" r="10"/>
-                  <line x1="12" y1="16" x2="12" y2="12"/>
-                  <circle cx="12" cy="8" r="0.5" fill="#e064d5"/>
-                </svg>
-              </button>
+            <div className="animated-border">
+              <div className="animated-border-inner p-2 md:p-2.5 flex flex-col items-center justify-center h-[96px] md:h-[106px]">
+                <div className="text-[10px] md:text-xs mb-1 text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>חבילה לכלה</div>
+                <div className="text-sm md:text-base font-bold text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>340</div>
+                <button 
+                  className="flex items-center gap-1 cursor-pointer hover:opacity-100 transition-opacity"
+                  onClick={() => setBrideInfoOpen(true)}
+                  style={{ opacity: 0.8 }}
+                >
+                  <span className="text-[7px] md:text-[8px]" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>
+                    טסט מלא + טיפול לפני אירוע
+                  </span>
+                  <svg className="w-2 h-2" fill="none" stroke="#e064d5" strokeWidth="2" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="16" x2="12" y2="12"/>
+                    <circle cx="12" cy="8" r="0.5" fill="#e064d5"/>
+                  </svg>
+                </button>
+              </div>
             </div>
             <Button
               variant="outline"
@@ -147,9 +155,11 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
           </div>
           
           <div className="flex flex-col gap-2">
-            <div className="border-2 rounded-lg p-2 md:p-2.5 flex flex-col items-center justify-center h-[100px] md:h-[110px]" style={{ borderColor: '#1a1a1a', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.8)' }}>
-              <div className="text-[10px] md:text-xs mb-1 text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>שירות עד הבית</div>
-              <div className="text-sm md:text-base font-bold text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>350</div>
+            <div className="animated-border">
+              <div className="animated-border-inner p-2 md:p-2.5 flex flex-col items-center justify-center h-[96px] md:h-[106px]">
+                <div className="text-[10px] md:text-xs mb-1 text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>שירות עד הבית</div>
+                <div className="text-sm md:text-base font-bold text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>350</div>
+              </div>
             </div>
             <Button
               variant="outline"
