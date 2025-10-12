@@ -87,6 +87,29 @@ export const packagesCatalog: Record<string, Package> = {
     hasBronzer: true,
     benefits: ['תוקף 12 חודשים', 'ניתן לשיתוף']
   },
+  "monthly-unlimited": {
+    id: "monthly-unlimited",
+    nameHe: "חופשי חודשי",
+    nameEn: "Monthly Unlimited",
+    type: "sun-beds",
+    sessions: 999,
+    price: 350,
+    currency: "ILS",
+    cardcomItemCode: "MONTHLY_UNL",
+    benefits: ['כניסות ללא הגבלה', 'תוקף חודש אחד', 'אישי - לא ניתן לשיתוף']
+  },
+  "yearly-unlimited": {
+    id: "yearly-unlimited",
+    nameHe: "חופשי שנתי",
+    nameEn: "Yearly Unlimited",
+    type: "sun-beds",
+    sessions: 999,
+    price: 2500,
+    currency: "ILS",
+    cardcomItemCode: "YEARLY_UNL",
+    benefits: ['כניסות ללא הגבלה', 'תוקף שנה מלאה', 'אישי - לא ניתן לשיתוף'],
+    popular: true
+  },
 };
 
 export function getPackageById(packageId: string): Package | null {

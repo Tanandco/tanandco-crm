@@ -615,6 +615,130 @@ export function PurchaseOverlay({ open, onClose }: PurchaseOverlayProps) {
                   {/* Spacing after Category 3 */}
                   <div className="w-6" />
                   
+                  {/* Category 4: Unlimited Packages (monthly, yearly) */}
+                  {packages.filter(pkg => pkg.id === 'monthly-unlimited' || pkg.id === 'yearly-unlimited').map((pkg) => (
+                    <div
+                      key={pkg.id}
+                      className={`
+                        group
+                        relative p-3 cursor-pointer transition-all duration-300 transform-gpu
+                        hover:scale-110 hover:shadow-2xl hover:-translate-y-1
+                        border-2 rounded-lg
+                        flex flex-col
+                        h-[280px]
+                        flex-1
+                        ${selectedPackageId === pkg.id 
+                          ? 'border-primary shadow-lg shadow-primary/50 scale-105' 
+                          : 'border-primary/30 hover:border-primary'
+                        }
+                        ${pkg.popular ? 'ring-2 ring-primary ring-offset-2 ring-offset-slate-950' : ''}
+                        backdrop-blur-sm
+                        animate-fade-in
+                      `}
+                      style={{
+                        background: selectedPackageId === pkg.id
+                          ? 'linear-gradient(135deg, hsl(var(--primary) / 0.2) 0%, hsl(var(--background) / 0.8) 100%)'
+                          : 'linear-gradient(135deg, hsl(var(--background) / 0.6) 0%, hsl(var(--primary) / 0.1) 100%)',
+                        filter: pkg.popular 
+                          ? 'drop-shadow(0 0 30px hsl(var(--primary) / 0.8)) drop-shadow(0 0 50px hsl(var(--primary) / 0.4))' 
+                          : 'drop-shadow(0 0 20px hsl(var(--primary) / 0.3))',
+                        boxShadow: selectedPackageId === pkg.id 
+                          ? '0 0 40px hsl(var(--primary) / 0.6), 0 0 80px hsl(var(--primary) / 0.3), inset 0 0 20px hsl(var(--primary) / 0.1)' 
+                          : '0 0 15px hsl(var(--primary) / 0.2)'
+                      }}
+                      onClick={() => handleSelectPackage(pkg.id)}
+                      data-testid={`package-card-${pkg.id}`}
+                    >
+                      {/* Popular Badge */}
+                      {pkg.popular && (
+                        <div 
+                          className="absolute -top-2 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full text-xs font-semibold flex items-center gap-1 shadow-lg animate-pulse bg-primary text-primary-foreground"
+                          style={{
+                            filter: 'drop-shadow(0 0 10px hsl(var(--primary))) drop-shadow(0 0 20px hsl(var(--primary)))',
+                            boxShadow: '0 0 20px hsl(var(--primary) / 0.6)'
+                          }}
+                        >
+                          <Sparkles className="w-4 h-4" />
+                          פופולרי
+                        </div>
+                      )}
+
+                      <h3 className="text-sm font-bold text-foreground mb-1 text-center font-hebrew leading-tight h-8 flex items-center justify-center">
+                        {pkg.nameHe}
+                      </h3>
+                      <div className="text-center mb-2">
+                        <div className="flex items-center justify-center gap-1">
+                          <span 
+                            className="text-2xl font-bold text-primary"
+                            style={{
+                              filter: 'drop-shadow(0 0 8px hsl(var(--primary) / 0.5))',
+                              textShadow: '0 0 10px hsl(var(--primary) / 0.5)'
+                            }}
+                          >
+                            ∞
+                          </span>
+                          <span className="text-xs text-muted-foreground">
+                            ללא הגבלה
+                          </span>
+                        </div>
+                      </div>
+                      <div className="text-center mb-2 h-16 flex flex-col justify-center">
+                        <div className="h-4">
+                          {pkg.originalPrice ? (
+                            <div className="text-xs text-muted-foreground line-through">
+                              ₪{pkg.originalPrice}
+                            </div>
+                          ) : (
+                            <div className="h-4"></div>
+                          )}
+                        </div>
+                        <div 
+                          className="text-xl font-bold text-foreground transition-all duration-300 group-hover:scale-125 group-hover:text-primary"
+                          style={{
+                            filter: 'drop-shadow(0 0 6px hsl(var(--primary) / 0.3))'
+                          }}
+                        >
+                          ₪{pkg.price}
+                        </div>
+                        <div className="h-4"></div>
+                      </div>
+                      <div className="flex-1 mb-2 min-h-12 overflow-hidden">
+                        {pkg.benefits && pkg.benefits.length > 0 ? (
+                          <div className="space-y-1">
+                            {pkg.benefits.slice(0, 3).map((benefit, i) => (
+                              <div key={i} className="flex items-start gap-1">
+                                <Check className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
+                                <span className="text-xs text-muted-foreground font-hebrew leading-tight">{benefit}</span>
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
+                          <div className="min-h-12"></div>
+                        )}
+                      </div>
+                      <Button
+                        size="sm"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleSelectPackage(pkg.id);
+                        }}
+                        className={`
+                          w-full h-7 text-xs transition-all duration-300 mt-auto
+                          ${selectedPackageId === pkg.id 
+                            ? 'bg-primary text-primary-foreground' 
+                            : 'bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground'
+                          }
+                        `}
+                        data-testid={`button-select-package-${pkg.id}`}
+                      >
+                        {selectedPackageId === pkg.id ? 'נבחר' : 'בחר'}
+                      </Button>
+                    </div>
+                  ))}
+                  
+                  {/* Spacing after Category 4 */}
+                  <div className="w-6" />
+                  
                   {/* Custom "Build Your Tan" Package */}
                   <div
                     className={`
