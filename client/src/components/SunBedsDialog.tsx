@@ -433,13 +433,13 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
               onClick={() => setShowQuickSearch(false)} 
               variant="outline" 
               size="icon" 
-              className="absolute top-4 left-4 border-pink-500/60 hover:border-pink-500 bg-gradient-to-br from-pink-500/20 to-purple-500/20 hover:from-pink-500/30 hover:to-purple-500/30 transition-all duration-300"
+              className="absolute top-4 left-4 border-white/60 hover:border-white bg-gradient-to-br from-white/20 to-gray-200/20 hover:from-white/30 hover:to-gray-200/30 transition-all duration-300"
               style={{ 
-                boxShadow: '0 0 20px rgba(236, 72, 153, 0.4)',
+                boxShadow: '0 0 20px rgba(255, 255, 255, 0.4)',
               }}
               data-testid="button-close-quick-search"
             >
-              <X className="w-5 h-5 text-pink-400" style={{ filter: 'drop-shadow(0 0 8px rgba(236, 72, 153, 0.8))' }} />
+              <X className="w-5 h-5 text-white" style={{ filter: 'drop-shadow(0 0 8px rgba(255, 255, 255, 0.8))' }} />
             </Button>
             
             <h1 
