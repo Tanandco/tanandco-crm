@@ -522,18 +522,33 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
 
               {selectedCustomerId && memberships.length > 0 && (
                 <div className="mt-6 pt-6 border-t border-pink-500/30 space-y-3">
-                  {memberships.map((membership: any) => {
+                  {memberships
+                    .sort((a: any, b: any) => {
+                      // Active memberships first, then expired
+                      if (a.balance > 0 && b.balance === 0) return -1;
+                      if (a.balance === 0 && b.balance > 0) return 1;
+                      return 0;
+                    })
+                    .map((membership: any) => {
                     const totalPurchased = membership.total_purchased || membership.totalPurchased || 10;
                     const used = totalPurchased - membership.balance;
                     const usageHistory = membership.usageHistory || [];
+                    const isExpired = membership.balance === 0;
                     
                     return (
                       <div
                         key={membership.id}
-                        className="p-3 bg-gradient-to-br from-purple-900/40 to-pink-900/40 border border-pink-500/30 rounded-lg"
+                        className={`p-3 border rounded-lg ${
+                          isExpired 
+                            ? 'bg-gradient-to-br from-gray-900/60 to-black/60 border-gray-600/40 opacity-70' 
+                            : 'bg-gradient-to-br from-purple-900/40 to-pink-900/40 border-pink-500/30'
+                        }`}
                       >
                         <div className="flex items-center gap-3 mb-2">
                           <span className="text-white font-semibold text-sm whitespace-nowrap">{getMembershipTypeLabel(membership.membership_type)}</span>
+                          {isExpired && (
+                            <span className="text-xs text-gray-500 bg-gray-800/60 px-2 py-0.5 rounded">נגמרה</span>
+                          )}
                           <Button
                             onClick={async () => {
                               try {
