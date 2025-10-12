@@ -95,7 +95,7 @@ export default function CosmeticsDialog({ open, onOpenChange }: CosmeticsDialogP
       <div className="relative w-full max-w-4xl flex items-center justify-center mt-80">
         {/* Service Fields - All in one row */}
         <div className="w-full max-w-6xl mx-auto px-4">
-          <div className="flex gap-2 justify-center flex-nowrap animate-scale-in">
+          <div className="flex gap-6 md:gap-8 justify-center flex-nowrap animate-scale-in">
             {cosmeticsActions.map((action, index) => (
               <div key={index} className="relative">
                 {/* Solid black background */}
