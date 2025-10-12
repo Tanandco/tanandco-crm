@@ -811,16 +811,15 @@ export function registerRoutes(app: express.Application) {
     }
   });
 
-  // Search customers
+  // Search customers by name or phone only
   app.get('/api/customers/search/:query', async (req, res) => {
     try {
       const query = req.params.query.toLowerCase();
-      // Search in full_name, phone, or email using SQL LOWER for case-insensitive search
+      // Search in full_name or phone only (not email)
       const allCustomers = await db.select().from(customers);
       const filtered = allCustomers.filter(c => 
         c.fullName.toLowerCase().includes(query) ||
-        c.phone.includes(query) ||
-        (c.email && c.email.toLowerCase().includes(query))
+        c.phone.includes(query)
       );
       res.json({
         success: true,

@@ -109,7 +109,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
 
   // Search customers query
   const { data: searchResults, isLoading: isSearching } = useQuery({
-    queryKey: ['/api/customers/search', { q: searchQuery }],
+    queryKey: ['/api/customers/search', searchQuery],
     enabled: searchQuery.length >= 2,
   });
 
@@ -460,7 +460,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                 <Input
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="חפש לקוח לפי שם, טלפון או אימייל..."
+                  placeholder="חפש לקוח לפי שם או טלפון..."
                   className="pr-10 bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border-pink-500/30 text-white placeholder:text-gray-500 backdrop-blur-sm h-14 text-lg"
                   data-testid="input-quick-search"
                 />
