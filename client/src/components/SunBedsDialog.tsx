@@ -281,93 +281,75 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
       >
         {/* Service Fields - All in one row on both mobile and desktop */}
         <div className="w-full max-w-6xl mx-auto space-y-2 mt-6 md:mt-0">
-          {/* Container for buttons and search - all in one row */}
-          <div className="flex gap-1.5 md:gap-2 justify-center items-start px-2 md:px-0">
-            {/* Service Buttons */}
-            <div className="flex gap-1.5 md:gap-2 justify-center flex-nowrap animate-scale-in">
-              {tanningOptions.map((option, index) => (
-                <ActionTile
-                  key={index}
-                  onClick={option.onClick}
-                  isBlue={option.title === "AI TAN"}
-                  testId={(option as any).testId || `action-tile-${index}`}
-                >
-                  {/* Icon row */}
-                  <div className="flex items-center justify-center transition-all duration-150 group-hover:scale-105">
-                    {option.iconType === 'image' ? (
-                      <img 
-                        src={option.icon as string}
-                        alt={option.title}
-                        className={`object-contain ${
-                          option.title === "AI TAN"
-                            ? "w-[110%] h-[110%] group-hover:drop-shadow-[0_0_30px_rgb(59,130,246)]"
-                            : option.title === "רכישת חבילה"
-                            ? "w-[105%] h-[105%] group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
-                            : option.title === "לקוח חדש - הרשמה"
-                            ? "w-[85%] h-[85%] group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
-                            : "w-full h-full group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
-                        }`}
-                        style={{
-                          filter: option.title === "AI TAN"
-                            ? 'contrast(1.15) brightness(1.05) drop-shadow(0 0 20px rgb(59, 130, 246)) drop-shadow(0 0 35px rgba(59, 130, 246, 0.8))'
-                            : 'contrast(1.15) brightness(1.05) drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))'
-                        }}
-                      />
-                    ) : option.iconType === 'component' ? (
-                      <div className="scale-[0.65] md:scale-[1.2] flex items-center justify-center">
-                        <option.icon size={120} />
-                      </div>
-                    ) : option.icon && !option.isFunction && (
-                      <option.icon 
-                        className="w-full h-full text-pink-400 group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
-                        style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }}
-                      />
-                    )}
-                  </div>
-                  
-                  {/* Text row */}
-                  <div className="flex items-center justify-center px-0.5 md:px-1">
-                    <span className="text-[8px] md:text-sm font-medium text-white text-center font-hebrew leading-tight">
-                      {option.title}
-                    </span>
-                  </div>
-                </ActionTile>
-              ))}
-          </div>
-
-          {/* Customer Search Bar - Same size as buttons */}
-          <div className="w-[68px] md:w-[170px]" dir="rtl">
-            <label className="relative block">
-              <div className="absolute inset-0 bg-black rounded-md" />
-              <div className="relative h-[95px] w-[68px] md:h-[160px] md:w-[170px] bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-pink-500/60 hover:border-2 hover:border-pink-500 rounded-md backdrop-blur-sm grid grid-rows-[60px_1fr] md:grid-rows-[115px_1fr] overflow-hidden cursor-text"
-                style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)' }}
+          {/* Service Buttons */}
+          <div className="flex gap-1.5 md:gap-2 justify-center flex-nowrap animate-scale-in px-2 md:px-0">
+            {tanningOptions.map((option, index) => (
+              <ActionTile
+                key={index}
+                onClick={option.onClick}
+                isBlue={option.title === "AI TAN"}
+                testId={(option as any).testId || `action-tile-${index}`}
               >
-                {/* Icon row - clickable area */}
-                <div className="flex items-center justify-center pointer-events-none">
-                  <img 
-                    src={searchIconImage}
-                    alt="search"
-                    className="w-4/5 h-4/5 object-contain" 
-                    style={{ filter: 'drop-shadow(0 0 8px rgba(236, 72, 153, 0.8))' }}
-                  />
+                {/* Icon row */}
+                <div className="flex items-center justify-center transition-all duration-150 group-hover:scale-105">
+                  {option.iconType === 'image' ? (
+                    <img 
+                      src={option.icon as string}
+                      alt={option.title}
+                      className={`object-contain ${
+                        option.title === "AI TAN"
+                          ? "w-[110%] h-[110%] group-hover:drop-shadow-[0_0_30px_rgb(59,130,246)]"
+                          : option.title === "רכישת חבילה"
+                          ? "w-[105%] h-[105%] group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
+                          : option.title === "לקוח חדש - הרשמה"
+                          ? "w-[85%] h-[85%] group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
+                          : "w-full h-full group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
+                      }`}
+                      style={{
+                        filter: option.title === "AI TAN"
+                          ? 'contrast(1.15) brightness(1.05) drop-shadow(0 0 20px rgb(59, 130, 246)) drop-shadow(0 0 35px rgba(59, 130, 246, 0.8))'
+                          : 'contrast(1.15) brightness(1.05) drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))'
+                      }}
+                    />
+                  ) : option.iconType === 'component' ? (
+                    <div className="scale-[0.65] md:scale-[1.2] flex items-center justify-center">
+                      <option.icon size={120} />
+                    </div>
+                  ) : option.icon && !option.isFunction && (
+                    <option.icon 
+                      className="w-full h-full text-pink-400 group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,1)]"
+                      style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 0.8))' }}
+                    />
+                  )}
                 </div>
                 
-                {/* Text row with input */}
-                <div className="flex items-center justify-center px-0.5 md:px-1 relative">
-                  <input
-                    type="text"
-                    placeholder="חיפוש לקוח"
-                    value={searchQuery}
-                    onChange={(e) => {
-                      setSearchQuery(e.target.value);
-                      setSelectedCustomerId(null);
-                    }}
-                    className="absolute inset-0 w-full h-full bg-transparent border-0 text-[8px] md:text-sm font-medium text-white placeholder:text-gray-400 text-center focus:outline-none focus:ring-0 font-hebrew"
-                    data-testid="input-search-existing-customer"
-                  />
+                {/* Text row */}
+                <div className="flex items-center justify-center px-0.5 md:px-1">
+                  <span className="text-[8px] md:text-sm font-medium text-white text-center font-hebrew leading-tight">
+                    {option.title}
+                  </span>
                 </div>
-              </div>
-            </label>
+              </ActionTile>
+            ))}
+          </div>
+
+          {/* Customer Search Bar - Separate field below buttons */}
+          <div className="w-full max-w-md mx-auto mt-4 px-2 md:px-0" dir="rtl">
+            <div className="relative">
+              <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-pink-500 pointer-events-none" />
+              <input
+                type="text"
+                placeholder="חיפוש לקוח קיים (שם / טלפון)"
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setSelectedCustomerId(null);
+                }}
+                className="w-full h-12 md:h-14 bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-pink-500/60 hover:border-pink-500 focus:border-pink-500 rounded-lg backdrop-blur-sm pr-12 pl-4 text-sm md:text-base text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-500/50 transition-all"
+                style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)' }}
+                data-testid="input-search-existing-customer"
+              />
+            </div>
 
             {/* Search Results */}
             {searchQuery.length >= 2 && (
@@ -469,7 +451,6 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                 )}
               </div>
             )}
-          </div>
           </div>
         </div>
       </div>
