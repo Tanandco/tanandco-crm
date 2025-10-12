@@ -71,6 +71,13 @@ This project is a premium touch-screen kiosk CRM system designed for Tan & Co sa
   - Removed ripple effect on mousemove: Eliminated heavy radial-gradient calculations on every mouse movement
   - Simplified typing-effect animation: Removed infinite blink-caret animation, kept finite typing reveal
   - Performance improvements reduce GPU compositing, eliminate continuous JS work, and improve frame rates on lower-end devices
+- **Membership Usage Management** (October 12, 2025):
+  - Added DELETE /api/session-usage/:usageId endpoint to cancel specific usage (replaces old POST /api/memberships/:id/unuse that deleted latest)
+  - Added PATCH /api/session-usage/:id endpoint to edit usage dates
+  - UI: Hover-activated edit (blue) and delete (red) buttons on punch-card slots
+  - Edit dialog with date picker for updating usage timestamps
+  - Both operations trigger query refetch and show success/error toasts
+  - Critical fix: Delete now targets specific usage ID instead of always deleting latest
 - Bug fixes (October 8, 2025):
   - Fixed type error in NewCustomerDialog where parseInt() received undefined values
   - Added defensive programming to HairStudio for safe array mapping
