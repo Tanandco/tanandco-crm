@@ -215,24 +215,8 @@ class WhatsAppService {
     remainingSessions: number,
     membershipType: string
   ): Promise<boolean> {
-    // Build message based on remaining sessions
-    let message = `היי ${customerName}!\n\n`;
-    message += `נכנסת בהצלחה.\n`;
-    message += `נותרו לך ${remainingSessions} סשנים בחבילה.\n\n`;
-    
-    // Add renewal suggestion based on balance
-    if (remainingSessions === 0) {
-      message += `[!] החבילה שלך הסתיימה!\n`;
-      message += `רוצה לחדש? כתוב "חידוש" ונשלח לך אפשרויות רכישה.`;
-    } else if (remainingSessions <= 2) {
-      message += `[!] החבילה שלך מתקרבת לסיום!\n`;
-      message += `רוצה לחדש מראש? כתוב "חידוש" לאפשרויות רכישה.`;
-    } else if (remainingSessions <= 5) {
-      message += `[i] טיפ: החבילה מתקרבת לסיום.\n`;
-      message += `תמיד אפשר לחדש מראש - כתוב "חידוש".`;
-    } else {
-      message += `תהנה מהשיזוף!`;
-    }
+    // Build short, friendly message
+    const message = `איזה כיף שחזרת, שיזוף נעים 🌞\n\nיתרתך: ${remainingSessions} כניסות`;
     
     return this.sendTextMessage(to, message);
   }
