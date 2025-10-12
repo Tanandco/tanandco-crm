@@ -73,7 +73,7 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
         {/* 5 כפתורי מחירון עם כפתורי הזמנה */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-3 mb-4 md:mb-6 max-w-6xl mx-auto mt-8 md:mt-12">
           <div className="flex flex-col gap-2">
-            <div className="border-2 rounded-lg p-2 md:p-2.5 flex flex-col items-center justify-center h-[60px] md:h-[70px]" style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.5)' }}>
+            <div className="border-2 rounded-lg p-2 md:p-2.5 flex flex-col items-center justify-center h-[60px] md:h-[70px]" style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.8)' }}>
               <div className="text-[10px] md:text-xs mb-0.5" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>טיפול בודד</div>
               <div className="text-sm md:text-base font-bold" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>170 ש״ח</div>
             </div>
@@ -88,7 +88,7 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
           </div>
           
           <div className="flex flex-col gap-2">
-            <div className="border-2 rounded-lg p-2 md:p-2.5 flex flex-col items-center justify-center h-[60px] md:h-[70px]" style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.5)' }}>
+            <div className="border-2 rounded-lg p-2 md:p-2.5 flex flex-col items-center justify-center h-[60px] md:h-[70px]" style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.8)' }}>
               <div className="text-[10px] md:text-xs mb-0.5" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>חבילה 3 טיפולים</div>
               <div className="text-sm md:text-base font-bold" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>450 ש״ח</div>
             </div>
@@ -103,7 +103,7 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
           </div>
           
           <div className="flex flex-col gap-2">
-            <div className="border-2 rounded-lg p-2 md:p-2.5 flex flex-col items-center justify-center h-[60px] md:h-[70px]" style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.5)' }}>
+            <div className="border-2 rounded-lg p-2 md:p-2.5 flex flex-col items-center justify-center h-[60px] md:h-[70px]" style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.8)' }}>
               <div className="text-[10px] md:text-xs mb-0.5" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>חבילה 6 טיפולים</div>
               <div className="text-sm md:text-base font-bold" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>800 ש״ח</div>
             </div>
@@ -118,7 +118,7 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
           </div>
           
           <div className="flex flex-col gap-2">
-            <div className="border-2 rounded-lg p-2 md:p-2.5 flex flex-col items-center justify-center h-[60px] md:h-[70px]" style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.5)' }}>
+            <div className="border-2 rounded-lg p-2 md:p-2.5 flex flex-col items-center justify-center h-[60px] md:h-[70px]" style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.8)' }}>
               <div className="text-[10px] md:text-xs mb-0.5" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>חבילה לכלה</div>
               <div className="text-sm md:text-base font-bold" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>340 ש״ח</div>
               <button 
@@ -147,7 +147,7 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
           </div>
           
           <div className="flex flex-col gap-2 col-span-2 md:col-span-1">
-            <div className="border-2 rounded-lg p-2 md:p-2.5 flex flex-col items-center justify-center h-[60px] md:h-[70px]" style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.5)' }}>
+            <div className="border-2 rounded-lg p-2 md:p-2.5 flex flex-col items-center justify-center h-[60px] md:h-[70px]" style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.8)' }}>
               <div className="text-[10px] md:text-xs mb-0.5" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>שירות עד הבית</div>
               <div className="text-sm md:text-base font-bold" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>350 ש״ח</div>
             </div>
@@ -269,7 +269,7 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-6xl mx-auto mb-6 md:mb-10">
           
           {/* בלוק ראשון - הנחיות לפני ואחרי טיפול */}
-          <div className="border-2 rounded-lg p-2 md:p-3" style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: '8px 0 12px rgba(0, 0, 0, 0.6)' }} data-testid="block-guidelines">
+          <div className="border-2 rounded-lg p-2 md:p-3" style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.6)' }} data-testid="block-guidelines">
             <div className="flex items-center justify-between mb-2">
               <div className="flex-1"></div>
               <h3 className="text-sm md:text-lg font-bold text-center flex-1 whitespace-nowrap" style={{ 
@@ -318,7 +318,7 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
           </div>
 
           {/* בלוק אמצעי - עמידות והתאמה אישית */}
-          <div className="border-2 rounded-lg p-2 md:p-3" style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: '8px 0 12px rgba(0, 0, 0, 0.6)' }} data-testid="block-durability">
+          <div className="border-2 rounded-lg p-2 md:p-3" style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.6)' }} data-testid="block-durability">
             <h3 className="text-sm md:text-lg font-bold text-center mb-2" style={{ 
               color: '#e064d5',
               fontFamily: 'Varela Round, sans-serif'
@@ -333,7 +333,7 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
           </div>
 
           {/* בלוק שלישי - יתרונות והסתרת פגמים */}
-          <div className="border-2 rounded-lg p-2 md:p-3" style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: '8px 0 12px rgba(0, 0, 0, 0.6)' }} data-testid="block-benefits">
+          <div className="border-2 rounded-lg p-2 md:p-3" style={{ borderColor: '#2c2c2c', backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.6)' }} data-testid="block-benefits">
             <h3 className="text-sm md:text-lg font-bold text-center mb-2" style={{ 
               color: '#e064d5',
               fontFamily: 'Varela Round, sans-serif'
