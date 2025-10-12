@@ -57,35 +57,47 @@ export default function ManicureDialog({ open, onOpenChange }: ManicureDialogPro
       {/* Content - Split into two sections */}
       <div className="relative w-full h-[90vh] max-w-7xl flex flex-col md:flex-row gap-4">
         
-        {/* Right Section (50%) */}
-        <div className="w-full md:w-1/2 h-1/2 md:h-full bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border-2 border-pink-500/60 rounded-lg p-8 flex flex-col items-center justify-center">
+        {/* Right Section - שי לניאדו */}
+        <button
+          onClick={() => console.log('Selected: שי לניאדו')}
+          className="w-full md:w-1/2 h-1/2 md:h-full bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border-2 border-pink-500/60 rounded-lg p-8 flex flex-col items-center justify-center transition-all duration-150 hover-elevate active-elevate-2"
+          onMouseEnter={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 1)'}
+          onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.6)'}
+          data-testid="manicurist-shay"
+        >
           <div className="text-center space-y-6">
             <div className="flex items-center justify-center gap-3">
               <Sparkles className="w-12 h-12 text-pink-500 animate-pulse" style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 1))' }} />
-              <h2 className="text-3xl md:text-4xl font-bold text-white font-varela">
-                חלק ימין
+              <h2 className="text-3xl md:text-5xl font-bold text-white font-varela">
+                שי לניאדו
               </h2>
             </div>
-            <p className="text-xl text-gray-300">
-              תוכן לחלק הימני של העמוד
+            <p className="text-xl md:text-2xl text-pink-400 font-semibold">
+              מניקוריסטית מקצועית
             </p>
           </div>
-        </div>
+        </button>
 
-        {/* Left Section (50%) */}
-        <div className="w-full md:w-1/2 h-1/2 md:h-full bg-gradient-to-br from-pink-900/30 via-black/80 to-gray-800/90 border-2 border-pink-500/60 rounded-lg p-8 flex flex-col items-center justify-center">
+        {/* Left Section - רבקה סולטן */}
+        <button
+          onClick={() => console.log('Selected: רבקה סולטן')}
+          className="w-full md:w-1/2 h-1/2 md:h-full bg-gradient-to-br from-pink-900/30 via-black/80 to-gray-800/90 border-2 border-pink-500/60 rounded-lg p-8 flex flex-col items-center justify-center transition-all duration-150 hover-elevate active-elevate-2"
+          onMouseEnter={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 1)'}
+          onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.6)'}
+          data-testid="manicurist-rivka"
+        >
           <div className="text-center space-y-6">
             <div className="flex items-center justify-center gap-3">
               <Sparkles className="w-12 h-12 text-pink-500 animate-pulse" style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 1))' }} />
-              <h2 className="text-3xl md:text-4xl font-bold text-white font-varela">
-                חלק שמאל
+              <h2 className="text-3xl md:text-5xl font-bold text-white font-varela">
+                רבקה סולטן
               </h2>
             </div>
-            <p className="text-xl text-gray-300">
-              תוכן לחלק השמאלי של העמוד
+            <p className="text-xl md:text-2xl text-pink-400 font-semibold">
+              מניקוריסטית מקצועית
             </p>
           </div>
-        </div>
+        </button>
 
       </div>
     </div>
