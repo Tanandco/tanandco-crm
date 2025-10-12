@@ -144,7 +144,7 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
             </div>
 
             {/* ימי שבוע */}
-            <div className="grid grid-cols-7 gap-0.5 mb-1">
+            <div className="grid grid-cols-7 gap-0.5 mb-1 pb-1 border-b" style={{ borderColor: '#2c2c2c' }}>
               {['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ש'].map(day => (
                 <div key={day} className="text-center text-[10px] md:text-xs font-bold p-1" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>
                   {day}
@@ -163,12 +163,13 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
                   <Button
                     key={i}
                     variant="ghost"
-                    className="h-7 md:h-8 p-0 text-[10px] md:text-xs"
+                    className="h-7 md:h-8 p-0 text-[10px] md:text-xs border"
                     disabled={!isValid || isWeekend}
                     style={{ 
                       color: isValid && !isWeekend ? '#e064d5' : '#666',
                       fontFamily: 'Varela Round, sans-serif',
                       borderRadius: '4px',
+                      borderColor: '#2c2c2c',
                       backgroundColor: isValid && !isWeekend ? 'rgba(224, 100, 213, 0.1)' : 'transparent'
                     }}
                     data-testid={`calendar-day-${day}`}
