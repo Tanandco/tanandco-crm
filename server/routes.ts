@@ -981,6 +981,93 @@ export function registerRoutes(app: express.Application) {
     }
   });
 
+  // Mark membership usage (deduct session)
+  app.post('/api/memberships/:id/use', async (req, res) => {
+    try {
+      const { db } = await import('./db');
+      const { sessionUsage, memberships, customers, insertSessionUsageSchema } = await import('@shared/schema');
+      const { eq } = await import('drizzle-orm');
+      
+      const membershipId = req.params.id;
+      
+      // Get membership details
+      const [membership] = await db
+        .select()
+        .from(memberships)
+        .where(eq(memberships.id, membershipId))
+        .limit(1);
+
+      if (!membership) {
+        return res.status(404).json({
+          success: false,
+          error: 'חבילה לא נמצאה'
+        });
+      }
+
+      if (membership.balance < 1) {
+        return res.status(400).json({
+          success: false,
+          error: 'אין מספיק שימושים בחבילה'
+        });
+      }
+
+      // Update membership balance
+      const newBalance = membership.balance - 1;
+      await db
+        .update(memberships)
+        .set({ 
+          balance: newBalance,
+          updatedAt: new Date()
+        })
+        .where(eq(memberships.id, membershipId));
+
+      // Get customer for WhatsApp notification
+      const [customer] = await db.select().from(customers).where(eq(customers.id, membership.customerId)).limit(1);
+
+      // Create usage record
+      const usageData = {
+        customerId: membership.customerId,
+        membershipId: membershipId,
+        serviceType: membership.type,
+        sessionsUsed: 1,
+        entryMethod: 'manual' as const, // Manual check-in via quick search
+        notes: `Check-in via Quick Search by staff`
+      };
+      const [usage] = await db.insert(sessionUsage).values(usageData).returning();
+
+      // Send WhatsApp notification
+      if (customer?.phone) {
+        try {
+          await whatsappService.sendSessionBalanceUpdate(
+            customer.phone,
+            customer.fullName,
+            newBalance,
+            membership.type
+          );
+          console.log(`[WhatsApp] Session balance update sent to ${customer.fullName}`);
+        } catch (waError) {
+          console.error(`[WhatsApp] Failed to send balance update:`, waError);
+        }
+      }
+
+      res.json({
+        success: true,
+        data: {
+          usage,
+          newBalance,
+          message: 'שימוש נרשם בהצלחה'
+        }
+      });
+    } catch (error: any) {
+      console.error('Mark membership usage error:', error);
+      res.status(500).json({
+        success: false,
+        error: 'שגיאה בסימון השימוש',
+        details: error.message
+      });
+    }
+  });
+
   // Integrate with BioStar face recognition for customer identification
   app.post('/api/customers/identify-by-face', async (req, res) => {
     try {

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useQuery } from '@tanstack/react-query';
 import { useToast } from '@/hooks/use-toast';
+import { queryClient } from '@/lib/queryClient';
 import Alin from "@/components/Alin";
 import { NewClientDialog } from "@/components/NewClientDialog";
 import { PurchaseOverlay } from "@/components/PurchaseOverlay";
@@ -525,17 +526,53 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                         key={membership.id}
                         className="p-3 bg-gradient-to-br from-purple-900/40 to-pink-900/40 border border-pink-500/30 rounded-lg"
                       >
-                        <div className="flex items-center justify-between">
-                          <div>
+                        <div className="flex items-center justify-between gap-3">
+                          <div className="flex-1">
                             <p className="text-white font-medium">{getMembershipTypeLabel(membership.membership_type)}</p>
                             <p className="text-sm text-gray-400">נותרו: {membership.balance} שימושים</p>
+                            {membership.expires_at && (
+                              <div className="text-xs text-gray-500 mt-1">
+                                <Calendar className="w-3 h-3 inline ml-1" />
+                                {new Date(membership.expires_at).toLocaleDateString('he-IL')}
+                              </div>
+                            )}
                           </div>
-                          {membership.expires_at && (
-                            <div className="text-xs text-gray-500">
-                              <Calendar className="w-3 h-3 inline ml-1" />
-                              {new Date(membership.expires_at).toLocaleDateString('he-IL')}
-                            </div>
-                          )}
+                          <Button
+                            onClick={async () => {
+                              try {
+                                const response = await fetch(`/api/memberships/${membership.id}/use`, {
+                                  method: 'POST',
+                                  headers: { 'Content-Type': 'application/json' },
+                                });
+                                if (!response.ok) {
+                                  const error = await response.json();
+                                  throw new Error(error.error || 'Failed to mark usage');
+                                }
+                                toast({
+                                  title: '✅ סומן בהצלחה',
+                                  description: `שימוש נוסף נרשם בחבילה`,
+                                  duration: 2000,
+                                });
+                                // Refresh memberships data
+                                queryClient.invalidateQueries({ queryKey: ['/api/customers', selectedCustomerId, 'memberships'] });
+                              } catch (error: any) {
+                                toast({
+                                  title: '❌ שגיאה',
+                                  description: error.message || 'לא הצלחנו לסמן את השימוש',
+                                  variant: 'destructive',
+                                  duration: 3000,
+                                });
+                              }
+                            }}
+                            size="sm"
+                            className="bg-pink-500/20 border-pink-500/40 hover:bg-pink-500/30 hover:border-pink-500/60 text-white"
+                            style={{
+                              boxShadow: '0 0 15px rgba(236, 72, 153, 0.3)',
+                            }}
+                            data-testid={`button-mark-usage-${membership.id}`}
+                          >
+                            ✓ סמן שימוש
+                          </Button>
                         </div>
                       </div>
                     ))}
