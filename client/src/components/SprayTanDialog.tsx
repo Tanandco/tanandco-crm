@@ -347,13 +347,6 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
                 <strong>אפשרות טיפול עד הבית</strong> - בתוספת מחיר
               </div>
             </div>
-            
-            <div className="flex items-start gap-2">
-              <span className="text-lg">👨‍⚕️</span>
-              <div>
-                <strong>נעשה על ידי עלים</strong> - בעל ניסיון של 11 שנה בתעשיית השיזוף ומעל ל-2 שנה בתעשיית הביוטק
-              </div>
-            </div>
           </div>
           
           <div className="mt-4 p-3 rounded-lg" style={{ backgroundColor: 'rgba(224, 100, 213, 0.1)', borderColor: '#e064d5', borderWidth: '1px' }}>
