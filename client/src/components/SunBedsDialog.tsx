@@ -539,7 +539,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                                   : 'bg-gray-700/40 text-gray-500'
                               }`}
                             >
-                              {index < used ? '✓' : '○'}
+                              {index + 1}
                             </div>
                           ))}
                         </div>
