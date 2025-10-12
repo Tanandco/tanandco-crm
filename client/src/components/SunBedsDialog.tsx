@@ -534,9 +534,9 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                             <div
                               key={index}
                               className={`w-6 h-6 rounded flex items-center justify-center text-xs font-bold transition-all ${
-                                index < used 
-                                  ? 'bg-gray-700/40 text-gray-500' 
-                                  : 'bg-pink-500/40 text-pink-300'
+                                index >= (totalPurchased - used)
+                                  ? 'bg-pink-500/40 text-pink-300' 
+                                  : 'bg-gray-700/40 text-gray-500'
                               }`}
                             >
                               {index + 1}
