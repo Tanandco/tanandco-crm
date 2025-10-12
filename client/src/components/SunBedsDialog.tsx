@@ -498,7 +498,7 @@ export default function SunBedsDialog({ open, onOpenChange }: SunBedsDialogProps
                         <div className="space-y-1">
                           <div className="flex items-center gap-2">
                             <User className="w-4 h-4 text-pink-400" />
-                            <span className="text-white font-semibold">{customer.first_name} {customer.last_name}</span>
+                            <span className="text-white font-semibold">{customer.fullName}</span>
                           </div>
                           {customer.phone && (
                             <div className="flex items-center gap-2 text-sm text-gray-400">
