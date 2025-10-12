@@ -427,4 +427,14 @@
       10px 10px 20px rgba(0, 0, 0, 0.6),
       -5px -5px 14px rgba(255, 255, 255, 0.05);
   }
+
+  /* הסתרת מסילת גלילה אבל שמירה על יכולת הגלילה */
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari and Opera */
+  }
 }
