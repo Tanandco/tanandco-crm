@@ -33,7 +33,7 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
         </div>
 
         {/* תמונת מכשיר התזה - צד שמאלי למטה */}
-        <div className="absolute -bottom-20 md:-bottom-40 left-0 w-[180px] md:w-[500px] h-[180px] md:h-[500px] pointer-events-none z-[1] overflow-hidden">
+        <div className="absolute -bottom-20 md:-bottom-20 left-0 w-[180px] md:w-[500px] h-[180px] md:h-[500px] pointer-events-none z-[1] overflow-hidden">
           <img 
             src={sprayGun} 
             alt="" 
