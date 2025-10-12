@@ -349,6 +349,69 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
 
         </div>
 
+        {/* סקשן שאלות ותשובות */}
+        <div className="max-w-6xl mx-auto mb-6 md:mb-10">
+          <h2 className="text-xl md:text-2xl font-bold text-center mb-4 md:mb-6" style={{ 
+            color: '#e064d5',
+            textShadow: '0 0 20px rgba(224, 100, 213, 0.6)',
+            fontFamily: 'Varela Round, sans-serif'
+          }}>
+            שאלות ותשובות
+          </h2>
+          
+          <div className="space-y-3">
+            {/* שאלה 1 */}
+            <div className="border-2 rounded-lg p-3 md:p-4" style={{ borderColor: '#e064d5', backgroundColor: 'rgba(44, 44, 44, 0.15)' }}>
+              <h3 className="text-sm md:text-base font-bold mb-2" style={{ color: '#e064d5', fontFamily: 'Varela Round, sans-serif' }}>
+                כמה זמן לוקח הטיפול?
+              </h3>
+              <p className="text-xs md:text-sm" style={{ color: '#e064d5', fontFamily: 'Varela Round, sans-serif', opacity: 0.9 }}>
+                הטיפול עצמו לוקח כ-15-20 דקות. מומלץ להגיע עם זמן פנוי כדי לקבל הסברים והנחיות לפני ואחרי.
+              </p>
+            </div>
+
+            {/* שאלה 2 */}
+            <div className="border-2 rounded-lg p-3 md:p-4" style={{ borderColor: '#e064d5', backgroundColor: 'rgba(44, 44, 44, 0.15)' }}>
+              <h3 className="text-sm md:text-base font-bold mb-2" style={{ color: '#e064d5', fontFamily: 'Varela Round, sans-serif' }}>
+                האם השיזוף נראה טבעי?
+              </h3>
+              <p className="text-xs md:text-sm" style={{ color: '#e064d5', fontFamily: 'Varela Round, sans-serif', opacity: 0.9 }}>
+                בהחלט! אנחנו משתמשים בתכשירים איכותיים מהמותגים המובילים בעולם שמעניקים גוון טבעי ואחיד, ללא גוון כתום או כתמים.
+              </p>
+            </div>
+
+            {/* שאלה 3 */}
+            <div className="border-2 rounded-lg p-3 md:p-4" style={{ borderColor: '#e064d5', backgroundColor: 'rgba(44, 44, 44, 0.15)' }}>
+              <h3 className="text-sm md:text-base font-bold mb-2" style={{ color: '#e064d5', fontFamily: 'Varela Round, sans-serif' }}>
+                האם זה בטוח לעור?
+              </h3>
+              <p className="text-xs md:text-sm" style={{ color: '#e064d5', fontFamily: 'Varela Round, sans-serif', opacity: 0.9 }}>
+                כן, שיזוף בהתזה בטוח לחלוטין. התמיסה מבוססת על סוכר טבעי (DHA) שאושר על ידי רשויות הבריאות, ללא חשיפה לקרינת UV מזיקה.
+              </p>
+            </div>
+
+            {/* שאלה 4 */}
+            <div className="border-2 rounded-lg p-3 md:p-4" style={{ borderColor: '#e064d5', backgroundColor: 'rgba(44, 44, 44, 0.15)' }}>
+              <h3 className="text-sm md:text-base font-bold mb-2" style={{ color: '#e064d5', fontFamily: 'Varela Round, sans-serif' }}>
+                מתי אפשר להתקלח אחרי הטיפול?
+              </h3>
+              <p className="text-xs md:text-sm" style={{ color: '#e064d5', fontFamily: 'Varela Round, sans-serif', opacity: 0.9 }}>
+                יש להמתין לפחות 4 שעות לפני המקלחת הראשונה. במקלחת הראשונה יש לשטוף רק במים זורמים ללא סבון או קירצוף.
+              </p>
+            </div>
+
+            {/* שאלה 5 */}
+            <div className="border-2 rounded-lg p-3 md:p-4" style={{ borderColor: '#e064d5', backgroundColor: 'rgba(44, 44, 44, 0.15)' }}>
+              <h3 className="text-sm md:text-base font-bold mb-2" style={{ color: '#e064d5', fontFamily: 'Varela Round, sans-serif' }}>
+                האם מתאים לכלות לפני חתונה?
+              </h3>
+              <p className="text-xs md:text-sm" style={{ color: '#e064d5', fontFamily: 'Varela Round, sans-serif', opacity: 0.9 }}>
+                בהחלט! יש לנו חבילה מיוחדת לכלות שכוללת טסט מלא 14 יום לפני האירוע וטיפול נוסף 24-48 שעות לפני, כדי להבטיח שיזוף מושלם ליום החתונה.
+              </p>
+            </div>
+          </div>
+        </div>
+
       </div>
       
       {/* Dialog מידע על חבילת הכלה */}
