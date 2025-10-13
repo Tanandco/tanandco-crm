@@ -125,10 +125,10 @@ export default function IconSidebar() {
       style={{
         background: 'linear-gradient(to bottom right, rgba(17, 24, 39, 0.6), rgba(0, 0, 0, 0.6), rgba(31, 41, 55, 0.6))',
         boxShadow: `
-          0 0 30px rgba(236, 72, 153, 0.6),
-          0 0 60px rgba(236, 72, 153, 0.4),
-          0 0 90px rgba(236, 72, 153, 0.3),
-          inset 0 1px 2px rgba(236, 72, 153, 0.1)
+          0 0 20px rgba(236, 72, 153, 0.3),
+          0 0 40px rgba(236, 72, 153, 0.2),
+          0 0 60px rgba(236, 72, 153, 0.15),
+          inset 0 1px 2px rgba(236, 72, 153, 0.05)
         `
       }}
     >
