@@ -206,8 +206,8 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
         </div>
 
         {/* Logo */}
-        <div className="transform -translate-y-6 md:-translate-y-3 -mb-6 md:-mb-3">
-          <Logo className="scale-[0.6] md:scale-90" showGlow={true} showUnderline={true} />
+        <div className="transform -translate-y-6 -mb-6 md:translate-y-0 md:mb-0">
+          <Logo className="scale-[0.6] md:scale-90 md:-mt-4" showGlow={true} showUnderline={true} />
         </div>
 
         {/* Service Cards - 3 in mobile (2 rows), 6 in desktop */}
