@@ -121,7 +121,7 @@ export default function IconSidebar() {
 
   return (
     <div 
-      className="fixed left-0 top-0 h-screen w-16 backdrop-blur-lg border-r z-50 flex flex-col items-center justify-evenly py-2"
+      className="fixed left-0 top-0 h-screen w-16 backdrop-blur-lg border-r z-50 flex flex-col items-center py-6 gap-4"
       style={{
         background: 'linear-gradient(to bottom right, rgba(17, 24, 39, 0.95), rgba(0, 0, 0, 0.85), rgba(31, 41, 55, 0.95))',
         borderColor: 'rgba(59, 130, 246, 0.4)',
