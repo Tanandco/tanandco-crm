@@ -204,7 +204,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
         </div>
 
         {/* Logo */}
-        <Logo className="-mt-14 md:-mt-8 -mb-20 md:-mb-4 scale-[0.6] md:scale-90" showGlow={true} showUnderline={true} />
+        <Logo className="-mt-16 md:-mt-8 -mb-28 md:-mb-4 scale-[0.6] md:scale-90" showGlow={true} showUnderline={true} />
 
         {/* Service Cards - 3 in mobile (2 rows), 6 in desktop */}
         <div className="grid grid-cols-3 md:flex gap-1.5 md:gap-3 justify-center md:flex-wrap max-w-5xl w-full md:w-auto">
