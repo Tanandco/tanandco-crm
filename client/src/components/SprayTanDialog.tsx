@@ -70,16 +70,16 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
           </p>
         </div>
 
-        {/* 6 כפתורי מחירון - 3 בכל שורה */}
+        {/* שורה ראשונה - 3 שדות */}
         <div className="grid grid-cols-3 gap-2 md:gap-3 mb-3 md:mb-4 max-w-4xl mx-auto mt-6 md:mt-8">
           <div className="flex flex-col gap-2">
             <div className="flowing-border rounded-lg p-2 md:p-2.5 flex flex-col items-center justify-center h-[100px] md:h-[110px]" style={{ backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.8)' }}>
               <div className="text-[10px] md:text-xs mb-1 text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>טיפול בודד</div>
-              <div className="text-sm md:text-base font-bold text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>170</div>
+              <div className="text-sm md:text-base font-bold text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>170₪</div>
             </div>
             <Button
               variant="outline"
-              className="hidden md:flex border hover:border-[#2c2c2c] w-full"
+              className="hidden md:flex border hover:border-[#2c2c2c] w-full h-[50px]"
               style={{ borderColor: '#e064d5', backgroundColor: 'rgba(224, 100, 213, 0.1)', color: '#e064d5', fontFamily: 'Varela Round, sans-serif' }}
               data-testid="book-single"
             >
@@ -90,11 +90,11 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
           <div className="flex flex-col gap-2">
             <div className="flowing-border rounded-lg p-2 md:p-2.5 flex flex-col items-center justify-center h-[100px] md:h-[110px]" style={{ backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.8)' }}>
               <div className="text-[10px] md:text-xs mb-1 text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>חבילה 3 טיפולים</div>
-              <div className="text-sm md:text-base font-bold text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>450</div>
+              <div className="text-sm md:text-base font-bold text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>450₪</div>
             </div>
             <Button
               variant="outline"
-              className="hidden md:flex border hover:border-[#2c2c2c] w-full"
+              className="hidden md:flex border hover:border-[#2c2c2c] w-full h-[50px]"
               style={{ borderColor: '#e064d5', backgroundColor: 'rgba(224, 100, 213, 0.1)', color: '#e064d5', fontFamily: 'Varela Round, sans-serif' }}
               data-testid="book-package-3"
             >
@@ -105,74 +105,60 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
           <div className="flex flex-col gap-2">
             <div className="flowing-border rounded-lg p-2 md:p-2.5 flex flex-col items-center justify-center h-[100px] md:h-[110px]" style={{ backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.8)' }}>
               <div className="text-[10px] md:text-xs mb-1 text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>חבילה 6 טיפולים</div>
-              <div className="text-sm md:text-base font-bold text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>800</div>
+              <div className="text-sm md:text-base font-bold text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>800₪</div>
             </div>
             <Button
               variant="outline"
-              className="hidden md:flex border hover:border-[#2c2c2c] w-full"
+              className="hidden md:flex border hover:border-[#2c2c2c] w-full h-[50px]"
               style={{ borderColor: '#e064d5', backgroundColor: 'rgba(224, 100, 213, 0.1)', color: '#e064d5', fontFamily: 'Varela Round, sans-serif' }}
               data-testid="book-package-6"
             >
               הזמן עכשיו
             </Button>
           </div>
-          
+        </div>
+
+        {/* שורה שנייה - 2 שדות מורחבים */}
+        <div className="grid grid-cols-2 gap-3 md:gap-4 mb-4 md:mb-6 max-w-4xl mx-auto">
+          {/* VIP עד הבית */}
           <div className="flex flex-col gap-2">
-            <div className="flowing-border rounded-lg p-2 md:p-2.5 flex flex-col items-center justify-center h-[100px] md:h-[110px]" style={{ backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.8)' }}>
-              <div className="text-[10px] md:text-xs mb-1 text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>חבילה לכלה</div>
-              <div className="text-sm md:text-base font-bold text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>340</div>
-              <button 
-                className="flex items-center gap-1 cursor-pointer hover:opacity-100 transition-opacity"
-                onClick={() => setBrideInfoOpen(true)}
-                style={{ opacity: 0.8 }}
-              >
-                <span className="text-[7px] md:text-[8px]" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>
-                  טסט מלא + טיפול לפני אירוע
-                </span>
-                <svg className="w-2 h-2" fill="none" stroke="#e064d5" strokeWidth="2" viewBox="0 0 24 24">
-                  <circle cx="12" cy="12" r="10"/>
-                  <line x1="12" y1="16" x2="12" y2="12"/>
-                  <circle cx="12" cy="8" r="0.5" fill="#e064d5"/>
-                </svg>
-              </button>
+            <div className="flowing-border rounded-lg p-3 md:p-4 flex flex-col items-center justify-center min-h-[140px]" style={{ backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.8)' }}>
+              <div className="text-xs md:text-sm mb-2 text-center font-bold" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>VIP עד הבית</div>
+              <div className="text-base md:text-lg font-bold text-center mb-1" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>350₪</div>
+              <div className="text-[9px] md:text-[10px] text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5', opacity: 0.8 }}>
+                + 200₪ לכל לקוח נוסף
+              </div>
             </div>
             <Button
               variant="outline"
-              className="hidden md:flex border hover:border-[#2c2c2c] w-full"
+              className="hidden md:flex border hover:border-[#2c2c2c] w-full h-[50px]"
               style={{ borderColor: '#e064d5', backgroundColor: 'rgba(224, 100, 213, 0.1)', color: '#e064d5', fontFamily: 'Varela Round, sans-serif' }}
-              data-testid="book-bride"
-            >
-              הזמן עכשיו
-            </Button>
-          </div>
-          
-          <div className="flex flex-col gap-2">
-            <div className="flowing-border rounded-lg p-2 md:p-2.5 flex flex-col items-center justify-center h-[100px] md:h-[110px]" style={{ backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.8)' }}>
-              <div className="text-[10px] md:text-xs mb-1 text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>שירות עד הבית</div>
-              <div className="text-sm md:text-base font-bold text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>350</div>
-            </div>
-            <Button
-              variant="outline"
-              className="hidden md:flex border hover:border-[#2c2c2c] w-full"
-              style={{ borderColor: '#e064d5', backgroundColor: 'rgba(224, 100, 213, 0.1)', color: '#e064d5', fontFamily: 'Varela Round, sans-serif' }}
-              data-testid="book-home-service"
+              data-testid="book-vip-home"
             >
               הזמן עכשיו
             </Button>
           </div>
 
+          {/* חבילת כלה מורחבת */}
           <div className="flex flex-col gap-2">
-            <div className="flowing-border rounded-lg p-2 md:p-2.5 flex flex-col items-center justify-center h-[100px] md:h-[110px]" style={{ backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.8)' }}>
-              <div className="text-sm md:text-lg font-bold text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>בקרוב</div>
+            <div className="flowing-border rounded-lg p-3 md:p-4 flex flex-col min-h-[140px]" style={{ backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.8)' }}>
+              <div className="text-xs md:text-sm mb-2 text-center font-bold" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>חבילת כלה VIP</div>
+              <div className="text-base md:text-lg font-bold text-center mb-2" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>340₪</div>
+              <div className="space-y-0.5 text-[8px] md:text-[9px] text-right" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5', opacity: 0.9 }}>
+                <div>✓ טסט - 14 יום לפני אירוע</div>
+                <div>✓ טיפול נוסף - 24-48 שעות לפני</div>
+                <div>✓ עדיפות ביומן + גמישות בשעות</div>
+                <div>✓ אופציה לטיפול עד הבית</div>
+                <div className="text-[7px] md:text-[8px] opacity-70">11 שנה בתעשיית השיזוף | 2+ שנה ביוטכנולוגיה</div>
+              </div>
             </div>
             <Button
               variant="outline"
-              className="hidden md:flex border hover:border-[#2c2c2c] w-full opacity-50"
-              disabled
+              className="hidden md:flex border hover:border-[#2c2c2c] w-full h-[50px]"
               style={{ borderColor: '#e064d5', backgroundColor: 'rgba(224, 100, 213, 0.1)', color: '#e064d5', fontFamily: 'Varela Round, sans-serif' }}
-              data-testid="book-coming-soon"
+              data-testid="book-bride"
             >
-              בקרוב
+              הזמן עכשיו
             </Button>
           </div>
         </div>
