@@ -124,12 +124,12 @@ export default function IconSidebar() {
       className="fixed left-0 top-0 w-screen h-16 backdrop-blur-lg border-b z-50 flex flex-row items-center justify-center px-2 md:px-6 gap-2 md:gap-4"
       style={{
         background: 'linear-gradient(to bottom right, rgba(17, 24, 39, 0.6), rgba(0, 0, 0, 0.6), rgba(31, 41, 55, 0.6))',
-        borderColor: 'rgba(59, 130, 246, 0.4)',
+        borderColor: 'rgba(236, 72, 153, 0.4)',
         boxShadow: `
-          0 0 30px rgba(59, 130, 246, 0.6),
-          0 0 60px rgba(59, 130, 246, 0.4),
-          0 0 90px rgba(59, 130, 246, 0.3),
-          inset 0 1px 2px rgba(59, 130, 246, 0.1)
+          0 0 30px rgba(236, 72, 153, 0.6),
+          0 0 60px rgba(236, 72, 153, 0.4),
+          0 0 90px rgba(236, 72, 153, 0.3),
+          inset 0 1px 2px rgba(236, 72, 153, 0.1)
         `
       }}
     >
