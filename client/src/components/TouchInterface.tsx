@@ -116,7 +116,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
       <div className="relative z-10 mx-auto max-w-[1280px] w-full px-2 md:px-6 py-0 md:py-0.5 flex flex-col items-center flex-1 overflow-y-auto">
 
         {/* Action Buttons - Above Logo */}
-        <div className="transform -translate-y-4 md:translate-y-0">
+        <div className="transform translate-y-2 md:translate-y-0">
           <div className="flex gap-2 md:gap-3 mt-3 md:mt-8 mb-0 justify-center">
           <button
             className="
