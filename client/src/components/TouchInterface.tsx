@@ -113,9 +113,9 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
       data-testid="touch-interface"
     >
       {/* Main Content */}
-      <div className="relative z-10 mx-auto max-w-[1280px] w-full px-2 md:px-6 py-0.5 md:py-2 flex flex-col items-center flex-1 overflow-y-auto">
+      <div className="relative z-10 mx-auto max-w-[1280px] w-full px-2 md:px-6 py-0 md:py-0.5 flex flex-col items-center flex-1 overflow-y-auto">
         {/* Top Bar - Hamburger Menu */}
-        <div className="flex gap-2 mb-0.5 md:mb-1 w-full justify-start items-center">
+        <div className="flex gap-2 mb-0 md:mb-0.5 w-full justify-start items-center">
           {/* Hamburger Menu */}
           <button
             className="
@@ -147,7 +147,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
         </div>
 
         {/* Action Buttons - Above Logo */}
-        <div className="flex gap-2 mb-0.5 md:mb-1 justify-center">
+        <div className="flex gap-2 mb-0 md:mb-0.5 justify-center">
           <button
             className="
               group relative w-9 h-9 md:w-10 md:h-10
@@ -235,7 +235,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
         </div>
 
         {/* Logo */}
-        <Logo className="mb-0 md:mb-2 scale-[0.6] md:scale-90" showGlow={true} showUnderline={true} />
+        <Logo className="mb-0 md:mb-0.5 scale-[0.6] md:scale-90" showGlow={true} showUnderline={true} />
 
         {/* Service Cards - 3 in mobile (2 rows), 6 in desktop */}
         <div className="grid grid-cols-3 md:flex gap-1.5 md:gap-3 justify-center md:flex-wrap max-w-5xl w-full md:w-auto">
