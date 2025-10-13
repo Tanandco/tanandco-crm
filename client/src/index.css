@@ -25,8 +25,37 @@
   }
 }
 
+@keyframes borderGradientFlow {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 0%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
 .animate-gradient-flow {
   animation: gradientFlow 3s ease-in-out infinite;
+}
+
+.animate-gradient-border {
+  position: relative;
+}
+
+.animate-gradient-border::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(236, 72, 153, 0.8), rgba(147, 51, 234, 0.7), rgba(236, 72, 153, 0.8), transparent);
+  background-size: 200% 100%;
+  animation: borderGradientFlow 3s ease-in-out infinite;
+  pointer-events: none;
 }
 
 .animate-fade-in {
