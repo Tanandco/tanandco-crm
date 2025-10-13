@@ -142,7 +142,7 @@ export default function IconSidebar() {
             <button
               data-testid={item.testId}
               className={`
-                relative w-8 h-8 md:w-12 md:h-12 rounded-lg md:rounded-xl flex items-center justify-center
+                relative w-8 h-8 md:w-12 md:h-12 rounded-full flex items-center justify-center
                 transition-all duration-300 group
                 ${isActive 
                   ? `${item.activeBg} border ${item.activeBorder}` 
