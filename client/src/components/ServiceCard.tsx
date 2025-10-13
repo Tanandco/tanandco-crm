@@ -30,7 +30,7 @@ export default function ServiceCard({ title, icon, onClick, disabled = false, cl
       onClick={onClick}
       disabled={disabled}
       className={`
-        group relative h-[110px] w-[110px] sm:h-[130px] sm:w-[130px] md:h-[160px] md:w-[160px]
+        group relative h-[120px] w-[120px] sm:h-[140px] sm:w-[140px] md:h-[170px] md:w-[170px]
         bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
         border hover:border-2
         rounded-md backdrop-blur-sm
