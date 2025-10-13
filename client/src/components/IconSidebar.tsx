@@ -123,7 +123,7 @@ export default function IconSidebar() {
     <div 
       className="fixed left-0 top-0 w-screen h-16 backdrop-blur-lg border-b z-50 flex flex-row items-center justify-center px-2 md:px-6 gap-2 md:gap-4"
       style={{
-        background: 'linear-gradient(to bottom right, rgba(17, 24, 39, 0.95), rgba(0, 0, 0, 0.85), rgba(31, 41, 55, 0.95))',
+        background: 'linear-gradient(to bottom right, rgba(17, 24, 39, 0.6), rgba(0, 0, 0, 0.6), rgba(31, 41, 55, 0.6))',
         borderColor: 'rgba(59, 130, 246, 0.4)',
         boxShadow: `
           0 0 30px rgba(59, 130, 246, 0.6),
