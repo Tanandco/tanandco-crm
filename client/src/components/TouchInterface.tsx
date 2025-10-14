@@ -10,6 +10,8 @@ import HairSalonDialog from './HairSalonDialog';
 import CosmeticsDialog from './CosmeticsDialog';
 import NewCustomerDialog from './NewCustomerDialog';
 import Alin from './Alin';
+import Sol from './Sol';
+import ChatBox from './ChatBox';
 import tanningBedIcon from '@assets/עיצוב ללא שם (30)_1759413689481.png';
 import sprayTanIcon from '@assets/freepik__spray-tan-variation-b-modern-flatbadge-3d-spray-gu__47717_1759413070782.png';
 import hairSalonIcon from '@assets/freepik__3d-neon-pink-icon-of-a-hair-salon-symbol-stylized-__47719_1759413079154.png';
@@ -35,6 +37,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
   const [cosmeticsDialogOpen, setCosmeticsDialogOpen] = useState(false);
   const [newCustomerDialogOpen, setNewCustomerDialogOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [chatOpen, setChatOpen] = useState(false);
 
   const services = [
     { 
@@ -228,8 +231,37 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
 
         {/* Self Service Button */}
         <SelfServiceButton3D onClick={() => navigate('/self-service')} />
+
+        {/* Sol Chatbot - Bottom */}
+        <div className="mt-auto pt-4 w-full max-w-6xl">
+          <div className="flex items-center gap-1 px-3">
+            <button
+              onClick={() => setChatOpen(true)}
+              className="relative shrink-0 group animate-bounce-slow hover:scale-110 transition-transform -mt-4 md:-mt-8"
+              data-testid="button-chat-with-sol"
+            >
+              <Sol size={80} className="max-w-[80px] md:max-w-[130px]" />
+            </button>
+            
+            <div className="relative bg-gradient-to-r from-[hsl(var(--primary))]/20 to-transparent border border-[hsl(var(--primary))]/40 rounded-2xl rounded-tr-sm py-1 px-2 backdrop-blur-sm w-fit">
+              <p className="text-white/90 text-[10px] md:text-sm whitespace-nowrap">
+                היי, אני סול! העוזרת הדיגיטלית שלכם זמינה 24/7 - לחצו עליי לצ'אט מיידי
+              </p>
+            </div>
+          </div>
+        </div>
         
         {/* Add floating and smooth animations */}
+        <style>{`
+          @keyframes bounce-slow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+          }
+          .animate-bounce-slow {
+            animation: bounce-slow 3s ease-in-out infinite;
+          }
+        `}</style>
+        
         <style>{`
           @keyframes float {
             0%, 100% { transform: translateY(0px); }
@@ -421,6 +453,9 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
         open={newCustomerDialogOpen} 
         onOpenChange={setNewCustomerDialogOpen}
       />
+
+      {/* ChatBox */}
+      <ChatBox open={chatOpen} onClose={() => setChatOpen(false)} />
     </div>
   );
 }
