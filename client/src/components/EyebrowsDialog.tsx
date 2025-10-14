@@ -4,10 +4,11 @@ import { Button } from "@/components/ui/button";
 import useEmblaCarousel from 'embla-carousel-react';
 import img1 from '@assets/IMG_9288_1760435215183.png';
 import img2 from '@assets/IMG_9289_1760435215183.png';
-import img3 from '@assets/image_1760435246985.png';
+import img3 from '@assets/IMG_9290_1760435215183.jpeg';
 import img4 from '@assets/IMG_9291_1760435215183.jpeg';
 import img5 from '@assets/IMG_9292_1760435215183.jpeg';
 import img6 from '@assets/IMG_9293_1760435215183.jpeg';
+import img7 from '@assets/image_1760435246985.png';
 
 interface EyebrowsDialogProps {
   open: boolean;
@@ -178,28 +179,35 @@ export default function EyebrowsDialog({ open, onOpenChange }: EyebrowsDialogPro
                     <div className="flex-[0_0_33%] min-w-0">
                       <img 
                         src={img3} 
-                        alt="מחירון"
-                        className="aspect-square object-cover rounded-lg border border-pink-500/30"
-                      />
-                    </div>
-                    <div className="flex-[0_0_33%] min-w-0">
-                      <img 
-                        src={img4} 
                         alt="עבודת גבות 3"
                         className="aspect-square object-cover rounded-lg border border-pink-500/30"
                       />
                     </div>
                     <div className="flex-[0_0_33%] min-w-0">
                       <img 
-                        src={img5} 
+                        src={img4} 
                         alt="עבודת גבות 4"
                         className="aspect-square object-cover rounded-lg border border-pink-500/30"
                       />
                     </div>
                     <div className="flex-[0_0_33%] min-w-0">
                       <img 
-                        src={img6} 
+                        src={img5} 
                         alt="עבודת גבות 5"
+                        className="aspect-square object-cover rounded-lg border border-pink-500/30"
+                      />
+                    </div>
+                    <div className="flex-[0_0_33%] min-w-0">
+                      <img 
+                        src={img6} 
+                        alt="עבודת גבות 6"
+                        className="aspect-square object-cover rounded-lg border border-pink-500/30"
+                      />
+                    </div>
+                    <div className="flex-[0_0_33%] min-w-0">
+                      <img 
+                        src={img7} 
+                        alt="מחירון"
                         className="aspect-square object-cover rounded-lg border border-pink-500/30"
                       />
                     </div>
