@@ -180,8 +180,8 @@ export default function Shop() {
               {/* Inner Glow */}
               <div className="absolute inset-2 bg-gradient-to-br from-pink-400/20 via-pink-600/20 to-pink-400/20 blur-2xl"></div>
               
-              {/* Logo Container - Smaller on mobile, larger on desktop */}
-              <div className="relative scale-[1.2] md:scale-[2] transform-gpu">
+              {/* Logo Container - Smaller on both mobile and desktop */}
+              <div className="relative scale-[0.9] md:scale-[1.3] transform-gpu">
                 <Logo size="header" showGlow={true} showUnderline={true} />
               </div>
             </div>
