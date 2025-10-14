@@ -129,47 +129,42 @@ export default function Shop() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950/30 to-slate-950" dir="rtl">
-      {/* Top Action Bar */}
-      <div className="sticky top-0 z-50 bg-gradient-to-r from-slate-950/95 via-purple-950/40 to-slate-950/95 backdrop-blur-lg border-b border-pink-500/20">
-        <div className="container mx-auto px-2 md:px-4 py-2 md:py-3">
-          <div className="flex justify-between items-center gap-2">
-            <Button
-              onClick={() => setLocation('/')}
-              variant="outline"
-              size="icon"
-              className="border-pink-500/30 hover:border-pink-500/50 hover:bg-pink-500/10 h-9 w-9"
-              data-testid="button-back"
+      {/* Floating Action Buttons - Overlay */}
+      <div className="fixed top-4 left-4 right-4 z-50 flex justify-between items-center pointer-events-none">
+        <Button
+          onClick={() => setLocation('/')}
+          variant="outline"
+          size="icon"
+          className="border-pink-500/30 hover:border-pink-500/50 hover:bg-pink-500/10 h-10 w-10 backdrop-blur-lg bg-slate-950/80 pointer-events-auto"
+          data-testid="button-back"
+        >
+          <ArrowRight className="w-5 h-5" />
+        </Button>
+        <div className="flex gap-2 pointer-events-auto">
+          <Button 
+            variant="outline" 
+            size="icon"
+            className="border-pink-500/50 hover:border-pink-500 h-10 w-10 backdrop-blur-lg bg-slate-950/80"
+            data-testid="button-search"
+          >
+            <Search className="w-5 h-5" />
+          </Button>
+          
+          <Link href="/face-registration">
+            <Button 
+              variant="outline" 
+              className="border-pink-500/50 hover:border-pink-500 h-10 backdrop-blur-lg bg-slate-950/80"
+              data-testid="button-register"
             >
-              <ArrowRight className="w-4 h-4" />
+              <UserPlus className="w-5 h-5 ml-2" />
+              <span className="hidden sm:inline">הרשמה</span>
             </Button>
-            <div className="flex gap-1 md:gap-2">
-              <Button 
-                variant="outline" 
-                size="icon"
-                className="border-pink-500/50 hover:border-pink-500 h-9 w-9"
-                data-testid="button-search"
-              >
-                <Search className="w-4 h-4" />
-              </Button>
-              
-              <Link href="/face-registration">
-                <Button 
-                  variant="outline" 
-                  className="border-pink-500/50 hover:border-pink-500 h-9 text-sm md:text-base px-2 md:px-4"
-                  data-testid="button-register"
-                >
-                  <UserPlus className="w-4 h-4 ml-1 md:ml-2" />
-                  <span className="hidden sm:inline">הרשמה</span>
-                  <span className="sm:hidden">הרשם</span>
-                </Button>
-              </Link>
-            </div>
-          </div>
+          </Link>
         </div>
       </div>
 
       {/* Hero Logo Section */}
-      <div className="relative pt-0 pb-3">
+      <div className="relative pt-16 pb-3">
         <div className="container mx-auto px-3 md:px-4">
           {/* Centered Logo with Neon Glow - Responsive size */}
           <div className="flex justify-center mb-3">
@@ -189,7 +184,6 @@ export default function Shop() {
 
           {/* Categories Section - Below Logo */}
           <div className="mt-4">
-            <h3 className="text-2xl md:text-3xl font-bold text-center mb-3 md:mb-4 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">קטגוריות פופולריות</h3>
             <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-2 md:gap-3">
               {['שיזוף', 'קוסמטיקה', 'אביזרים', 'טיפוח שיער', 'תכשיטים', 'מוצרים ירוקים'].map((category) => (
                 <Button
