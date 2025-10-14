@@ -61,6 +61,42 @@ export default function CosmeticsDialog({ open, onOpenChange }: CosmeticsDialogP
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <style>{`
+        @keyframes flow-gradient-border {
+          0% {
+            background-position: 0% 0%;
+          }
+          100% {
+            background-position: 200% 200%;
+          }
+        }
+        
+        .flowing-border-cosmetics {
+          position: relative;
+        }
+        
+        .flowing-border-cosmetics::before {
+          content: '';
+          position: absolute;
+          inset: -2px;
+          border-radius: 0.375rem;
+          padding: 1px;
+          background: linear-gradient(
+            135deg,
+            rgba(236, 72, 153, 0.8),
+            rgba(168, 85, 247, 0.6),
+            rgba(139, 92, 246, 0.8),
+            rgba(236, 72, 153, 0.6),
+            rgba(168, 85, 247, 0.8)
+          );
+          background-size: 200% 200%;
+          -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          -webkit-mask-composite: xor;
+          mask-composite: exclude;
+          animation: flow-gradient-border 3s linear infinite;
+          pointer-events: none;
+        }
+      `}</style>
       {/* Pink/Purple Gradient Background */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-br from-pink-500/30 via-pink-500/20 to-black opacity-90 backdrop-blur-sm" />
@@ -102,6 +138,7 @@ export default function CosmeticsDialog({ open, onOpenChange }: CosmeticsDialogP
                     transition-all duration-150 ease-in-out
                     hover-elevate active-elevate-2
                     overflow-visible
+                    flowing-border-cosmetics
                   "
                   style={{
                     borderColor: 'rgba(236, 72, 153, 0.6)',
