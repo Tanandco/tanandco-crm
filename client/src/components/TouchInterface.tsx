@@ -38,6 +38,11 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
 
   const services = [
     { 
+      title: 'AI TAN', 
+      icon: <Alin size={95} className="max-w-[95px] max-h-[95px] md:max-w-[125px] md:max-h-[125px]" />, 
+      id: 'ai-tan' 
+    },
+    { 
       title: 'מיטות שיזוף', 
       icon: <img src={tanningBedIcon} alt="מיטות שיזוף" className="max-w-[70px] max-h-[70px] md:max-w-[115px] md:max-h-[115px] object-contain" style={{ filter: 'drop-shadow(0 0 15px rgba(236, 72, 153, 0.8))' }} />, 
       id: 'sun-beds' 
@@ -61,11 +66,6 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
       title: 'החנות שלכם', 
       icon: <img src={storeIcon} alt="החנות שלכם" className="max-w-[70px] max-h-[70px] md:max-w-[115px] md:max-h-[115px] object-contain" style={{ filter: 'drop-shadow(0 0 15px rgba(236, 72, 153, 0.8))' }} />, 
       id: 'your-store' 
-    },
-    { 
-      title: 'AI TAN', 
-      icon: <Alin size={95} className="max-w-[95px] max-h-[95px] md:max-w-[125px] md:max-h-[125px]" />, 
-      id: 'ai-tan' 
     },
   ];
 
