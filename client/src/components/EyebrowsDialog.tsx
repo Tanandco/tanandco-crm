@@ -34,82 +34,12 @@ export default function EyebrowsDialog({ open, onOpenChange }: EyebrowsDialogPro
         </Button>
       </div>
 
-      {/* Content - Split into two sections */}
-      <div className="relative w-full h-[90vh] max-w-7xl flex flex-col md:flex-row gap-4">
+      {/* Content - New layout: Header -> Services/Gallery -> Book Button */}
+      <div className="relative w-full h-[90vh] max-w-7xl flex flex-col gap-4">
         
-        {/* Right Section - Services & Gallery (גדול) */}
-        <div className="w-full md:w-2/3 h-2/3 md:h-full bg-gradient-to-br from-pink-900/30 via-black/80 to-gray-800/90 border-2 border-pink-500/60 rounded-lg p-4 flex flex-col">
-          <div className="space-y-3 flex-1 flex flex-col">
-            {/* שירותים */}
-            <div className="space-y-2">
-              <h3 className="text-base md:text-lg font-bold text-white text-center">השירותים שלנו</h3>
-              <div className="space-y-1">
-                <button className="w-full flex justify-between items-center bg-black/40 rounded-lg p-2 border border-pink-500/20 hover:border-pink-500/60 transition-colors">
-                  <span className="text-white text-xs">הרמת ריסים</span>
-                  <span className="text-pink-400 font-bold text-sm">הזמן עכשיו</span>
-                </button>
-                <button className="w-full flex justify-between items-center bg-black/40 rounded-lg p-2 border border-pink-500/20 hover:border-pink-500/60 transition-colors">
-                  <span className="text-white text-xs">הרמת גבות</span>
-                  <span className="text-pink-400 font-bold text-sm">הזמן עכשיו</span>
-                </button>
-                <button className="w-full flex justify-between items-center bg-black/40 rounded-lg p-2 border border-pink-500/20 hover:border-pink-500/60 transition-colors">
-                  <span className="text-white text-xs">סטודיו לגבות - עיצוב גבות טבעיות</span>
-                  <span className="text-pink-400 font-bold text-sm">הזמן עכשיו</span>
-                </button>
-                <button className="w-full flex justify-between items-center bg-black/40 rounded-lg p-2 border border-pink-500/20 hover:border-pink-500/60 transition-colors">
-                  <span className="text-white text-xs">Microblading - מיקרובליידינג בשיטת השיערה</span>
-                  <span className="text-pink-400 font-bold text-sm">הזמן עכשיו</span>
-                </button>
-              </div>
-            </div>
-
-            {/* גלריית תמונות - Carousel */}
-            <div className="space-y-2 flex-1">
-              <h3 className="text-base md:text-lg font-bold text-white text-center">גלריה</h3>
-              <div className="relative">
-                <div className="overflow-hidden" ref={emblaRef}>
-                  <div className="flex gap-2">
-                    {[1, 2, 3, 4, 5, 6].map((i) => (
-                      <div 
-                        key={i}
-                        className="flex-[0_0_33%] min-w-0"
-                      >
-                        <div className="aspect-square bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-lg border border-pink-500/30 flex items-center justify-center">
-                          <Sparkles className="w-6 h-6 text-pink-400/50" />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <button 
-                  onClick={() => emblaApi?.scrollPrev()}
-                  className="absolute left-0 top-1/2 -translate-y-1/2 bg-black/50 text-pink-400 p-1 rounded-full hover:bg-black/70"
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                </button>
-                <button 
-                  onClick={() => emblaApi?.scrollNext()}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 bg-black/50 text-pink-400 p-1 rounded-full hover:bg-black/70"
-                >
-                  <ChevronRight className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-
-            {/* כפתור הזמנה */}
-            <button
-              onClick={() => console.log('Book with Elit Eyebrows')}
-              className="w-full bg-pink-500 hover:bg-pink-600 text-white py-2 rounded-lg font-bold transition-colors text-sm"
-              data-testid="book-eyebrows"
-            >
-              קביעת תור
-            </button>
-          </div>
-        </div>
-
-        {/* Left Section - Bio & Details (קטן) */}
-        <div className="w-full md:w-1/3 h-1/3 md:h-full bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border-2 border-pink-500/60 rounded-lg p-4 flex flex-col">
-          <div className="space-y-4 flex-1 flex flex-col justify-center">
+        {/* Header Section - Name & Bio */}
+        <div className="w-full bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border-2 border-pink-500/60 rounded-lg p-4">
+          <div className="space-y-3">
             {/* Header with Instagram */}
             <div className="text-center space-y-2">
               <div className="flex items-center justify-center gap-2">
@@ -137,6 +67,80 @@ export default function EyebrowsDialog({ open, onOpenChange }: EyebrowsDialogPro
             </div>
           </div>
         </div>
+
+        {/* Services & Gallery Section */}
+        <div className="flex-1 flex flex-col md:flex-row gap-4">
+          
+          {/* שירותים */}
+          <div className="w-full md:w-1/2 bg-gradient-to-br from-pink-900/30 via-black/80 to-gray-800/90 border-2 border-pink-500/60 rounded-lg p-4">
+            <div className="space-y-2">
+              <h3 className="text-base md:text-lg font-bold text-white text-center">השירותים שלנו</h3>
+              <div className="space-y-1">
+                <button className="w-full flex justify-between items-center bg-black/40 rounded-lg p-2 border border-pink-500/20 hover:border-pink-500/60 transition-colors">
+                  <span className="text-white text-xs">הרמת ריסים</span>
+                  <span className="text-pink-400 font-bold text-sm">הזמן עכשיו</span>
+                </button>
+                <button className="w-full flex justify-between items-center bg-black/40 rounded-lg p-2 border border-pink-500/20 hover:border-pink-500/60 transition-colors">
+                  <span className="text-white text-xs">הרמת גבות</span>
+                  <span className="text-pink-400 font-bold text-sm">הזמן עכשיו</span>
+                </button>
+                <button className="w-full flex justify-between items-center bg-black/40 rounded-lg p-2 border border-pink-500/20 hover:border-pink-500/60 transition-colors">
+                  <span className="text-white text-xs">סטודיו לגבות - עיצוב גבות טבעיות</span>
+                  <span className="text-pink-400 font-bold text-sm">הזמן עכשיו</span>
+                </button>
+                <button className="w-full flex justify-between items-center bg-black/40 rounded-lg p-2 border border-pink-500/20 hover:border-pink-500/60 transition-colors">
+                  <span className="text-white text-xs">Microblading - מיקרובליידינג בשיטת השיערה</span>
+                  <span className="text-pink-400 font-bold text-sm">הזמן עכשיו</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* גלריה */}
+          <div className="w-full md:w-1/2 bg-gradient-to-br from-pink-900/30 via-black/80 to-gray-800/90 border-2 border-pink-500/60 rounded-lg p-4">
+            <div className="space-y-2 h-full flex flex-col">
+              <h3 className="text-base md:text-lg font-bold text-white text-center">גלריה</h3>
+              <div className="relative flex-1">
+                <div className="overflow-hidden h-full" ref={emblaRef}>
+                  <div className="flex gap-2 h-full">
+                    {[1, 2, 3, 4, 5, 6].map((i) => (
+                      <div 
+                        key={i}
+                        className="flex-[0_0_33%] min-w-0"
+                      >
+                        <div className="aspect-square bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-lg border border-pink-500/30 flex items-center justify-center">
+                          <Sparkles className="w-6 h-6 text-pink-400/50" />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <button 
+                  onClick={() => emblaApi?.scrollPrev()}
+                  className="absolute left-0 top-1/2 -translate-y-1/2 bg-black/50 text-pink-400 p-1 rounded-full hover:bg-black/70"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+                <button 
+                  onClick={() => emblaApi?.scrollNext()}
+                  className="absolute right-0 top-1/2 -translate-y-1/2 bg-black/50 text-pink-400 p-1 rounded-full hover:bg-black/70"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        {/* Book Button - Bottom */}
+        <button
+          onClick={() => console.log('Book with Elit Eyebrows')}
+          className="w-full bg-pink-500 hover:bg-pink-600 text-white py-3 rounded-lg font-bold transition-colors text-base"
+          data-testid="book-eyebrows"
+        >
+          קביעת תור
+        </button>
 
       </div>
     </div>

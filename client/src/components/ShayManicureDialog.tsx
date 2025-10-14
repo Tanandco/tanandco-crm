@@ -34,13 +34,45 @@ export default function ShayManicureDialog({ open, onOpenChange }: ShayManicureD
         </Button>
       </div>
 
-      {/* Content - Split into two sections */}
-      <div className="relative w-full h-[90vh] max-w-7xl flex flex-col md:flex-row gap-4">
+      {/* Content - New layout: Header -> Services/Gallery -> Book Button */}
+      <div className="relative w-full h-[90vh] max-w-7xl flex flex-col gap-4">
         
-        {/* Right Section - Services & Gallery (גדול) */}
-        <div className="w-full md:w-2/3 h-2/3 md:h-full bg-gradient-to-br from-pink-900/30 via-black/80 to-gray-800/90 border-2 border-pink-500/60 rounded-lg p-4 flex flex-col">
-          <div className="space-y-3 flex-1 flex flex-col">
-            {/* מחירון */}
+        {/* Header Section - Name & Bio */}
+        <div className="w-full bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border-2 border-pink-500/60 rounded-lg p-4">
+          <div className="space-y-3">
+            {/* Header with Instagram */}
+            <div className="text-center space-y-2">
+              <div className="flex items-center justify-center gap-2">
+                <Sparkles className="w-6 h-6 text-pink-500 animate-pulse" style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 1))' }} />
+                <h2 className="text-xl md:text-3xl font-bold text-white font-varela">
+                  שי לניאדו
+                </h2>
+              </div>
+              <a 
+                href="https://instagram.com/shay.nails" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-pink-400 hover:text-pink-300 transition-colors text-xs"
+              >
+                <Instagram className="w-4 h-4" />
+                <span>@shay.nails</span>
+              </a>
+            </div>
+
+            {/* Bio */}
+            <div className="bg-black/40 rounded-lg p-3 border border-pink-500/30">
+              <p className="text-gray-300 text-xs md:text-sm text-center leading-relaxed">
+                מומחית למניקור ג'ל מושלם • 8 שנות ניסיון • עיצובים ייחודיים
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Services & Gallery Section */}
+        <div className="flex-1 flex flex-col md:flex-row gap-4">
+          
+          {/* מחירון */}
+          <div className="w-full md:w-1/2 bg-gradient-to-br from-pink-900/30 via-black/80 to-gray-800/90 border-2 border-pink-500/60 rounded-lg p-4">
             <div className="space-y-2">
               <h3 className="text-base md:text-lg font-bold text-white text-center">מחירון</h3>
               <div className="space-y-1">
@@ -62,13 +94,15 @@ export default function ShayManicureDialog({ open, onOpenChange }: ShayManicureD
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* גלריית תמונות - Carousel */}
-            <div className="space-y-2 flex-1">
+          {/* גלריה */}
+          <div className="w-full md:w-1/2 bg-gradient-to-br from-pink-900/30 via-black/80 to-gray-800/90 border-2 border-pink-500/60 rounded-lg p-4">
+            <div className="space-y-2 h-full flex flex-col">
               <h3 className="text-base md:text-lg font-bold text-white text-center">גלריה</h3>
-              <div className="relative">
-                <div className="overflow-hidden" ref={emblaRef}>
-                  <div className="flex gap-2">
+              <div className="relative flex-1">
+                <div className="overflow-hidden h-full" ref={emblaRef}>
+                  <div className="flex gap-2 h-full">
                     <div className="flex-[0_0_33%] min-w-0">
                       <img 
                         src="/attached_assets/4_1760265219421.png" 
@@ -106,48 +140,18 @@ export default function ShayManicureDialog({ open, onOpenChange }: ShayManicureD
                 </button>
               </div>
             </div>
-
-            {/* כפתור הזמנה */}
-            <button
-              onClick={() => console.log('Book with שי לניאדו')}
-              className="w-full bg-pink-500 hover:bg-pink-600 text-white py-2 rounded-lg font-bold transition-colors text-sm"
-              data-testid="book-shay"
-            >
-              קביעת תור עם שי
-            </button>
           </div>
+
         </div>
 
-        {/* Left Section - Bio & Details (קטן) */}
-        <div className="w-full md:w-1/3 h-1/3 md:h-full bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border-2 border-pink-500/60 rounded-lg p-4 flex flex-col">
-          <div className="space-y-4 flex-1 flex flex-col justify-center">
-            {/* Header with Instagram */}
-            <div className="text-center space-y-2">
-              <div className="flex items-center justify-center gap-2">
-                <Sparkles className="w-6 h-6 text-pink-500 animate-pulse" style={{ filter: 'drop-shadow(0 0 20px rgba(236, 72, 153, 1))' }} />
-                <h2 className="text-xl md:text-3xl font-bold text-white font-varela">
-                  שי לניאדו
-                </h2>
-              </div>
-              <a 
-                href="https://instagram.com/shay.nails" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-pink-400 hover:text-pink-300 transition-colors text-xs"
-              >
-                <Instagram className="w-4 h-4" />
-                <span>@shay.nails</span>
-              </a>
-            </div>
-
-            {/* Bio */}
-            <div className="bg-black/40 rounded-lg p-3 border border-pink-500/30">
-              <p className="text-gray-300 text-xs md:text-sm text-center leading-relaxed">
-                מומחית למניקור ג'ל מושלם • 8 שנות ניסיון • עיצובים ייחודיים
-              </p>
-            </div>
-          </div>
-        </div>
+        {/* Book Button - Bottom */}
+        <button
+          onClick={() => console.log('Book with שי לניאדו')}
+          className="w-full bg-pink-500 hover:bg-pink-600 text-white py-3 rounded-lg font-bold transition-colors text-base"
+          data-testid="book-shay"
+        >
+          קביעת תור עם שי
+        </button>
 
       </div>
     </div>
