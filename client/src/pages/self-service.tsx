@@ -350,14 +350,14 @@ export default function SelfService() {
           </div>
         </section>
 
-        {/* FOOTER WITH SOL */}
-        <footer className="py-2 flex-shrink-0 mt-auto">
+        {/* SOL CHATBOT - Close to Services */}
+        <div className="py-2 flex-shrink-0 mt-4 md:mt-6">
           <div className="max-w-6xl mx-auto px-3">
             <div className="flex items-center gap-1">
               {/* Sol Avatar */}
               <button
                 onClick={() => setChatOpen(true)}
-                className="relative shrink-0 group animate-bounce-slow hover:scale-110 transition-transform -mt-4 md:-mt-8"
+                className="relative shrink-0 group animate-bounce-slow hover:scale-110 transition-transform"
                 data-testid="button-chat-with-sol"
               >
                 <Sol size={80} className="max-w-[80px] md:max-w-[130px]" />
@@ -371,7 +371,7 @@ export default function SelfService() {
               </div>
             </div>
           </div>
-        </footer>
+        </div>
       </main>
 
       {/* DIALOGS */}

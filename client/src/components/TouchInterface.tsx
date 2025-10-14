@@ -232,12 +232,12 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
         {/* Self Service Button */}
         <SelfServiceButton3D onClick={() => navigate('/self-service')} />
 
-        {/* Sol Chatbot - Bottom */}
-        <div className="mt-auto pt-4 w-full max-w-6xl">
+        {/* Sol Chatbot - Close to Services */}
+        <div className="mt-4 md:mt-6 w-full max-w-6xl">
           <div className="flex items-center gap-1 px-3">
             <button
               onClick={() => setChatOpen(true)}
-              className="relative shrink-0 group animate-bounce-slow hover:scale-110 transition-transform -mt-4 md:-mt-8"
+              className="relative shrink-0 group animate-bounce-slow hover:scale-110 transition-transform"
               data-testid="button-chat-with-sol"
             >
               <Sol size={80} className="max-w-[80px] md:max-w-[130px]" />
