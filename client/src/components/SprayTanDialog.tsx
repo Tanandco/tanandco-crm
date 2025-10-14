@@ -77,7 +77,7 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
           </p>
         </div>
 
-        {/* 4 שדות זהים - 2 שורות */}
+        {/* שורה 1 - 2 שדות */}
         <div className="grid grid-cols-2 gap-2 md:gap-3 mb-3 md:mb-4 max-w-4xl mx-auto mt-6 md:mt-8">
           <div className="flex flex-col gap-2">
             <div className="flowing-border rounded-lg p-2 md:p-2.5 flex flex-col items-center justify-center h-[100px] md:h-[110px]" style={{ backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.8)' }}>
@@ -108,7 +108,10 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
               הזמן עכשיו
             </Button>
           </div>
-          
+        </div>
+
+        {/* שורה 2 - 2 שדות קטנים + 1 שדה גדול */}
+        <div className="grid grid-cols-4 gap-2 md:gap-3 mb-4 md:mb-6 max-w-4xl mx-auto">
           <div className="flex flex-col gap-2">
             <div className="flowing-border rounded-lg p-2 md:p-2.5 flex flex-col items-center justify-center h-[100px] md:h-[110px]" style={{ backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.8)' }}>
               <div className="text-[10px] md:text-xs mb-1 text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>חבילה 6 טיפולים</div>
@@ -138,12 +141,9 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
               הזמן עכשיו
             </Button>
           </div>
-        </div>
 
-        {/* שדה חמישי - חבילת כלה במקום הנותר */}
-        <div className="max-w-4xl mx-auto mb-4 md:mb-6">
-          {/* חבילת כלה - הכי גדול */}
-          <div className="flex flex-col gap-2">
+          {/* חבילת כלה - תופס 2 עמודות */}
+          <div className="col-span-2 flex flex-col gap-2">
             <div className="flowing-border rounded-lg p-3 md:p-4" style={{ backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.8)' }}>
               <div className="text-sm md:text-base mb-3 text-center font-bold" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>חבילת כלה - 340₪</div>
               
