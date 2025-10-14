@@ -56,6 +56,13 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
 
         {/* כותרת עליונה */}
         <div className="relative z-[10] text-center mb-2 md:mb-3">
+          <div className="text-2xl md:text-4xl font-bold mb-2 md:mb-3" style={{ 
+            color: '#e064d5',
+            textShadow: '0 0 30px rgba(224, 100, 213, 0.8)',
+            fontFamily: 'Varela Round, sans-serif'
+          }}>
+            AI TAN
+          </div>
           <h1 className="text-lg md:text-2xl font-bold mb-3 md:mb-4" style={{ 
             color: '#e064d5',
             textShadow: '0 0 20px rgba(224, 100, 213, 0.6)',
