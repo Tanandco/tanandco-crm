@@ -131,8 +131,8 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
           <div className="flex flex-col gap-2">
             <div className="flowing-border rounded-lg p-2 md:p-2.5 flex flex-col items-center justify-center h-[100px] md:h-[110px]" style={{ backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.8)' }}>
               <div className="text-[10px] md:text-xs mb-1 text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>VIP עד הבית</div>
-              <div className="text-sm md:text-base font-bold text-center mb-0.5" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>350₪</div>
-              <div className="text-[8px] md:text-[9px] text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5', opacity: 0.7 }}>
+              <div className="text-sm md:text-base font-bold text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>350₪</div>
+              <div className="text-[7px] md:text-[8px] text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5', opacity: 0.7 }}>
                 + 200₪ לקוח נוסף
               </div>
             </div>
