@@ -135,7 +135,7 @@ export default function Shop() {
           onClick={() => setLocation('/')}
           variant="outline"
           size="icon"
-          className="border-pink-500/30 hover:border-pink-500/50 hover:bg-pink-500/10 h-9 w-9 md:h-10 md:w-10 backdrop-blur-lg bg-slate-950/80 pointer-events-auto"
+          className="border-pink-500/30 hover:border-pink-500/50 hover:bg-pink-500/10 h-9 w-9 md:h-10 md:w-10 bg-transparent md:backdrop-blur-lg md:bg-slate-950/80 pointer-events-auto"
           data-testid="button-back"
         >
           <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
@@ -144,7 +144,7 @@ export default function Shop() {
           <Button 
             variant="outline" 
             size="icon"
-            className="border-pink-500/50 hover:border-pink-500 h-9 w-9 md:h-10 md:w-10 backdrop-blur-lg bg-slate-950/80"
+            className="border-pink-500/50 hover:border-pink-500 h-9 w-9 md:h-10 md:w-10 bg-transparent md:backdrop-blur-lg md:bg-slate-950/80"
             data-testid="button-search"
           >
             <Search className="w-4 h-4 md:w-5 md:h-5" />
@@ -153,7 +153,7 @@ export default function Shop() {
           <Link href="/face-registration">
             <Button 
               variant="outline" 
-              className="border-pink-500/50 hover:border-pink-500 h-9 md:h-10 backdrop-blur-lg bg-slate-950/80 px-2 md:px-4"
+              className="border-pink-500/50 hover:border-pink-500 h-9 md:h-10 bg-transparent md:backdrop-blur-lg md:bg-slate-950/80 px-2 md:px-4"
               data-testid="button-register"
             >
               <UserPlus className="w-4 h-4 md:w-5 md:h-5 ml-1 md:ml-2" />
