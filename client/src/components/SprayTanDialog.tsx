@@ -146,10 +146,10 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
             </Button>
           </div>
 
-          {/* חבילת כלה VIP - הכי גדול */}
+          {/* חבילת כלה - הכי גדול */}
           <div className="flex flex-col gap-2">
             <div className="flowing-border rounded-lg p-3 md:p-4" style={{ backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.8)' }}>
-              <div className="text-sm md:text-base mb-3 text-center font-bold" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>חבילת כלה VIP - 340₪</div>
+              <div className="text-sm md:text-base mb-3 text-center font-bold" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>חבילת כלה - 340₪</div>
               
               <div className="space-y-1.5 md:space-y-2">
                 <div className="flex items-start gap-2">
