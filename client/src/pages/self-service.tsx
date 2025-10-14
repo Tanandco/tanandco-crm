@@ -3,6 +3,7 @@ import { useLocation } from 'wouter';
 import { Home, Settings } from 'lucide-react';
 import Logo from '@/components/Logo';
 import Alin from '@/components/Alin';
+import Sol from '@/components/Sol';
 import ServiceCard from '@/components/ServiceCard';
 import SunBedsDialog from '@/components/SunBedsDialog';
 import SprayTanDialog from '@/components/SprayTanDialog';
@@ -280,7 +281,7 @@ export default function SelfService() {
                 className="px-6 py-3 rounded-2xl border border-[hsla(var(--primary)/0.6)] hover:bg-white/10 transition-colors"
                 data-testid="button-chat-alin"
               >
-                צ׳אט עם אלין
+                צ׳אט עם סול
               </a>
             </div>
           </div>
@@ -349,23 +350,23 @@ export default function SelfService() {
           </div>
         </section>
 
-        {/* FOOTER WITH ALIN */}
+        {/* FOOTER WITH SOL */}
         <footer className="py-2 flex-shrink-0 mt-auto">
           <div className="max-w-6xl mx-auto px-3">
             <div className="flex items-center gap-1">
-              {/* Alin Avatar */}
+              {/* Sol Avatar */}
               <button
                 onClick={() => setChatOpen(true)}
                 className="relative shrink-0 group animate-bounce-slow hover:scale-110 transition-transform -mt-4 md:-mt-8"
-                data-testid="button-chat-with-alin"
+                data-testid="button-chat-with-sol"
               >
-                <Alin size={80} className="max-w-[80px] md:max-w-[130px]" />
+                <Sol size={80} className="max-w-[80px] md:max-w-[130px]" />
               </button>
               
               {/* Flowing Text Bubble with Typing Effect */}
               <div className="relative bg-gradient-to-r from-[hsl(var(--primary))]/20 to-transparent border border-[hsl(var(--primary))]/40 rounded-2xl rounded-tr-sm py-1 px-2 backdrop-blur-sm animate-slide-in-left w-fit">
                 <p className="text-white/90 text-[10px] md:text-sm typing-effect whitespace-nowrap">
-                  היי, אני אלין! העוזרת הדיגיטלית שלכם זמינה 24/7 - לחצו עליי לצ'אט מיידי
+                  היי, אני סול! העוזרת הדיגיטלית שלכם זמינה 24/7 - לחצו עליי לצ'אט מיידי
                 </p>
               </div>
             </div>
