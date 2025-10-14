@@ -37,7 +37,7 @@ interface ZenCarouselProps {
 
 export default function ZenCarousel({ products, onAddToCart }: ZenCarouselProps) {
   return (
-    <div className="relative w-full py-4 -mt-8" dir="rtl">
+    <div className="relative w-full py-4 mt-0 md:-mt-8" dir="rtl">
       <style>{`
         @keyframes flow-gradient {
           0% {
@@ -49,13 +49,13 @@ export default function ZenCarousel({ products, onAddToCart }: ZenCarouselProps)
         }
 
         .zen-carousel .swiper-slide {
-          width: 280px !important;
-          height: 380px !important;
+          width: 220px !important;
+          height: 320px !important;
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: flex-start;
-          padding: 16px;
+          padding: 12px;
           border-radius: 20px;
           background: linear-gradient(135deg, 
             rgba(236, 72, 153, 0.2) 0%,
@@ -158,11 +158,24 @@ export default function ZenCarousel({ products, onAddToCart }: ZenCarouselProps)
         }
 
         .zen-carousel .swiper-slide img {
-          width: 220px;
-          height: 280px;
+          width: 180px;
+          height: 230px;
           object-fit: contain;
           margin-bottom: 6px;
           transition: transform 0.3s ease;
+        }
+        
+        @media (min-width: 768px) {
+          .zen-carousel .swiper-slide {
+            width: 280px !important;
+            height: 380px !important;
+            padding: 16px;
+          }
+          
+          .zen-carousel .swiper-slide img {
+            width: 220px;
+            height: 280px;
+          }
         }
 
         .zen-carousel .swiper-slide img[src*="jet-black"] {
@@ -174,8 +187,15 @@ export default function ZenCarousel({ products, onAddToCart }: ZenCarouselProps)
         }
 
         .zen-carousel .swiper-slide img[src*="tingle-bell"] {
-          width: 336px;
-          height: 432px;
+          width: 260px;
+          height: 340px;
+        }
+        
+        @media (min-width: 768px) {
+          .zen-carousel .swiper-slide img[src*="tingle-bell"] {
+            width: 336px;
+            height: 432px;
+          }
         }
 
         .zen-carousel .swiper-slide-active img {
