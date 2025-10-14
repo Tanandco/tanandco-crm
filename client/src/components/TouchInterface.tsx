@@ -62,6 +62,11 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
       icon: <img src={storeIcon} alt="החנות שלכם" className="max-w-[70px] max-h-[70px] md:max-w-[115px] md:max-h-[115px] object-contain" style={{ filter: 'drop-shadow(0 0 15px rgba(236, 72, 153, 0.8))' }} />, 
       id: 'your-store' 
     },
+    { 
+      title: 'AI TAN', 
+      icon: <Alin size={95} className="max-w-[95px] max-h-[95px] md:max-w-[125px] md:max-h-[125px]" />, 
+      id: 'ai-tan' 
+    },
   ];
 
   const handleServiceClick = (serviceId: string) => {
@@ -199,29 +204,6 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
                 filter: 'drop-shadow(0 0 12px rgba(236, 72, 153, 0.8))'
               }}
             />
-          </button>
-
-          <button
-            className="
-              top-action-btn
-              group relative w-9 h-9 md:w-10 md:h-10
-              bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
-              border
-              rounded-md backdrop-blur-sm
-              flex items-center justify-center
-              transition-all duration-300 ease-in-out
-              hover-elevate active-elevate-2
-            "
-            style={{
-              borderColor: 'rgba(236, 72, 153, 0.6)',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 1)'}
-            onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.6)'}
-            onClick={() => navigate('/ai-tan')}
-            data-testid="button-ai-tan"
-          >
-            <Alin size={22} className="transition-all duration-300" />
           </button>
         </div>
         </div>
