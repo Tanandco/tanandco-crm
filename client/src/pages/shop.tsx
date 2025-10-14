@@ -131,35 +131,36 @@ export default function Shop() {
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950/30 to-slate-950" dir="rtl">
       {/* Top Action Bar */}
       <div className="sticky top-0 z-50 bg-gradient-to-r from-slate-950/95 via-purple-950/40 to-slate-950/95 backdrop-blur-lg border-b border-pink-500/20">
-        <div className="container mx-auto px-4 py-3">
+        <div className="container mx-auto px-2 md:px-4 py-2 md:py-3">
           <div className="flex justify-between items-center gap-2">
             <Button
               onClick={() => setLocation('/')}
               variant="outline"
               size="icon"
-              className="border-pink-500/30 hover:border-pink-500/50 hover:bg-pink-500/10"
+              className="border-pink-500/30 hover:border-pink-500/50 hover:bg-pink-500/10 h-9 w-9"
               data-testid="button-back"
             >
-              <ArrowRight className="w-5 h-5" />
+              <ArrowRight className="w-4 h-4" />
             </Button>
-            <div className="flex gap-2">
+            <div className="flex gap-1 md:gap-2">
               <Button 
                 variant="outline" 
                 size="icon"
-                className="border-pink-500/50 hover:border-pink-500"
+                className="border-pink-500/50 hover:border-pink-500 h-9 w-9"
                 data-testid="button-search"
               >
-                <Search className="w-5 h-5" />
+                <Search className="w-4 h-4" />
               </Button>
               
               <Link href="/face-registration">
                 <Button 
                   variant="outline" 
-                  className="border-pink-500/50 hover:border-pink-500"
+                  className="border-pink-500/50 hover:border-pink-500 h-9 text-sm md:text-base px-2 md:px-4"
                   data-testid="button-register"
                 >
-                  <UserPlus className="w-5 h-5 ml-2" />
-                  הרשמה
+                  <UserPlus className="w-4 h-4 ml-1 md:ml-2" />
+                  <span className="hidden sm:inline">הרשמה</span>
+                  <span className="sm:hidden">הרשם</span>
                 </Button>
               </Link>
             </div>
@@ -170,7 +171,7 @@ export default function Shop() {
       {/* Hero Logo Section */}
       <div className="relative pt-0 pb-6">
         <div className="container mx-auto px-4">
-          {/* Centered Logo with Neon Glow - Closer to Top */}
+          {/* Centered Logo with Neon Glow - Responsive size */}
           <div className="flex justify-center mb-6">
             <div className="relative p-4">
               {/* Outer Glow Background */}
@@ -179,8 +180,8 @@ export default function Shop() {
               {/* Inner Glow */}
               <div className="absolute inset-2 bg-gradient-to-br from-pink-400/20 via-pink-600/20 to-pink-400/20 blur-2xl"></div>
               
-              {/* Logo Container - 2x size */}
-              <div className="relative scale-[2] transform-gpu">
+              {/* Logo Container - Smaller on mobile, larger on desktop */}
+              <div className="relative scale-[1.2] md:scale-[2] transform-gpu">
                 <Logo size="header" showGlow={true} showUnderline={true} />
               </div>
             </div>
@@ -188,13 +189,13 @@ export default function Shop() {
 
           {/* Categories Section - Below Logo */}
           <div className="mt-8">
-            <h3 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">קטגוריות פופולריות</h3>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            <h3 className="text-2xl md:text-3xl font-bold text-center mb-6 md:mb-8 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">קטגוריות פופולריות</h3>
+            <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-2 md:gap-4">
               {['שיזוף', 'קוסמטיקה', 'אביזרים', 'טיפוח שיער', 'תכשיטים', 'מוצרים ירוקים'].map((category) => (
                 <Button
                   key={category}
                   variant="outline"
-                  className="h-24 text-lg border-pink-500/30 hover:border-pink-500 hover:bg-pink-500/10"
+                  className="h-16 md:h-24 text-xs md:text-lg border-pink-500/30 hover:border-pink-500 hover:bg-pink-500/10 px-1 md:px-4"
                   data-testid={`category-${category}`}
                 >
                   {category}
@@ -204,7 +205,7 @@ export default function Shop() {
           </div>
 
           {/* Carousel Title */}
-          <h2 className="text-xl md:text-2xl font-semibold text-center mt-12 mb-4 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
+          <h2 className="text-lg md:text-2xl font-semibold text-center mt-8 md:mt-12 mb-3 md:mb-4 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
             ברונזרים למיטות שיזוף
           </h2>
         </div>
@@ -236,29 +237,29 @@ export default function Shop() {
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
         {/* Features */}
-        <div className="grid md:grid-cols-3 gap-8 mt-20 mb-12">
-          <div className="text-center p-6 rounded-lg bg-slate-900/50 border border-pink-500/20">
-            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center">
-              <Package className="w-8 h-8 text-white" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 mt-8 md:mt-20 mb-8 md:mb-12">
+          <div className="text-center p-4 md:p-6 rounded-lg bg-slate-900/50 border border-pink-500/20">
+            <div className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-3 md:mb-4 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center">
+              <Package className="w-6 h-6 md:w-8 md:h-8 text-white" />
             </div>
-            <h4 className="text-xl font-bold mb-2">משלוח מהיר</h4>
-            <p className="text-muted-foreground">משלוח עד הבית תוך 2-3 ימי עסקים</p>
+            <h4 className="text-lg md:text-xl font-bold mb-1 md:mb-2">משלוח מהיר</h4>
+            <p className="text-muted-foreground text-sm md:text-base">משלוח עד הבית תוך 2-3 ימי עסקים</p>
           </div>
 
-          <div className="text-center p-6 rounded-lg bg-slate-900/50 border border-pink-500/20">
-            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center">
-              <RefreshCw className="w-8 h-8 text-white" />
+          <div className="text-center p-4 md:p-6 rounded-lg bg-slate-900/50 border border-pink-500/20">
+            <div className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-3 md:mb-4 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center">
+              <RefreshCw className="w-6 h-6 md:w-8 md:h-8 text-white" />
             </div>
-            <h4 className="text-xl font-bold mb-2">החזרות בחינם</h4>
-            <p className="text-muted-foreground">החזרה ללא עלות תוך 30 יום</p>
+            <h4 className="text-lg md:text-xl font-bold mb-1 md:mb-2">החזרות בחינם</h4>
+            <p className="text-muted-foreground text-sm md:text-base">החזרה ללא עלות תוך 30 יום</p>
           </div>
 
-          <div className="text-center p-6 rounded-lg bg-slate-900/50 border border-pink-500/20">
-            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center">
-              <Package className="w-8 h-8 text-white" />
+          <div className="text-center p-4 md:p-6 rounded-lg bg-slate-900/50 border border-pink-500/20">
+            <div className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-3 md:mb-4 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center">
+              <Package className="w-6 h-6 md:w-8 md:h-8 text-white" />
             </div>
-            <h4 className="text-xl font-bold mb-2">איכות מעולה</h4>
-            <p className="text-muted-foreground">מוצרים מקוריים בלבד</p>
+            <h4 className="text-lg md:text-xl font-bold mb-1 md:mb-2">איכות מעולה</h4>
+            <p className="text-muted-foreground text-sm md:text-base">מוצרים מקוריים בלבד</p>
           </div>
         </div>
       </main>
