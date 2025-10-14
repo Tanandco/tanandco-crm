@@ -346,25 +346,16 @@ export default function Shop() {
         {/* Features */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-6 mt-4 md:mt-8 mb-4 md:mb-8">
           <div className="text-center p-3 md:p-4 rounded-lg flowing-border-features" style={{ backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.8)' }}>
-            <div className="w-10 h-10 md:w-14 md:h-14 mx-auto mb-2 md:mb-3 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center">
-              <Package className="w-5 h-5 md:w-7 md:h-7 text-white" />
-            </div>
             <h4 className="text-base md:text-lg font-bold mb-1 flowing-text-features">משלוח מהיר</h4>
             <p className="text-pink-400/80 text-xs md:text-sm">משלוח עד הבית תוך 2-3 ימי עסקים</p>
           </div>
 
           <div className="text-center p-3 md:p-4 rounded-lg flowing-border-features" style={{ backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.8)' }}>
-            <div className="w-10 h-10 md:w-14 md:h-14 mx-auto mb-2 md:mb-3 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center">
-              <RefreshCw className="w-5 h-5 md:w-7 md:h-7 text-white" />
-            </div>
             <h4 className="text-base md:text-lg font-bold mb-1 flowing-text-features">החזרות בחינם</h4>
             <p className="text-pink-400/80 text-xs md:text-sm">החזרה ללא עלות תוך 30 יום</p>
           </div>
 
           <div className="text-center p-3 md:p-4 rounded-lg flowing-border-features" style={{ backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.8)' }}>
-            <div className="w-10 h-10 md:w-14 md:h-14 mx-auto mb-2 md:mb-3 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center">
-              <Package className="w-5 h-5 md:w-7 md:h-7 text-white" />
-            </div>
             <h4 className="text-base md:text-lg font-bold mb-1 flowing-text-features">איכות מעולה</h4>
             <p className="text-pink-400/80 text-xs md:text-sm">מוצרים מקוריים בלבד</p>
           </div>
