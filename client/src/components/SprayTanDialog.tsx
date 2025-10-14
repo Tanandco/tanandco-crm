@@ -148,15 +148,36 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
 
           {/* חבילת כלה מורחבת */}
           <div className="flex flex-col gap-2">
-            <div className="flowing-border rounded-lg p-3 md:p-4 flex flex-col min-h-[140px]" style={{ backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.8)' }}>
-              <div className="text-xs md:text-sm mb-2 text-center font-bold" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>חבילת כלה VIP</div>
-              <div className="text-base md:text-lg font-bold text-center mb-2" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>340₪</div>
-              <div className="space-y-0.5 text-[8px] md:text-[9px] text-right" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5', opacity: 0.9 }}>
-                <div>✓ טסט - 14 יום לפני אירוע</div>
-                <div>✓ טיפול נוסף - 24-48 שעות לפני</div>
-                <div>✓ עדיפות ביומן + גמישות בשעות</div>
-                <div>✓ אופציה לטיפול עד הבית</div>
-                <div className="text-[7px] md:text-[8px] opacity-70">11 שנה בתעשיית השיזוף | 2+ שנה ביוטכנולוגיה</div>
+            <div className="flowing-border rounded-lg p-3 md:p-4 min-h-[140px]" style={{ backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.8)' }}>
+              {/* כותרת */}
+              <div className="text-xs md:text-sm mb-3 text-center font-bold" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>חבילת כלה VIP</div>
+              
+              {/* תוכן מחולק לשני צדדים */}
+              <div className="flex gap-3 md:gap-4 items-start">
+                {/* צד ימין - מחיר */}
+                <div className="flex-shrink-0 flex flex-col items-center justify-center bg-gradient-to-br from-[#e064d5]/20 to-transparent rounded-lg p-2 md:p-3 border border-[#e064d5]/30">
+                  <div className="text-2xl md:text-3xl font-bold" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>340</div>
+                  <div className="text-xs md:text-sm" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>₪</div>
+                </div>
+                
+                {/* צד שמאל - מידע מפורט */}
+                <div className="flex-1 space-y-1 md:space-y-1.5">
+                  <div className="text-[9px] md:text-[10px]" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5', opacity: 0.95 }}>
+                    ✓ טסט מלא - 14 יום לפני אירוע
+                  </div>
+                  <div className="text-[9px] md:text-[10px]" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5', opacity: 0.95 }}>
+                    ✓ טיפול נוסף - 24-48 שעות לפני
+                  </div>
+                  <div className="text-[9px] md:text-[10px]" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5', opacity: 0.95 }}>
+                    ✓ עדיפות ביומן + גמישות בשעות
+                  </div>
+                  <div className="text-[9px] md:text-[10px]" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5', opacity: 0.95 }}>
+                    ✓ אופציה לטיפול עד הבית
+                  </div>
+                  <div className="text-[7px] md:text-[8px] pt-1 border-t border-[#e064d5]/20" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5', opacity: 0.7 }}>
+                    11 שנה בתעשיית השיזוף | 2+ שנה ביוטכנולוגיה
+                  </div>
+                </div>
               </div>
             </div>
             <Button
