@@ -146,25 +146,47 @@ export default function SprayTanDialog({ open, onOpenChange }: SprayTanDialogPro
             </Button>
           </div>
 
-          {/* חבילת כלה VIP */}
+          {/* חבילת כלה VIP - הכי גדול */}
           <div className="flex flex-col gap-2">
-            <div className="flowing-border rounded-lg p-2 md:p-2.5 flex flex-col items-center justify-center h-[100px] md:h-[110px]" style={{ backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.8)' }}>
-              <div className="text-[10px] md:text-xs mb-1 text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>חבילת כלה VIP</div>
-              <div className="text-sm md:text-base font-bold text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>340₪</div>
-              <button 
-                className="flex items-center gap-1 cursor-pointer hover:opacity-100 transition-opacity mt-1"
-                onClick={() => setBrideInfoOpen(true)}
-                style={{ opacity: 0.8 }}
-              >
-                <span className="text-[7px] md:text-[8px]" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>
-                  טסט + טיפול + עדיפות ביומן
-                </span>
-                <svg className="w-2 h-2" fill="none" stroke="#e064d5" strokeWidth="2" viewBox="0 0 24 24">
-                  <circle cx="12" cy="12" r="10"/>
-                  <line x1="12" y1="16" x2="12" y2="12"/>
-                  <circle cx="12" cy="8" r="0.5" fill="#e064d5"/>
-                </svg>
-              </button>
+            <div className="flowing-border rounded-lg p-3 md:p-4" style={{ backgroundColor: 'rgba(44, 44, 44, 0.15)', boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.8)' }}>
+              <div className="text-sm md:text-base mb-3 text-center font-bold" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>חבילת כלה VIP - 340₪</div>
+              
+              <div className="space-y-1.5 md:space-y-2">
+                <div className="flex items-start gap-2">
+                  <span className="text-[#e064d5]">✓</span>
+                  <div className="text-[9px] md:text-[10px] leading-tight" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>
+                    <strong>טסט מלא</strong> - 14 יום לפני אירוע
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-2">
+                  <span className="text-[#e064d5]">✓</span>
+                  <div className="text-[9px] md:text-[10px] leading-tight" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>
+                    <strong>טיפול נוסף</strong> - 24-48 שעות לפני אירוע
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-2">
+                  <span className="text-[#e064d5]">✓</span>
+                  <div className="text-[9px] md:text-[10px] leading-tight" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>
+                    <strong>עדיפות ביומן</strong> + גמישות מחוץ לשעות עבודה
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-2">
+                  <span className="text-[#e064d5]">✓</span>
+                  <div className="text-[9px] md:text-[10px] leading-tight" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5' }}>
+                    <strong>אפשרות טיפול עד הבית</strong> (בתוספת מחיר)
+                  </div>
+                </div>
+                
+                <div className="pt-2 mt-2 border-t border-[#e064d5]/20">
+                  <div className="text-[8px] md:text-[9px] text-center" style={{ fontFamily: 'Varela Round, sans-serif', color: '#e064d5', opacity: 0.8 }}>
+                    נעשה ע"י מעניק בעל ניסיון של 11 שנה בתעשיית השיזוף<br/>
+                    מעל 2 שנה בתעשיית הביוטכנולוגיה
+                  </div>
+                </div>
+              </div>
             </div>
             <Button
               variant="outline"
