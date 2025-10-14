@@ -139,16 +139,48 @@ export default function EyebrowsDialog({ open, onOpenChange }: EyebrowsDialogPro
               <div className="relative flex-1">
                 <div className="overflow-hidden h-full" ref={emblaRef}>
                   <div className="flex gap-2 h-full">
-                    {[1, 2, 3, 4, 5, 6].map((i) => (
-                      <div 
-                        key={i}
-                        className="flex-[0_0_33%] min-w-0"
-                      >
-                        <div className="aspect-square bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-lg border border-pink-500/30 flex items-center justify-center">
-                          <Sparkles className="w-6 h-6 text-pink-400/50" />
-                        </div>
-                      </div>
-                    ))}
+                    <div className="flex-[0_0_33%] min-w-0">
+                      <img 
+                        src="/attached_assets/IMG_9288_1760435215183.png" 
+                        alt="עבודת גבות 1"
+                        className="aspect-square object-cover rounded-lg border border-pink-500/30"
+                      />
+                    </div>
+                    <div className="flex-[0_0_33%] min-w-0">
+                      <img 
+                        src="/attached_assets/IMG_9289_1760435215183.png" 
+                        alt="עבודת גבות 2"
+                        className="aspect-square object-cover rounded-lg border border-pink-500/30"
+                      />
+                    </div>
+                    <div className="flex-[0_0_33%] min-w-0">
+                      <img 
+                        src="/attached_assets/image_1760435246985.png" 
+                        alt="מחירון"
+                        className="aspect-square object-cover rounded-lg border border-pink-500/30"
+                      />
+                    </div>
+                    <div className="flex-[0_0_33%] min-w-0">
+                      <img 
+                        src="/attached_assets/IMG_9291_1760435215183.jpeg" 
+                        alt="עבודת גבות 3"
+                        className="aspect-square object-cover rounded-lg border border-pink-500/30"
+                      />
+                    </div>
+                    <div className="flex-[0_0_33%] min-w-0">
+                      <img 
+                        src="/attached_assets/IMG_9292_1760435215183.jpeg" 
+                        alt="עבודת גבות 4"
+                        className="aspect-square object-cover rounded-lg border border-pink-500/30"
+                      />
+                    </div>
+                    <div className="flex-[0_0_33%] min-w-0">
+                      <img 
+                        src="/attached_assets/IMG_9293_1760435215183.jpeg" 
+                        alt="עבודת גבות 5"
+                        className="aspect-square object-cover rounded-lg border border-pink-500/30"
+                      />
+                    </div>
                   </div>
                 </div>
                 <button 
