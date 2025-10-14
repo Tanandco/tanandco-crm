@@ -214,7 +214,7 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
         </div>
 
         {/* Service Cards - All on same row */}
-        <div className="flex gap-1.5 md:gap-3 justify-center flex-wrap max-w-5xl w-full md:w-auto">
+        <div className="flex gap-1.5 md:gap-3 justify-center flex-nowrap max-w-5xl w-full md:w-auto overflow-x-auto">
           {services.map((service) => (
             <ServiceCard
               key={service.id}
