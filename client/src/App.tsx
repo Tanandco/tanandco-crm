@@ -1,4 +1,4 @@
-import { Switch, Route } from "wouter";
+import { Switch, Route, useLocation } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -93,11 +93,28 @@ function Router() {
 }
 
 function App() {
+  const [location] = useLocation();
+  
+  // Public pages that should NOT show IconSidebar (management only)
+  const publicPages = [
+    '/self-service',
+    '/self-service-demo',
+    '/ai-tan',
+    '/shop',
+    '/hair-studio',
+    '/payment-success',
+    '/payment-error',
+    '/checkout',
+    '/upload-face'
+  ];
+  
+  const isPublicPage = publicPages.some(page => location.startsWith(page));
+  
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <div className="min-h-screen bg-slate-900 text-white" dir="rtl">
-          <IconSidebar />
+          {!isPublicPage && <IconSidebar />}
           <Router />
         </div>
         <Toaster />
