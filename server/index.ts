@@ -65,7 +65,7 @@ async function start() {
 
   const isProd = process.env.NODE_ENV === "production";
 
-  const PORT = Number(process.env.PORT || 5000);
+  const PORT = Number(process.env.PORT || 5051);
   const server = app.listen(PORT, "127.0.0.1", () => {
     console.log(`[express] serving on port ${PORT} (${isProd ? "production" : "localhost only - secure mode"})`);
   });
