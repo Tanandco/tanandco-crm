@@ -1,0 +1,394 @@
+import { useState, useEffect, useRef } from 'react';
+import { useLocation } from 'wouter';
+import { Home, Settings } from 'lucide-react';
+import Logo from '@/components/Logo';
+import Alin from '@/components/Alin';
+import Sol from '@/components/Sol';
+import ServiceCard from '@/components/ServiceCard';
+import SunBedsDialog from '@/components/SunBedsDialog';
+import SprayTanDialog from '@/components/SprayTanDialog';
+import HairSalonDialog from '@/components/HairSalonDialog';
+import CosmeticsDialog from '@/components/CosmeticsDialog';
+import ChatBox from '@/components/ChatBox';
+import PasswordDialog from '@/components/PasswordDialog';
+import tanningBedIcon from '@assets/עיצוב ללא שם (30)_1759413689481.png';
+import sprayTanIcon from '@assets/freepik__spray-tan-variation-b-modern-flatbadge-3d-spray-gu__47717_1759413070782.png';
+import hairSalonIcon from '@assets/freepik__3d-neon-pink-icon-of-a-hair-salon-symbol-stylized-__47719_1759413079154.png';
+import cosmeticsIcon from '@assets/עיצוב ללא שם (31)_1759413948155.png';
+import storeIcon from '@assets/freepik__online-store-shopping-bag-variation-a-3d-shopping-__47713_1759413103497.png';
+import selfServiceIcon from '@assets/עיצוב ללא שם (32)_1759414540774.png';
+import blueAlinGif from '@assets/עיצוב ללא שם (5)_1760108712417.gif';
+
+export default function SelfService() {
+  const [, navigate] = useLocation();
+  const [splashVisible, setSplashVisible] = useState(true);
+  const [splashFading, setSplashFading] = useState(false);
+  const [sunBedsOpen, setSunBedsOpen] = useState(false);
+  const [sprayTanOpen, setSprayTanOpen] = useState(false);
+  const [hairSalonOpen, setHairSalonOpen] = useState(false);
+  const [cosmeticsOpen, setCosmeticsOpen] = useState(false);
+  const [chatOpen, setChatOpen] = useState(false);
+  const [passwordDialogOpen, setPasswordDialogOpen] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    // Auto-close splash after 2.4 seconds
+    timeoutRef.current = setTimeout(() => {
+      closeSplash();
+    }, 2400);
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
+
+  const closeSplash = () => {
+    if (splashFading) return;
+    setSplashFading(true);
+    setTimeout(() => {
+      setSplashVisible(false);
+    }, 600);
+  };
+
+  const handleSplashClick = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    closeSplash();
+  };
+
+  const handleLogoClick = () => {
+    setPasswordDialogOpen(true);
+  };
+
+  const handlePasswordSuccess = () => {
+    setPasswordDialogOpen(false);
+    navigate('/');
+  };
+
+  const services = [
+    { 
+      title: 'AI TAN', 
+      icon: <Alin size={95} className="max-w-[95px] max-h-[95px] md:max-w-[125px] md:max-h-[125px]" />, 
+      id: 'ai-tan' 
+    },
+    { 
+      title: 'מיטות שיזוף', 
+      icon: <img src={tanningBedIcon} alt="מיטות שיזוף" className="max-w-[70px] max-h-[70px] md:max-w-[115px] md:max-h-[115px] object-contain" style={{ filter: 'drop-shadow(0 0 15px rgba(236, 72, 153, 0.8))' }} />, 
+      id: 'sun-beds' 
+    },
+    { 
+      title: 'שיזוף בהתזה', 
+      icon: <img src={sprayTanIcon} alt="שיזוף בהתזה" className="max-w-[70px] max-h-[70px] md:max-w-[115px] md:max-h-[115px] object-contain" style={{ filter: 'drop-shadow(0 0 15px rgba(236, 72, 153, 0.8))' }} />, 
+      id: 'spray-tan' 
+    },
+    { 
+      title: 'מספרה', 
+      icon: <img src={hairSalonIcon} alt="מספרה" className="max-w-[70px] max-h-[70px] md:max-w-[115px] md:max-h-[115px] object-contain" style={{ filter: 'drop-shadow(0 0 15px rgba(236, 72, 153, 0.8))' }} />, 
+      id: 'hair-salon' 
+    },
+    { 
+      title: 'קוסמטיקה', 
+      icon: <img src={cosmeticsIcon} alt="קוסמטיקה" className="max-w-[70px] max-h-[70px] md:max-w-[115px] md:max-h-[115px] object-contain" style={{ filter: 'drop-shadow(0 0 15px rgba(236, 72, 153, 0.8))' }} />, 
+      id: 'cosmetics' 
+    },
+    { 
+      title: 'החנות שלכם', 
+      icon: <img src={storeIcon} alt="החנות שלכם" className="max-w-[70px] max-h-[70px] md:max-w-[115px] md:max-h-[115px] object-contain" style={{ filter: 'drop-shadow(0 0 15px rgba(236, 72, 153, 0.8))' }} />, 
+      id: 'your-store' 
+    },
+  ];
+
+  const handleServiceClick = (serviceId: string) => {
+    if (serviceId === 'ai-tan') {
+      navigate('/ai-tan');
+    } else if (serviceId === 'your-store') {
+      navigate('/shop');
+    } else if (serviceId === 'hair-salon') {
+      navigate('/hair-studio');
+    } else if (serviceId === 'sun-beds') {
+      setSunBedsOpen(true);
+    } else if (serviceId === 'spray-tan') {
+      setSprayTanOpen(true);
+    } else if (serviceId === 'cosmetics') {
+      setCosmeticsOpen(true);
+    }
+  };
+
+  return (
+    <div 
+      dir="rtl" 
+      className="h-screen overflow-hidden bg-black text-white antialiased selection:bg-white/10"
+      style={{
+        '--bg': '210 6% 8%',
+        '--primary': '328 100% 70%',
+        '--text': '210 15% 92%',
+        '--border': '210 8% 18%',
+        '--card': '210 6% 10%',
+        '--cardText': '210 15% 90%',
+        '--accent': '210 12% 14%',
+        '--muted': '210 8% 12%',
+      } as React.CSSProperties}
+    >
+      <style>{`
+        /* Neon glow effect - optimized */
+        .neon-glow {
+          filter: drop-shadow(0 0 30px rgba(236,72,153,0.5));
+        }
+
+        /* Glow pulse animation */
+        @keyframes glowPulse {
+          0%, 100% { opacity: 0.9; }
+          50% { opacity: 1; }
+        }
+        .animate-glow-pulse {
+          animation: glowPulse 1.8s ease-in-out infinite;
+        }
+
+        /* Fade out animation */
+        @keyframes fadeOut {
+          to {
+            opacity: 0;
+            visibility: hidden;
+          }
+        }
+        .fade-out {
+          animation: fadeOut 0.6s ease forwards;
+        }
+
+        /* Ripple effect - removed for performance */
+
+        /* Alin floating bubble animation */
+        @keyframes bounce-slow {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-8px); }
+        }
+        .animate-bounce-slow {
+          animation: bounce-slow 3s ease-in-out infinite;
+        }
+
+        /* Text bubble slide in animation */
+        @keyframes slide-in-left {
+          from {
+            opacity: 0;
+            transform: translateX(-20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+        .animate-slide-in-left {
+          animation: slide-in-left 0.6s ease-out forwards;
+        }
+
+        /* Typing animation - optimized */
+        @keyframes typing {
+          from { width: 0; }
+          to { width: 100%; }
+        }
+        .typing-effect {
+          overflow: hidden;
+          white-space: nowrap;
+          animation: typing 2.5s steps(50, end) forwards;
+          animation-delay: 0.3s;
+          width: 0;
+        }
+
+        /* Card entrance animation */
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+        .animate-fade-in-up {
+          animation: fadeInUp 0.6s ease-out forwards;
+          opacity: 0;
+        }
+
+        /* Staggered delays for cards */
+        .delay-0 { animation-delay: 0ms; }
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        .delay-400 { animation-delay: 400ms; }
+        .delay-500 { animation-delay: 500ms; }
+
+        /* Floating animation */
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-10px); }
+        }
+        .animate-float {
+          animation: float 4s ease-in-out infinite;
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+          .animate-glow-pulse,
+          .fade-out,
+          .animate-bounce-slow,
+          .animate-slide-in-left,
+          .animate-fade-in-up,
+          .animate-float {
+            animation: none !important;
+          }
+        }
+      `}</style>
+
+      {/* SPLASH SCREEN */}
+      {splashVisible && (
+        <div
+          onClick={handleSplashClick}
+          className={`fixed inset-0 z-50 bg-black grid place-items-center cursor-pointer ${
+            splashFading ? 'fade-out' : ''
+          }`}
+          data-testid="splash-screen"
+        >
+          <div className="text-center px-6">
+            <Logo 
+              className="mx-auto"
+              size="large"
+              showGlow={true}
+              showUnderline={false}
+            />
+            
+            {/* Neon line under logo */}
+            <div className="mt-4 h-px w-64 mx-auto bg-gradient-to-r from-transparent via-[rgba(236,72,153,.6)] via-[rgba(147,51,234,.5)] to-transparent" />
+
+            <h1 className="mt-6 text-3xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-pink-400 to-blue-400" style={{ backgroundSize: '200% auto', animation: 'gradientFlow 3s linear infinite' }}>שירות עצמי 24/7</h1>
+            <p className="mt-2 text-white/70">כניסה בזיהוי פנים · ללא תיאום מראש · צוות אנושי זמין</p>
+
+            <div className="mt-24 md:mt-20 flex flex-wrap gap-3 justify-center">
+              <a
+                href="#services"
+                className="px-6 py-3 rounded-2xl font-semibold bg-[hsl(var(--primary))] text-black hover:opacity-90 transition-opacity"
+                data-testid="button-start-service"
+              >
+                להתחלת שימוש
+              </a>
+              <a
+                href="https://wa.me/972557247033"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-3 rounded-2xl border border-[hsla(var(--primary)/0.6)] hover:bg-white/10 transition-colors"
+                data-testid="button-chat-alin"
+              >
+                צ׳אט עם סול
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <main className="relative z-10 h-screen flex flex-col">
+        {/* HERO SECTION */}
+        <section className="relative overflow-hidden py-2">
+          <div className="absolute inset-0 bg-gradient-to-br from-black via-black/95 to-[hsla(var(--primary)/0.05)]" />
+          <div className="relative max-w-6xl mx-auto px-3 text-center">
+            <button 
+              onClick={handleLogoClick}
+              className="mx-auto cursor-pointer hover:opacity-90 transition-opacity"
+              data-testid="button-logo-home"
+            >
+              <Logo 
+                size="medium"
+                showGlow={true}
+                showUnderline={false}
+              />
+            </button>
+            
+            
+            <h2 className="mt-4 text-lg md:text-2xl font-extrabold leading-tight">
+              המודל ההיברידי של תעשיית השיזוף - העולם של המחר
+            </h2>
+          </div>
+        </section>
+
+        {/* HYBRID MODEL TEXT */}
+        <div className="max-w-5xl mx-auto px-6 text-center py-4 pb-8 md:pb-10">
+          <div className="space-y-2 md:space-y-3">
+            <p className="text-white/95 text-xs md:text-base leading-relaxed">
+              <span className="text-[hsl(var(--primary))] font-bold">טאן אנד קו</span> מביאה את מהפכת היופי הבאה – מודל היברידי-אוטונומי ייחודי, עם שירותים בטכנולוגיה פורצת דרך וללא תלות בכוח אדם.
+            </p>
+            
+            <p className="text-white/90 text-xs md:text-base leading-relaxed">
+              ובאותה נשימה, אנחנו שומרים על מה שהכי חשוב – <span className="text-[hsl(var(--primary))] font-semibold">הקשר האנושי, המגע, החיוך והשיחה הטובה</span>.
+            </p>
+            
+            <p className="text-white/90 text-xs md:text-base leading-relaxed">
+              כאן תמצאו מקצועני יופי ושיער מהשורה הראשונה, עם כישרון ויצירתיות שממריאים – ומרימים אתכם יחד איתם.
+            </p>
+            
+            <p className="text-[hsl(var(--primary))] text-sm md:text-lg font-bold">
+              ברוכים הבאים למקום הנכון.
+            </p>
+          </div>
+        </div>
+
+        {/* SERVICE CARDS - Mobile: 2 rows, Desktop: 1 row */}
+        <section id="services" className="relative py-2 pb-6 flex-shrink-0 mt-2 md:mt-4">
+          <div className="max-w-6xl mx-auto px-3 text-center">
+            <div className="flex gap-1.5 md:gap-3 justify-center flex-wrap md:flex-nowrap max-w-5xl mx-auto">
+              {services.map((service) => (
+                <ServiceCard
+                  key={service.id}
+                  title={service.title}
+                  icon={service.icon}
+                  onClick={() => handleServiceClick(service.id)}
+                  borderColor="pink"
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* SOL CHATBOT - Close to Services */}
+        <div className="py-2 flex-shrink-0 mt-4 md:mt-6">
+          <div className="max-w-6xl mx-auto px-3">
+            <div className="flex items-center gap-1">
+              {/* Sol Avatar */}
+              <button
+                onClick={() => setChatOpen(true)}
+                className="relative shrink-0 group animate-bounce-slow hover:scale-110 transition-transform"
+                data-testid="button-chat-with-sol"
+              >
+                <Sol size={80} className="max-w-[80px] md:max-w-[130px]" />
+              </button>
+              
+              {/* Flowing Text Bubble with Typing Effect */}
+              <div className="relative bg-gradient-to-r from-[hsl(var(--primary))]/20 to-transparent border border-[hsl(var(--primary))]/40 rounded-2xl rounded-tr-sm py-1 px-2 backdrop-blur-sm animate-slide-in-left w-fit">
+                <p className="text-white/90 text-[10px] md:text-sm typing-effect whitespace-nowrap">
+                  היי, אני סול! העוזרת הדיגיטלית שלכם זמינה 24/7 - לחצו עליי לצ'אט מיידי
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      {/* DIALOGS */}
+      <SunBedsDialog open={sunBedsOpen} onOpenChange={setSunBedsOpen} />
+      <SprayTanDialog open={sprayTanOpen} onOpenChange={setSprayTanOpen} />
+      <HairSalonDialog open={hairSalonOpen} onOpenChange={setHairSalonOpen} />
+      <CosmeticsDialog open={cosmeticsOpen} onOpenChange={setCosmeticsOpen} />
+      
+      {/* CHATBOX */}
+      <ChatBox open={chatOpen} onClose={() => setChatOpen(false)} />
+      
+      {/* PASSWORD DIALOG */}
+      <PasswordDialog 
+        open={passwordDialogOpen} 
+        onOpenChange={setPasswordDialogOpen}
+        onSuccess={handlePasswordSuccess}
+      />
+    </div>
+  );
+}

@@ -1,0 +1,59 @@
+const $ = sel => document.querySelector(sel);
+const statusBox = $('#status');
+const inputDoor = $('#doorId');
+const inputBase = $('#apiBase');
+const btnOpen = $('#btnOpen');
+const btnSave = $('#btnSave');
+
+// === שמירת הגדרות מקומית ===
+const LS_KEY = 'door_cfg_v1';
+const cfg = (() => {
+  try { return JSON.parse(localStorage.getItem(LS_KEY)) || {}; } catch { return {}; }
+})();
+if (!cfg.apiBase) cfg.apiBase = window.location.origin; // זה ה-Replit שלך
+if (!cfg.doorId)  cfg.doorId = 2;
+
+function saveCfg() {
+  cfg.apiBase = (inputBase.value || '').trim() || window.location.origin;
+  cfg.doorId  = Number(inputDoor.value || 0) || 2;
+  localStorage.setItem(LS_KEY, JSON.stringify(cfg));
+  log(`✅ נשמר. apiBase=${cfg.apiBase} doorId=${cfg.doorId}`);
+}
+function loadToUI() {
+  inputBase.value = cfg.apiBase || '';
+  inputDoor.value = String(cfg.doorId || '');
+}
+function log(msg) {
+  const now = new Date().toLocaleTimeString();
+  statusBox.textContent = `[${now}] ${msg}`;
+}
+
+async function openDoor() {
+  const base = (inputBase.value || '').trim() || cfg.apiBase || window.location.origin;
+  const doorId = Number((inputDoor.value || '').trim() || cfg.doorId || 0);
+  if (!doorId) { log('⚠️ doorId חסר'); return; }
+
+  const url = `${base}/api/biostar/open?doorId=${encodeURIComponent(doorId)}`;
+  log(`שולח בקשה ל: ${url}`);
+
+  try {
+    const r = await fetch(url, { method: 'POST' });
+    const txt = await r.text();
+    if (!r.ok) {
+      log(`❌ ${r.status} ${r.statusText}\n${txt}`);
+      return;
+    }
+    log(`✅ הצלחה (${r.status})\n${txt}`);
+  } catch (e) {
+    log(`❌ שגיאת רשת: ${String(e)}`);
+  }
+}
+
+btnOpen.addEventListener('click', openDoor);
+btnSave.addEventListener('click', () => { saveCfg(); });
+
+// מילוי UI + רישום SW
+loadToUI();
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').catch(()=>{});
+}

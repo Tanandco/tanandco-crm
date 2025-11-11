@@ -1,0 +1,322 @@
+אלה בדיוק משתני הסביבה שנצטרך ל־BioStar. כדי שתוכל להדביק ולהריץ בלי לנחש, הכנתי לך:
+
+בלוק .env להדבקה.
+
+קובץ שירות server/services/biostar.js שמטפל ב־login ושומר Session (Cookie).
+
+ראוטים server/routes/biostar.js לחשיפות API נקיות ל־UI/אוטומציות.
+
+פקודות בדיקה מוכנות ל־PowerShell (לא נוגעות ישירות בבקר—רק דרך הפרוקסי שלך).
+
+1) .env (להדבקה/עדכון)
+# ==== BioStar Server ====
+BIOSTAR_SERVER_URL=http://localhost:5000
+BIOSTAR_USERNAME=admin
+BIOSTAR_PASSWORD=Makor2024!
+
+# (אופציונלי, אם תרצה ברירות מחדל בעת הענקת גישה)
+BIOSTAR_DEFAULT_ZONE_ID=
+BIOSTAR_DEFAULT_DOOR_ID=
+
+
+אם ה-BioStar אצלך על HTTPS עם תעודה עצמית: BIOSTAR_SERVER_URL=https://<IP>:8443
+
+2) server/services/biostar.js (להדבקה)
+
+צור קובץ חדש server/services/biostar.js:
+
+import axios from 'axios';
+
+const BASE = process.env.BIOSTAR_SERVER_URL?.replace(/\/+$/, '') || 'http://localhost:5000';
+const USER = process.env.BIOSTAR_USERNAME;
+const PASS = process.env.BIOSTAR_PASSWORD;
+
+let SESSION_COOKIE = ''; // נשמור כאן את ה-JSESSIONID
+
+function extractSessionCookie(setCookieHeaders = []) {
+  // מחפש JSESSIONID מתוך Set-Cookie של ביוסטאר
+  const arr = Array.isArray(setCookieHeaders) ? setCookieHeaders : [setCookieHeaders].filter(Boolean);
+  const hit = arr.find(h => /JSESSIONID=/i.test(h));
+  if (hit) {
+    const jsess = hit.split(';')[0]; // "JSESSIONID=xxxx"
+    SESSION_COOKIE = jsess;
+  }
+}
+
+async function biostarRequest(method, url, { data, headers, raw = false } = {}) {
+  // דואג להוסיף Cookie אם יש
+  const res = await axios.request({
+    method,
+    url: `${BASE}${url}`,
+    data,
+    headers: {
+      ...(headers || {}),
+      ...(SESSION_COOKIE ? { Cookie: SESSION_COOKIE } : {}),
+    },
+    // אם HTTPS self-signed, אפשר לבטל אימות (לא מומלץ לפרודקשן):
+    // httpsAgent: new (require('https').Agent)({ rejectUnauthorized: false }),
+    validateStatus: () => true, // לא לזרוק אוטומטית
+  });
+  if (res.headers?.['set-cookie']) extractSessionCookie(res.headers['set-cookie']);
+  return raw ? res : res.data;
+}
+
+export async function login() {
+  // פורמט נתמך ב-BioStar 2: { "User": { "login_id": "...", "password": "..." } }
+  const body = { User: { login_id: USER, password: PASS } };
+  const res = await biostarRequest('POST', '/api/login', {
+    data: body,
+    headers: { 'Content-Type': 'application/json' },
+    raw: true,
+  });
+
+  // דוחות שגיאה טיפוסיים:
+  // { Response: { code: "101", message: "Failed to login for invalid username or password" } }
+  if (res.status !== 200 || (res.data?.Response && res.data.Response.code !== '0' && !res.headers['set-cookie'])) {
+    const msg = res.data?.Response?.message || `Login failed (HTTP ${res.status})`;
+    throw new Error(msg);
+  }
+  return { ok: true, cookie: SESSION_COOKIE };
+}
+
+async function ensureSession() {
+  if (!SESSION_COOKIE) {
+    await login();
+  } else {
+    // בדיקת חיות בסיסית
+    const pong = await biostarRequest('GET', '/api', {});
+    if (pong?.Response?.code === '10' /* Login required */) {
+      await login();
+    }
+  }
+}
+
+export async function ping() {
+  await ensureSession();
+  return biostarRequest('GET', '/api', {});
+}
+
+// ====== דוגמאות פונקציות שימוש ======
+
+export async function listUsers({ limit = 50, offset = 0, query = '' } = {}) {
+  await ensureSession();
+  const q = query ? `&text=${encodeURIComponent(query)}` : '';
+  return biostarRequest('GET', `/api/users?limit=${limit}&offset=${offset}${q}`, {});
+}
+
+export async function getUserByPhoneOrName({ phone, name }) {
+  // ביוסטאר לא תמיד תומך חיפוש לפי טלפון; ננסה טקסט חופשי
+  const q = phone || name || '';
+  const res = await listUsers({ query: q, limit: 100 });
+  return res?.UserCollection?.rows || [];
+}
+
+export async function createOrUpdateUser({ name, phone, userId }) {
+  await ensureSession();
+  if (userId) {
+    // עדכון משתמש קיים (דוגמה כללית; התאם לשדות המדויקים שקיימים אצלך)
+    const body = { User: { user_id: userId, name, phone_number: phone } };
+    return biostarRequest('PUT', `/api/users/${userId}`, {
+      data: body,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+  // יצירה
+  const body = { User: { name, phone_number: phone } };
+  return biostarRequest('POST', '/api/users', {
+    data: body,
+    headers: { 'Content-Type': 'application/json' },
+  });
+}
+
+export async function grantAccess({ userId, zoneId = process.env.BIOSTAR_DEFAULT_ZONE_ID, validUntil }) {
+  await ensureSession();
+  // דוגמה כללית לשיוך הרשאה/קבוצה/Zone. ייתכן שאצלך זה endpoint שונה (groups/doors/levels).
+  const body = {
+    AccessGroup: {
+      user_id: userId,
+      zone_id: zoneId,
+      valid_until: validUntil || null,
+    },
+  };
+  return biostarRequest('POST', '/api/accessgroups', {
+    data: body,
+    headers: { 'Content-Type': 'application/json' },
+  });
+}
+
+export async function openDoor({ doorId = process.env.BIOSTAR_DEFAULT_DOOR_ID }) {
+  await ensureSession();
+  // נקודת פתיחת דלת תלויה בגרסה/מודולים. משאיר דוגמה:
+  const body = { Door: { door_id: doorId, action: 'open' } };
+  return biostarRequest('POST', '/api/doors/command', {
+    data: body,
+    headers: { 'Content-Type': 'application/json' },
+  });
+}
+
+
+הערה: בביוסטאר יש הבדלים קלים בין גרסאות/מודולים (Users / Access Groups / Doors). השארתי שמות אנדפוינטים כלליים—אם תרצה, נעדכן לפי ה־API המדויק שלך ברגע שתראה Response אמיתי מ־/api/users.
+
+3) server/routes/biostar.js (להדבקה)
+
+צור קובץ server/routes/biostar.js ותחבר אותו ב־server.js.
+
+import { Router } from 'express';
+import {
+  login,
+  ping,
+  listUsers,
+  getUserByPhoneOrName,
+  createOrUpdateUser,
+  grantAccess,
+  openDoor,
+} from '../services/biostar.js';
+
+const r = Router();
+
+// בדיקת חיות / Login
+r.post('/login', async (req, res) => {
+  try {
+    const out = await login();
+    res.json({ ok: true, ...out });
+  } catch (e) {
+    res.status(401).json({ ok: false, error: e.message });
+  }
+});
+
+r.get('/ping', async (req, res) => {
+  try {
+    const out = await ping();
+    res.json({ ok: true, out });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e.message });
+  }
+});
+
+// משתמשים
+r.get('/users', async (req, res) => {
+  try {
+    const { limit, offset, q } = req.query;
+    const out = await listUsers({ limit: Number(limit) || 50, offset: Number(offset) || 0, query: q || '' });
+    res.json({ ok: true, out });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e.message });
+  }
+});
+
+r.post('/users/find', async (req, res) => {
+  try {
+    const { phone, name } = req.body || {};
+    const out = await getUserByPhoneOrName({ phone, name });
+    res.json({ ok: true, out });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e.message });
+  }
+});
+
+r.post('/users', async (req, res) => {
+  try {
+    const { name, phone, userId } = req.body || {};
+    const out = await createOrUpdateUser({ name, phone, userId });
+    res.json({ ok: true, out });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e.message });
+  }
+});
+
+// הרשאות ופתיחת דלת
+r.post('/access/grant', async (req, res) => {
+  try {
+    const { userId, zoneId, validUntil } = req.body || {};
+    const out = await grantAccess({ userId, zoneId, validUntil });
+    res.json({ ok: true, out });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e.message });
+  }
+});
+
+r.post('/door/open', async (req, res) => {
+  try {
+    const { doorId } = req.body || {};
+    const out = await openDoor({ doorId });
+    res.json({ ok: true, out });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e.message });
+  }
+});
+
+export default r;
+
+
+וב־server.js שלך תוסיף חיבור ראוטר:
+
+import biostarRoutes from './routes/biostar.js';
+app.use('/api/biostar', biostarRoutes);
+
+4) בדיקות PowerShell (להדבקה אחת־אחת)
+
+חשוב: הפקודות פונות ל־Express שלך (פרוקסי), לא ישירות לביוסטאר.
+
+בריאות כללית של האפליקציה:
+
+curl.exe -s http://localhost:3000/api/health
+
+
+Login לפרוקסי (יעשה גם login לביוסטאר):
+
+curl.exe -s -X POST http://localhost:3000/api/biostar/login
+
+
+בדיקת /api של ביוסטאר דרך הפרוקסי:
+
+curl.exe -s http://localhost:3000/api/biostar/ping
+
+
+חיפוש משתמשים (טקסט חופשי):
+
+curl.exe -s "http://localhost:3000/api/biostar/users?q=David"
+
+
+Find לפי טלפון/שם:
+
+curl.exe -s -X POST http://localhost:3000/api/biostar/users/find ^
+  -H "Content-Type: application/json" ^
+  -d "{ \"phone\": \"9725XXXXXXX\" }"
+
+
+יצירה/עדכון משתמש:
+
+curl.exe -s -X POST http://localhost:3000/api/biostar/users ^
+  -H "Content-Type: application/json" ^
+  -d "{ \"name\": \"David Matityahu\", \"phone\": \"9725XXXXXXX\" }"
+
+
+הענקת גישה (Zone):
+
+curl.exe -s -X POST http://localhost:3000/api/biostar/access/grant ^
+  -H "Content-Type: application/json" ^
+  -d "{ \"userId\": 123, \"zoneId\": \"<ZONE_ID>\", \"validUntil\": null }"
+
+
+פתיחת דלת (לחירום/בדיקה):
+
+curl.exe -s -X POST http://localhost:3000/api/biostar/door/open ^
+  -H "Content-Type: application/json" ^
+  -d "{ \"doorId\": \"<DOOR_ID>\" }"
+
+הערות חשובות (כדאי לדעת)
+
+בגרסאות שונות של BioStar שמות הנתיבים וה־schema מעט משתנים. אם תקבל תשובה שונה/קוד שגיאה—שלח לי את ה־JSON כמו שהוא, ואני אכוון את הקריאות המדויקות (users vs user, groups vs accesslevels וכו׳).
+
+אם השרת שלך על HTTPS עם תעודה לא חתומה (Self-signed), נצטרך לאפשר Agent שמבטל אימות תעודה (הוספתי הערה בקוד). בסביבה פנימית זה מקובל, בפרודקשן—להימנע.
+
+שמור את קרדנצ'יאלס ב־.env בלבד. לא שולחים לגיטהאב/צ׳אטים.
+
+רוצה שאכין לך גם נתיב חיבור ל-Airtable שברגע שתשלום (Cardcom) מתקבל—הוא:
+
+מסנכרן/יוצר משתמש ב-BioStar,
+
+מעניק גישה ל־Zone הנכון,
+
+ושולח ללקוח וואטסאפ “הגישה הופעלה”?

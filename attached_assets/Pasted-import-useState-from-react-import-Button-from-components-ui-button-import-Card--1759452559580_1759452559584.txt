@@ -1,0 +1,170 @@
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Check, Sparkles } from "lucide-react";
+
+interface Package {
+  id: number;
+  name: string;
+  sessions: number;
+  price: number;
+  originalPrice?: number;
+  benefits: string[];
+  popular?: boolean;
+}
+
+interface TanningPackagesProps {
+  onPackageSelect?: (pkg: Package) => void;
+}
+
+export const TanningPackages = ({ onPackageSelect }: TanningPackagesProps) => {
+  const [selectedPackage, setSelectedPackage] = useState<number | null>(null);
+
+  const packages: Package[] = [
+    {
+      id: 1,
+      name: "כרטיסיה בסיסית",
+      sessions: 10,
+      price: 500,
+      benefits: ["10 שיזופים", "תוקף 3 חודשים", "גישה לכל המכונות"]
+    },
+    {
+      id: 2,
+      name: "כרטיסיה מתקדמת",
+      sessions: 20,
+      price: 900,
+      originalPrice: 1000,
+      benefits: ["20 שיזופים", "תוקף 6 חודשים", "גישה למכונות פרימיום", "הנחה 10%"],
+      popular: true
+    },
+    {
+      id: 3,
+      name: "כרטיסיה פרימיום",
+      sessions: 30,
+      price: 1200,
+      originalPrice: 1500,
+      benefits: ["30 שיזופים", "תוקף שנה", "גישה למכונות פרימיום", "הנחה 20%", "עדיפות בהזמנות"]
+    },
+    {
+      id: 4,
+      name: "כרטיסיה VIP",
+      sessions: 50,
+      price: 1800,
+      originalPrice: 2500,
+      benefits: ["50 שיזופים", "תוקף שנתיים", "גישה בלתי מוגבלת", "הנחה 28%", "עדיפות מירבית", "שיזוף ספריי מתנה"]
+    }
+  ];
+
+  const handlePackageClick = (pkg: Package) => {
+    setSelectedPackage(pkg.id);
+    onPackageSelect?.(pkg);
+  };
+
+  return (
+    <div className="w-full min-h-screen p-8 bg-gradient-to-br from-background via-background to-primary/5">
+      {/* Header */}
+      <div className="text-center mb-12 animate-fade-in">
+        <h1 className="text-4xl font-bold text-foreground mb-4 font-hebrew">
+          חבילות שיזוף
+        </h1>
+        <div 
+          className="h-1 w-32 mx-auto mb-6 rounded-full animate-pulse"
+          style={{
+            background: 'linear-gradient(90deg, #FF1493 0%, #FF69B4 50%, #FF1493 100%)',
+            boxShadow: '0 0 20px #FF1493, 0 0 40px #FF1493, 0 0 60px #FF1493',
+          }}
+        />
+        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          בחרו את החבילה המתאימה לכם ותהנו משיזוף מושלם
+        </p>
+      </div>
+
+      {/* Packages Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+        {packages.map((pkg, index) => (
+          <Card
+            key={pkg.id}
+            className={`
+              relative p-6 cursor-pointer transition-all duration-300
+              hover:scale-105 hover:shadow-2xl
+              border-2 rounded-xl
+              ${selectedPackage === pkg.id 
+                ? 'border-primary shadow-lg shadow-primary/50' 
+                : 'border-primary/30 hover:border-primary/60'
+              }
+              ${pkg.popular ? 'ring-2 ring-primary ring-offset-2' : ''}
+              backdrop-blur-sm
+              animate-fade-in
+            `}
+            style={{
+              animationDelay: `${index * 100}ms`,
+              background: selectedPackage === pkg.id
+                ? 'linear-gradient(135deg, hsl(var(--primary) / 0.1) 0%, hsl(var(--background)) 100%)'
+                : 'linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--primary) / 0.05) 100%)'
+            }}
+            onClick={() => handlePackageClick(pkg)}
+          >
+            {/* Popular Badge */}
+            {pkg.popular && (
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-semibold flex items-center gap-1 shadow-lg">
+                <Sparkles className="w-4 h-4" />
+                הכי פופולרי
+              </div>
+            )}
+
+            {/* Package Name */}
+            <h3 className="text-2xl font-bold text-foreground mb-2 text-center">
+              {pkg.name}
+            </h3>
+
+            {/* Sessions Count */}
+            <div className="text-center mb-4">
+              <span className="text-5xl font-bold text-primary">
+                {pkg.sessions}
+              </span>
+              <span className="text-lg text-muted-foreground mr-2">שיזופים</span>
+            </div>
+
+            {/* Price */}
+            <div className="text-center mb-6">
+              {pkg.originalPrice && (
+                <div className="text-sm text-muted-foreground line-through mb-1">
+                  ₪{pkg.originalPrice}
+                </div>
+              )}
+              <div className="text-3xl font-bold text-foreground">
+                ₪{pkg.price}
+              </div>
+              <div className="text-sm text-muted-foreground mt-1">
+                (₪{(pkg.price / pkg.sessions).toFixed(1)} לשיזוף)
+              </div>
+            </div>
+
+            {/* Benefits */}
+            <div className="space-y-3 mb-6">
+              {pkg.benefits.map((benefit, i) => (
+                <div key={i} className="flex items-start gap-2">
+                  <Check className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                  <span className="text-sm text-muted-foreground">{benefit}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Select Button */}
+            <Button
+              className={`
+                w-full transition-all duration-300
+                ${selectedPackage === pkg.id 
+                  ? 'bg-primary text-primary-foreground' 
+                  : 'bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground'
+                }
+              `}
+            >
+              {selectedPackage === pkg.id ? 'נבחר' : 'בחר חבילה'}
+            </Button>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+};

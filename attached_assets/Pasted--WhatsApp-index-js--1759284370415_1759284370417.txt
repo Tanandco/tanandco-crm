@@ -1,0 +1,74 @@
+כרגע “הודעות התבנית” (הטקסטים שנשלחים ב-WhatsApp) יושבות בתוך index.js. אלה המקומות:
+
+הודעת קבלת לינק לתשלום (כשכותבים “תשלום”/“התחלה”):
+
+בקובץ index.js, בתוך ה-route של POST /wa/webhook
+נשלח:
+
+await waSend(from, `מעולה! להשלמת התשלום לחצו כאן:\n${payUrl}`);
+
+
+והודעת fallback כשכותבים משהו אחר:
+
+await waSend(from, "היי! כתבו 'תשלום' כדי לקבל לינק לתשלום.");
+
+
+אחרי אישור תשלום (Cardcom webhook/סימולציה) – שליחת קישור לטופס רישום/הצהרת בריאות:
+
+בפונקציה markPaidAndSendForm(order_id)
+
+await waSend(order.lead.wa_phone,
+  `התשלום אושר ✅\nנא מלאו פרטי רישום והצהרת בריאות:\n${formUrl}`
+);
+
+
+(אופציונלי) אחרי קליטת טופס – כרגע העמוד מחזיר HTML “הטופס נקלט ✅”. אם תרצה שנשלח גם הודעת WhatsApp—נוסיף waSend(...) בסוף ה-route POST /register/:token.
+
+רוצה לרכז את כל ההודעות במקום אחד?
+
+כדי שיהיה לך נוח לערוך טקסטים במקום אחד, הוסף ל-index.js (למעלה, מתחת ל-ENV) אובייקט הודעות ופונקציית רנדר:
+
+// ===== Messages =====
+const MSG = {
+  askToPay: "היי! כתבו 'תשלום' כדי לקבל לינק לתשלום.",
+  payLink: (url) => `מעולה! להשלמת התשלום לחצו כאן:\n${url}`,
+  paidFormLink: (url) => `התשלום אושר ✅\nנא מלאו פרטי רישום והצהרת בריאות:\n${url}`,
+  formReceived: "הטופס נקלט ✅ נעדכן כשגישה מוכנה."
+};
+
+
+ואז החלף את הקריאות ל-waSend(...) כך:
+
+ב-/wa/webhook:
+
+// היה:
+// await waSend(from, `מעולה! להשלמת התשלום לחצו כאן:\n${payUrl}`);
+// await waSend(from, "היי! כתבו 'תשלום' כדי לקבל לינק לתשלום.");
+
+await waSend(from, MSG.payLink(payUrl));
+// ...
+await waSend(from, MSG.askToPay);
+
+
+ב-markPaidAndSendForm:
+
+// היה:
+// await waSend(order.lead.wa_phone, `התשלום אושר ✅ ... ${formUrl}`);
+await waSend(order.lead.wa_phone, MSG.paidFormLink(formUrl));
+
+
+(רשות) אחרי קליטת הטופס ב-POST /register/:token הוסף לפני ה-res.send(...):
+
+// שליחת אישור ב-WhatsApp:
+const lead = (await sb(`leads?id=eq.${form.lead_id}`))[0];
+if (lead?.wa_phone) await waSend(lead.wa_phone, MSG.formReceived);
+
+איפה עורך/ים את זה בפועל?
+
+ב-Replit, פתח את הקובץ index.js.
+
+חפש את המחרוזות שציינתי למעלה או הוסף את ה-MSG ורפרנס אליו.
+
+שמור (Ctrl+S) ולחץ Run כדי להרים מחדש.
+
+אם תרצה, אפשר במקום זה להוציא את ההודעות לטבלת Supabase (למשל message_templates) כדי לערוך טקסטים בלי לפרוס קוד — אגיד לך בדיוק איך לבנות את הטבלה ולקרוא ממנה.

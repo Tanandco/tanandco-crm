@@ -1,0 +1,346 @@
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
+// TEMPORARILY DISABLED: import { useAuth } from "@/contexts/AuthContext";
+import { useIsMobile } from "@/hooks/use-mobile";
+import TouchInterface from "@/components/TouchInterface";
+import CustomerManagement from "@/components/CustomerManagement";
+import AdvancedSettings from "@/components/AdvancedSettings";
+import FacebookAppSetupGuide from "@/components/FacebookAppSetupGuide";
+import MakeIntegration from "@/components/MakeIntegration";
+import { WhatsAppDashboard } from "@/components/WhatsAppDashboard";
+import ModeToggleInterface from "@/components/ModeToggleInterface";
+import BioStarStatusMonitor from "@/components/BioStarStatusMonitor";
+import BioStarConnectionTest from "@/components/BioStarConnectionTest";
+import { AdminRoleSetup } from "@/components/AdminRoleSetup";
+import StaffOverridePanel from "@/components/StaffOverridePanel";
+import EmergencyDoorOpen from "@/components/EmergencyDoorOpen";
+import TanningBedSelfService from "@/components/TanningBedSelfService";
+import { SecurityManagement } from "@/components/SecurityManagement";
+import { SecurityDashboardEnhanced } from "@/components/SecurityDashboardEnhanced";
+import FranchiseManagement from "@/components/FranchiseManagement";
+import { AppSidebar } from "@/components/AppSidebar";
+import { MobileDrawer } from "@/components/MobileDrawer";
+import StoreComponent from "@/components/StoreComponent";
+import { PerformanceControl } from "@/components/PerformanceControl";
+import { RemoteOpeningTest } from "@/components/RemoteOpeningTest";
+
+const Index = () => {
+  const [currentView, setCurrentView] = useState<'home' | 'admin' | 'settings' | 'facebook-setup' | 'make-integration' | 'whatsapp' | 'mode-control' | 'self-service' | 'security' | 'franchise' | 'store' | 'pre-treatment' | 'post-treatment' | 'right-place' | 'remote-test'>('home');
+  const [systemMode, setSystemMode] = useState<'staff' | 'self_service'>('staff');
+  const [biostarStatus, setBiostarStatus] = useState<'connected' | 'disconnected' | 'unknown'>('unknown');
+  // TEMPORARILY DISABLED: const { user, signOut } = useAuth();
+  const isMobile = useIsMobile();
+
+  useEffect(() => {
+    // Initialize BioStar connection check
+    checkBiostarConnection();
+  }, []);
+
+  const checkBiostarConnection = async () => {
+    // Initial connection check will be implemented by BioStarStatusMonitor
+    setBiostarStatus('unknown');
+  };
+  
+  const handleServiceSelect = (service: 'tanning-bed' | 'admin' | 'whatsapp' | 'self-service' | 'store') => {
+    if (service === 'admin' || service === 'whatsapp' || service === 'self-service' || service === 'store') {
+      setCurrentView(service);
+    }
+    // tanning-bed is handled within TouchInterface
+  };
+  
+  if (currentView === 'admin') {
+    return <CustomerManagement onBack={() => setCurrentView('home')} />;
+  }
+  
+  if (currentView === 'settings') {
+    return <AdvancedSettings onBack={() => setCurrentView('home')} onNavigateToFacebookSetup={() => setCurrentView('facebook-setup')} onNavigateToMakeIntegration={() => setCurrentView('make-integration')} />;
+  }
+  
+  if (currentView === 'make-integration') {
+    return <MakeIntegration onBack={() => setCurrentView('home')} />;
+  }
+  
+  if (currentView === 'facebook-setup') {
+    return <FacebookAppSetupGuide onBack={() => setCurrentView('home')} onComplete={() => setCurrentView('settings')} />;
+  }
+  
+  if (currentView === 'whatsapp') {
+    return <div className="min-h-screen bg-background">
+        <div className="container mx-auto p-4 md:p-8 max-w-7xl">
+          <div className="flex items-center gap-4 md:gap-6 mb-6 md:mb-8">
+            <Button variant="outline" onClick={() => setCurrentView('home')} className="flex items-center gap-2">
+              ← חזרה
+            </Button>
+            <h1 className="text-xl md:text-2xl font-bold">מנהל ווטסאפ</h1>
+          </div>
+          <WhatsAppDashboard />
+        </div>
+      </div>;
+  }
+
+  if (currentView === 'mode-control') {
+    return <div className="min-h-screen bg-black p-4 md:p-8">
+        <div className="container mx-auto max-w-7xl">
+          <div className="flex items-center gap-4 md:gap-6 mb-6 md:mb-8">
+            <Button variant="outline" onClick={() => setCurrentView('home')} className="flex items-center gap-2">
+              ← חזרה
+            </Button>
+            <h1 className="text-xl md:text-2xl font-bold text-white">בקרת מערכת</h1>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-6 md:gap-8">
+            <div className="space-y-6">
+              <ModeToggleInterface
+                currentMode={systemMode}
+                onModeChange={setSystemMode}
+                biostarStatus={biostarStatus}
+              />
+              <StaffOverridePanel 
+                isLocationOpen={biostarStatus === 'connected'} 
+              />
+              <EmergencyDoorOpen />
+            </div>
+            <div className="space-y-6">
+              <BioStarStatusMonitor
+                biostarStatus={biostarStatus}
+                onStatusChange={setBiostarStatus}
+              />
+              <BioStarConnectionTest />
+              <AdminRoleSetup />
+            </div>
+          </div>
+        </div>
+      </div>;
+  }
+
+  if (currentView === 'security') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-primary/5 p-4 md:p-8">
+        <div className="max-w-full mx-auto px-2">
+          <div className="flex items-center gap-4 md:gap-6 mb-6 md:mb-8">
+            <Button variant="outline" onClick={() => setCurrentView('home')} className="flex items-center gap-2">
+              ← חזרה
+            </Button>
+            <h1 className="text-xl md:text-2xl font-bold">מרכז ניהול האבטחה</h1>
+          </div>
+          <div className="space-y-6">
+            <SecurityDashboardEnhanced />
+            <SecurityManagement />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (currentView === 'self-service') {
+    return <TanningBedSelfService onBack={() => setCurrentView('home')} />;
+  }
+
+  if (currentView === 'pre-treatment') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-primary/5 p-4 md:p-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex items-center gap-4 md:gap-6 mb-6 md:mb-8">
+            <Button variant="outline" onClick={() => setCurrentView('home')} className="flex items-center gap-2">
+              ← חזרה
+            </Button>
+            <h1 className="text-xl md:text-2xl font-bold">הוראות לפני טיפול</h1>
+          </div>
+          <div className="bg-card rounded-xl p-6 md:p-8 shadow-lg">
+            <div className="space-y-6">
+              <div className="text-lg font-semibold text-primary mb-4">הכנה לטיפול שיזוף</div>
+              <ul className="space-y-4 text-right">
+                <li className="flex items-start gap-3">
+                  <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                  <span>הסר איפור ותכשירי קוסמטיקה מהפנים והגוף</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                  <span>הסר תכשיטים (עגילים, שרשראות, צמידים)</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                  <span>בצע פילינג עדין 24 שעות לפני הטיפול</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                  <span>הימנע משימוש בקרמים או שמנים ביום הטיפול</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                  <span>לבש בגדים רפויים וכהים לאחר הטיפול</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                  <span>הימנע מפעילות גופנית אינטנסיבית לפני הטיפול</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (currentView === 'post-treatment') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-primary/5 p-4 md:p-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex items-center gap-4 md:gap-6 mb-6 md:mb-8">
+            <Button variant="outline" onClick={() => setCurrentView('home')} className="flex items-center gap-2">
+              ← חזרה
+            </Button>
+            <h1 className="text-xl md:text-2xl font-bold">הוראות אחרי טיפול</h1>
+          </div>
+          <div className="bg-card rounded-xl p-6 md:p-8 shadow-lg">
+            <div className="space-y-6">
+              <div className="text-lg font-semibold text-primary mb-4">טיפוח לאחר שיזוף</div>
+              <ul className="space-y-4 text-right">
+                <li className="flex items-start gap-3">
+                  <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                  <span>המתן לפחות 4-6 שעות לפני מקלחת ראשונה</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                  <span>השתמש במים פושרים ובסבון עדין בלבד</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                  <span>הימנע מפילינג או שפשוף חזק במשך 24 שעות</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                  <span>לחת את העור עם קרם לחות איכותי</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                  <span>שתה הרבה מים לשמירה על לחות הגוף</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                  <span>הימנע מחשיפה לשמש במשך 24 שעות</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                  <span>הימנע מפעילות גופנית אינטנסיבית במשך 8 שעות</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+    if (currentView === 'right-place') {
+      return (
+        <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-primary/5 p-4 md:p-8">
+          <div className="max-w-4xl mx-auto">
+            <div className="flex items-center gap-4 md:gap-6 mb-6 md:mb-8">
+              <Button variant="outline" onClick={() => setCurrentView('home')} className="flex items-center gap-2">
+                ← חזרה
+              </Button>
+              <h1 className="text-xl md:text-2xl font-bold">הגעתם בדיוק למקום הנכון!</h1>
+            </div>
+            <div className="bg-card rounded-xl p-6 md:p-8 shadow-lg">
+              <div className="space-y-6">
+                <div className="text-lg font-semibold text-primary mb-4">ברוכים הבאים ל-TAN & CO</div>
+                <div className="text-center mb-6">
+                  <p className="text-lg">כאן תמצאו את השירותים המתקדמים ביותר לשיזוף בהתזה</p>
+                </div>
+                <ul className="space-y-4 text-right">
+                  <li className="flex items-start gap-3">
+                    <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                    <span>תוצאות טבעיות ואחידות ללא כתמים</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                    <span>בטיחות מוחלטת ללא קרינה מזיקה</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                    <span>מומחיות של שנים ברמת השירות הגבוהה ביותר</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                    <span>שירות אישי ומקצועי עם יעוץ מותאם</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                    <span>ציוד חדיש ומתקני שיזוף מהמתקדמים בעולם</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+  if (currentView === 'franchise') {
+    return <FranchiseManagement onBack={() => setCurrentView('home')} />;
+  }
+
+  if (currentView === 'remote-test') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-primary/5 p-4">
+        <div className="max-w-full mx-auto">
+          <div className="flex items-center gap-4 md:gap-6 mb-6">
+            <Button variant="outline" onClick={() => setCurrentView('home')} className="flex items-center gap-2">
+              ← חזרה
+            </Button>
+            <h1 className="text-xl md:text-2xl font-bold">בדיקת פתיחה מרחוק</h1>
+          </div>
+          <RemoteOpeningTest />
+        </div>
+      </div>
+    );
+  }
+
+
+  // Default view - TouchInterface with responsive layout
+  return (
+    <div className="flex min-h-screen w-full bg-background"
+      style={{
+        background: 'hsl(var(--background))',
+        color: 'hsl(var(--foreground))'
+      }}
+    >
+      
+      {/* Mobile Drawer - visible only on mobile */}
+      {isMobile && (
+        <MobileDrawer 
+          currentView={currentView} 
+          onNavigate={setCurrentView} 
+        />
+      )}
+      
+      {/* Desktop Sidebar - hidden on mobile */}
+      {!isMobile && (
+        <AppSidebar 
+          currentView={currentView} 
+          onNavigate={setCurrentView} 
+        />
+      )}
+      
+      {/* Main Content */}
+      <div className="flex-1 relative">
+        {/* Desktop Sidebar Trigger */}
+        {!isMobile && (
+          <div className="absolute top-1 left-4 z-50">
+            <SidebarTrigger className="bg-background/60 backdrop-blur-sm border-primary/30 text-primary hover:text-foreground hover:border-primary hover:bg-primary/10 shadow-lg touch-target" />
+          </div>
+        )}
+        
+        <div className="animate-scale-in w-full h-full">
+          <TouchInterface onServiceSelect={handleServiceSelect} />
+        </div>
+        
+        {/* Performance Control - Always available */}
+        <PerformanceControl />
+      </div>
+    </div>
+  );
+};
+
+export default Index;

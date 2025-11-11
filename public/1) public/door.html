@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>פתח דלת</title>
+  <meta name="theme-color" content="#0ea5e9" />
+  <link rel="manifest" href="/door.webmanifest">
+  <!-- iOS A2HS -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="apple-touch-icon" href="/icons/icon-192.svg" />
+  <style>
+    :root{--bg:#0b1220;--card:#0f172a;--text:#e2e8f0;--muted:#94a3b8;--ok:#10b981;--warn:#f59e0b;--err:#ef4444;--brand:#0ea5e9}
+    *{box-sizing:border-box} html,body{height:100%} body{margin:0;background:linear-gradient(160deg,#0b1220,#111827);}
+    .wrap{min-height:100%;display:grid;place-items:center;padding:18px}
+    .card{width:min(520px,96%);background:var(--card);color:var(--text);border-radius:18px;padding:22px 18px;box-shadow:0 8px 32px rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.06)}
+    .row{display:flex;gap:10px;align-items:center}
+    .grow{flex:1}
+    h1{margin:0 0 8px;font:700 20px/1.2 system-ui}
+    p{margin:0 0 14px;color:var(--muted);font:400 14px/1.6 system-ui}
+    button, input{font:600 16px/1.1 system-ui;border-radius:12px;border:1px solid rgba(255,255,255,.07);padding:14px 16px;background:#0b1220;color:var(--text)}
+    button.primary{background:var(--brand);border-color:#0284c7;color:white}
+    button.small{padding:10px 12px;font-size:14px}
+    input{width:100%;background:#0b1220}
+    .status{margin-top:14px;padding:12px 14px;border-radius:12px;background:#0b1220;border:1px dashed rgba(255,255,255,.1);white-space:pre-wrap;direction:ltr}
+    details{margin-top:12px}
+    summary{cursor:pointer;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>פתח דלת</h1>
+      <p>לחיצה על הכפתור שולחת בקשת פתיחה לשרת ה-Replit שלך.</p>
+
+      <div class="row" style="gap:12px;margin:12px 0 6px">
+        <input id="doorId" class="grow" inputmode="numeric" placeholder="doorId (ברירת מחדל נשמרת)" />
+        <button id="btnOpen" class="primary">פתח דלת עכשיו</button>
+      </div>
+
+      <div class="status" id="status">מוכן.</div>
+
+      <details>
+        <summary>הגדרות (אופציונלי)</summary>
+        <div style="margin-top:10px;display:flex;gap:10px;align-items:center">
+          <input id="apiBase" class="grow" placeholder="API base (בד״כ אותו דומיין, ריק=אוטומטי)" />
+          <button id="btnSave" class="small">שמור</button>
+        </div>
+        <p style="margin-top:8px">בברירת מחדל, הכתובת היא <code>window.location.origin</code> והקריאה היא ל-<code>/api/biostar/open</code>.</p>
+      </details>
+    </div>
+  </div>
+
+  <script src="/door.js" type="module"></script>
+</body>
+</html>

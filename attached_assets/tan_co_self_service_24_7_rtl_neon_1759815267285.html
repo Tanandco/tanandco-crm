@@ -1,0 +1,205 @@
+<!doctype html>
+<html dir="rtl" lang="he">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tan & Co — שירות עצמי 24/7</title>
+  <style>
+    :root{
+      --bg: 210 6% 8%;
+      --primary: 328 100% 70%;
+      --text: 210 15% 92%;
+      --border: 210 8% 18%;
+      --card: 210 6% 10%;
+      --cardText: 210 15% 90%;
+    }
+    .neon-glow {
+      filter: drop-shadow(0 0 40px hsla(var(--primary)/0.4)) drop-shadow(0 0 80px rgba(147,51,234,0.4)) drop-shadow(0 0 20px rgba(255,105,180,0.5));
+    }
+    @keyframes glowPulse {
+      0%, 100% { filter: drop-shadow(0 0 20px hsla(var(--primary)/0.4)) drop-shadow(0 0 40px rgba(147,51,234,0.3)) drop-shadow(0 0 10px rgba(255,105,180,0.5)); transform: scale(1); }
+      50% { filter: drop-shadow(0 0 30px hsla(var(--primary)/0.6)) drop-shadow(0 0 60px rgba(147,51,234,0.5)) drop-shadow(0 0 15px rgba(255,105,180,0.7)); transform: scale(1.05); }
+    }
+    .animate-glow-pulse { animation: glowPulse 2.5s ease-in-out infinite; }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+    .animate-fade-in { animation: fadeIn 2s ease-out forwards; }
+
+    .no-scrollbar::-webkit-scrollbar{ display:none; }
+    .no-scrollbar{ -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+  <style>
+    :root{
+      --bg: 210 6% 8%;
+      --primary: 328 100% 70%;
+      --text: 210 15% 92%;
+      --border: 210 8% 18%;
+      --card: 210 6% 10%;
+      --cardText: 210 15% 90%;
+    }
+    .neon-glow { filter: drop-shadow(0 0 40px hsla(var(--primary)/0.4)) drop-shadow(0 0 80px rgba(147,51,234,0.4)) drop-shadow(0 0 20px rgba(255,105,180,0.5)); }
+    @keyframes glowPulse { 0%,100%{ filter: drop-shadow(0 0 20px hsla(var(--primary)/0.4)) drop-shadow(0 0 40px rgba(147,51,234,0.3)) drop-shadow(0 0 10px rgba(255,105,180,0.5)); transform:scale(1)} 50%{ filter: drop-shadow(0 0 30px hsla(var(--primary)/0.6)) drop-shadow(0 0 60px rgba(147,51,234,0.5)) drop-shadow(0 0 15px rgba(255,105,180,0.7)); transform:scale(1.05)} }
+    .animate-glow-pulse { animation: glowPulse 2.5s ease-in-out infinite; }
+    @keyframes fadeIn { from{opacity:0; transform:translateY(20px)} to{opacity:1; transform:translateY(0)} }
+    .animate-fade-in { animation: fadeIn 2s ease-out forwards; }
+    .no-scrollbar::-webkit-scrollbar{ display:none } .no-scrollbar{ -ms-overflow-style:none; scrollbar-width:none }
+    /* נגישות */
+    @media (prefers-reduced-motion: reduce){
+      #splash { transition: none !important; }
+      .animate-glow-pulse, .animate-fade-in { animation: none !important; }
+    }
+  </style>
+</head>
+<body class="bg-[hsl(var(--bg))] text-[hsl(var(--text))] antialiased">
+
+  <!-- Splash / Logo Section -->
+  <section id="splash" class="flex flex-col items-center justify-center h-[100vh] fixed inset-0 z-50 bg-[hsl(var(--bg))] transition-opacity duration-1000" role="dialog" aria-label="מסך פתיחה">
+    <img src="/assets/logo.svg" alt="Tan & Co Logo" class="neon-glow animate-glow-pulse w-40 md:w-56 lg:w-72 mb-6" />
+    <div class="w-[200px] h-[2px] bg-gradient-to-r from-transparent via-pink-500/60 to-transparent rounded-full animate-pulse" aria-hidden="true"></div>
+
+    <!-- כפתור דילוג ידידותי ונגיש -->
+    <button id="skipIntro" class="mt-8 px-4 py-2 rounded-xl border border-white/20 text-white/80 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-pink-400">
+      דלג לפתיחה
+    </button>
+
+    <!-- כפתור הפעלת צליל (יופיע רק אם אוטופליי נחסם) -->
+    <button id="enableSound" class="hidden mt-3 px-4 py-2 rounded-xl bg-[hsl(var(--primary))] text-black font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-pink-400">
+      הפעל צליל פתיחה
+    </button>
+
+    <!-- צליל פתיחה עם מספר מקורות -->
+    <audio id="introSound" preload="auto">
+      <source src="/assets/sound/chime.mp3" type="audio/mpeg" />
+      <source src="/assets/sound/chime.ogg" type="audio/ogg" />
+    </audio>
+  </section>
+
+  <main class="min-h-screen flex flex-col items-center text-center">
+
+    <!-- פתיח בראש העמוד -->
+    <section class="text-center mt-6 mb-8 px-6 max-w-3xl mx-auto">
+      <h2 class="text-3xl md:text-4xl font-extrabold text-[hsl(var(--primary))] mb-3 animate-fade-in">
+        ברוכים הבאים לעולם החדש של Tan & Co
+      </h2>
+      <p class="text-white/80 leading-relaxed animate-fade-in" style="animation-delay: 1s">
+        המתחם הראשון בישראל לשיזוף חכם במודל היברידי – שירות עצמי 24/7 או ליווי אישי מצוות מומחים.
+        בחרו את הדרך שלכם לשיזוף מושלם, מתי שנוח לכם.
+      </p>
+    </section>
+
+    <!-- שורת אייקונים עם טייטל -->
+    <section class="w-full">
+      <div class="max-w-6xl mx-auto px-4">
+        <div class="flex items-stretch gap-5 overflow-x-auto no-scrollbar pb-4">
+          <a href="#sunbeds" class="group shrink-0 grid place-items-center w-[110px] rounded-2xl p-4 bg-[hsl(var(--card))] border border-[hsl(var(--border))] hover:border-[hsl(var(--primary))] transition">
+            <img src="/assets/icons/1.svg" alt="מיטות שיזוף" class="neon-glow w-16 h-16 md:w-20 md:h-20 group-hover:scale-105 transition" />
+            <span class="mt-2 text-sm md:text-base font-semibold">מיטות שיזוף</span>
+          </a>
+          <a href="#spray" class="group shrink-0 grid place-items-center w-[110px] rounded-2xl p-4 bg-[hsl(var(--card))] border border-[hsl(var(--border))] hover:border-[hsl(var(--primary))] transition">
+            <img src="/assets/icons/2.svg" alt="שיזוף בהתזה" class="neon-glow w-16 h-16 md:w-20 md:h-20 group-hover:scale-105 transition" />
+            <span class="mt-2 text-sm md:text-base font-semibold">שיזוף בהתזה</span>
+          </a>
+          <a href="#hair" class="group shrink-0 grid place-items-center w-[110px] rounded-2xl p-4 bg-[hsl(var(--card))] border border-[hsl(var(--border))] hover:border-[hsl(var(--primary))] transition">
+            <img src="/assets/icons/3.svg" alt="מספרה" class="neon-glow w-16 h-16 md:w-20 md:h-20 group-hover:scale-105 transition" />
+            <span class="mt-2 text-sm md:text-base font-semibold">מספרה</span>
+          </a>
+          <a href="#cosmetics" class="group shrink-0 grid place-items-center w-[110px] rounded-2xl p-4 bg-[hsl(var(--card))] border border-[hsl(var(--border))] hover:border-[hsl(var(--primary))] transition">
+            <img src="/assets/icons/4.svg" alt="קוסמטיקה" class="neon-glow w-16 h-16 md:w-20 md:h-20 group-hover:scale-105 transition" />
+            <span class="mt-2 text-sm md:text-base font-semibold">קוסמטיקה</span>
+          </a>
+          <a href="/shop" class="group shrink-0 grid place-items-center w-[110px] rounded-2xl p-4 bg-[hsl(var(--card))] border border-[hsl(var(--border))] hover:border-[hsl(var(--primary))] transition">
+            <img src="/assets/icons/5.svg" alt="החנות שלכם" class="neon-glow w-16 h-16 md:w-20 md:h-20 group-hover:scale-105 transition" />
+            <span class="mt-2 text-sm md:text-base font-semibold">החנות שלכם</span>
+          </a>
+          <a href="https://wa.me/972557247033" target="_blank" rel="noopener" class="group shrink-0 grid place-items-center w-[110px] rounded-2xl p-4 bg-[hsl(var(--card))] border border-[hsl(var(--border))] hover:border-[hsl(var(--primary))] transition">
+            <div class="relative rounded-full overflow-hidden w-[72px] h-[72px] md:w-[88px] md:h-[88px] neon-glow">
+              <video src="/assets/ai/ai-tan.webm" muted loop playsinline preload="auto" class="h-full w-full object-cover"></video>
+              <video src="/assets/ai/ai-tan.mp4" muted loop playsinline preload="auto" class="h-full w-full object-cover"></video>
+            </div>
+            <span class="mt-2 text-sm md:text-base font-semibold">AI TAN</span>
+          </a>
+          <a href="/customers" class="group shrink-0 grid place-items-center w-[110px] rounded-2xl p-4 bg-[hsl(var(--card))] border border-[hsl(var(--border))] hover:border-[hsl(var(--primary))] transition">
+            <img src="/assets/icons/7.svg" alt="לקוחות" class="neon-glow w-16 h-16 md:w-20 md:h-20 group-hover:scale-105 transition" />
+            <span class="mt-2 text-sm md:text-base font-semibold">לקוחות</span>
+          </a>
+          <button onclick="alert('Search')" class="group shrink-0 grid place-items-center w-[110px] rounded-2xl p-4 bg-[hsl(var(--card))] border border-[hsl(var(--border))] hover:border-[hsl(var(--primary))] transition">
+            <img src="/assets/icons/8.svg" alt="חיפוש" class="neon-glow w-16 h-16 md:w-20 md:h-20 group-hover:scale-105 transition" />
+            <span class="mt-2 text-sm md:text-base font-semibold">חיפוש</span>
+          </button>
+          <button onclick="alert('Register')" class="group shrink-0 grid place-items-center w-[110px] rounded-2xl p-4 bg-[hsl(var(--card))] border border-[hsl(var(--border))] hover:border-[hsl(var(--primary))] transition">
+            <img src="/assets/icons/9.svg" alt="הרשמה" class="neon-glow w-16 h-16 md:w-20 md:h-20 group-hover:scale-105 transition" />
+            <span class="mt-2 text-sm md:text-base font-semibold">הרשמה</span>
+          </button>
+          <a href="/self-service" class="group shrink-0 grid place-items-center w-[110px] rounded-2xl p-4 bg-[hsl(var(--card))] border border-[hsl(var(--border))] hover:border-[hsl(var(--primary))] transition">
+            <img src="/assets/icons/10.svg" alt="שירות עצמי" class="neon-glow w-16 h-16 md:w-20 md:h-20 group-hover:scale-105 transition" />
+            <span class="mt-2 text-sm md:text-base font-semibold">שירות עצמי</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // הסתרת הספלש לאחר 3 שניות עם אפקט fade-out
+    window.addEventListener('load', () => {
+      const splash = document.getElementById('splash');
+      setTimeout(() => {
+        splash.style.opacity = '0';
+        setTimeout(() => splash.style.display = 'none', 1000);
+      }, 3000);
+    });
+  </script>
+  <script>
+    (function(){
+      const splash = document.getElementById('splash');
+      const skipBtn = document.getElementById('skipIntro');
+      const soundBtn = document.getElementById('enableSound');
+      const introSound = document.getElementById('introSound');
+
+      // העדפות משתמש: הפחתת תנועה / חסכון בנתונים
+      const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const saveData = (navigator.connection && navigator.connection.saveData) || false;
+
+      function closeSplash(){
+        if (!splash || splash.dataset.closed) return;
+        splash.dataset.closed = '1';
+        splash.style.opacity = '0';
+        setTimeout(() => splash.style.display = 'none', 1000);
+      }
+
+      function tryPlayChime(){
+        if (!introSound) return Promise.resolve();
+        // אל תשמיע אם המשתמש ביקש פחות תנועה/חיסכון בנתונים
+        if (reduceMotion || saveData) return Promise.resolve();
+        introSound.volume = 0.6;
+        const p = introSound.play();
+        if (p && typeof p.catch === 'function'){
+          return p.catch(() => {
+            // אוטופליי נחסם — הצג כפתור הפעלה ידנית
+            soundBtn.classList.remove('hidden');
+          });
+        }
+        return Promise.resolve();
+      }
+
+      // התחלה לאחר טעינה
+      window.addEventListener('load', async () => {
+        try { await tryPlayChime(); } catch {}
+        // משך הספלש: קצר יותר אם reduceMotion
+        const stayMs = reduceMotion ? 800 : 3000;
+        const t = setTimeout(closeSplash, stayMs);
+        // דלג ידנית
+        skipBtn.addEventListener('click', () => { clearTimeout(t); closeSplash(); });
+        // הפעל צליל ידנית במקרה של חסימה
+        soundBtn.addEventListener('click', async () => {
+          try { await introSound.play(); soundBtn.classList.add('hidden'); } catch {}
+        }, { once:true });
+      });
+    })();
+  </script>
+</body>
+</html>
+</html>

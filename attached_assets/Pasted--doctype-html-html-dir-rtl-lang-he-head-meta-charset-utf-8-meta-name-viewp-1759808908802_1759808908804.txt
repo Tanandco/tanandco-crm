@@ -1,0 +1,286 @@
+<!doctype html>
+<html dir="rtl" lang="he">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tan & Co — שירות עצמי 24/7</title>
+  <!-- ודא/י ש-Tailwind טעון בפרויקט (CDN או Build). בדמו נניח שהוא כבר כלול. -->
+  <style>
+    /* =============================
+       CSS Variables — HSL Palette
+       ============================= */
+    :root{
+      --bg: 210 6% 8%;          /* רקע ראשי */
+      --primary: 328 100% 70%;  /* Hot Pink #ff69b4 */
+      --text: 210 15% 92%;      /* טקסט כללי */
+      --border: 210 8% 18%;     /* מסגרות */
+      --card: 210 6% 10%;       /* רקע כרטיסים */
+      --cardText: 210 15% 90%;  /* טקסט כרטיסים */
+      --accent: 210 12% 14%;    /* שכבת דגש */
+      --muted: 210 8% 12%;      /* שכבת מושתקת */
+    }
+
+    /* אפקטי נאון/זוהר ללוגו ולאייקונים */
+    .neon-glow {
+      filter:
+        drop-shadow(0 0 40px hsla(var(--primary)/0.40))
+        drop-shadow(0 0 80px rgba(147,51,234,0.40))
+        drop-shadow(0 0 20px rgba(255,105,180,0.50));
+    }
+    @keyframes glowPulse{0%,100%{opacity:.9}50%{opacity:1}}
+    .animate-glow-pulse{ animation: glowPulse 1.8s ease-in-out infinite; }
+
+    /* Splash fade-out */
+    @keyframes fadeOut { to { opacity:0; visibility:hidden; } }
+
+    /* ריפל רדיאלי לפי מיקום הסמן/אצבע */
+    .ripple{ position:relative; overflow:hidden; }
+    .ripple:hover{ background-image: radial-gradient(circle at var(--x,50%) var(--y,50%), hsla(var(--primary)/0.18), transparent 40%); }
+
+    /* נגישות: הפחתת תנועה */
+    @media (prefers-reduced-motion: reduce){
+      #splash * { animation: none !important; }
+      .animate-glow-pulse{ animation: none !important; }
+    }
+  </style>
+</head>
+<body class="bg-[hsl(var(--bg))] text-[hsl(var(--text))] antialiased selection:bg-white/10">
+
+  <!-- =============================
+       SPLASH — לוגו + כותרת
+       ============================= -->
+  <div id="splash" class="fixed inset-0 z-50 bg-[hsl(var(--bg))] grid place-items-center">
+    <div class="text-center px-6">
+      <!-- החלף/י את הנתיב ללוגו שלך -->
+      <img src="/assets/logo.svg" alt="Tan & Co" class="mx-auto w-36 h-36 object-contain neon-glow animate-glow-pulse" />
+      <!-- קו נאון מתחת ללוגו -->
+      <div class="mt-4 h-px w-64 mx-auto bg-gradient-to-r from-transparent via-[rgba(236,72,153,.6)] via-[rgba(147,51,234,.5)] to-transparent"></div>
+
+      <h1 class="mt-6 text-3xl md:text-5xl font-extrabold">שירות עצמי 24/7</h1>
+      <p class="mt-2 text-white/70">כניסה בזיהוי פנים · ללא תיאום מראש · צוות אנושי זמין</p>
+
+      <div class="mt-8 flex flex-wrap gap-3 justify-center">
+        <a href="#services" class="px-6 py-3 rounded-2xl font-semibold bg-[hsl(var(--primary))] text-black hover:opacity-90">להתחלת שימוש</a>
+        <a href="https://wa.me/972557247033" target="_blank" rel="noopener"
+           class="px-6 py-3 rounded-2xl border border-[hsla(var(--primary)/0.6)] hover:bg-white/10">צ׳אט עם אלין</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAV (אופציונלי, שקוף/מטושטש) -->
+  <nav class="sticky top-0 z-40 backdrop-blur-xl bg-[hsl(var(--bg))]/70 border-b border-[hsl(var(--border))]">
+    <div class="max-w-6xl mx-auto px-6 py-3 flex items-center gap-4">
+      <span class="text-[hsl(var(--primary))] font-semibold">Tan & Co</span>
+      <ul class="ml-auto flex gap-4 text-sm">
+        <li><a href="#services" class="hover:text-[hsl(var(--primary))] transition">שירותים</a></li>
+        <li><a href="#hybrid" class="hover:text-[hsl(var(--primary))] transition">Hybrid</a></li>
+        <li><a href="#hours" class="hover:text-[hsl(var(--primary))] transition">שעות</a></li>
+        <li><a href="#bot" class="hover:text-[hsl(var(--primary))] transition">אלין</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="relative z-10">
+    <!-- HERO קצר אחרי הספלש -->
+    <section class="relative overflow-hidden py-14">
+      <!-- גרדיאנט רקע ראשי: from background → via 95% → to 5% primary -->
+      <div class="absolute inset-0 bg-gradient-to-br from-[hsl(var(--bg))] via-[hsla(var(--bg)/0.95)] to-[hsla(var(--primary)/0.05)]"></div>
+      <div class="relative max-w-6xl mx-auto px-6 text-right">
+        <h2 class="text-2xl md:text-4xl font-extrabold leading-tight">ברוכים הבאים · Tan & Co · המודל ההיברידי של השיזוף</h2>
+        <p class="mt-3 text-white/80 max-w-3xl ml-auto">בחרו שירות והתחילו — שירות עצמי 24/7 או ליווי מלא מצוות מקצועי, לפי מה שנוח לכם.</p>
+      </div>
+    </section>
+
+    <!-- כפתורי פינה קבועים (ימין-עליון) -->
+    <div class="fixed top-4 right-4 z-50 flex gap-2">
+      <button aria-label="Home" onclick="location.href='/'"
+        class="size-12 rounded-full backdrop-blur-xl bg-[hsla(var(--muted)/0.6)] border border-[hsla(var(--primary)/0.4)] hover:border-[hsl(var(--primary))] flex items-center justify-center shadow-[0_4px_12px_rgba(0,0,0,.3)] hover:scale-105 transition"><span>🏠</span></button>
+      <button aria-label="Settings" onclick="alert('Settings')"
+        class="size-12 rounded-full backdrop-blur-xl bg-[hsla(var(--muted)/0.6)] border border-[hsla(var(--primary)/0.4)] hover:border-[hsl(var(--primary))] flex items-center justify-center shadow-[0_4px_12px_rgba(0,0,0,.3)] hover:scale-105 transition"><span>⚙️</span></button>
+    </div>
+
+    <!-- בחירת שירותים -->
+    <section id="services" class="relative py-12">
+      <div class="absolute inset-0 -z-10 bg-gradient-to-br from-black/0 via-black/30 to-black/0"></div>
+      <div class="max-w-6xl mx-auto px-6 text-center">
+        <h3 class="text-2xl md:text-3xl font-extrabold mb-8 text-[hsl(var(--primary))]">בחרו את השירות המועדף עליכם</h3>
+        <div class="flex gap-3 justify-center flex-wrap max-w-5xl mx-auto">
+          <!-- כרטיס שירות: מיטות שיזוף -->
+          <button class="h-[160px] w-[150px] rounded-2xl p-4 ripple
+                          bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90
+                          border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))]
+                          text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)]
+                          hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)]
+                          transition-all duration-300 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm"
+                  onclick="document.getElementById('dlg-sunbeds').showModal()"
+                  onmousemove="const r=this.getBoundingClientRect();this.style.setProperty('--x', `${event.clientX-r.left}px`);this.style.setProperty('--y', `${event.clientY-r.top}px`);">
+            <div class="h-full w-full flex flex-col items-center justify-center text-center">
+              <img src="/assets/icons/1.svg" alt="מיטות שיזוף" class="w-8 h-8 mb-2 neon-glow" />
+              <div class="text-[15px] font-bold tracking-tight">מיטות שיזוף</div>
+              <div class="text-xs text-white/70 mt-1">Self‑Service 24/7</div>
+            </div>
+          </button>
+
+          <!-- שיזוף בהתזה -->
+          <button class="h-[160px] w-[150px] rounded-2xl p-4 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-300 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm"
+                  onclick="document.getElementById('dlg-spray').showModal()"
+                  onmousemove="const r=this.getBoundingClientRect();this.style.setProperty('--x', `${event.clientX-r.left}px`);this.style.setProperty('--y', `${event.clientY-r.top}px`);">
+            <div class="h-full w-full flex flex-col items-center justify-center text-center">
+              <img src="/assets/icons/2.svg" alt="שיזוף בהתזה" class="w-8 h-8 mb-2 neon-glow" />
+              <div class="text-[15px] font-bold tracking-tight">שיזוף בהתזה</div>
+              <div class="text-xs text-white/70 mt-1">תוצאה טבעית ומהירה</div>
+            </div>
+          </button>
+
+          <!-- מספרה -->
+          <button class="h-[160px] w-[150px] rounded-2xl p-4 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-300 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm"
+                  onclick="document.getElementById('dlg-hair').showModal()"
+                  onmousemove="const r=this.getBoundingClientRect();this.style.setProperty('--x', `${event.clientX-r.left}px`);this.style.setProperty('--y', `${event.clientY-r.top}px`);">
+            <div class="h-full w-full flex flex-col items-center justify-center text-center">
+              <img src="/assets/icons/3.svg" alt="מספרה" class="w-8 h-8 mb-2 neon-glow" />
+              <div class="text-[15px] font-bold tracking-tight">מספרה</div>
+              <div class="text-xs text-white/70 mt-1">עיצוב · צבע · שיקום</div>
+            </div>
+          </button>
+
+          <!-- קוסמטיקה -->
+          <button class="h-[160px] w-[150px] rounded-2xl p-4 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-300 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm"
+                  onclick="document.getElementById('dlg-cos').showModal()"
+                  onmousemove="const r=this.getBoundingClientRect();this.style.setProperty('--x', `${event.clientX-r.left}px`);this.style.setProperty('--y', `${event.clientY-r.top}px`);">
+            <div class="h-full w-full flex flex-col items-center justify-center text-center">
+              <img src="/assets/icons/4.svg" alt="קוסמטיקה" class="w-8 h-8 mb-2 neon-glow" />
+              <div class="text-[15px] font-bold tracking-tight">קוסמטיקה</div>
+              <div class="text-xs text-white/70 mt-1">פנים · גבות · ציפורניים</div>
+            </div>
+          </button>
+
+          <!-- החנות שלכם -->
+          <a href="/shop" class="h-[160px] w-[150px] rounded-2xl p-4 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-300 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm flex items-center justify-center text-center"
+             onmousemove="const r=this.getBoundingClientRect();this.style.setProperty('--x', `${event.clientX-r.left}px`);this.style.setProperty('--y', `${event.clientY-r.top}px`);">
+            <div>
+              <img src="/assets/icons/5.svg" alt="החנות שלכם" class="w-8 h-8 mb-2 neon-glow mx-auto" />
+              <div class="text-[15px] font-bold tracking-tight">החנות שלכם</div>
+              <div class="text-xs text-white/70 mt-1">מוצרי שיזוף וטיפוח</div>
+            </div>
+          </a>
+
+          <!-- AI TAN (אלין) — אייקון וידאו, לא סטטי -->
+          <a href="https://wa.me/972557247033" target="_blank" rel="noopener"
+             class="h-[160px] w-[150px] rounded-2xl p-4 ripple bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))] text-[hsl(var(--cardText))] shadow-[0_8px_20px_rgba(0,0,0,.4)] hover:shadow-[0_8px_20px_rgba(0,0,0,.45),0_0_60px_rgba(236,72,153,.3)] transition-all duration-300 ease-in-out hover:scale-105 active:scale-100 backdrop-blur-sm flex items-center justify-center text-center"
+             onmousemove="const r=this.getBoundingClientRect();this.style.setProperty('--x', `${event.clientX-r.left}px`);this.style.setProperty('--y', `${event.clientY-r.top}px`);">
+            <div class="flex flex-col items-center">
+              <div class="relative rounded-full overflow-hidden w-[88px] h-[88px] neon-glow">
+                <!-- עדיף לספק גם WebM לביצועים מיטביים במובייל -->
+                <video src="/assets/ai/ai-tan.webm" muted loop playsinline preload="auto" class="h-full w-full object-cover"></video>
+                <!-- Fallback ל-MP4 אם אין WebM -->
+                <video src="/assets/ai/ai-tan.mp4" muted loop playsinline preload="auto" class="h-full w-full object-cover"></video>
+              </div>
+              <div class="mt-2 text-[15px] font-bold tracking-tight">AI TAN (אלין)</div>
+              <div class="text-xs text-white/70">צ׳ט 24/7</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Explainer: Hybrid -->
+    <section id="hybrid" class="max-w-6xl mx-auto px-6 py-12">
+      <h2 class="text-2xl md:text-3xl font-bold mb-8">מודל Hybrid: בוחרים חוויה</h2>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="rounded-2xl p-6 bg-[hsl(var(--muted))] border border-[hsl(var(--border))]">
+          <h3 class="text-xl font-semibold mb-2">שירות עצמי חכם</h3>
+          <ul class="space-y-1 text-white/80">
+            <li>• הרשמה עצמאית בשעות הפעילות</li>
+            <li>• צוות מקצועי זמין לסיוע</li>
+            <li>• ללא תיאום מראש</li>
+          </ul>
+        </div>
+        <div class="rounded-2xl p-6 bg-[hsl(var(--muted))] border border-[hsl(var(--border))]">
+          <h3 class="text-xl font-semibold mb-2">שירות מלא ומלווה</h3>
+          <ul class="space-y-1 text-white/80">
+            <li>• ליווי אישי מקצה לקצה</li>
+            <li>• התאמת גוון ותהליך</li>
+            <li>• תוצאה עקבית ומדויקת</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- זמינות 24/7 -->
+    <section class="max-w-6xl mx-auto px-6">
+      <div class="rounded-2xl p-6 bg-[hsl(var(--accent))] border border-[hsla(var(--primary)/0.6)] shadow-[0_0_60px_rgba(236,72,153,.3)]">
+        <h3 class="text-xl font-semibold">זמינות 24/7 ללקוחות הבוטיק</h3>
+        <p class="text-white/80 mt-2">לאחר שעות הפעילות — כניסה למתחם באמצעות מערכת זיהוי פנים מתקדמת*. סביבה נקייה, בטוחה ומקצועית.</p>
+        <p class="text-xs text-white/50 mt-2">*שירות עצמי לאחר שעות הפעילות.</p>
+      </div>
+    </section>
+
+    <!-- שעות + תמיכה -->
+    <section id="hours" class="max-w-6xl mx-auto px-6 py-12 grid md:grid-cols-2 gap-6">
+      <div class="rounded-2xl p-6 bg-[hsl(var(--card))] border border-[hsl(var(--border))]">
+        <h4 class="text-lg font-semibold mb-2">שעות פעילות</h4>
+        <p>א׳–ה׳ 10:00–19:00 · ו׳ 10:00–14:00 · שבת — סגור</p>
+        <p class="text-xs text-white/60 mt-1">שירות עצמי לאחר שעות הפעילות.</p>
+      </div>
+      <div id="bot" class="rounded-2xl p-6 bg-[hsl(var(--card))] border border-[hsl(var(--border))] flex items-center gap-4">
+        <div class="relative rounded-full overflow-hidden w-[64px] h-[64px] neon-glow shrink-0">
+          <video src="/assets/ai/ai-tan.webm" muted loop playsinline preload="auto" class="h-full w-full object-cover"></video>
+          <video src="/assets/ai/ai-tan.mp4" muted loop playsinline preload="auto" class="h-full w-full object-cover"></video>
+        </div>
+        <div class="flex-1">
+          <h4 class="text-lg font-semibold text-[hsl(var(--primary))]">אלין — הצ׳טבוט החכם</h4>
+          <p class="text-white/80 text-sm">AI TAN לשאלות, ייעוץ וקביעת תור — זמין/ה 24/7</p>
+        </div>
+        <a href="https://wa.me/972557247033" target="_blank" rel="noopener"
+           class="px-4 py-2 rounded-xl bg-[hsl(var(--primary))] text-black font-semibold hover:opacity-90">דברו עם אלין</a>
+      </div>
+    </section>
+
+    <!-- כפתור פעולה ראשי בתחתית -->
+    <section class="max-w-6xl mx-auto px-6 pb-16">
+      <div class="w-full flex justify-center">
+        <button onclick="location.href='/self-service'"
+                class="h-[80px] w-[280px] ripple relative overflow-hidden rounded-2xl border transition-all duration-300 ease-in-out
+                       border-[hsla(var(--primary)/0.6)] hover:border-[hsl(var(--primary))]
+                       bg-gradient-to-br from-slate-800/80 to-slate-700/80 backdrop-blur-xl
+                       shadow-[0_8px_20px_rgba(0,0,0,.4),0_0_60px_rgba(236,72,153,.30)] hover:scale-[1.02] active:scale-[0.99]"
+                onmousemove="const r=this.getBoundingClientRect();this.style.setProperty('--x', `${event.clientX-r.left}px`);this.style.setProperty('--y', `${event.clientY-r.top}px`);">
+          <div class="flex h-full items-center justify-center gap-3">
+            <img src="/assets/icons/10.svg" alt="Self Service" class="w-6 h-6 neon-glow" />
+            <span class="text-xl font-bold tracking-tight">שירות עצמי 24/7</span>
+          </div>
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-[hsl(var(--border))] py-8 text-center text-white/60 text-sm">
+    <div class="h-px w-72 mx-auto mb-4 bg-gradient-to-r from-transparent via-[rgba(236,72,153,.6)] via-[rgba(147,51,234,.5)] to-transparent"></div>
+    © Tan & Co · עיצוב נאון · 24/7
+  </footer>
+
+  <script>
+    // Splash — סגירה אוטומטית אחרי 2.4ש׳ או בלחיצה
+    (function(){
+      const splash = document.getElementById('splash');
+      if(!splash) return;
+      let closed = false;
+      const close = () => { if(closed) return; closed = true; splash.style.animation = 'fadeOut .6s ease forwards'; };
+      const t = setTimeout(close, 2400);
+      splash.addEventListener('click', () => { clearTimeout(t); close(); }, { once:true });
+    })();
+
+    // נסה להפעיל את הוידאו של אלין (אוטו-פליי במיוט); עצירה כשלא בפריים
+    (function(){
+      const vids = Array.from(document.querySelectorAll('video'));
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){ e.target.play().catch(()=>{}); }
+          else { e.target.pause(); }
+        });
+      }, { threshold: 0.25 });
+      vids.forEach(v=>{ try{ v.play(); }catch{} io.observe(v); });
+    })();
+  </script>
+</body>
+</html>

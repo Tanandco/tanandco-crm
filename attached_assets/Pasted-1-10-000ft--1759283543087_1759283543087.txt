@@ -1,0 +1,366 @@
+1) תהליך מקצה-לקצה (בגובה 10,000ft)
+
+קמפיין פייסבוק → ווטסאפ → תשלום → רישום/הצהרת בריאות → מתן גישה → פתיחת דלת
+
+מודעת FB/IG “Click-to-WhatsApp”
+
+הלחיצה פותחת צ’אט ב-WA עם המספר העסקי.
+
+מעבירים פרמטרים (utm/ad_id) בשדה ref של WhatsApp לניתוח מקור.
+
+ברכת פתיחה אוטומטית ב-WA (WhatsApp Cloud API / תבנית מאושרת):
+
+“היי {שם}, רוצים להתחיל? לחצו על קישור תשלום כדי לשריין מקום.”
+
+לחצן “תשלום” → שולח בקשה ל-Replit לייצר קישור תשלום (Cardcom).
+
+יצירת קישור תשלום (Cardcom)
+
+Replit יוצר “הזמנה” ב-Supabase, קורא ל-Cardcom ל-Hosted Payment Page, ושומר את ה-redirect URL.
+
+שולח ללקוח ב-WA את קישור התשלום.
+
+Webhook תשלום מאושר
+
+Cardcom שולח Webhook ל-Replit → Replit מסמן את ההזמנה PAID ב-Supabase.
+
+שליחת קישור לרישום + הצהרת בריאות
+
+Replit שולח ללקוח ב-WA לינק ייחודי (token) לטופס (מתארח ב-Replit/Next/או Supabase Auth UI).
+
+מילוי הטופס נשמר ל-Supabase (שם, ת.ז., טלפון, תאריך לידה, טופס הצהרת בריאות חתום/checkbox).
+
+מתן הרשאה
+
+אחרי “PAID + FORM_OK”, Replit יוצר Access Grant ב-Supabase (סטטוס pending_provision).
+
+DoorAgent מקומי (במחשב של הבקר, שכבר בנינו) מקשיב ל-Supabase:
+
+יוצר/מעדכן משתמש ב-BioStar (או מכין “placeholder” עד קליטת פנים), משייך לקבוצת גישה/זמנים.
+
+וגם יכול לפתוח דלת חד-פעמית להגעה ראשונה (אם צריך) דרך door_queue.
+
+הודעות אישור ללקוח
+
+WA: “התשלום אושר והטופס נקלט ✅. אפשר להגיע, יש לכם גישה. במעמד ההגעה נקלוט זיהוי פנים/כרטיס.”
+
+לצוות: נוטיפיקציה פנימית (WA/מייל) עם פרטי מנוי חדש.
+
+2) מה צריך להגדיר (בפועל)
+A. משתני סביבה (Replit – Secrets)
+SUPABASE_URL = https://obpsbjxmpadpbjyysdbo.supabase.co
+SUPABASE_SERVICE_KEY = <Service Role>
+
+WABA_TOKEN = <WhatsApp Cloud API token>
+WABA_PHONE_ID = <Phone Number ID>
+WABA_VERIFY_TOKEN = <Webhook verify token>  # לבדיקת webhook
+
+CARDCOM_TERMINAL = <מסוף>
+CARDCOM_USERNAME = <שם משתמש>
+CARDCOM_PASSWORD = <סיסמה>
+CARDCOM_API_KEY   = <אם יש>
+CARDCOM_WEBHOOK_SECRET = <shared secret אם קיים>
+
+BIOSTAR_SERVER_URL = http://localhost:5000    # בצד המקומי
+DOOR_DEFAULT_ID = 2
+
+
+שים לב: Replit לא יגיע ל-localhost. זה עבור ה-DoorAgent הלוקלי שכבר רץ אצלך – הוא זה שמדבר עם BioStar. Replit רק כותב ל-Supabase.
+
+B. סכמת טבלאות (Supabase – הדבק ב-SQL Editor)
+-- לקוחות/לידים
+create table if not exists public.leads (
+  id uuid primary key default gen_random_uuid(),
+  wa_phone text not null,
+  wa_name text,
+  ad_ref text,         -- utm/ad_id
+  status text default 'new',
+  created_at timestamptz default now()
+);
+
+-- הזמנות/תשלומים
+create table if not exists public.orders (
+  id uuid primary key default gen_random_uuid(),
+  lead_id uuid references public.leads(id) on delete set null,
+  product_code text not null,           -- לדוגמה: "TRIAL_1", "MONTHLY"
+  amount integer not null,              -- אגורות
+  currency text default 'ILS',
+  cardcom_payurl text,
+  cardcom_trx_id text,
+  status text default 'pending',        -- pending / paid / failed / canceled
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+
+-- טפסי רישום/הצהרת בריאות
+create table if not exists public.intake_forms (
+  id uuid primary key default gen_random_uuid(),
+  lead_id uuid references public.leads(id) on delete cascade,
+  token text unique not null,           -- לינק חד-פעמי
+  full_name text,
+  id_number text,
+  birthdate date,
+  phone text,
+  health_ok boolean,
+  submitted_at timestamptz
+);
+
+-- הרשאות גישה לביו-סטאר (Provisioning)
+create table if not exists public.access_grants (
+  id uuid primary key default gen_random_uuid(),
+  lead_id uuid references public.leads(id) on delete cascade,
+  external_id text,                     -- מזהה משתמש ב-BioStar, אם נוצר
+  status text default 'pending_provision',  -- pending_provision / active / failed
+  notes text,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+
+-- תור פתיחת דלת (כבר יש אצלך, אבל מצרף מינימלי)
+create table if not exists public.door_queue (
+  id uuid primary key default gen_random_uuid(),
+  door_id integer not null,
+  action text not null check (action in ('open')),
+  status text default 'pending',        -- pending/running/done/failed
+  requested_by text,
+  worker_id text,
+  result text,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+
+-- אינדקסים קטנים
+create index if not exists idx_orders_lead on public.orders(lead_id);
+create index if not exists idx_intake_lead on public.intake_forms(lead_id);
+create index if not exists idx_access_lead on public.access_grants(lead_id);
+
+3) Replit: שרת זעיר (Node/Express) – קוד בסיסי
+
+הדבק בקובץ index.js (או בפרויקט הקיים – מסמן מה חשוב):
+
+import express from "express";
+import bodyParser from "body-parser";
+import crypto from "crypto";
+import fetch from "node-fetch";
+
+const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// ===== Helpers =====
+const SB_URL = process.env.SUPABASE_URL;
+const SB_KEY = process.env.SUPABASE_SERVICE_KEY;
+const WABA_TOKEN = process.env.WABA_TOKEN;
+const WABA_PHONE_ID = process.env.WABA_PHONE_ID;
+
+async function sb(path, method="GET", body) {
+  const res = await fetch(`${SB_URL}/rest/v1/${path}`, {
+    method,
+    headers: {
+      apikey: SB_KEY,
+      Authorization: `Bearer ${SB_KEY}`,
+      Prefer: "return=representation",
+      "Content-Type": "application/json",
+    },
+    body: body ? JSON.stringify(body) : undefined
+  });
+  if(!res.ok) throw new Error(`Supabase ${method} ${path} -> ${res.status}`);
+  return await res.json();
+}
+
+async function waSend(to, text) {
+  const url = `https://graph.facebook.com/v20.0/${WABA_PHONE_ID}/messages`;
+  const r = await fetch(url, {
+    method: "POST",
+    headers: { 
+      "Authorization": `Bearer ${WABA_TOKEN}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      messaging_product: "whatsapp",
+      to,
+      type: "text",
+      text: { body: text }
+    })
+  });
+  if(!r.ok) console.log("WA send failed", await r.text());
+}
+
+// ===== 3.1 WhatsApp webhook (קבלת לידים) =====
+app.get("/wa/webhook", (req,res)=>{
+  // verify
+  if (req.query["hub.mode"] === "subscribe" && req.query["hub.verify_token"] === process.env.WABA_VERIFY_TOKEN) {
+    return res.status(200).send(req.query["hub.challenge"]);
+  }
+  return res.sendStatus(403);
+});
+
+app.post("/wa/webhook", async (req,res)=>{
+  try {
+    const entry = req.body?.entry?.[0]?.changes?.[0]?.value?.messages?.[0];
+    const from = entry?.from; // phone
+    const text = entry?.text?.body?.trim();
+
+    if (!from) return res.sendStatus(200);
+
+    // 1) צור/עדכן ליד
+    const lead = (await sb(`leads?select=*&wa_phone=eq.${from}`))[0] 
+             ?? (await sb("leads", "POST", [{ wa_phone: from, status: "new" }]))[0];
+
+    // 2) אם ביקש להתחיל – צור הזמנה וקישור תשלום
+    if (!text || /התחל|תשלום|להתחיל/i.test(text)) {
+      // דוגמה: מוצר ניסיון 10 ש"ח
+      const order = (await sb("orders", "POST", [{
+        lead_id: lead.id, product_code: "TRIAL_1", amount: 1000, currency: "ILS", status: "pending"
+      }]))[0];
+
+      // קריאה ל-Cardcom לייצר לינק תשלום (פייק/דמו – החלף בקריאה האמיתית)
+      const payUrl = `https://secure.cardcom.co.il/e/PaymentPage.aspx?order=${order.id}`;
+      await sb(`orders?id=eq.${order.id}`, "PATCH", { cardcom_payurl: payUrl });
+
+      await waSend(from, `מעולה! להשלמת התשלום לחצו כאן: ${payUrl}`);
+    } else {
+      await waSend(from, "היי! כשתהיו מוכנים לשלם כתבו 'תשלום' ואשלח לינק.");
+    }
+
+    res.sendStatus(200);
+  } catch (e) {
+    console.error(e);
+    res.sendStatus(200);
+  }
+});
+
+// ===== 3.2 Cardcom webhook =====
+app.post("/cardcom/webhook", async (req,res)=>{
+  try{
+    // ״פייק״: קבל order_id וסטטוס תשלום
+    const { order_id, status, trx_id } = req.body; // החלף בהתאם לשדות האמיתיים של Cardcom
+    if(status === "paid"){
+      await sb(`orders?id=eq.${order_id}`, "PATCH", { status:"paid", cardcom_trx_id: trx_id });
+      const order = (await sb(`orders?id=eq.${order_id}&select=*,lead:lead_id(wa_phone)`))[0];
+
+      // צור טופס רישום + token
+      const token = crypto.randomBytes(16).toString("hex");
+      const form = (await sb("intake_forms", "POST", [{ lead_id: order.lead_id, token }]))[0];
+
+      // שלח לינק ל-WA
+      const formUrl = `https://your-repl-host/register/${token}`;
+      await waSend(order.lead.wa_phone, `התשלום אושר ✅\nנא מלאו פרטים והצהרת בריאות:\n${formUrl}`);
+    }
+    res.sendStatus(200);
+  }catch(e){
+    console.error(e);
+    res.sendStatus(200);
+  }
+});
+
+// ===== 3.3 דף רישום / הצהרת בריאות =====
+app.get("/register/:token", async (req,res)=>{
+  // דף HTML פשוט שמגיש טופס לפוסט /register/:token
+  res.type("html").send(`
+    <html><body>
+    <h3>רישום והצהרת בריאות</h3>
+    <form method="post">
+      שם מלא: <input name="full_name" required/><br/>
+      ת"ז: <input name="id_number" required/><br/>
+      טלפון: <input name="phone" required/><br/>
+      תאריך לידה: <input type="date" name="birthdate" required/><br/>
+      <label><input type="checkbox" name="health_ok" required/> אני מצהיר/ה על בריאות תקינה</label><br/>
+      <button type="submit">שליחה</button>
+    </form>
+    </body></html>
+  `);
+});
+app.post("/register/:token", async (req,res)=>{
+  try{
+    const token = req.params.token;
+    const forms = await sb(`intake_forms?token=eq.${token}&select=*`);
+    const form = forms[0];
+    if(!form) return res.status(404).send("טוקן לא תקין");
+
+    const payload = {
+      full_name: req.body.full_name,
+      id_number: req.body.id_number,
+      birthdate: req.body.birthdate,
+      phone: req.body.phone,
+      health_ok: !!req.body.health_ok,
+      submitted_at: new Date().toISOString()
+    };
+    await sb(`intake_forms?id=eq.${form.id}`, "PATCH", payload);
+
+    // צור Access Grant (DoorAgent ירים)
+    await sb("access_grants", "POST", [{ lead_id: form.lead_id, status: "pending_provision" }]);
+
+    res.send("הטופס נקלט ✅. נשלח עדכון ב-WhatsApp כאשר הגישה מוכנה.");
+  }catch(e){
+    console.error(e);
+    res.status(500).send("שגיאה");
+  }
+});
+
+// ===== 3.4 בריאות/בדיקה =====
+app.get("/", (_,res)=> res.send("OK"));
+app.listen(3000, ()=> console.log("Up on 3000"));
+
+
+הקוד למעלה “פייק” בצד Cardcom (ה-Webhook/PayURL הם placeholders). כשתכניס את פרטי Cardcom שלך, החלף את יצירת הקישור ופרשנות ה-webhook לשדות האמיתיים.
+
+4) DoorAgent מקומי – מה הוא עושה
+
+(כבר בנינו איתך)
+
+מאזין לטבלאות door_queue ו-access_grants.
+
+כשיש access_grants.status='pending_provision':
+
+יוצר משתמש ב-BioStar (שם/טלפון/מספר מזהה) – אם לא ניתן דרך REST, אפשר אוטומציה קצרה עם WebDriver (Edge) כמו שכבר נתתי לך לפתיחה.
+
+משייך לקבוצת גישה/זמני פעילות (בד"כ “All Devices” + שעות פעילות).
+
+מסמן ב-Supabase status='active' או failed עם notes.
+
+לכניסה ראשונה/חירום: מוסיף רשומה ל-door_queue (door_id=2, action='open', requested_by='first_visit'), וה-agent פותח את הדלת.
+
+5) הודעות WhatsApp – טקסטים קצרים
+
+פתיחה:
+“היי {שם}, תודה שפנית 😊 רוצים להתחיל? לשריון מקום לחצו תשלום.”
+
+לינק תשלום:
+“להשלמת התשלום לחצו: {payUrl}”
+
+תשלום נקלט:
+“התשלום אושר ✅. נא מלאו פרטי רישום והצהרת בריאות: {formUrl}”
+
+גישה מוכנה:
+“ברוכים הבאים! הגישה הופעלה. בהגעה נקלוט זיהוי פנים/כרטיס, ונפתח דלת אם צריך 👍”
+
+(אפשר להמיר את אלה ל-Template Messages ב-Meta כדי לאפשר ייזום שיחות מחוץ לחלון 24ש’.)
+
+6) בדיקות (צ’ק-ליסט קצר)
+
+FB → WA: פתח צ’אט מהמודעה. ב-webhook רואים את ההודעה.
+
+WA → תשלום: כתוב “תשלום” וקבל לינק (כל עוד הפייק).
+
+Cardcom Webhook: הדמיה → עדכון orders.status='paid'.
+
+טופס: פתיחת /register/:token → שליחה → נוצר access_grants.
+
+Agent: מציב access_grants.active, ואם צריך door_queue → “OPEN OK” בלוג.
+
+בקר: ב-BioStar → Monitoring → Door Status → “Open” עובד (כבר ראית).
+
+7) אבטחה ויציבות (תכל’ס)
+
+אמת Webhooks (Cardcom) עם חתימה/secret כשיש.
+
+שמור טוקנים בסוד (Secrets).
+
+לוגים: שמור ב-Supabase טבלת logs/wa_logs לאבחון.
+
+הגבל ניסיונות תשלום/טופס לפי lead.
+
+דפדף ל-https ב-Replit אם צריך קבלת Webhooks חיצוניים.
+
+זמינות מקומית: ה-DoorAgent חייב אינטרנט ל-Supabase ולוקאלי ל-BioStar.

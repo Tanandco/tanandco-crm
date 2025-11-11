@@ -1,0 +1,133 @@
+קים מערכת אוטומטית שמייצרת, מאשרת ומפרסמת תוכן לאינסטגרם/פייסבוק/טיקטוק + שומרת לוח שנה עתידי + מודדת תוצאות. הכל RTL, מותאם למותג Tan & Co.
+
+📦 רכיבים
+
+מקור נתונים: Airtable (טבלאות: Content_Ideas, Content_Queue, Published_Posts).
+
+מנוע אוטומציות: Make או n8n.
+
+מחולל טקסטים: GPT (דרך OpenAI/Claude או ה-AI של LOVABLE).
+
+ספריית מדיה: תיקיית Cloud (Drive/S3) עם תמונות/וידאו מאושרים.
+
+מתזמן: Meta Graph API (IG/FB), TikTok API (דרך Make), או Publer/Buffer (אם רוצים קל).
+
+מעקב מדדים: כתיבה חזרה ל-Airtable + דוח שבועי בווטסאפ/מייל.
+
+🗂 טבלאות Airtable (שדות חובה)
+
+Content_Ideas
+
+Idea_ID (מפתח), Topic, Goal (Awareness/Promo/UGC), Angle (Before/After, Tips, Offer), Priority (H/M/L), Status (new/approved/rejected)
+
+Content_Queue (מה שמתוכנן לייצור/תזמון)
+
+Queue_ID, Platform (IG Feed/Reels/Stories/Facebook/TikTok), Topic, Caption_Draft, Hashtags, Media_URL(s), CTA, Publish_At (תאריך/שעה), Status (draft/needs-approval/approved/scheduled/published), Owner, UTM (אוטו’), LinkInBio (כן/לא)
+
+Published_Posts
+
+Post_ID, Platform, Publish_At, Caption_Final, Media_URL(s), Permalink, Metrics (JSON: likes, comments, saves, reach, CTR), Campaign
+
+🔁 זרימת עבודה (Happy Path)
+
+טריגר (יומי/ידני): משיכת רעיונות מ-Content_Ideas לפי Status=new/approved.
+
+יצירת דרפט: מחולל GPT בונה כותרת, תיאור, hashtags, CTA, אמוג'יז, וריאציות A/B.
+
+בדיקת מדיה: אם חסר מדיה → מבקש ממך/מהצוות או מייצר קריאת AI ליצירת תמונה/וידאו (אם רלוונטי).
+
+כתיבה ל-Content_Queue: Status=needs-approval. שולח הודעת WhatsApp עם תקציר + לינק לאישור.
+
+אישור: תגובה “מאשר” בווטסאפ או שינוי סטטוס ב-Airtable → approved → תזמון אוטומטי.
+
+תזמון: יוצר פוסט מתוזמן לפי Publish_At (IG/FB/TikTok) + מוסיף UTM.
+
+פרסום: לאחר פרסום, שומר Permalink ומושך מדדים אחרי 24/72 שעות → כותב ל-Published_Posts.
+
+דוח שבועי: WA/מייל עם Top 3 פוסטים, Reach, CTR, שמירות, ואיזו זווית עבדה הכי טוב.
+
+🧠 הנחיות תוכן (Brand Voice)
+
+סגנון: יוקרתי, נגיש, אמפתי, בלי סלנג כבד.
+
+עברית תקינה, RTL, עם אמוג'יז במידה.
+
+CTA ברור בסוף (קישור/וואטסאפ/הזמנה אונליין).
+
+לא להגזים בהבטחות; להדגיש בטיחות/בריאות/תוצאות ריאליות.
+
+🧩 פרומפט לגנרטור (להדבקה ב-Make/n8n/LOVABLE)
+SYSTEM: אתה כותב פוסטים קצרים ומניעים לפעולה למותג פרימיום בתחום השיזוף (Tan & Co). שמור על עברית RTL, תמציתיות, ודיוק. שלב אמוג'יז במידה. הימנע מסופרלטיבים קיצוניים. כל יציאה כוללת: כותרת קצרה, גוף טקסט, CTA, 12-18 hashtags, וגרסת A/B.
+
+USER:
+מותג: Tan & Co
+קהל יעד: נשים וגברים 20-45, תל אביב והמרכז, חובבי אסתטיקה, נראות, בריאות העור.
+יעד הפוסט: {Goal}
+פלטפורמה: {Platform}
+נושא/זווית: {Topic} / {Angle}
+הצעה/מחיר (אם יש): {Offer}
+קישורים: {LinkInBio or DeepLink}
+מגבלות: עברית, קצר, RTL, CTA ברור, ללא הבטחות רפואיות.
+תן 2 וריאציות (A/B) עם hashtags ו-CTA.
+
+🧪 תבניות פוסט (דוגמאות)
+
+טיפים (IG Reels/FB):
+כותרת: 3 טעויות שעושות שיזוף פחות יפה ☀️
+טקסט:
+
+מגיעים מיובשים? התוצאה דוהה מהר.
+
+שוכחים פילינג? הצבע יוצא לא אחיד.
+
+לא שומרים מרווח? העור “נשרף”.
+CTA: קבעו טיפול מושלם → לינק בביו / WhatsApp
+Hashtags: #שיזוף #שיזוף_בישראל #tanco #תל_אביב #טיפוח #beforeafter ...
+
+קידום חבילה (IG Feed):
+כותרת: חבילת UV חדשה – יפה וחכמה ✨
+טקסט: חבילת 10 טיפולים + 3 במתנה. כרטיסיה חכמה שנפתחת בזיהוי פנים 24/7.
+CTA: הזמנה עכשיו בקישור / כתבו “חבילה” בווטסאפ.
+Hashtags: …
+
+⚙️ Make/n8n – מודולים
+
+Scenario 1: Generate Drafts
+Trigger: Manual/CRON → Airtable List Content_Ideas (Status=approved) → OpenAI Create Draft → Upload to Airtable Content_Queue (Status=needs-approval) → Send WA preview.
+
+Scenario 2: Approvals
+Trigger: WA inbound “מאשר {Queue_ID}” → Airtable update Status=approved + set Publish_At (אם חסר) → Schedule via Meta/TikTok.
+
+Scenario 3: Scheduler
+Trigger: Every 10 min → Airtable filter Status=approved & Publish_At <= now+5m → Publish → Update Status=published + save Permalink.
+
+Scenario 4: Analytics
+Trigger: Daily → Fetch Insights (IG/FB/TikTok) for last 3 days → Write Published_Posts.Metrics → If Winner (הכי הרבה Saves/Reach) → Duplicate angle ל-Content_Ideas עם Priority=High.
+
+🔐 מדיניות ואבטחה
+
+שמור כל מפתחות .env (ללא שיתוף).
+
+וידוא חתימות Webhook (Meta/TikTok אם רלוונטי).
+
+העלאות מדיה: סינון גודל/פורמט, שמות קבצים נקיים.
+
+UTM בכל לינק שיווקי: utm_source={platform}&utm_medium=social&utm_campaign={campaign}&utm_content={post_id}
+
+🧾 Definition of Done (מה נחשב “סיימנו”)
+
+פוסט עובר מסלול: Idea → Draft → Approval → Scheduled → Published → Metrics.
+
+הודעות WA יוצאות אוטומטית לאישור ולסיכום שבועי.
+
+דשבורד Airtable מציג: פוסטים לפי סטטוס, תאריכי פרסום, Top 3 שבועי, ROI לפי קמפיין.
+
+🧯 חריגות
+
+אין מדיה זמינה → שלח WA: “חסר מדיה לפוסט {Queue_ID}” + לינק העלאה.
+
+כשל פרסום API → ריטריי X3 + הודעה לצוות.
+
+ביצועים חלשים (מתחת ל-CTR יעד) → סימון אוטומטי ל-A/B ניסוי הבא.
+
+אם תר

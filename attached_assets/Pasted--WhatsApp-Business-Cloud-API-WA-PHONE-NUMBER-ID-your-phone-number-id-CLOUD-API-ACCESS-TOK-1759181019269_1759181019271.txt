@@ -1,0 +1,267 @@
+# ==== WhatsApp Business Cloud API ====
+WA_PHONE_NUMBER_ID=your_phone_number_id
+CLOUD_API_ACCESS_TOKEN=your_long_lived_access_token
+CLOUD_API_VERSION=v18.0
+WEBHOOK_VERIFICATION_TOKEN=choose_a_secure_random_token
+WA_APP_SECRET=your_app_secret_for_signature_verification
+
+# ==== Cardcom Payment Gateway ====
+CARDCOM_TERMINAL_NUMBER=your_terminal_number
+CARDCOM_API_USERNAME=your_username
+CARDCOM_API_PASSWORD=your_password_or_empty_if_not_used
+CARDCOM_WEBHOOK_SECRET=shared_secret_from_cardcom   # אם קיים חתימה/סוד ל-Webhook
+
+# ==== App ====
+APP_BASE_URL=https://your-app-url.repl.co
+PORT=3000
+
+# ==== Data (אם רלוונטי) ====
+AIRTABLE_BASE_ID=xxx
+AIRTABLE_API_TOKEN=pat_xxx
+
+
+שים לב: אין רווחים/גרשיים סביב הערכים. שמור את הקובץ ולא משתף אותו החוצה.
+
+🧩 package.json – תלות בסיס
+{
+  "name": "tan-co-crm",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": { "start": "node server.js" },
+  "dependencies": {
+    "axios": "^1.7.7",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5"
+  }
+}
+
+🚀 server.js – שרת Express מוכן (להדבקה)
+
+קובץ אחד עובד. אחרי שזה רץ, נפרק לקבצים לפי מודולים.
+
+import 'dotenv/config';
+import crypto from 'crypto';
+import express from 'express';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import axios from 'axios';
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// חשוב: חתימות וואטסאפ דורשות את גוף הבקשה הגולמי
+app.use('/webhooks/wa', bodyParser.raw({ type: '*/*' }));
+// לשאר ראוטים - JSON רגיל
+app.use(bodyParser.json());
+app.use(cors());
+
+// ======= WhatsApp Cloud API helpers =======
+const WA_BASE = `https://graph.facebook.com/${process.env.CLOUD_API_VERSION}`;
+const WA_PHONE_NUMBER_ID = process.env.WA_PHONE_NUMBER_ID;
+const WA_TOKEN = process.env.CLOUD_API_ACCESS_TOKEN;
+const WA_APP_SECRET = process.env.WA_APP_SECRET;
+
+// שליחת הודעת טקסט
+async function sendWhatsAppText(toE164, text) {
+  const url = `${WA_BASE}/${WA_PHONE_NUMBER_ID}/messages`;
+  const payload = {
+    messaging_product: 'whatsapp',
+    to: toE164, // למשל 9725XXXXXXXX
+    type: 'text',
+    text: { body: text }
+  };
+  const headers = { Authorization: `Bearer ${WA_TOKEN}` };
+  const { data } = await axios.post(url, payload, { headers });
+  return data;
+}
+
+// אימות חתימה מ-X-Hub-Signature-256
+function verifyWhatsAppSignature(rawBody, signatureHeader) {
+  if (!signatureHeader || !WA_APP_SECRET) return false;
+  const expected = 'sha256=' + crypto.createHmac('sha256', WA_APP_SECRET)
+    .update(rawBody).digest('hex');
+  return crypto.timingSafeEqual(
+    Buffer.from(signatureHeader),
+    Buffer.from(expected)
+  );
+}
+
+// ======= Cardcom helpers (סקיצה) =======
+// הערה: החלף ל-URL המדויק והפרמטרים לפי החשבון שלך/מסמכי Cardcom.
+const CARDCOM_TERMINAL_NUMBER = process.env.CARDCOM_TERMINAL_NUMBER;
+const CARDCOM_API_USERNAME = process.env.CARDCOM_API_USERNAME;
+const CARDCOM_API_PASSWORD = process.env.CARDCOM_API_PASSWORD;
+// דוגמה כללית – יש ספקים/מסלולים שונים:
+const CARDCOM_CREATE_PAYMENT_URL = 'https://secure.cardcom.co.il/interface/ChargeToken.aspx'; // דוגמה בלבד!
+
+async function createCardcomPaymentLink({ clientId, amount, description, successUrl, cancelUrl }) {
+  // בנה את ה־payload לפי מסלול/ממשק Cardcom שלך
+  const params = new URLSearchParams();
+  params.append('TerminalNumber', CARDCOM_TERMINAL_NUMBER);
+  params.append('UserName', CARDCOM_API_USERNAME);
+  if (CARDCOM_API_PASSWORD) params.append('Password', CARDCOM_API_PASSWORD);
+  params.append('SumToBill', amount.toString());
+  params.append('ProductName', description || 'Tan&Co Package');
+  params.append('SuccessRedirectUrl', successUrl);
+  params.append('ErrorRedirectUrl', cancelUrl);
+  // שדות מותאמים: ClientId/OrderId לזיהוי חזרה ב-Webhook
+  params.append('CoinID', '1'); // 1=ILS לרוב; בדוק בתיעוד
+  params.append('Language', 'he');
+  params.append('Customer_Ref', clientId);
+
+  // שליחה
+  const { data } = await axios.post(CARDCOM_CREATE_PAYMENT_URL, params, {
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+  });
+
+  // מחזיר קישור (תלוי בפורמט המענה של Cardcom אצלך)
+  // לעיתים זה JSON, לעיתים Redirect/HTML – התאם לפי מסמך ה-API שלך.
+  return { raw: data };
+}
+
+// ======= Routes =======
+
+// בריאות
+app.get('/api/health', (req, res) => res.json({ ok: true, time: new Date().toISOString() }));
+
+// 1) יצירת לינק תשלום (סקיצה)
+app.post('/api/payments/create', async (req, res) => {
+  try {
+    const { clientId, amount, description } = req.body;
+    const successUrl = `${process.env.APP_BASE_URL}/success?clientId=${encodeURIComponent(clientId)}`;
+    const cancelUrl  = `${process.env.APP_BASE_URL}/cancel?clientId=${encodeURIComponent(clientId)}`;
+    const out = await createCardcomPaymentLink({ clientId, amount, description, successUrl, cancelUrl });
+    return res.json({ ok: true, data: out });
+  } catch (e) {
+    console.error('create payment error', e?.response?.data || e.message);
+    res.status(500).json({ ok: false, error: 'cardcom_create_failed' });
+  }
+});
+
+// 2) Webhook תשלומים של Cardcom (לאמת חתימה אם יש)
+app.post('/webhooks/cardcom', express.urlencoded({ extended: false }), async (req, res) => {
+  try {
+    // אם Cardcom חותם – אמת כאן לפי מסמך החתימה/secret שלך (CARDCOM_WEBHOOK_SECRET)
+    // דוגמה: const signature = req.headers['x-cardcom-signature'];   // דמיוני. החלף לשדה האמיתי.
+    // אימות → אם לא תקין: return res.status(401).send('Invalid signature');
+
+    const payload = req.body; // מגיע כ-x-www-form-urlencoded לרוב
+    // פרש מזהות עסקה/סטטוס/סכום/ClientId
+    const status = payload.Status || payload.DealResponse || 'UNKNOWN';
+    const clientId = payload.Customer_Ref || payload.OrderId || null;
+
+    // TODO: עדכון DB (Airtable/אחר), זיכוי יתרה, לוג
+    // TODO: שליחת וואטסאפ אישור
+
+    console.log('Cardcom webhook:', payload);
+    res.send('OK');
+  } catch (e) {
+    console.error('cardcom webhook error', e.message);
+    res.status(500).send('ERR');
+  }
+});
+
+// 3) WhatsApp Webhook – אימות (GET)
+app.get('/webhooks/wa', (req, res) => {
+  const mode = req.query['hub.mode'];
+  const token = req.query['hub.verify_token'];
+  const challenge = req.query['hub.challenge'];
+  if (mode === 'subscribe' && token === process.env.WEBHOOK_VERIFICATION_TOKEN) {
+    return res.status(200).send(challenge);
+  }
+  return res.sendStatus(403);
+});
+
+// 4) WhatsApp Webhook – קבלה (POST + אימות חתימה)
+app.post('/webhooks/wa', async (req, res) => {
+  try {
+    const signature = req.headers['x-hub-signature-256'];
+    const rawBody = req.body; // raw buffer (bodyParser.raw)
+    if (!verifyWhatsAppSignature(rawBody, signature)) {
+      return res.status(403).send('Invalid signature');
+    }
+    const json = JSON.parse(rawBody.toString('utf8'));
+
+    // חילוץ הודעה נכנסת
+    const entry = json.entry?.[0];
+    const changes = entry?.changes?.[0];
+    const messages = changes?.value?.messages;
+    if (messages && messages.length) {
+      const msg = messages[0];
+      const from = msg.from;       // מספר השולח E.164
+      const text = msg.text?.body || '';
+      console.log('WA IN:', { from, text });
+
+      // תגובה בסיסית לדוגמה:
+      await sendWhatsAppText(from, 'היי! קיבלתי את ההודעה שלך 🙌 איך אפשר לעזור?');
+    }
+
+    res.send('EVENT_RECEIVED');
+  } catch (e) {
+    console.error('wa webhook error', e.message);
+    res.status(500).send('ERR');
+  }
+});
+
+// 5) שליחת הודעת וואטסאפ מהשרת (לבדיקה)
+app.post('/api/wa/send', async (req, res) => {
+  try {
+    const { to, text } = req.body;
+    const data = await sendWhatsAppText(to, text);
+    res.json({ ok: true, data });
+  } catch (e) {
+    console.error('wa send error', e?.response?.data || e.message);
+    res.status(500).json({ ok: false, error: 'wa_send_failed' });
+  }
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on :${PORT}`);
+});
+
+✅ בדיקות מהירות (אחרי npm install && npm start)
+
+בריאות:
+
+curl -s http://localhost:3000/api/health
+
+
+אימות Webhook של וואטסאפ (חד-פעמי בהגדרה בפייסבוק):
+
+GET https://your-app-url.repl.co/webhooks/wa?hub.mode=subscribe&hub.verify_token=choose_a_secure_random_token&hub.challenge=1234
+
+
+אמור להחזיר 1234.
+
+שליחת הודעת וואטסאפ יזומה:
+
+curl -X POST http://localhost:3000/api/wa/send \
+  -H "Content-Type: application/json" \
+  -d '{"to":"9725XXXXXXXX","text":"בדיקת WhatsApp מ-Tan&Co ✅"}'
+
+
+יצירת תשלום (סקיצה – לקבל Raw מה-Cardcom שלך):
+
+curl -X POST http://localhost:3000/api/payments/create \
+  -H "Content-Type: application/json" \
+  -d '{"clientId":"C-12345","amount":170,"description":"Spray Tan Single"}'
+
+
+בדוק את הפלט המוחזר ב־JSON ונתאים לשיטת Cardcom שלך (אם צריך נחליף URL/שדות).
+
+Webhook Cardcom (סימולציה):
+
+curl -X POST http://localhost:3000/webhooks/cardcom \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "Status=Approved&Customer_Ref=C-12345&Sum=170&DealResponse=000"
+
+הערות חשובות
+
+Cardcom: יש כמה מסלולי API (יצירת לינק תשלום, טוקן וכו’). השדות/URL למעלה הם תבנית. אם תשלח לי את פרטי הממשק המדויק שקיבלת מקרדקום (endpoint ושדות), אעדכן את הפונקציה createCardcomPaymentLink ואת עיבוד ה-Webhook לפי הספר.
+
+WhatsApp: ודא שבהגדרת ה-Webhook ב-Meta אתה מפנה ל־/webhooks/wa ושבחרת את האירועים (messages, message_status וכו’).
+
+אבטחה: אל תדפיס סודות ללוגים, ואל תשמור Access Tokens בגיטהאב.
