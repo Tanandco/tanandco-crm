@@ -1,0 +1,99 @@
+# משתני סביבה ל-Google Cloud Run
+# העתק את כל השורות האלה והדבק ב-Cloud Run → Variables & Secrets → Add Variable
+# העתק כל שורה בנפרד (Key=Value)
+
+# ============================================
+# הגדרות בסיסיות
+# ============================================
+NODE_ENV=production
+PORT=5000
+
+# ============================================
+# מסד נתונים
+# ============================================
+DATABASE_URL=your_database_url_here
+PGDATABASE=your_database_name
+PGHOST=your_database_host
+PGPORT=5432
+PGUSER=your_database_user
+PGPASSWORD=your_database_password
+
+# ============================================
+# WhatsApp Business API
+# ============================================
+WA_PHONE_NUMBER_ID=699582612923896
+WA_BUSINESS_ACCOUNT_ID=699582612923896
+CLOUD_API_ACCESS_TOKEN=your_whatsapp_access_token_here
+WHATSAPP_ACCESS_TOKEN=your_whatsapp_access_token_here
+CLOUD_API_VERSION=v18.0
+WA_APP_SECRET=your_wa_app_secret_here
+WHATSAPP_APP_SECRET=your_whatsapp_app_secret_here
+WA_VERIFY_TOKEN=tan_and_co_verify_token
+WEBHOOK_VERIFICATION_TOKEN=tanandco_2025_webhook
+
+# ============================================
+# Cardcom Payment Gateway
+# ============================================
+CARDCOM_TERMINAL_NUMBER=1578525
+CARDCOM_TERMINAL=1578525
+CARDCOM_USERNAME=your_cardcom_username
+CARDCOM_API_USERNAME=your_cardcom_api_username
+CARDCOM_API_KEY=your_cardcom_api_key
+CARDCOM_API_PASSWORD=your_cardcom_api_password
+
+# ============================================
+# BioStar 2 Face Recognition
+# ============================================
+BIOSTAR_SERVER_URL=https://biostar.tanandco.co.il
+BIOSTAR_USERNAME=admin
+BIOSTAR_PASSWORD=your_biostar_password
+BIOSTAR_DOOR_ID=2
+BIOSTAR_ALLOW_SELF_SIGNED=false
+
+# ============================================
+# Meta Marketing API
+# ============================================
+FACEBOOK_APP_ID=823361520180641
+FACEBOOK_APP_SECRET=your_facebook_app_secret
+
+# ============================================
+# TikTok Ads API
+# ============================================
+TIKTOK_CLIENT_KEY=aw0e18xw6bwegz66
+TIKTOK_CLIENT_SECRET=your_tiktok_client_secret
+
+# ============================================
+# Freepik API
+# ============================================
+FREEPIK_API_KEY=your_freepik_api_key
+
+# ============================================
+# OpenAI API
+# ============================================
+OPENAI_API_KEY=your_openai_api_key_here
+
+# ============================================
+# אבטחה וסשן
+# ============================================
+SESSION_SECRET=your_session_secret_here
+
+# ============================================
+# מדפסת
+# ============================================
+PRINTER_INTERFACE=POS-80
+
+# ============================================
+# גישה לדלת
+# ============================================
+DOOR_ACCESS_KEY=your_door_access_key
+
+# ============================================
+# מנהל מערכת
+# ============================================
+ADMIN_PHONE=972501234567
+
+# ============================================
+# ⚠️ חשוב: אל תוסיף APP_BASE_URL עדיין!
+# תקבל אותו אחרי הפריסה ותעדכן אותו אז.
+# ============================================
+

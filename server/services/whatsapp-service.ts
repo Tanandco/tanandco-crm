@@ -21,12 +21,13 @@ class WhatsAppService {
 
   private initialize() {
     this.phoneNumberId = process.env.WA_PHONE_NUMBER_ID || null;
-    this.accessToken = process.env.CLOUD_API_ACCESS_TOKEN || null;
+    // Support both CLOUD_API_ACCESS_TOKEN and WHATSAPP_ACCESS_TOKEN
+    this.accessToken = process.env.CLOUD_API_ACCESS_TOKEN || process.env.WHATSAPP_ACCESS_TOKEN || null;
     this.apiVersion = process.env.CLOUD_API_VERSION || "v18.0";
 
     if (!this.phoneNumberId || !this.accessToken) {
       console.warn(
-        "[WhatsApp] Service not configured - missing WA_PHONE_NUMBER_ID or CLOUD_API_ACCESS_TOKEN"
+        "[WhatsApp] Service not configured - missing WA_PHONE_NUMBER_ID or access token (CLOUD_API_ACCESS_TOKEN/WHATSAPP_ACCESS_TOKEN)"
       );
       this.isConfigured = false;
       return;
