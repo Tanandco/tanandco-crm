@@ -29,6 +29,11 @@ import {
   type InsertSessionUsage,
   type FaceUploadToken,
   type InsertFaceUploadToken,
+  type PosSale,
+  type InsertPosSale,
+  type StockMovement,
+  type InsertStockMovement,
+  type DailySummary,
   users,
   customers,
   memberships,
@@ -43,7 +48,11 @@ import {
   automationLogs,
   healthForms,
   sessionUsage,
-  faceUploadTokens
+  faceUploadTokens,
+  posSales,
+  posSaleItems,
+  stockMovements,
+  dailySummaries
 } from "@shared/schema";
 import { db } from './db';
 import { eq, desc, sql, like, or } from 'drizzle-orm';
@@ -150,6 +159,23 @@ export interface IStorage {
   createFaceUploadToken(token: InsertFaceUploadToken): Promise<FaceUploadToken>;
   getFaceUploadToken(token: string): Promise<FaceUploadToken | undefined>;
   updateFaceUploadTokenWithImage(token: string, imageUrl: string): Promise<FaceUploadToken | undefined>;
+
+  // POS Sales operations
+  createPosSale(sale: InsertPosSale & { saleNumber: string }): Promise<PosSale>;
+  getPosSale(id: string): Promise<PosSale | undefined>;
+  getPosSales(startDate?: Date, endDate?: Date): Promise<PosSale[]>;
+  getPosSalesByCustomer(customerId: string): Promise<PosSale[]>;
+  updatePosSaleStatus(id: string, status: string): Promise<PosSale | undefined>;
+  
+  // Stock Movement operations
+  createStockMovement(movement: InsertStockMovement): Promise<StockMovement>;
+  getStockMovements(productId?: string, limit?: number): Promise<StockMovement[]>;
+  getStockMovementsByProduct(productId: string): Promise<StockMovement[]>;
+  
+  // Daily Summary operations
+  getDailySummary(date: Date): Promise<DailySummary | undefined>;
+  createOrUpdateDailySummary(date: Date, summary: Partial<DailySummary>): Promise<DailySummary>;
+  getDailySummaries(startDate: Date, endDate: Date): Promise<DailySummary[]>;
 }
 
 export class PostgresStorage implements IStorage {
@@ -701,6 +727,133 @@ export class PostgresStorage implements IStorage {
       .where(eq(faceUploadTokens.token, token))
       .returning();
     return result[0];
+  }
+
+  // ============================================================
+  // POS SALES OPERATIONS
+  // ============================================================
+
+  async createPosSale(sale: InsertPosSale & { saleNumber: string }): Promise<PosSale> {
+    const result = await db.insert(posSales).values(sale).returning();
+    return result[0];
+  }
+
+  async getPosSale(id: string): Promise<PosSale | undefined> {
+    const result = await db.select().from(posSales).where(eq(posSales.id, id));
+    return result[0];
+  }
+
+  async getPosSales(startDate?: Date, endDate?: Date): Promise<PosSale[]> {
+    let query = db.select().from(posSales);
+    
+    if (startDate || endDate) {
+      if (startDate && endDate) {
+        query = query.where(
+          sql`${posSales.createdAt} >= ${startDate} AND ${posSales.createdAt} <= ${endDate}`
+        ) as any;
+      } else if (startDate) {
+        query = query.where(sql`${posSales.createdAt} >= ${startDate}`) as any;
+      } else if (endDate) {
+        query = query.where(sql`${posSales.createdAt} <= ${endDate}`) as any;
+      }
+    }
+    
+    return await query.orderBy(desc(posSales.createdAt));
+  }
+
+  async getPosSalesByCustomer(customerId: string): Promise<PosSale[]> {
+    return await db
+      .select()
+      .from(posSales)
+      .where(eq(posSales.customerId, customerId))
+      .orderBy(desc(posSales.createdAt));
+  }
+
+  async updatePosSaleStatus(id: string, status: string): Promise<PosSale | undefined> {
+    const result = await db
+      .update(posSales)
+      .set({ status, updatedAt: new Date() })
+      .where(eq(posSales.id, id))
+      .returning();
+    return result[0];
+  }
+
+  // ============================================================
+  // STOCK MOVEMENT OPERATIONS
+  // ============================================================
+
+  async createStockMovement(movement: InsertStockMovement): Promise<StockMovement> {
+    const result = await db.insert(stockMovements).values(movement).returning();
+    return result[0];
+  }
+
+  async getStockMovements(productId?: string, limit: number = 100): Promise<StockMovement[]> {
+    let query = db.select().from(stockMovements);
+    
+    if (productId) {
+      query = query.where(eq(stockMovements.productId, productId)) as any;
+    }
+    
+    return await query
+      .orderBy(desc(stockMovements.createdAt))
+      .limit(limit);
+  }
+
+  async getStockMovementsByProduct(productId: string): Promise<StockMovement[]> {
+    return await db
+      .select()
+      .from(stockMovements)
+      .where(eq(stockMovements.productId, productId))
+      .orderBy(desc(stockMovements.createdAt));
+  }
+
+  // ============================================================
+  // DAILY SUMMARY OPERATIONS
+  // ============================================================
+
+  async getDailySummary(date: Date): Promise<DailySummary | undefined> {
+    // Normalize date to start of day
+    const startOfDay = new Date(date);
+    startOfDay.setHours(0, 0, 0, 0);
+    
+    const result = await db
+      .select()
+      .from(dailySummaries)
+      .where(sql`DATE(${dailySummaries.date}) = DATE(${startOfDay})`);
+    return result[0];
+  }
+
+  async createOrUpdateDailySummary(date: Date, summary: Partial<DailySummary>): Promise<DailySummary> {
+    // Normalize date to start of day
+    const startOfDay = new Date(date);
+    startOfDay.setHours(0, 0, 0, 0);
+    
+    const existing = await this.getDailySummary(startOfDay);
+    
+    if (existing) {
+      const result = await db
+        .update(dailySummaries)
+        .set({ ...summary, updatedAt: new Date() })
+        .where(eq(dailySummaries.id, existing.id))
+        .returning();
+      return result[0];
+    } else {
+      const result = await db
+        .insert(dailySummaries)
+        .values({ date: startOfDay, ...summary })
+        .returning();
+      return result[0];
+    }
+  }
+
+  async getDailySummaries(startDate: Date, endDate: Date): Promise<DailySummary[]> {
+    return await db
+      .select()
+      .from(dailySummaries)
+      .where(
+        sql`${dailySummaries.date} >= ${startDate} AND ${dailySummaries.date} <= ${endDate}`
+      )
+      .orderBy(desc(dailySummaries.date));
   }
 }
 

@@ -81,22 +81,55 @@ export default function QuickSearch() {
     }
   };
 
-  const handleMarkMembership = () => {
+  const handleMarkMembership = async () => {
     if (!selectedMembership || !selectedCustomer) return;
     
-    // Store selected membership and customer in localStorage for other pages to use
-    localStorage.setItem('markedMembership', JSON.stringify({
-      membership: selectedMembership,
-      customer: selectedCustomer
-    }));
-    
-    toast({
-      title: '✅ כרטיסיה סומנה בהצלחה',
-      description: `${selectedCustomer.fullName} - ${getMembershipLabel(selectedMembership.type)} (יתרה: ${selectedMembership.balance} כניסות)`,
-    });
-    
-    // Navigate back to home
-    setLocation('/');
+    try {
+      // Check BioStar status first
+      const statusResponse: any = await apiRequest('GET', '/api/biostar/status');
+      const biostarAvailable = statusResponse?.data?.connected || false;
+      
+      // Ask user if they want to open door (if BioStar is available)
+      let openDoor = false;
+      if (biostarAvailable) {
+        // For now, auto-open door if BioStar is available
+        // In the future, you can add a confirmation dialog here
+        openDoor = true;
+      }
+      
+      // Mark membership usage
+      const response: any = await apiRequest('POST', `/api/memberships/${selectedMembership.id}/use`, {
+        openDoor,
+        doorId: '1'
+      });
+      
+      if (response.success) {
+        // Store selected membership and customer in localStorage for other pages to use
+        localStorage.setItem('markedMembership', JSON.stringify({
+          membership: selectedMembership,
+          customer: selectedCustomer
+        }));
+        
+        const newBalance = response.data.newBalance;
+        const doorOpened = openDoor && response.data.doorOpened;
+        
+        toast({
+          title: '✅ כרטיסיה סומנה בהצלחה',
+          description: `${selectedCustomer.fullName} - ${getMembershipLabel(selectedMembership.type)} (יתרה: ${newBalance} כניסות)${doorOpened ? ' - הדלת נפתחה!' : ''}`,
+        });
+        
+        // Refresh memberships data
+        window.location.reload();
+      } else {
+        throw new Error(response.error || 'שגיאה בסימון הכרטיסיה');
+      }
+    } catch (error: any) {
+      toast({
+        title: '❌ שגיאה',
+        description: error.message || 'שגיאה בסימון הכרטיסיה',
+        variant: 'destructive',
+      });
+    }
   };
 
   const getMembershipLabel = (type: string) => {

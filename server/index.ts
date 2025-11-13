@@ -1,4 +1,5 @@
 // server/index.ts
+import "dotenv/config";
 import express, { type Request, type Response, type NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic } from "./vite";
@@ -65,7 +66,7 @@ async function start() {
 
   const isProd = process.env.NODE_ENV === "production";
 
-  const PORT = Number(process.env.PORT || 5000);
+  const PORT = Number(process.env.PORT || 5080);
   // ב-production מאזינים על 0.0.0.0 כדי לקבל חיבורים חיצוניים
   // ב-development מאזינים על 127.0.0.1 לביטחון
   const HOST = isProd ? "0.0.0.0" : "127.0.0.1";

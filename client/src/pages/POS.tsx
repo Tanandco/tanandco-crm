@@ -3,7 +3,10 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
-import { Search, ShoppingCart, Trash2, Plus, Minus, CreditCard, X, ImageOff, Image, User, UserX, ArrowRight } from 'lucide-react';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Search, ShoppingCart, Trash2, Plus, Minus, CreditCard, X, ImageOff, Image, User, UserX, ArrowRight, Wallet, Banknote } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest, queryClient } from '@/lib/queryClient';
 import { useLocation } from 'wouter';
@@ -164,34 +167,68 @@ export default function POS() {
 
   const checkoutMutation = useMutation({
     mutationFn: async () => {
-      // Update stock for all products in cart using delta updates
-      for (const item of cart) {
-        if (item.product.productType === 'product') {
-          await apiRequest('POST', `/api/products/${item.product.id}/adjust-stock`, { 
-            delta: -item.quantity 
-          });
-        }
-      }
-      return { success: true };
+      // Prepare sale items
+      const items = cart.map(item => ({
+        productId: item.product.id,
+        productName: item.product.name,
+        productNameHe: item.product.nameHe,
+        productType: item.product.productType,
+        quantity: item.quantity,
+        unitPrice: item.product.price,
+        discount: '0',
+      }));
+
+      // Determine payment method (default to cash for now)
+      const paymentMethod = 'cash';
+      const cashAmount = totalAmount.toString();
+      const cardAmount = '0';
+      const transferAmount = '0';
+
+      // Create POS sale
+      const response = await apiRequest('POST', '/api/pos/sales', {
+        customerId: selectedCustomer?.id || null,
+        items,
+        paymentMethod,
+        cashAmount,
+        cardAmount,
+        transferAmount,
+        discountAmount: '0',
+        notes: selectedCustomer ? `Sale to ${selectedCustomer.fullName}` : 'Guest sale',
+      });
+
+      return response.json();
     },
-    onSuccess: () => {
+    onSuccess: (data: any) => {
       queryClient.invalidateQueries({ queryKey: ['/api/products'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/pos/sales'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/pos/daily-summary'] });
+      
       const customerInfo = selectedCustomer ? selectedCustomer.fullName : "אורח";
+      const saleNumber = data.data?.saleNumber || '';
+      
       toast({
         title: "✅ עסקה הושלמה",
-        description: `לקוח: ${customerInfo} | סה"כ: ₪${totalAmount.toFixed(2)}`,
+        description: `מכירה ${saleNumber} | לקוח: ${customerInfo} | סה"כ: ₪${totalAmount.toFixed(2)}`,
       });
+      
       setCart([]);
       setSelectedCustomer(null);
     },
     onError: (error: any) => {
       toast({
         title: "❌ שגיאה",
-        description: error.message || "אירעה שגיאה בעדכון המלאי",
+        description: error.message || "אירעה שגיאה ביצירת המכירה",
         variant: "destructive",
       });
     },
   });
+
+  const [showPaymentDialog, setShowPaymentDialog] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState<'cash' | 'card' | 'cardcom' | 'transfer' | 'split'>('cash');
+  const [cashAmount, setCashAmount] = useState('');
+  const [cardAmount, setCardAmount] = useState('');
+  const [transferAmount, setTransferAmount] = useState('');
+  const [processingPayment, setProcessingPayment] = useState(false);
 
   const handleCheckout = () => {
     if (cart.length === 0) {
@@ -203,7 +240,171 @@ export default function POS() {
       return;
     }
 
-    checkoutMutation.mutate();
+    setShowPaymentDialog(true);
+    setCashAmount(totalAmount.toFixed(2));
+    setCardAmount('0');
+    setTransferAmount('0');
+  };
+
+  const handlePayment = async () => {
+    if (paymentMethod === 'cash' && parseFloat(cashAmount) < totalAmount) {
+      toast({
+        title: "סכום לא מספיק",
+        description: `חסר ₪${(totalAmount - parseFloat(cashAmount)).toFixed(2)}`,
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (paymentMethod === 'card') {
+      // Process Max payment
+      setProcessingPayment(true);
+      try {
+        const response = await apiRequest('POST', '/api/payments/max/charge', {
+          amount: totalAmount,
+          description: `מכירה ${selectedCustomer?.fullName || 'אורח'}`,
+          customerName: selectedCustomer?.fullName || 'לקוח',
+          customerPhone: selectedCustomer?.phone || '',
+        });
+
+        const result = await response.json();
+        
+        if (!result.success) {
+          toast({
+            title: "תשלום נדחה",
+            description: result.error || "התשלום נכשל",
+            variant: "destructive",
+          });
+          setProcessingPayment(false);
+          return;
+        }
+
+        // Payment successful, proceed with sale
+        await completeSale('card', '0', totalAmount.toString(), '0');
+      } catch (error: any) {
+        toast({
+          title: "שגיאה בתשלום",
+          description: error.message || "שגיאה בעיבוד התשלום",
+          variant: "destructive",
+        });
+        setProcessingPayment(false);
+        return;
+      }
+    } else if (paymentMethod === 'cardcom') {
+      // Process Cardcom payment
+      setProcessingPayment(true);
+      try {
+        const baseUrl = window.location.origin;
+        const items = cart.map(item => ({
+          productId: item.product.id,
+          productName: item.product.name,
+          productNameHe: item.product.nameHe,
+          quantity: item.quantity,
+          unitPrice: item.product.price,
+        }));
+
+        const response = await apiRequest('POST', '/api/payments/cardcom/products', {
+          items,
+          totalAmount: totalAmount.toString(),
+          customerName: selectedCustomer?.fullName || 'לקוח',
+          customerPhone: selectedCustomer?.phone || '0500000000',
+          successUrl: `${baseUrl}/payment-success?source=pos`,
+          errorUrl: `${baseUrl}/payment-error?source=pos`,
+        });
+
+        const result = await response.json();
+        
+        if (result.success && result.data?.url) {
+          // Redirect to Cardcom payment page
+          window.location.href = result.data.url;
+          return;
+        } else {
+          toast({
+            title: "שגיאה",
+            description: "לא ניתן ליצור קישור תשלום",
+            variant: "destructive",
+          });
+          setProcessingPayment(false);
+          return;
+        }
+      } catch (error: any) {
+        toast({
+          title: "שגיאה",
+          description: error.message || "שגיאה ביצירת תשלום",
+          variant: "destructive",
+        });
+        setProcessingPayment(false);
+        return;
+      }
+    } else {
+      // Cash, Transfer, or Split payment
+      const finalCash = paymentMethod === 'cash' ? totalAmount.toString() : cashAmount;
+      const finalCard = paymentMethod === 'card' ? totalAmount.toString() : cardAmount;
+      const finalTransfer = paymentMethod === 'transfer' ? totalAmount.toString() : transferAmount;
+      
+      await completeSale(
+        paymentMethod === 'split' ? 'split' : paymentMethod,
+        finalCash,
+        finalCard,
+        finalTransfer
+      );
+    }
+  };
+
+  const completeSale = async (
+    method: string,
+    cash: string,
+    card: string,
+    transfer: string
+  ) => {
+    const items = cart.map(item => ({
+      productId: item.product.id,
+      productName: item.product.name,
+      productNameHe: item.product.nameHe,
+      productType: item.product.productType,
+      quantity: item.quantity,
+      unitPrice: item.product.price,
+      discount: '0',
+    }));
+
+    try {
+      const response = await apiRequest('POST', '/api/pos/sales', {
+        customerId: selectedCustomer?.id || null,
+        items,
+        paymentMethod: method,
+        cashAmount: cash,
+        cardAmount: card,
+        transferAmount: transfer,
+        discountAmount: '0',
+        notes: selectedCustomer ? `Sale to ${selectedCustomer.fullName}` : 'Guest sale',
+      });
+
+      const data = await response.json();
+      
+      queryClient.invalidateQueries({ queryKey: ['/api/products'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/pos/sales'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/pos/daily-summary'] });
+      
+      const customerInfo = selectedCustomer ? selectedCustomer.fullName : "אורח";
+      const saleNumber = data.data?.saleNumber || '';
+      
+      toast({
+        title: "✅ עסקה הושלמה",
+        description: `מכירה ${saleNumber} | לקוח: ${customerInfo} | סה"כ: ₪${totalAmount.toFixed(2)}`,
+      });
+      
+      setCart([]);
+      setSelectedCustomer(null);
+      setShowPaymentDialog(false);
+      setProcessingPayment(false);
+    } catch (error: any) {
+      toast({
+        title: "❌ שגיאה",
+        description: error.message || "אירעה שגיאה ביצירת המכירה",
+        variant: "destructive",
+      });
+      setProcessingPayment(false);
+    }
   };
 
   return (
@@ -548,6 +749,112 @@ export default function POS() {
           </div>
         </div>
       </div>
+
+      {/* Payment Dialog */}
+      <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>בחר אמצעי תשלום</DialogTitle>
+            <DialogDescription>
+              סה"כ לתשלום: ₪{totalAmount.toFixed(2)}
+            </DialogDescription>
+          </DialogHeader>
+
+          <Tabs value={paymentMethod} onValueChange={(v) => setPaymentMethod(v as any)} className="w-full">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="cash">מזומן</TabsTrigger>
+              <TabsTrigger value="card">כרטיס אשראי</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="cash" className="space-y-4">
+              <div>
+                <Label>סכום מזומן</Label>
+                <Input
+                  type="number"
+                  value={cashAmount}
+                  onChange={(e) => setCashAmount(e.target.value)}
+                  placeholder={totalAmount.toFixed(2)}
+                  className="text-lg"
+                />
+                {parseFloat(cashAmount || '0') < totalAmount && (
+                  <p className="text-sm text-yellow-500 mt-1">
+                    חסר: ₪{(totalAmount - parseFloat(cashAmount || '0')).toFixed(2)}
+                  </p>
+                )}
+                {parseFloat(cashAmount || '0') > totalAmount && (
+                  <p className="text-sm text-green-500 mt-1">
+                    עודף: ₪{(parseFloat(cashAmount || '0') - totalAmount).toFixed(2)}
+                  </p>
+                )}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="card" className="space-y-4">
+              <div className="text-center py-4">
+                <CreditCard className="w-16 h-16 mx-auto mb-4 text-pink-500" />
+                <p className="text-gray-400 mb-4">
+                  סליקה דרך מסוף אשראי Max
+                </p>
+                <p className="text-sm text-gray-500">
+                  סכום: ₪{totalAmount.toFixed(2)}
+                </p>
+              </div>
+            </TabsContent>
+          </Tabs>
+
+          <div className="flex gap-2 pt-4 border-t">
+            <Button
+              onClick={() => setShowPaymentDialog(false)}
+              variant="outline"
+              className="flex-1"
+              disabled={processingPayment}
+            >
+              ביטול
+            </Button>
+            <Button
+              onClick={handlePayment}
+              disabled={processingPayment || (paymentMethod === 'cash' && parseFloat(cashAmount || '0') < totalAmount)}
+              className="flex-1 bg-gradient-to-r from-pink-500 to-purple-600"
+            >
+              {processingPayment ? 'מעבד...' : paymentMethod === 'card' ? 'סלק בכרטיס' : 'אישור תשלום'}
+            </Button>
+          </div>
+
+          {/* Additional payment methods */}
+          <div className="pt-4 border-t">
+            <p className="text-sm text-gray-400 mb-2">אמצעי תשלום נוספים:</p>
+            <div className="grid grid-cols-2 gap-2">
+              <Button
+                onClick={() => {
+                  setPaymentMethod('cardcom');
+                  handlePayment();
+                }}
+                variant="outline"
+                size="sm"
+                disabled={processingPayment}
+                className="w-full"
+              >
+                <CreditCard className="w-4 h-4 ml-2" />
+                Cardcom
+              </Button>
+              <Button
+                onClick={() => {
+                  setPaymentMethod('transfer');
+                  setTransferAmount(totalAmount.toFixed(2));
+                  handlePayment();
+                }}
+                variant="outline"
+                size="sm"
+                disabled={processingPayment}
+                className="w-full"
+              >
+                <Banknote className="w-4 h-4 ml-2" />
+                העברה
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

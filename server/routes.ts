@@ -435,6 +435,36 @@ export function registerRoutes(app: express.Application) {
     }
   });
 
+  // List doors endpoint
+  app.get('/api/biostar/doors', async (req, res) => {
+    try {
+      const isReady = await bioStarStartup.ensureReady();
+      if (!isReady) {
+        return res.json({
+          success: true,
+          data: []
+        });
+      }
+
+      // Use the biostar.ts helper to list doors
+      const { login, listDoors } = await import('./biostar');
+      const sid = await login();
+      const trace: any[] = [];
+      const doors = await listDoors(sid, trace);
+
+      res.json({
+        success: true,
+        data: doors
+      });
+    } catch (error: any) {
+      console.error('List doors failed:', error);
+      res.json({
+        success: true,
+        data: [] // Return empty array on error
+      });
+    }
+  });
+
   // Door access logs endpoint (Protected: local access)
   // SECURITY: Server MUST run on localhost (127.0.0.1) only, NOT on 0.0.0.0
   app.get('/api/biostar/door-logs', requireLocalAccess, async (req, res) => {
@@ -503,7 +533,8 @@ export function registerRoutes(app: express.Application) {
       });
 
       // Generate upload link
-      const uploadUrl = `${process.env.REPLIT_DEV_DOMAIN || 'http://localhost:5000'}/upload-face/${token}`;
+      const baseUrl = process.env.APP_BASE_URL || 'http://localhost:5000';
+      const uploadUrl = `${baseUrl}/upload-face/${token}`;
 
       // Send WhatsApp message
       const message = `שלום ${customer.fullName}! 👋\n\nלהשלמת הרישום במכון, אנא העלה תמונה ברורה שלך דרך הקישור:\n\n${uploadUrl}\n\nהקישור תקף ל-30 דקות.`;
@@ -1010,6 +1041,7 @@ export function registerRoutes(app: express.Application) {
       const { eq } = await import('drizzle-orm');
       
       const membershipId = req.params.id;
+      const { openDoor = false, doorId = '1' } = req.body; // Optional: open door automatically
       
       // Get membership details
       const [membership] = await db
@@ -1045,14 +1077,48 @@ export function registerRoutes(app: express.Application) {
       // Get customer for WhatsApp notification
       const [customer] = await db.select().from(customers).where(eq(customers.id, membership.customerId)).limit(1);
 
+      // Try to open door if requested and BioStar is available
+      let doorOpened = false;
+      if (openDoor) {
+        try {
+          const isReady = await bioStarStartup.ensureReady();
+          if (isReady) {
+            const doorResult = await bioStarClient.openDoor(doorId);
+            doorOpened = doorResult;
+            
+            // Log door access
+            await storage.createDoorAccessLog({
+              doorId,
+              doorName: doorId === '1' ? 'Main Entrance' : `Door ${doorId}`,
+              actionType: 'card_marking',
+              customerId: membership.customerId,
+              success: doorResult,
+              errorMessage: doorResult ? undefined : 'Failed to open door',
+              ipAddress: req.ip,
+              userAgent: req.get('user-agent'),
+              metadata: {
+                membershipId,
+                membershipType: membership.type
+              }
+            });
+          }
+        } catch (doorError: any) {
+          console.error('[BioStar] Failed to open door during card marking:', doorError);
+          // Continue even if door opening fails
+        }
+      }
+
       // Create usage record
       const usageData = {
         customerId: membership.customerId,
         membershipId: membershipId,
         serviceType: membership.type,
         sessionsUsed: 1,
-        entryMethod: 'manual' as const, // Manual check-in via quick search
-        notes: `Check-in via Quick Search by staff`
+        entryMethod: openDoor && doorOpened ? 'card_marking' as const : 'manual' as const,
+        doorId: openDoor ? doorId : undefined,
+        notes: openDoor && doorOpened 
+          ? `Check-in via Quick Search with automatic door opening` 
+          : `Check-in via Quick Search by staff`
       };
       const [usage] = await db.insert(sessionUsage).values(usageData).returning();
 
@@ -1076,6 +1142,7 @@ export function registerRoutes(app: express.Application) {
         data: {
           usage,
           newBalance,
+          doorOpened,
           message: 'שימוש נרשם בהצלחה'
         }
       });
@@ -1440,7 +1507,14 @@ export function registerRoutes(app: express.Application) {
         
         console.log(`[WhatsApp] Message from ${from}: ${text}`);
         
-        // Handle inbound message
+        // Import WhatsApp management service
+        const { WhatsAppManagementService } = await import('./services/whatsapp-management-service');
+        const whatsappManagement = new WhatsAppManagementService(storage);
+        
+        // Process message through management service (handles customer queries)
+        await whatsappManagement.processMessage(from, text);
+        
+        // Also handle through workflow service (for new leads and workflow advancement)
         await workflowService.handleInboundWhatsAppMessage(from, text);
       }
     } catch (error: any) {
@@ -1477,8 +1551,202 @@ export function registerRoutes(app: express.Application) {
   });
 
   // ============================================================
+  // Max Payment Terminal Integration Endpoints
+  // ============================================================
+
+  // Process payment through Max terminal
+  app.post('/api/payments/max/charge', async (req, res) => {
+    try {
+      const { amount, description, customerName, customerPhone, referenceId } = req.body;
+      
+      if (!amount || amount <= 0) {
+        return res.status(400).json({
+          success: false,
+          error: 'Amount is required and must be greater than 0'
+        });
+      }
+
+      const maxService = await import('./services/max-service');
+      const paymentResult = await maxService.maxService.processPayment({
+        amount: parseFloat(amount),
+        description: description || 'POS Sale',
+        customerName,
+        customerPhone,
+        referenceId: referenceId || `POS_${Date.now()}`,
+      });
+
+      if (!paymentResult.success) {
+        return res.status(400).json({
+          success: false,
+          error: paymentResult.error || 'Payment failed',
+          errorCode: paymentResult.errorCode,
+        });
+      }
+
+      res.json({
+        success: true,
+        data: {
+          transactionId: paymentResult.transactionId,
+          approvalCode: paymentResult.approvalCode,
+          cardLast4: paymentResult.cardLast4,
+          cardBrand: paymentResult.cardBrand,
+        }
+      });
+    } catch (error: any) {
+      console.error('[Max] Payment processing failed:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to process payment',
+        details: error.message
+      });
+    }
+  });
+
+  // Verify Max payment
+  app.get('/api/payments/max/verify/:transactionId', async (req, res) => {
+    try {
+      const { transactionId } = req.params;
+      
+      const maxService = await import('./services/max-service');
+      const verifyResult = await maxService.maxService.verifyPayment(transactionId);
+
+      if (!verifyResult.success) {
+        return res.status(400).json({
+          success: false,
+          error: verifyResult.error || 'Verification failed',
+          errorCode: verifyResult.errorCode,
+        });
+      }
+
+      res.json({
+        success: true,
+        data: verifyResult
+      });
+    } catch (error: any) {
+      console.error('[Max] Payment verification failed:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to verify payment',
+        details: error.message
+      });
+    }
+  });
+
+  // Refund Max payment
+  app.post('/api/payments/max/refund', async (req, res) => {
+    try {
+      const { transactionId, amount } = req.body;
+      
+      if (!transactionId) {
+        return res.status(400).json({
+          success: false,
+          error: 'Transaction ID is required'
+        });
+      }
+
+      const maxService = await import('./services/max-service');
+      const refundResult = await maxService.maxService.refundPayment(
+        transactionId,
+        amount ? parseFloat(amount) : undefined
+      );
+
+      if (!refundResult.success) {
+        return res.status(400).json({
+          success: false,
+          error: refundResult.error || 'Refund failed',
+          errorCode: refundResult.errorCode,
+        });
+      }
+
+      res.json({
+        success: true,
+        data: refundResult
+      });
+    } catch (error: any) {
+      console.error('[Max] Refund failed:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to process refund',
+        details: error.message
+      });
+    }
+  });
+
+  // ============================================================
   // Cardcom Payment Integration Endpoints
   // ============================================================
+
+  // Create payment session for online shop products
+  app.post('/api/payments/cardcom/products', async (req, res) => {
+    try {
+      const { items, totalAmount, customerName, customerPhone, customerEmail, successUrl, errorUrl } = req.body;
+      
+      if (!items || !Array.isArray(items) || items.length === 0) {
+        return res.status(400).json({
+          success: false,
+          error: 'Items array is required and cannot be empty'
+        });
+      }
+
+      if (!totalAmount || !customerName || !customerPhone) {
+        return res.status(400).json({
+          success: false,
+          error: 'Missing required fields: totalAmount, customerName, customerPhone'
+        });
+      }
+
+      const baseUrl = process.env.APP_BASE_URL || 'http://localhost:5000';
+      
+      // Create a product list description
+      const productNames = items.map((item: any) => 
+        `${item.productNameHe || item.productName} (x${item.quantity})`
+      ).join(', ');
+      
+      // Normalize phone number
+      let normalizedPhone = customerPhone.replace(/\D/g, '');
+      if (!normalizedPhone.startsWith('972')) {
+        if (normalizedPhone.startsWith('0')) {
+          normalizedPhone = normalizedPhone.substring(1);
+        }
+        normalizedPhone = '972' + normalizedPhone;
+      }
+
+      // Create payment session using Cardcom service
+      const { cardcomService } = await import('./services/cardcom-service');
+      const session = await cardcomService.createPaymentSessionForProducts({
+        items,
+        totalAmount: parseFloat(totalAmount),
+        customerName,
+        customerPhone: normalizedPhone,
+        customerEmail,
+        successUrl: successUrl || `${baseUrl}/payment-success?source=shop`,
+        errorUrl: errorUrl || `${baseUrl}/payment-error?source=shop`,
+        indicatorUrl: `${baseUrl}/api/webhooks/cardcom/payment`,
+      });
+
+      if (!session) {
+        return res.status(500).json({
+          success: false,
+          error: 'Failed to create payment session'
+        });
+      }
+
+      res.json({
+        success: true,
+        data: {
+          url: session.url,
+          lowProfileCode: session.lowProfileCode,
+        }
+      });
+    } catch (error: any) {
+      console.error('[Cardcom] Create products payment session failed:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to create payment session',
+        details: error.message
+      });
+    }
+  });
 
   // Create payment session
   app.post('/api/payments/cardcom/session', async (req, res) => {
@@ -1521,8 +1789,7 @@ export function registerRoutes(app: express.Application) {
         finalCustomerId = 'guest';
       }
       
-      const baseUrl = process.env.REPLIT_DOMAINS?.split(',')[0] || 'localhost:5000';
-      const protocol = baseUrl.includes('localhost') ? 'http' : 'https';
+      const baseUrl = process.env.APP_BASE_URL || 'http://localhost:5000';
       
       const session = await cardcomService.createPaymentSession({
         customerId: finalCustomerId,
@@ -1531,9 +1798,9 @@ export function registerRoutes(app: express.Application) {
         customerEmail: finalCustomerEmail,
         packageId,
         customTanSessions: customTanSessions,
-        successUrl: successUrl || `${protocol}://${baseUrl}/payment-success?customerId=${finalCustomerId}&packageId=${packageId}`,
-        errorUrl: errorUrl || `${protocol}://${baseUrl}/payment-error?customerId=${finalCustomerId}`,
-        indicatorUrl: indicatorUrl || `${protocol}://${baseUrl}/api/webhooks/cardcom/payment`,
+        successUrl: successUrl || `${baseUrl}/payment-success?customerId=${finalCustomerId}&packageId=${packageId}`,
+        errorUrl: errorUrl || `${baseUrl}/payment-error?customerId=${finalCustomerId}`,
+        indicatorUrl: indicatorUrl || `${baseUrl}/api/webhooks/cardcom/payment`,
       });
       
       if (!session) {
@@ -1589,9 +1856,61 @@ export function registerRoutes(app: express.Application) {
       }
       
       if (webhookData.status === 'success') {
+        // If customerId is 'guest', create customer from payment data
+        let finalCustomerId = webhookData.customerId;
+        
+        if (webhookData.customerId === 'guest' || !webhookData.customerId) {
+          // Extract customer info from webhook metadata
+          const customerName = webhookData.customerName || 'לקוח חדש';
+          const customerPhone = webhookData.customerPhone;
+          
+          if (customerPhone) {
+            // Normalize phone number
+            let normalizedPhone = customerPhone.replace(/\D/g, '');
+            if (!normalizedPhone.startsWith('972')) {
+              if (normalizedPhone.startsWith('0')) {
+                normalizedPhone = normalizedPhone.substring(1);
+              }
+              normalizedPhone = '972' + normalizedPhone;
+            }
+            
+            // Check if customer already exists
+            let existingCustomer = await storage.getCustomerByPhone(normalizedPhone);
+            
+            if (!existingCustomer) {
+              // Create new customer
+              existingCustomer = await storage.createCustomer({
+                fullName: customerName,
+                phone: normalizedPhone,
+                email: webhookData.customerEmail || undefined,
+                stage: 'payment_success',
+                waOptIn: true,
+                isNewClient: true,
+                healthFormSigned: false,
+              });
+              
+              console.log(`[Cardcom] Created new customer from guest payment: ${existingCustomer.id}`);
+            } else {
+              // Update existing customer
+              await storage.updateCustomer(existingCustomer.id, {
+                fullName: customerName,
+                email: webhookData.customerEmail || existingCustomer.email,
+                stage: 'payment_success',
+              });
+              
+              console.log(`[Cardcom] Updated existing customer from guest payment: ${existingCustomer.id}`);
+            }
+            
+            finalCustomerId = existingCustomer.id;
+          } else {
+            console.error('[Cardcom] Cannot create customer - missing phone number');
+            return;
+          }
+        }
+        
         // Handle successful payment
         await workflowService.handlePaymentSuccess(
-          webhookData.customerId,
+          finalCustomerId,
           webhookData.packageId,
           webhookData.cardcomTransactionId,
           webhookData.amount
@@ -1634,9 +1953,8 @@ export function registerRoutes(app: express.Application) {
         });
       }
       
-      const baseUrl = process.env.REPLIT_DOMAINS?.split(',')[0] || 'localhost:5000';
-      const protocol = baseUrl.includes('localhost') ? 'http' : 'https';
-      const url = `${protocol}://${baseUrl}/face-registration/${customerId}`;
+      const baseUrl = process.env.APP_BASE_URL || 'http://localhost:5000';
+      const url = `${baseUrl}/face-registration/${customerId}`;
       
       res.json({
         success: true,
@@ -2044,6 +2362,298 @@ export function registerRoutes(app: express.Application) {
       res.json({ success: true, message: 'Product deleted successfully' });
     } catch (error: any) {
       res.status(500).json({ success: false, error: error.message });
+    }
+  });
+
+  // ============================================================
+  // POS SALES ENDPOINTS
+  // ============================================================
+
+  // Create POS sale
+  app.post('/api/pos/sales', async (req, res) => {
+    try {
+      const { customerId, items, paymentMethod, cashAmount, cardAmount, transferAmount, discountAmount, notes } = req.body;
+      
+      if (!items || !Array.isArray(items) || items.length === 0) {
+        return res.status(400).json({
+          success: false,
+          error: 'Items array is required and cannot be empty'
+        });
+      }
+
+      if (!paymentMethod) {
+        return res.status(400).json({
+          success: false,
+          error: 'Payment method is required'
+        });
+      }
+
+      // Calculate totals
+      let totalAmount = 0;
+      for (const item of items) {
+        const itemTotal = parseFloat(item.unitPrice) * item.quantity - (parseFloat(item.discount || '0'));
+        totalAmount += itemTotal;
+      }
+
+      const discount = parseFloat(discountAmount || '0');
+      const finalAmount = totalAmount - discount;
+
+      // Generate unique sale number
+      const year = new Date().getFullYear();
+      const saleCount = await db.execute(
+        sql`SELECT COUNT(*) as count FROM pos_sales WHERE sale_number LIKE ${`SALE-${year}-%`}`
+      );
+      const count = parseInt(saleCount.rows[0]?.count || '0') + 1;
+      const saleNumber = `SALE-${year}-${String(count).padStart(6, '0')}`;
+
+      // Create sale
+      const sale = await storage.createPosSale({
+        saleNumber,
+        customerId: customerId || null,
+        totalAmount: totalAmount.toString(),
+        discountAmount: discount.toString(),
+        finalAmount: finalAmount.toString(),
+        paymentMethod,
+        cashAmount: (cashAmount || '0').toString(),
+        cardAmount: (cardAmount || '0').toString(),
+        transferAmount: (transferAmount || '0').toString(),
+        status: 'completed',
+        notes: notes || null,
+        items: items,
+        createdBy: null, // TODO: Get from session/auth
+      });
+
+      // Create sale items and update stock
+      const { posSaleItems, products } = await import('@shared/schema');
+      
+      for (const item of items) {
+        // Create sale item record
+        await db.insert(posSaleItems).values({
+          saleId: sale.id,
+          productId: item.productId || null,
+          productName: item.productName,
+          productNameHe: item.productNameHe,
+          quantity: item.quantity,
+          unitPrice: item.unitPrice.toString(),
+          discount: (item.discount || '0').toString(),
+          totalPrice: ((parseFloat(item.unitPrice) * item.quantity) - parseFloat(item.discount || '0')).toString(),
+        });
+
+        // Update stock if it's a product
+        if (item.productId && item.productType === 'product') {
+          const [product] = await db.select().from(products).where(eq(products.id, item.productId)).limit(1);
+          
+          if (product) {
+            const previousStock = product.stock || 0;
+            const newStock = Math.max(0, previousStock - item.quantity);
+            
+            // Update product stock
+            await db
+              .update(products)
+              .set({ stock: newStock, updatedAt: new Date() })
+              .where(eq(products.id, item.productId));
+
+            // Create stock movement record
+            await storage.createStockMovement({
+              productId: item.productId,
+              movementType: 'sale',
+              quantity: -item.quantity,
+              previousStock,
+              newStock,
+              referenceId: sale.id,
+              referenceType: 'sale',
+              notes: `Sale ${saleNumber}`,
+              createdBy: null,
+            });
+          }
+        }
+      }
+
+      // Update daily summary
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const dailySummary = await storage.getDailySummary(today);
+      
+      if (dailySummary) {
+        await storage.createOrUpdateDailySummary(today, {
+          totalSales: dailySummary.totalSales + 1,
+          totalRevenue: (parseFloat(dailySummary.totalRevenue.toString()) + finalAmount).toString(),
+          cashRevenue: (parseFloat(dailySummary.cashRevenue.toString()) + parseFloat(cashAmount || '0')).toString(),
+          cardRevenue: (parseFloat(dailySummary.cardRevenue.toString()) + parseFloat(cardAmount || '0')).toString(),
+          transferRevenue: (parseFloat(dailySummary.transferRevenue.toString()) + parseFloat(transferAmount || '0')).toString(),
+          totalDiscounts: (parseFloat(dailySummary.totalDiscounts.toString()) + discount).toString(),
+          itemsSold: dailySummary.itemsSold + items.reduce((sum: number, item: any) => sum + item.quantity, 0),
+          customerSales: customerId ? dailySummary.customerSales + 1 : dailySummary.customerSales,
+          guestSales: !customerId ? dailySummary.guestSales + 1 : dailySummary.guestSales,
+        });
+      } else {
+        await storage.createOrUpdateDailySummary(today, {
+          totalSales: 1,
+          totalRevenue: finalAmount.toString(),
+          cashRevenue: (cashAmount || '0').toString(),
+          cardRevenue: (cardAmount || '0').toString(),
+          transferRevenue: (transferAmount || '0').toString(),
+          totalDiscounts: discount.toString(),
+          itemsSold: items.reduce((sum: number, item: any) => sum + item.quantity, 0),
+          customerSales: customerId ? 1 : 0,
+          guestSales: !customerId ? 1 : 0,
+        });
+      }
+
+      res.json({
+        success: true,
+        data: sale
+      });
+    } catch (error: any) {
+      console.error('Create POS sale failed:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to create sale',
+        details: error.message
+      });
+    }
+  });
+
+  // Get POS sales
+  app.get('/api/pos/sales', async (req, res) => {
+    try {
+      const startDate = req.query.startDate ? new Date(req.query.startDate as string) : undefined;
+      const endDate = req.query.endDate ? new Date(req.query.endDate as string) : undefined;
+      
+      const sales = await storage.getPosSales(startDate, endDate);
+      
+      res.json({
+        success: true,
+        data: sales
+      });
+    } catch (error: any) {
+      console.error('Get POS sales failed:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to get sales',
+        details: error.message
+      });
+    }
+  });
+
+  // Get POS sale by ID
+  app.get('/api/pos/sales/:id', async (req, res) => {
+    try {
+      const sale = await storage.getPosSale(req.params.id);
+      
+      if (!sale) {
+        return res.status(404).json({
+          success: false,
+          error: 'Sale not found'
+        });
+      }
+
+      // Get sale items
+      const { posSaleItems } = await import('@shared/schema');
+      const items = await db
+        .select()
+        .from(posSaleItems)
+        .where(eq(posSaleItems.saleId, sale.id));
+
+      res.json({
+        success: true,
+        data: {
+          ...sale,
+          items
+        }
+      });
+    } catch (error: any) {
+      console.error('Get POS sale failed:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to get sale',
+        details: error.message
+      });
+    }
+  });
+
+  // Get stock movements
+  app.get('/api/pos/stock-movements', async (req, res) => {
+    try {
+      const productId = req.query.productId as string | undefined;
+      const limit = req.query.limit ? parseInt(req.query.limit as string) : 100;
+      
+      const movements = await storage.getStockMovements(productId, limit);
+      
+      res.json({
+        success: true,
+        data: movements
+      });
+    } catch (error: any) {
+      console.error('Get stock movements failed:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to get stock movements',
+        details: error.message
+      });
+    }
+  });
+
+  // Get daily summary
+  app.get('/api/pos/daily-summary', async (req, res) => {
+    try {
+      const date = req.query.date ? new Date(req.query.date as string) : new Date();
+      
+      const summary = await storage.getDailySummary(date);
+      
+      if (!summary) {
+        // Return empty summary if not found
+        return res.json({
+          success: true,
+          data: {
+            date,
+            totalSales: 0,
+            totalRevenue: '0',
+            cashRevenue: '0',
+            cardRevenue: '0',
+            transferRevenue: '0',
+            totalDiscounts: '0',
+            totalRefunds: '0',
+            itemsSold: 0,
+            customerSales: 0,
+            guestSales: 0,
+          }
+        });
+      }
+
+      res.json({
+        success: true,
+        data: summary
+      });
+    } catch (error: any) {
+      console.error('Get daily summary failed:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to get daily summary',
+        details: error.message
+      });
+    }
+  });
+
+  // Get daily summaries (range)
+  app.get('/api/pos/daily-summaries', async (req, res) => {
+    try {
+      const startDate = req.query.startDate ? new Date(req.query.startDate as string) : new Date(Date.now() - 30 * 24 * 60 * 60 * 1000); // Default: last 30 days
+      const endDate = req.query.endDate ? new Date(req.query.endDate as string) : new Date();
+      
+      const summaries = await storage.getDailySummaries(startDate, endDate);
+      
+      res.json({
+        success: true,
+        data: summaries
+      });
+    } catch (error: any) {
+      console.error('Get daily summaries failed:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to get daily summaries',
+        details: error.message
+      });
     }
   });
 

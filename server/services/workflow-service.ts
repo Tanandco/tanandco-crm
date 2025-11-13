@@ -114,9 +114,8 @@ class WorkflowService {
    */
   private async sendPurchaseOptions(customer: Customer): Promise<void> {
     try {
-      const baseUrl = process.env.REPLIT_DOMAINS?.split(",")[0] || "localhost:5000";
-      const protocol = baseUrl.includes("localhost") ? "http" : "https";
-      const checkoutUrl = `${protocol}://${baseUrl}/checkout/${customer.id}`;
+      const baseUrl = process.env.APP_BASE_URL || "http://localhost:5000";
+      const checkoutUrl = `${baseUrl}/checkout/${customer.id}`;
 
       // Send WhatsApp message with purchase options
       const sent = await whatsappService.sendPurchaseOptions(
@@ -225,18 +224,35 @@ class WorkflowService {
    */
   private async sendOnboardingLinks(customer: Customer): Promise<void> {
     try {
-      const baseUrl = process.env.REPLIT_DOMAINS?.split(",")[0] || "localhost:5000";
-      const protocol = baseUrl.includes("localhost") ? "http" : "https";
+      const baseUrl = process.env.APP_BASE_URL || "http://localhost:5000";
       
-      const healthFormUrl = `${protocol}://${baseUrl}/health-form/${customer.id}`;
-      const faceRegUrl = `${protocol}://${baseUrl}/face-registration/${customer.id}`;
+      // Generate unique token for face registration (30 minutes expiry)
+      // Use crypto for token generation
+      const crypto = await import('crypto');
+      const faceToken = crypto.randomBytes(8).toString('base64url').slice(0, 10);
+      const expiresAt = new Date(Date.now() + 30 * 60 * 1000); // 30 minutes
+      
+      // Create face upload token in database
+      await this.storage.createFaceUploadToken({
+        token: faceToken,
+        customerId: customer.id,
+        status: 'pending',
+        expiresAt
+      });
+      
+      // Use token-based URLs for better security
+      const healthFormUrl = `${baseUrl}/health-form?customerId=${customer.id}`;
+      const faceRegUrl = `${baseUrl}/upload-face/${faceToken}`;
 
-      // Send health form link
+      // Send health form link first
       await whatsappService.sendHealthFormLink(
         customer.phone,
         customer.fullName,
         healthFormUrl
       );
+
+      // Wait a bit before sending face registration link
+      await new Promise(resolve => setTimeout(resolve, 2000));
 
       // Send face registration link
       await whatsappService.sendFaceRegistrationLink(

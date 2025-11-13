@@ -164,6 +164,107 @@ class CardcomService {
   }
 
   /**
+   * Create a payment session for online shop products
+   */
+  async createPaymentSessionForProducts(params: {
+    items: Array<{
+      productId: string;
+      productName: string;
+      productNameHe: string;
+      quantity: number;
+      unitPrice: string;
+    }>;
+    totalAmount: number;
+    customerName: string;
+    customerPhone: string;
+    customerEmail?: string;
+    successUrl: string;
+    errorUrl: string;
+    indicatorUrl?: string;
+  }): Promise<CardcomSession | null> {
+    if (!this.isConfigured || !this.config) {
+      console.warn("[Cardcom] Cannot create session - service not configured");
+      return null;
+    }
+
+    try {
+      // Create product list description
+      const productNames = params.items
+        .map(item => `${item.productNameHe || item.productName} (x${item.quantity})`)
+        .join(', ');
+
+      // Build form data for Low Profile API
+      const formData = new URLSearchParams({
+        TerminalNumber: this.config.terminalNumber,
+        UserName: this.config.apiUsername,
+        APILevel: "10",
+        codepage: "65001", // UTF-8
+        Operation: "1", // Charge
+        CoinID: "1", // ILS
+        Language: this.config.language,
+        SumToBill: params.totalAmount.toString(),
+        ProductName: `רכישת מוצרים: ${productNames}`,
+        // Customer details
+        CustName: params.customerName,
+        CustMobilePH: params.customerPhone.replace(/\D/g, ""),
+        ...(params.customerEmail && { CustEmail: params.customerEmail }),
+        // URLs
+        SuccessRedirectUrl: params.successUrl,
+        ErrorRedirectUrl: params.errorUrl,
+        ...(params.indicatorUrl && { IndicatorUrl: params.indicatorUrl }),
+        // Additional data
+        InternalDealID: `shop_${Date.now()}_${crypto.randomBytes(4).toString('hex')}`,
+        ReturnValue: JSON.stringify({
+          source: 'online-shop',
+          items: params.items,
+          totalAmount: params.totalAmount,
+        }),
+      });
+
+      const response = await fetch(
+        `${this.baseUrl}/Interface/LowProfile.aspx`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: formData.toString(),
+        }
+      );
+
+      const result = await response.text();
+      
+      // Parse response (format: ResponseCode=0&url=https://...)
+      const responseParams = new URLSearchParams(result);
+      const responseCode = responseParams.get("ResponseCode");
+      const lowProfileCode = responseParams.get("LowProfileCode");
+      const url = responseParams.get("url");
+
+      if (responseCode !== "0" || !url || !lowProfileCode) {
+        const description = responseParams.get("Description");
+        
+        if (responseCode === "650") {
+          console.error("[Cardcom] Permission error - Low Profile API not enabled:", result);
+          throw new Error("חשבון Cardcom לא מאושר להשתמש ב-Low Profile API. יש ליצור קשר עם Cardcom לשדרוג החשבון.");
+        }
+        
+        console.error("[Cardcom] Failed to create products payment session:", result);
+        throw new Error(description || "שגיאה ביצירת קישור תשלום");
+      }
+
+      console.log(`[Cardcom] Products payment session created: ${lowProfileCode}`);
+      
+      return {
+        url,
+        lowProfileCode,
+      };
+    } catch (error) {
+      console.error("[Cardcom] Error creating products payment session:", error);
+      throw error;
+    }
+  }
+
+  /**
    * Verify webhook signature (if Cardcom sends signed webhooks)
    */
   verifyWebhookSignature(
@@ -208,6 +309,9 @@ class CardcomService {
     currency: string;
     cardcomTransactionId: string;
     status: "success" | "failed";
+    customerName?: string;
+    customerPhone?: string;
+    customerEmail?: string;
     returnValue?: any;
   } | null {
     try {
@@ -216,6 +320,11 @@ class CardcomService {
       const amount = parseFloat(body.SumToBill || "0");
       const cardcomTransactionId = body.InternalDealID;
       const responseCode = body.ResponseCode || body.ExtShvaParams?.code36;
+
+      // Extract customer info from Cardcom fields
+      const customerName = body.CustName || body.CustomerName;
+      const customerPhone = body.CustMobilePH || body.CustomerPhone || body.CustPhone;
+      const customerEmail = body.CustEmail || body.CustomerEmail;
 
       // Parse custom return value
       let customData = { customerId: "", packageId: "" };
@@ -235,6 +344,9 @@ class CardcomService {
         currency: "ILS",
         cardcomTransactionId,
         status: responseCode === "0" ? "success" : "failed",
+        customerName,
+        customerPhone,
+        customerEmail,
         returnValue: body.ReturnValue,
       };
     } catch (error) {

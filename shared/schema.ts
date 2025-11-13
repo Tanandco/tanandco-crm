@@ -104,6 +104,74 @@ export const transactions = pgTable("transactions", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+// POS Sales table - for point of sale transactions
+export const posSales = pgTable("pos_sales", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  saleNumber: text("sale_number").notNull().unique(), // Unique sale number (e.g., SALE-2025-001)
+  customerId: varchar("customer_id").references(() => customers.id), // Optional - can be null for guest sales
+  totalAmount: decimal("total_amount", { precision: 10, scale: 2 }).notNull(),
+  discountAmount: decimal("discount_amount", { precision: 10, scale: 2 }).default("0").notNull(),
+  finalAmount: decimal("final_amount", { precision: 10, scale: 2 }).notNull(),
+  paymentMethod: text("payment_method").notNull(), // 'cash', 'card', 'transfer', 'mixed'
+  cashAmount: decimal("cash_amount", { precision: 10, scale: 2 }).default("0"),
+  cardAmount: decimal("card_amount", { precision: 10, scale: 2 }).default("0"),
+  transferAmount: decimal("transfer_amount", { precision: 10, scale: 2 }).default("0"),
+  status: text("status").default("completed").notNull(), // 'completed', 'refunded', 'cancelled'
+  notes: text("notes"),
+  items: jsonb("items").notNull(), // Array of sale items
+  createdBy: varchar("created_by"), // User/staff ID who created the sale
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+// POS Sale Items - individual items in a sale
+export const posSaleItems = pgTable("pos_sale_items", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  saleId: varchar("sale_id").notNull().references(() => posSales.id, { onDelete: 'cascade' }),
+  productId: varchar("product_id").references(() => products.id),
+  productName: text("product_name").notNull(), // Store name for historical records
+  productNameHe: text("product_name_he").notNull(),
+  quantity: integer("quantity").notNull(),
+  unitPrice: decimal("unit_price", { precision: 10, scale: 2 }).notNull(),
+  discount: decimal("discount", { precision: 10, scale: 2 }).default("0"),
+  totalPrice: decimal("total_price", { precision: 10, scale: 2 }).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// Stock Movements - track all stock changes
+export const stockMovements = pgTable("stock_movements", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  productId: varchar("product_id").notNull().references(() => products.id),
+  movementType: text("movement_type").notNull(), // 'sale', 'purchase', 'adjustment', 'return', 'damage', 'transfer'
+  quantity: integer("quantity").notNull(), // Positive for additions, negative for subtractions
+  previousStock: integer("previous_stock").notNull(),
+  newStock: integer("new_stock").notNull(),
+  referenceId: varchar("reference_id"), // Reference to sale, purchase, etc.
+  referenceType: text("reference_type"), // 'sale', 'purchase', 'manual', etc.
+  notes: text("notes"),
+  createdBy: varchar("created_by"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// Daily Summaries - daily POS summaries
+export const dailySummaries = pgTable("daily_summaries", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  date: timestamp("date").notNull().unique(), // Date of the summary (start of day)
+  totalSales: integer("total_sales").default(0).notNull(), // Number of sales
+  totalRevenue: decimal("total_revenue", { precision: 10, scale: 2 }).default("0").notNull(),
+  cashRevenue: decimal("cash_revenue", { precision: 10, scale: 2 }).default("0").notNull(),
+  cardRevenue: decimal("card_revenue", { precision: 10, scale: 2 }).default("0").notNull(),
+  transferRevenue: decimal("transfer_revenue", { precision: 10, scale: 2 }).default("0").notNull(),
+  totalDiscounts: decimal("total_discounts", { precision: 10, scale: 2 }).default("0").notNull(),
+  totalRefunds: decimal("total_refunds", { precision: 10, scale: 2 }).default("0").notNull(),
+  itemsSold: integer("items_sold").default(0).notNull(),
+  customerSales: integer("customer_sales").default(0).notNull(), // Sales with customer
+  guestSales: integer("guest_sales").default(0).notNull(), // Guest sales
+  metadata: jsonb("metadata"), // Additional data (top products, categories, etc.)
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
 // Create Zod schemas for validation
 export const insertCustomerSchema = createInsertSchema(customers).omit({
   id: true,
@@ -423,7 +491,7 @@ export const insertSessionUsageSchema = createInsertSchema(sessionUsage).omit({
   customerId: z.string().uuid(),
   membershipId: z.string().uuid(),
   serviceType: z.string().min(1),
-  entryMethod: z.enum(['face_recognition', 'manual', 'staff']),
+  entryMethod: z.enum(['face_recognition', 'manual', 'staff', 'card_marking']),
 });
 
 // Export types
@@ -432,3 +500,29 @@ export type HealthForm = typeof healthForms.$inferSelect;
 
 export type InsertSessionUsage = z.infer<typeof insertSessionUsageSchema>;
 export type SessionUsage = typeof sessionUsage.$inferSelect;
+
+// POS Schemas
+export const insertPosSaleSchema = createInsertSchema(posSales).omit({
+  id: true,
+  saleNumber: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertPosSaleItemSchema = createInsertSchema(posSaleItems).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertStockMovementSchema = createInsertSchema(stockMovements).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertPosSale = z.infer<typeof insertPosSaleSchema>;
+export type PosSale = typeof posSales.$inferSelect;
+export type InsertPosSaleItem = z.infer<typeof insertPosSaleItemSchema>;
+export type PosSaleItem = typeof posSaleItems.$inferSelect;
+export type InsertStockMovement = z.infer<typeof insertStockMovementSchema>;
+export type StockMovement = typeof stockMovements.$inferSelect;
+export type DailySummary = typeof dailySummaries.$inferSelect;

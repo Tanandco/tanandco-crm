@@ -33,7 +33,6 @@ RUN npm ci --only=production
 
 # העתקת קבצים שנבנו
 COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/client/dist ./client/dist
 
 # יצירת משתמש לא-root לביטחון
 RUN addgroup -g 1001 -S nodejs && \

@@ -81,7 +81,7 @@ async function loginV2(): Promise<string> {
   return sid;
 }
 
-async function login(): Promise<string> {
+export async function login(): Promise<string> {
   try {
     return await loginV1();
   } catch (e1: any) {
@@ -95,7 +95,7 @@ async function login(): Promise<string> {
 
 type DoorLite = { id: string; name?: string; entryDeviceId?: string };
 
-async function listDoors(sid: string, trace: any[]): Promise<DoorLite[]> {
+export async function listDoors(sid: string, trace: any[]): Promise<DoorLite[]> {
   const H = apiHeadersWithSID(sid);
   const url = `${BASE}/api/doors`;
   try {

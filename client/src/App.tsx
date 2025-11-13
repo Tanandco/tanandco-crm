@@ -35,6 +35,9 @@ import ImportSubscribers from "@/pages/ImportSubscribers";
 import SyncBioStar from "@/pages/SyncBioStar";
 import ImportPasToucher from "@/pages/ImportPasToucher";
 import SocialDemo from "@/pages/social-demo";
+import BioStarManagement from "@/pages/biostar-management";
+import OnlineShop from "@/pages/online-shop";
+import InventoryManagement from "@/pages/inventory-management";
 
 // Import component examples for preview
 import LogoExample from "@/components/examples/Logo";
@@ -80,6 +83,9 @@ function Router() {
       <Route path="/sync-biostar" component={SyncBioStar} />
       <Route path="/import-pas-toucher" component={ImportPasToucher} />
       <Route path="/social-demo" component={SocialDemo} />
+      <Route path="/biostar-management" component={BioStarManagement} />
+      <Route path="/online-shop" component={OnlineShop} />
+      <Route path="/inventory-management" component={InventoryManagement} />
       
       {/* Component Examples for Development/Preview */}
       <Route path="/examples/logo" component={LogoExample} />

@@ -380,10 +380,10 @@ export default function SocialDemo() {
           </Card>
         )}
 
-        {/* Footer - Replit Badge */}
+        {/* Footer */}
         <div className="text-center mt-8">
           <p className="text-sm text-gray-500">
-            Built on <span className="text-pink-400 font-semibold">Replit</span> • Tan & Co CRM
+            Tan & Co CRM • Powered by Cloud
           </p>
         </div>
       </div>
