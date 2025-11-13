@@ -1,0 +1,97 @@
+# משתני סביבה ל-Google Cloud Run
+# העתק את כל השורות האלה והדבק ב-Cloud Run → Variables & Secrets
+
+# ============================================
+# הגדרות בסיסיות
+# ============================================
+NODE_ENV=production
+PORT=5000
+
+# ============================================
+# מסד נתונים (העתק מ-Replit)
+# ============================================
+DATABASE_URL=העתק_מ_Replit
+PGDATABASE=העתק_מ_Replit
+PGHOST=העתק_מ_Replit
+PGPORT=5432
+PGUSER=העתק_מ_Replit
+PGPASSWORD=העתק_מ_Replit
+
+# ============================================
+# WhatsApp Business API (העתק מ-Replit)
+# ============================================
+WA_PHONE_NUMBER_ID=699582612923896
+WA_BUSINESS_ACCOUNT_ID=העתק_מ_Replit
+CLOUD_API_ACCESS_TOKEN=העתק_מ_Replit
+CLOUD_API_VERSION=v18.0
+WA_APP_SECRET=העתק_מ_Replit
+WHATSAPP_APP_SECRET=העתק_מ_Replit
+WA_VERIFY_TOKEN=העתק_מ_Replit
+WEBHOOK_VERIFICATION_TOKEN=העתק_מ_Replit
+
+# ============================================
+# Cardcom Payment Gateway (העתק מ-Replit)
+# ============================================
+CARDCOM_TERMINAL_NUMBER=1578525
+CARDCOM_TERMINAL=1578525
+CARDCOM_USERNAME=העתק_מ_Replit
+CARDCOM_API_USERNAME=העתק_מ_Replit
+CARDCOM_API_KEY=העתק_מ_Replit
+CARDCOM_API_PASSWORD=העתק_מ_Replit
+
+# ============================================
+# BioStar 2 Face Recognition
+# ============================================
+BIOSTAR_SERVER_URL=https://biostar.tanandco.co.il
+BIOSTAR_USERNAME=admin
+BIOSTAR_PASSWORD=העתק_מ_Replit
+BIOSTAR_DOOR_ID=2
+BIOSTAR_ALLOW_SELF_SIGNED=false
+
+# ============================================
+# Meta Marketing API (העתק מ-Replit)
+# ============================================
+FACEBOOK_APP_ID=העתק_מ_Replit
+FACEBOOK_APP_SECRET=העתק_מ_Replit
+
+# ============================================
+# TikTok Ads API (העתק מ-Replit)
+# ============================================
+TIKTOK_CLIENT_KEY=העתק_מ_Replit
+TIKTOK_CLIENT_SECRET=העתק_מ_Replit
+
+# ============================================
+# Freepik API (העתק מ-Replit)
+# ============================================
+FREEPIK_API_KEY=העתק_מ_Replit
+
+# ============================================
+# OpenAI API (העתק מ-Replit)
+# ============================================
+OPENAI_API_KEY=העתק_מ_Replit
+
+# ============================================
+# אבטחה וסשן (העתק מ-Replit)
+# ============================================
+SESSION_SECRET=העתק_מ_Replit
+
+# ============================================
+# מדפסת
+# ============================================
+PRINTER_INTERFACE=POS-80
+
+# ============================================
+# גישה לדלת (העתק מ-Replit)
+# ============================================
+DOOR_ACCESS_KEY=העתק_מ_Replit
+
+# ============================================
+# מנהל מערכת (העתק מ-Replit)
+# ============================================
+ADMIN_PHONE=העתק_מ_Replit
+
+# ============================================
+# ⚠️ חשוב: אל תוסיף APP_BASE_URL עדיין!
+# תקבל אותו אחרי הפריסה ותעדכן אותו אז.
+# ============================================
+
