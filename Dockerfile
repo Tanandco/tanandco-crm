@@ -10,7 +10,8 @@ WORKDIR /app
 COPY package*.json ./
 
 # התקנת תלויות (כולל dev dependencies לבנייה)
-RUN npm ci
+RUN npm install --legacy-peer-deps
+
 
 # העתקת כל הקבצים
 COPY . .
