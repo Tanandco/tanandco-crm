@@ -1,53 +1,53 @@
-# Tan & Co CRM - Dockerfile
-# מתאים לפריסה על Google Cloud Run
+# ============================================
+#  Tan & Co CRM - Dockerfile (updated for Cloud Run)
+# ============================================
 
+# שלב 1: Build (כולל client + server)
 FROM node:20-alpine AS builder
 
-# עבודה בתיקיית /app
+# הגדרת תיקיית עבודה
 WORKDIR /app
 
-# העתקת קבצי package
+# העתקת קבצי package.json ו־lock
 COPY package*.json ./
 
-# התקנת תלויות (כולל dev dependencies לבנייה)
+# התקנת תלויות (כולל dev) עם תמיכה ב־peer dependencies
 RUN npm install --legacy-peer-deps
-
 
 # העתקת כל הקבצים
 COPY . .
 
-# בניית האפליקציה (client + server)
+# בנייה של האפליקציה
 RUN npm run build
 
-# בדיקה שהקבצים קיימים
-RUN ls -la dist/ || (echo "dist directory not found!" && exit 1)
+# בדיקה שקבצי build קיימים
+RUN ls -la dist/ || (echo "❌ dist directory not found!" && exit 1)
 
 # ============================================
-# שלב Production
+# שלב 2: Production
 # ============================================
+
 FROM node:20-alpine AS production
 
 WORKDIR /app
 
-# העתקת package files
+# העתקת קובצי package
 COPY package*.json ./
 
-# התקנת רק production dependencies
-RUN npm ci --omit=dev
+# ✅ התקנת תלויות פרודקשן בלבד עם תמיכה ב־peer deps
+RUN npm install --only=production --legacy-peer-deps
 
-# העתקת קבצים שנבנו
+# העתקת הקבצים שנבנו בשלב הראשון
 COPY --from=builder /app/dist ./dist
-
-# העתקת קבצים נוספים שנדרשים
 COPY --from=builder /app/shared ./shared
 COPY --from=builder /app/server ./server
 COPY --from=builder /app/client ./client
 
 # בדיקה שהקבצים קיימים
-RUN ls -la dist/ || (echo "dist directory not found!" && exit 1)
-RUN test -f dist/index.js || (echo "dist/index.js not found!" && exit 1)
+RUN ls -la dist/ || (echo "❌ dist directory not found!" && exit 1)
+RUN test -f dist/index.js || (echo "❌ dist/index.js not found!" && exit 1)
 
-# יצירת משתמש לא-root לביטחון
+# יצירת משתמש לא-root לצורכי אבטחה
 RUN addgroup -g 1001 -S nodejs && \
     adduser -S nodejs -u 1001
 
@@ -57,13 +57,12 @@ RUN chown -R nodejs:nodejs /app
 # מעבר למשתמש nodejs
 USER nodejs
 
-# חשיפת הפורט
+# חשיפת הפורט שבו האפליקציה פועלת
 EXPOSE 5000
 
-# משתנה סביבה
+# משתני סביבה
 ENV NODE_ENV=production
 ENV PORT=5000
 
-# הפעלת השרת
+# פקודת ההרצה הסופית של האפליקציה
 CMD ["node", "dist/index.js"]
-
