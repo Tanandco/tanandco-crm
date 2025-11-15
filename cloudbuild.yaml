@@ -1,0 +1,11 @@
+steps:
+  # Build Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'me-west1-docker.pkg.dev/tan-and-co-crm/cloud-run-source-deploy/tanandco-crm', '.']
+
+  # Push image to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'me-west1-docker.pkg.dev/tan-and-co-crm/cloud-run-source-deploy/tanandco-crm']
+
+images:
+  - 'me-west1-docker.pkg.dev/tan-and-co-crm/cloud-run-source-deploy/tanandco-crm'
