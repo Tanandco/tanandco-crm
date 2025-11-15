@@ -36,11 +36,11 @@ RUN npm ci --omit=dev
 
 # העתקת קבצים שנבנו
 COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/client/dist ./client/dist
 
 # העתקת קבצים נוספים שנדרשים
 COPY --from=builder /app/shared ./shared
 COPY --from=builder /app/server ./server
+COPY --from=builder /app/client ./client
 
 # בדיקה שהקבצים קיימים
 RUN ls -la dist/ || (echo "dist directory not found!" && exit 1)
