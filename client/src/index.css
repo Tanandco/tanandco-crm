@@ -1,9 +1,118 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 body {
   margin: 0;
   font-family: "Heebo", sans-serif;
   background-color: #000;
   color: #e064d5;
+}
+
+/* ============================================
+   Bidirectional Text Utilities
+   ============================================ */
+
+/* Base bidirectional text handling */
+.bidi-text {
+  unicode-bidi: embed;
+  direction: rtl;
+}
+
+/* Isolate bidirectional text segments */
+.bidi-isolate {
+  unicode-bidi: isolate;
+  unicode-bidi: isolate-override;
+}
+
+/* Override direction for specific content */
+.bidi-ltr {
+  direction: ltr;
+  unicode-bidi: embed;
+}
+
+.bidi-rtl {
+  direction: rtl;
+  unicode-bidi: embed;
+}
+
+/* Auto-detect and handle mixed content */
+.bidi-auto {
+  unicode-bidi: plaintext;
+}
+
+/* Handle numbers in Hebrew text - keep them LTR */
+.bidi-number {
+  direction: ltr;
+  unicode-bidi: embed;
+  display: inline-block;
+}
+
+/* Handle English words/phrases in Hebrew text */
+.bidi-english {
+  direction: ltr;
+  unicode-bidi: embed;
+  display: inline-block;
+}
+
+/* Handle mixed content with proper isolation */
+.bidi-mixed {
+  unicode-bidi: isolate;
+  direction: rtl;
+}
+
+/* Ensure proper text direction for mixed Hebrew/English/Numbers */
+.bidi-fix {
+  unicode-bidi: bidi-override;
+  direction: rtl;
+}
+
+/* For inline elements that need proper bidi handling */
+.bidi-inline {
+  unicode-bidi: embed;
+  display: inline;
+}
+
+/* For block elements */
+.bidi-block {
+  unicode-bidi: isolate;
+  direction: rtl;
+}
+
+/* Fix for numbers appearing in RTL context */
+[dir="rtl"] .bidi-number,
+[dir="rtl"] .bidi-english {
+  direction: ltr;
+  unicode-bidi: embed;
+  text-align: left;
+}
+
+/* Ensure proper RTL reading order - Hebrew from right, English/Numbers from left */
+.bidi-container {
+  direction: rtl;
+  unicode-bidi: isolate;
+  text-align: right;
+}
+
+.bidi-container > * {
+  unicode-bidi: embed;
+}
+
+.bidi-container .bidi-number,
+.bidi-container .bidi-english {
+  direction: ltr;
+  unicode-bidi: embed;
+  text-align: left;
+  display: inline-block;
+}
+
+/* Fix for common mixed content patterns */
+.bidi-mixed-content {
+  direction: rtl;
+  unicode-bidi: plaintext;
+}
+
+/* Utility for preserving text direction in nested contexts */
+.bidi-preserve {
+  unicode-bidi: isolate;
 }
