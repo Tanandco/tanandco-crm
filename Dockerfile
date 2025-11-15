@@ -32,11 +32,8 @@ COPY server ./server
 # העתקת shared (נדרש לשרת)
 COPY shared ./shared
 
-# העתקת קבצי ה-client שנבנו
+# העתקת קבצי ה-client שנבנו (Vite בונה ל-dist בשורש)
 COPY --from=builder /app/dist ./dist
-
-# העתקת client (נדרש ל-serveStatic)
-COPY --from=builder /app/client ./client
 
 # יצירת משתמש לא-root
 RUN addgroup -S nodejs && adduser -S nodejs -G nodejs
