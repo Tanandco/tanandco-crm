@@ -145,14 +145,12 @@ export default function RivkaManicureDialog({ open, onOpenChange }: RivkaManicur
                   <div className="flex gap-2 h-full">
                     <div className="flex-[0_0_33%] min-w-0">
                       <img 
-                        src="/attached_assets/1_1760265240402.png" 
                         alt="עיצוב ציפורניים 1"
                         className="aspect-square object-cover rounded-lg border border-pink-500/30"
                       />
                     </div>
                     <div className="flex-[0_0_33%] min-w-0">
                       <img 
-                        src="/attached_assets/4_1760265240402.png" 
                         alt="עיצוב ציפורניים 2"
                         className="aspect-square object-cover rounded-lg border border-pink-500/30"
                       />

@@ -7,6 +7,14 @@
 			"problemMatcher": [],
 			"label": "npm: dev",
 			"detail": "cross-env NODE_ENV=development tsx server/index.ts"
+		},
+		{
+			"type": "npm",
+			"script": "build",
+			"group": "build",
+			"problemMatcher": [],
+			"label": "npm: build",
+			"detail": "vite build"
 		}
 	]
 }

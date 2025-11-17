@@ -19,8 +19,6 @@ export default function SocialDemo() {
   ];
 
   const sampleImages = [
-    { id: '1', url: '/IMG_9288_1760435215183.png', label: 'לפני - Browlift' },
-    { id: '2', url: '/IMG_9289_1760435215183.png', label: 'אחרי - Eyebrows Shaping' },
   ];
 
   const handleSelectPage = (pageId: string) => {

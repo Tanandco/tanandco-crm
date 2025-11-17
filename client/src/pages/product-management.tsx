@@ -16,7 +16,6 @@ import { Plus, Edit, Trash2, Package, Image as ImageIcon, AlertCircle, TrendingD
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest, queryClient } from '@/lib/queryClient';
 import { useLocation } from 'wouter';
-import Logo from '@/components/Logo';
 
 const productFormSchema = z.object({
   productType: z.enum(['product', 'service']).default('product'),
@@ -231,7 +230,6 @@ export default function ProductManagement() {
             >
               <ArrowRight className="w-5 h-5" />
             </Button>
-            <Logo size="header" showGlow={false} showUnderline={false} />
             <div>
               <h1 className="text-3xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">
                 ניהול מלאים
@@ -503,7 +501,6 @@ export default function ProductManagement() {
                           <Textarea 
                             {...field} 
                             rows={3} 
-                            placeholder="https://example.com/image1.jpg&#10;https://example.com/image2.jpg"
                             data-testid="input-images"
                           />
                         </FormControl>

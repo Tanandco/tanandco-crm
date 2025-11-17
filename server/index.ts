@@ -8,7 +8,7 @@ import { doorHealthHandler, doorOpenHandler } from "./biostar";
 // ====== יצירת אפליקציית אקספרס ======
 const app = express();
 
-// ====== ראוטים קטנים לדיבאג (אופציונלי אבל שימושי) ======
+// ====== דיבאג ל-BioStar ======
 app.get("/api/biostar/debug", (req: Request, res: Response) => {
   res.json({
     BIOSTAR_SERVER_URL: process.env.BIOSTAR_SERVER_URL,
@@ -18,72 +18,117 @@ app.get("/api/biostar/debug", (req: Request, res: Response) => {
   });
 });
 
-// ====== raw body ל-WhatsApp (אם צריך חתימת webhook) ======
+// ====== raw body ל-WhatsApp ======
 app.use("/api/webhooks/whatsapp", express.raw({ type: "application/json" }));
 
-// ====== JSON/URLENCODED לכל שאר הראוטים ======
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-
-// ====== BioStar routes (לשים לפני שאר ה-middlewares/Routes) ======
-app.get("/api/biostar/health", doorHealthHandler);
-// שני נתיבים לפתיחת דלת (alias זהים):
-app.all("/api/biostar/open", doorOpenHandler);
-app.all("/api/door/open", doorOpenHandler);
-
-// ====== לוג/מדידות פשוטים (לא חובה) ======
+// ====== טיפול ב-Host header מ-Cloudflare Tunnel ======
 app.use((req: Request, res: Response, next: NextFunction) => {
-  const start = Date.now();
-  const { path, method } = req;
-  const original = res.json;
-  let bodyJson: unknown;
-  (res as any).json = function (b: unknown, ...args: unknown[]) {
-    bodyJson = b;
-    return (original as any).apply(res, [b, ...args]);
-  };
-  res.on("finish", () => {
-    if (path.startsWith("/api/")) {
-      const ms = Date.now() - start;
-      console.log(`${method} ${path} ${res.statusCode} in ${ms}ms`, bodyJson ? "" : "");
-    }
-  });
+  // Cloudflare Tunnel שולח את ה-Host header המקורי
+  // Vite צריך את זה כדי לאפשר את ה-host
+  const host = req.get('host') || req.get('x-forwarded-host') || 'localhost:3001';
+  req.headers.host = host;
   next();
 });
 
-// ====== רישום ראוטים אחרים של המערכת ======
-registerRoutes(app);
+// ====== JSON לכל שאר הראוטים ======
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-// ====== הפעלת Vite/סטטי לפי סביבת העבודה ======
+// ====== נתיבי BioStar ======
+app.get("/api/biostar/health", doorHealthHandler);
+app.all("/api/biostar/open", doorOpenHandler);
+app.all("/api/door/open", doorOpenHandler);
+
+// ====== לוגים פשוטים ======
+app.use((req: Request, res: Response, next: NextFunction) => {
+  const start = Date.now();
+  const { method, path } = req;
+  const originalJson = res.json;
+
+  (res as any).json = function (body: unknown, ...args: unknown[]) {
+    return (originalJson as any).apply(this, [body, ...args]);
+  };
+
+  res.on("finish", () => {
+    if (path.startsWith("/api/")) {
+      const took = Date.now() - start;
+      console.log(`${method} ${path} → ${res.statusCode} (${took}ms)`);
+    }
+  });
+
+  next();
+});
+
+// ====== הפעלה ======
 async function start() {
-  // Initialize BioStar connection
+  // ניסיון חיבור לביוסטאר
   try {
-    console.log('Starting BioStar initialization...');
+    console.log("Starting BioStar initialization...");
     await bioStarStartup.initialize();
   } catch (error) {
-    console.error('BioStar initialization failed, continuing without facial recognition:', error);
+    console.error("BioStar initialization failed — continuing without facial recognition:", error);
   }
 
   const isProd = process.env.NODE_ENV === "production";
 
-  const PORT = Number(process.env.PORT || 5000);
-  const HOST = isProd ? "0.0.0.0" : "127.0.0.1";
-  const server = app.listen(PORT, HOST, () => {
-    console.log(`[express] serving on port ${PORT} (${isProd ? "production" : "localhost only - secure mode"})`);
-  });
+  // ====== הפורט && ההוסט ======
+// ====== הפורט && ההוסט ======
+const PORT = Number(process.env.PORT || 3001); // שונה ל-3001 כי 3000 תפוס
+const HOST = "0.0.0.0";
 
+const server = app.listen(PORT, HOST, () => {
+  console.log(`[express] Server is running on http://${HOST}:${PORT} (${isProd ? "production" : "development"})`);
+});
+
+  // ====== פרודקשן → מגיש סטטי ======
   if (isProd) {
-    // ב־production מגישים קבצים סטטיים (דרוש build של ה-client)
     try {
       serveStatic(app);
       console.log("[static] serving built client (production)");
     } catch (e: any) {
-      console.warn("[static] skipping serveStatic:", e?.message || e);
+      console.warn("[static] static serve failed:", e?.message);
     }
-  } else {
-    // ב־development מריצים Vite middleware – לא צריך תיקיית build
-    await setupVite(app, server);
-    console.log("[vite] dev middleware attached");
+    return;
   }
+
+  // ====== דב → מפעיל Vite כ־middleware לפני ה-routes ======
+  let vite;
+  try {
+    vite = await setupVite(app, server);
+    console.log("[vite] dev middleware attached");
+  } catch (e: any) {
+    console.error("[vite] failed to attach middleware:", e?.message);
+    return;
+  }
+
+  // ====== רישום ראוטים כללי אחרי Vite middleware ======
+  registerRoutes(app);
+
+  // ====== Catch-all route למסירת ה-HTML של React - חייב להיות אחרון! ======
+  app.use("*", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { fileURLToPath } = await import("url");
+      const pathModule = await import("path");
+      const { nanoid } = await import("nanoid");
+      const fs = await import("fs");
+      
+      const __filename = fileURLToPath(import.meta.url);
+      const __dirname = pathModule.dirname(__filename);
+      const clientTemplate = pathModule.resolve(__dirname, "../client/index.html");
+
+      let template = await fs.promises.readFile(clientTemplate, "utf-8");
+      template = template.replace(
+        `src="/src/main.tsx"`,
+        `src="/src/main.tsx?v=${nanoid()}"`
+      );
+
+      const page = await vite.transformIndexHtml(req.originalUrl, template);
+      res.status(200).set({ "Content-Type": "text/html" }).end(page);
+    } catch (err) {
+      vite.ssrFixStacktrace(err as Error);
+      next(err);
+    }
+  });
 }
 
 start().catch((err) => {

@@ -7,7 +7,6 @@ import { Search, ShoppingCart, Trash2, Plus, Minus, CreditCard, X, ImageOff, Ima
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest, queryClient } from '@/lib/queryClient';
 import { useLocation } from 'wouter';
-import Logo from '@/components/Logo';
 
 interface Product {
   id: string;
@@ -340,10 +339,6 @@ export default function POS() {
 
           {/* Cart Section */}
           <div className="lg:col-span-1 space-y-4">
-            <div className="flex justify-start">
-              <Logo size="medium" />
-            </div>
-
             {/* Customer Selection */}
             <Card 
               className="p-4 bg-gradient-to-br from-gray-900/90 via-black/80 to-gray-800/90 border-pink-500/30 backdrop-blur-sm"

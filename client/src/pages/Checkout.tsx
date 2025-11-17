@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Loader2, Sparkles, Star, Check, Globe, Hand } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
-import Logo from "@/components/Logo";
 
 interface Package {
   id: string;
@@ -148,10 +147,8 @@ export default function Checkout() {
 
   return (
     <div className="min-h-screen bg-black text-white" dir={dir}>
-      {/* Header with Logo and Language Selector */}
-      <div className="flex items-center justify-between p-6 max-w-[1280px] mx-auto">
-        <Logo size="large" />
-        
+      {/* Header with Language Selector */}
+      <div className="flex items-center justify-end p-6 max-w-[1280px] mx-auto">
         {/* Language Selector */}
         <div className="flex gap-2">
           {(['he', 'en', 'fr'] as Language[]).map((lang) => (

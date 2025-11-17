@@ -2,14 +2,7 @@ import { useState } from 'react';
 import { ArrowLeft, Sparkles, Instagram, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import useEmblaCarousel from 'embla-carousel-react';
-import img1 from '@assets/IMG_9288_1760435215183.png';
-import img2 from '@assets/IMG_9289_1760435215183.png';
-import img7 from '@assets/image_1760435246985.png';
 
-const img3 = '/IMG_9290_1760435215183.jpeg';
-const img4 = '/IMG_9291_1760435215183.jpeg';
-const img5 = '/IMG_9292_1760435215183.jpeg';
-const img6 = '/IMG_9293_1760435215183.jpeg';
 
 interface EyebrowsDialogProps {
   open: boolean;

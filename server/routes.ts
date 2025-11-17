@@ -2534,7 +2534,6 @@ export function registerRoutes(app: express.Application) {
           stock: 15,
           isActive: true,
           isFeatured: true,
-          images: ['https://i.ibb.co/7KXqH9y/Thatso-Spray.jpg'],
           features: [
             'תרסיס שיזוף מקצועי',
             'תוצאה מיידית',
@@ -2556,7 +2555,6 @@ export function registerRoutes(app: express.Application) {
           stock: 20,
           isActive: true,
           isFeatured: true,
-          images: ['https://i.ibb.co/9yHQcXy/Jet-Set-Sun.jpg'],
           features: [
             'נוסחה מופעלת שמש',
             'מתאים למיטות שיזוף',
@@ -2580,7 +2578,6 @@ export function registerRoutes(app: express.Application) {
           isActive: true,
           isFeatured: true,
           badge: 'bestseller',
-          images: ['https://i.ibb.co/7y4gZVL/Glam-Body-Extra-Dark.jpg'],
           features: [
             'ברונזר כהה במיוחד',
             'חוזק ברונזר: 12',

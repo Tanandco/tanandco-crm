@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useLocation } from 'wouter';
 import { Home, Star, Search, Sparkles, Settings, Users, Package, Smartphone, Fingerprint, Hand, Menu, DoorOpen, ShoppingCart, MessageCircle, BarChart3, UserPlus } from 'lucide-react';
-import Logo from './Logo';
 import ServiceCard from './ServiceCard';
 import StatusDisplay from './StatusDisplay';
 import SunBedsDialog from './SunBedsDialog';
@@ -12,13 +11,6 @@ import NewCustomerDialog from './NewCustomerDialog';
 import Alin from './Alin';
 import Sol from './Sol';
 import ChatBox from './ChatBox';
-import tanningBedIcon from '@assets/עיצוב ללא שם (30)_1759413689481.png';
-import sprayTanIcon from '@assets/freepik__spray-tan-variation-b-modern-flatbadge-3d-spray-gu__47717_1759413070782.png';
-import hairSalonIcon from '@assets/freepik__3d-neon-pink-icon-of-a-hair-salon-symbol-stylized-__47719_1759413079154.png';
-import cosmeticsIcon from '@assets/עיצוב ללא שם (31)_1759413948155.png';
-import storeIcon from '@assets/freepik__online-store-shopping-bag-variation-a-3d-shopping-__47713_1759413103497.png';
-import selfServiceIcon from '@assets/עיצוב ללא שם (32)_1759414540774.png';
-import newCustomerIcon from '@assets/עיצוב ללא שם (4)_1760090011932.png';
 import { SelfServiceButton3D } from './SelfServiceButton3D';
 
 interface TouchInterfaceProps {
@@ -209,11 +201,6 @@ export default function TouchInterface({ onServiceSelect, onNavigate }: TouchInt
             />
           </button>
         </div>
-        </div>
-
-        {/* Logo */}
-        <div className="transform -translate-y-12 md:-translate-y-4 -mb-12 md:-mb-4">
-          <Logo className="scale-[0.6] md:scale-90" showGlow={true} showUnderline={true} />
         </div>
 
         {/* Service Cards - Mobile: 2 rows, Desktop: 1 row */}

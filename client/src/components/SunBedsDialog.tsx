@@ -12,11 +12,6 @@ import { PurchaseOverlay } from "@/components/PurchaseOverlay";
 import ZenCarousel from "@/components/ZenCarousel";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import bronzerIcon from '@assets/4_1759474624696.png';
-import packageIcon from '@assets/member-card-icon.png';
-import newCustomerIcon from '@assets/עיצוב ללא שם (4)_1760090011932.png';
-import blueAlinGif from '@assets/עיצוב ללא שם (5)_1760108712417.gif';
-import searchIconImage from '@assets/Dהורדותfreepik__spray-tan-variation-b-modern-flatbadge-3d-spray-gu__47717.png_1760198215208.png';
 
 interface SunBedsDialogProps {
   open: boolean;

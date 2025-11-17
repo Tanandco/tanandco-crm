@@ -7,9 +7,6 @@ import { PurchaseOverlay } from "@/components/PurchaseOverlay";
 import EyebrowsDialog from "@/components/EyebrowsDialog";
 import RivkaManicureDialog from "@/components/RivkaManicureDialog";
 import ShayManicureDialog from "@/components/ShayManicureDialog";
-import searchIcon from '@assets/3_1759474572534.png';
-import packageIcon from '@assets/member-card-icon.png';
-import newCustomerIcon from '@assets/Dהורדותfreepik__spray-tan-variation-b-modern-flatbadge-3d-spray-gu__47717.png_1759805942437.png';
 
 interface CosmeticsDialogProps {
   open: boolean;

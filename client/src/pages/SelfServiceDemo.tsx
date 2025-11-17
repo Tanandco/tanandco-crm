@@ -1,14 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'wouter';
 import { Home, Settings } from 'lucide-react';
-import Logo from '@/components/Logo';
 import Alin from '@/components/Alin';
-import tanningBedIcon from '@assets/עיצוב ללא שם (30)_1759413689481.png';
-import sprayTanIcon from '@assets/freepik__spray-tan-variation-b-modern-flatbadge-3d-spray-gu__47717_1759413070782.png';
-import hairSalonIcon from '@assets/freepik__3d-neon-pink-icon-of-a-hair-salon-symbol-stylized-__47719_1759413079154.png';
-import cosmeticsIcon from '@assets/עיצוב ללא שם (31)_1759413948155.png';
-import storeIcon from '@assets/freepik__online-store-shopping-bag-variation-a-3d-shopping-__47713_1759413103497.png';
-import selfServiceIcon from '@assets/עיצוב ללא שם (32)_1759414540774.png';
 
 export default function SelfServiceDemo() {
   const [, navigate] = useLocation();
@@ -127,14 +120,7 @@ export default function SelfServiceDemo() {
           data-testid="splash-screen"
         >
           <div className="text-center px-6">
-            <Logo 
-              className="mx-auto"
-              size="large"
-              showGlow={true}
-              showUnderline={false}
-            />
-            
-            {/* Neon line under logo */}
+            {/* Neon line */}
             <div className="mt-4 h-px w-64 mx-auto bg-gradient-to-r from-transparent via-[rgba(236,72,153,.6)] via-[rgba(147,51,234,.5)] to-transparent" />
 
             <h1 className="mt-6 text-3xl md:text-5xl font-extrabold">שירות עצמי 24/7</h1>

@@ -1,5 +1,3 @@
-import Logo from "@/components/Logo";
-import {
   Calendar,
   Scissors,
   Sparkles,
@@ -75,7 +73,6 @@ export default function HairStudio() {
         >
           <ArrowRight className="w-5 h-5" />
         </Button>
-        <Logo size="small" showGlow={true} showUnderline={false} />
       </div>
 
       {/* HERO */}

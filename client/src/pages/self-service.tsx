@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'wouter';
 import { Home, Settings } from 'lucide-react';
-import Logo from '@/components/Logo';
 import Alin from '@/components/Alin';
 import Sol from '@/components/Sol';
 import ServiceCard from '@/components/ServiceCard';
@@ -11,13 +10,6 @@ import HairSalonDialog from '@/components/HairSalonDialog';
 import CosmeticsDialog from '@/components/CosmeticsDialog';
 import ChatBox from '@/components/ChatBox';
 import PasswordDialog from '@/components/PasswordDialog';
-import tanningBedIcon from '@assets/עיצוב ללא שם (30)_1759413689481.png';
-import sprayTanIcon from '@assets/freepik__spray-tan-variation-b-modern-flatbadge-3d-spray-gu__47717_1759413070782.png';
-import hairSalonIcon from '@assets/freepik__3d-neon-pink-icon-of-a-hair-salon-symbol-stylized-__47719_1759413079154.png';
-import cosmeticsIcon from '@assets/עיצוב ללא שם (31)_1759413948155.png';
-import storeIcon from '@assets/freepik__online-store-shopping-bag-variation-a-3d-shopping-__47713_1759413103497.png';
-import selfServiceIcon from '@assets/עיצוב ללא שם (32)_1759414540774.png';
-import blueAlinGif from '@assets/עיצוב ללא שם (5)_1760108712417.gif';
 
 export default function SelfService() {
   const [, navigate] = useLocation();
@@ -59,9 +51,6 @@ export default function SelfService() {
     closeSplash();
   };
 
-  const handleLogoClick = () => {
-    setPasswordDialogOpen(true);
-  };
 
   const handlePasswordSuccess = () => {
     setPasswordDialogOpen(false);
@@ -253,14 +242,7 @@ export default function SelfService() {
           data-testid="splash-screen"
         >
           <div className="text-center px-6">
-            <Logo 
-              className="mx-auto"
-              size="large"
-              showGlow={true}
-              showUnderline={false}
-            />
-            
-            {/* Neon line under logo */}
+            {/* Neon line */}
             <div className="mt-4 h-px w-64 mx-auto bg-gradient-to-r from-transparent via-[rgba(236,72,153,.6)] via-[rgba(147,51,234,.5)] to-transparent" />
 
             <h1 className="mt-6 text-3xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-pink-400 to-blue-400" style={{ backgroundSize: '200% auto', animation: 'gradientFlow 3s linear infinite' }}>שירות עצמי 24/7</h1>
@@ -293,19 +275,6 @@ export default function SelfService() {
         <section className="relative overflow-hidden py-2">
           <div className="absolute inset-0 bg-gradient-to-br from-black via-black/95 to-[hsla(var(--primary)/0.05)]" />
           <div className="relative max-w-6xl mx-auto px-3 text-center">
-            <button 
-              onClick={handleLogoClick}
-              className="mx-auto cursor-pointer hover:opacity-90 transition-opacity"
-              data-testid="button-logo-home"
-            >
-              <Logo 
-                size="medium"
-                showGlow={true}
-                showUnderline={false}
-              />
-            </button>
-            
-            
             <h2 className="mt-4 text-lg md:text-2xl font-extrabold leading-tight">
               המודל ההיברידי של תעשיית השיזוף - העולם של המחר
             </h2>

@@ -1,4 +1,3 @@
-import blueAlinGif from '@assets/עיצוב ללא שם (5)_1760108712417.gif';
 
 interface SolProps {
   className?: string;

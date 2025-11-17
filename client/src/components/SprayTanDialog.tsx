@@ -2,9 +2,6 @@ import { ArrowLeft, Calendar, Search } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
-import sprayTanImage from '@assets/שיזוף בהתזה (1920 x 1080 פיקסל) (2)_1760223839174.png';
-import tannedLegs from '@assets/שירות עצמי 247 (1)_1760232661723.png';
-import sprayGun from '@assets/שירות עצמי 247 (3)_1760233088090.png';
 import { useState } from 'react';
 
 interface SprayTanDialogProps {

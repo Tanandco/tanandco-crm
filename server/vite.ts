@@ -24,35 +24,39 @@ export function log(message: string, source = "express") {
 }
 
 export async function setupVite(app: Express, server: Server) {
+  // Resolve paths relative to project root (not client root)
+  const projectRoot = path.resolve(__dirname, "..");
+  
   const vite = await createViteServer({
     ...viteConfig,
     configFile: false,
+    root: viteConfig.root, // Keep client as root for Vite
+    resolve: {
+      ...viteConfig.resolve,
+      alias: {
+        ...viteConfig.resolve?.alias,
+        // Ensure @shared resolves correctly from project root
+        "@shared": path.resolve(projectRoot, "shared"),
+        "@shared/*": path.resolve(projectRoot, "shared/*"),
+      },
+    },
     server: {
       middlewareMode: true,
       hmr: { server },
+      allowedHosts: [
+        'crm.tanandco.co.il',
+        'localhost',
+        '127.0.0.1',
+        '.tanandco.co.il', // Allow all subdomains
+      ],
     },
     appType: "custom",
   });
 
   app.use(vite.middlewares);
-
-  app.use("*", async (req, res, next) => {
-    try {
-      const clientTemplate = path.resolve(__dirname, "../client/index.html");
-
-      let template = await fs.promises.readFile(clientTemplate, "utf-8");
-      template = template.replace(
-        `src="/src/main.tsx"`,
-        `src="/src/main.tsx?v=${nanoid()}"`
-      );
-
-      const page = await vite.transformIndexHtml(req.originalUrl, template);
-      res.status(200).set({ "Content-Type": "text/html" }).end(page);
-    } catch (err) {
-      vite.ssrFixStacktrace(err as Error);
-      next(err);
-    }
-  });
+  
+  // Return vite instance so catch-all route can be added after all routes
+  return vite;
 }
 
 export function serveStatic(app: Express) {
