@@ -1,4 +1,5 @@
 // server/index.ts
+import "dotenv/config"; // טעינת משתני סביבה מ-.env
 import express, { type Request, type Response, type NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic } from "./vite";
@@ -72,13 +73,14 @@ async function start() {
   const isProd = process.env.NODE_ENV === "production";
 
   // ====== הפורט && ההוסט ======
-// ====== הפורט && ההוסט ======
-const PORT = Number(process.env.PORT || 3001); // שונה ל-3001 כי 3000 תפוס
-const HOST = "0.0.0.0";
+  // בפיתוח: פורט 5080 (לא 5000 - זה BioStar!)
+  // בפרודקשן: Cloud Run קובע את הפורט דרך PORT env var
+  const PORT = Number(process.env.PORT || (isProd ? 5000 : 5080));
+  const HOST = isProd ? "0.0.0.0" : "127.0.0.1";
 
-const server = app.listen(PORT, HOST, () => {
-  console.log(`[express] Server is running on http://${HOST}:${PORT} (${isProd ? "production" : "development"})`);
-});
+  const server = app.listen(PORT, HOST, () => {
+    console.log(`🚀 Server running on http://${HOST === "0.0.0.0" ? "localhost" : HOST}:${PORT} (${isProd ? "production" : "development"})`);
+  });
 
   // ====== פרודקשן → מגיש סטטי ======
   if (isProd) {
