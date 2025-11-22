@@ -11,7 +11,7 @@ import NewCustomerDialog from './NewCustomerDialog';
 import Alin from './Alin';
 import Sol from './Sol';
 import ChatBox from './ChatBox';
-import { SelfServiceButton3D } from './SelfServiceButton3D';
+import { SelfServiceButRton3D } from './SelfServiceButton3D';
 
 interface TouchInterfaceProps {
   onServiceSelect?: (service: string) => void;

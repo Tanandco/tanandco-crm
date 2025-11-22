@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Search, UserPlus, Edit, Trash2, Phone, Mail, Calendar, Star, ScanFace, Link, ArrowRight } from 'lucide-react';
+import { Search, UserPlus, Edit, Trash2, Phone, Mail, Calendar, Star, ScanFace, Link, ArrowRight, ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -335,7 +335,18 @@ export default function CustomerManagement() {
 
                   <Separator className="bg-slate-600" />
 
-                  <div className="flex space-x-2">
+                  <div className="flex space-x-2 flex-wrap gap-2">
+                    <Button
+                      variant="default"
+                      size="sm"
+                      onClick={() => setLocation(`/pos?customerId=${selectedCustomer.id}`)}
+                      className="flex-1 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white"
+                      data-testid="button-open-pos"
+                    >
+                      <ShoppingCart className="h-4 w-4 ml-1" />
+                      פתח קופה
+                    </Button>
+                    
                     <Button
                       variant="outline"
                       size="sm"

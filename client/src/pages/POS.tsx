@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -7,6 +7,7 @@ import { Search, ShoppingCart, Trash2, Plus, Minus, CreditCard, X, ImageOff, Ima
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest, queryClient } from '@/lib/queryClient';
 import { useLocation } from 'wouter';
+import PaymentDialog from '@/components/PaymentDialog';
 
 interface Product {
   id: string;
@@ -41,7 +42,36 @@ export default function POS() {
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
   const [customerSearchQuery, setCustomerSearchQuery] = useState('');
   const [showCustomerSearch, setShowCustomerSearch] = useState(false);
+  const [showPaymentDialog, setShowPaymentDialog] = useState(false);
   const { toast } = useToast();
+
+  // Read customerId from URL query params
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const customerId = urlParams.get('customerId');
+    
+    if (customerId && !selectedCustomer) {
+      // Fetch customer data
+      apiRequest('GET', `/api/customers/${customerId}`)
+        .then((response: any) => {
+          if (response.data) {
+            setSelectedCustomer({
+              id: response.data.id,
+              fullName: response.data.fullName,
+              phone: response.data.phone,
+              email: response.data.email,
+            });
+            toast({
+              title: 'לקוח נטען',
+              description: response.data.fullName,
+            });
+          }
+        })
+        .catch((error) => {
+          console.error('Failed to load customer:', error);
+        });
+    }
+  }, []);
 
   const { data: productsData, isLoading } = useQuery({
     queryKey: ['/api/products'],
@@ -162,8 +192,8 @@ export default function POS() {
   };
 
   const checkoutMutation = useMutation({
-    mutationFn: async () => {
-      // Update stock for all products in cart using delta updates
+    mutationFn: async (paymentData: { transactionId: string; paymentMethod: string }) => {
+      // Update stock for all products in cart
       for (const item of cart) {
         if (item.product.productType === 'product') {
           await apiRequest('POST', `/api/products/${item.product.id}/adjust-stock`, { 
@@ -171,17 +201,42 @@ export default function POS() {
           });
         }
       }
+
+      // Create transaction record
+      await apiRequest('POST', '/api/transactions', {
+        customerId: selectedCustomer?.id || 'guest',
+        type: 'product',
+        amount: totalAmount.toFixed(2),
+        currency: 'ILS',
+        status: 'completed',
+        paymentMethod: paymentData.paymentMethod,
+        metadata: {
+          transactionId: paymentData.transactionId,
+          items: cart.map(item => ({
+            productId: item.product.id,
+            name: item.product.nameHe,
+            quantity: item.quantity,
+            price: item.product.price,
+          })),
+        },
+      });
+
       return { success: true };
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/products'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/transactions'] });
       const customerInfo = selectedCustomer ? selectedCustomer.fullName : "אורח";
       toast({
         title: "✅ עסקה הושלמה",
         description: `לקוח: ${customerInfo} | סה"כ: ₪${totalAmount.toFixed(2)}`,
       });
       setCart([]);
-      setSelectedCustomer(null);
+      // Keep customer selected if came from customer management
+      const urlParams = new URLSearchParams(window.location.search);
+      if (!urlParams.get('customerId')) {
+        setSelectedCustomer(null);
+      }
     },
     onError: (error: any) => {
       toast({
@@ -202,7 +257,12 @@ export default function POS() {
       return;
     }
 
-    checkoutMutation.mutate();
+    setShowPaymentDialog(true);
+  };
+
+  const handlePaymentSuccess = (transactionId: string, paymentMethod: string) => {
+    checkoutMutation.mutate({ transactionId, paymentMethod });
+    setShowPaymentDialog(false);
   };
 
   return (
@@ -543,6 +603,21 @@ export default function POS() {
           </div>
         </div>
       </div>
+
+      {/* Payment Dialog */}
+      <PaymentDialog
+        open={showPaymentDialog}
+        onClose={() => setShowPaymentDialog(false)}
+        totalAmount={totalAmount}
+        customerId={selectedCustomer?.id}
+        customerName={selectedCustomer?.fullName}
+        items={cart.map(item => ({
+          name: item.product.nameHe,
+          quantity: item.quantity,
+          price: parseFloat(item.product.price),
+        }))}
+        onPaymentSuccess={handlePaymentSuccess}
+      />
     </div>
   );
 }

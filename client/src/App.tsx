@@ -22,6 +22,14 @@ import Shop from "@/pages/shop";
 import Onboarding from "@/pages/onboarding";
 import BidiTest from "@/pages/bidi-test";
 import NotFound from "@/pages/not-found";
+import Checkout from "@/pages/Checkout";
+import Landing from "@/pages/Landing";
+import PaymentSuccess from "@/pages/payment-success";
+import PaymentError from "@/pages/payment-error";
+import InventoryManagement from "@/pages/InventoryManagement";
+import Reports from "@/pages/Reports";
+import WhatsAppTest from "@/pages/WhatsAppTest";
+import EmergencyDoorButton from "@/components/EmergencyDoorButton";
 
 export default function App() {
   const [location] = useLocation();
@@ -42,6 +50,13 @@ export default function App() {
     "/shop",
     "/ai-tan",
     "/hair-studio",
+    "/landing",
+    "/checkout",
+    "/payment-success",
+    "/payment-error",
+    "/inventory",
+    "/reports",
+    "/whatsapp-test",
   ];
   const isPublicPage = publicPages.some((page) => location.startsWith(page));
 
@@ -56,8 +71,17 @@ export default function App() {
         <div className="min-h-screen bg-slate-900 text-white" dir="rtl">
           {showWelcome && <WelcomeScreen onContinue={handleWelcomeComplete} />}
           {!isPublicPage && <IconSidebar />}
+          {/* כפתור חירום - תמיד נגיש */}
+          {!isPublicPage && <EmergencyDoorButton />}
           <Switch>
             <Route path="/" component={TouchInterface} />
+            <Route path="/landing" component={Landing} />
+            <Route path="/checkout/:customerId" component={Checkout} />
+            <Route path="/payment-success" component={PaymentSuccess} />
+            <Route path="/payment-error" component={PaymentError} />
+            <Route path="/inventory" component={InventoryManagement} />
+            <Route path="/reports" component={Reports} />
+            <Route path="/whatsapp-test" component={WhatsAppTest} />
             <Route path="/self-service" component={SelfService} />
             <Route path="/pos" component={POS} />
             <Route path="/face-id" component={FaceIdentification} />

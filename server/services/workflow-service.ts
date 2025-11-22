@@ -1,6 +1,7 @@
 import { whatsappService } from "./whatsapp-service";
 import { cardcomService } from "./cardcom-service";
 import { getPackageById } from "../config/packages";
+import { getWhatsAppBot } from "./whatsapp-bot";
 import type { IStorage } from "../storage";
 import type { Customer } from "../../shared/schema";
 
@@ -22,40 +23,43 @@ class WorkflowService {
 
   /**
    * Handle incoming WhatsApp message from new/existing customer
+   * עכשיו משתמש בבוט החכם
    */
   async handleInboundWhatsAppMessage(
     phoneNumber: string,
     messageText: string
   ): Promise<void> {
     try {
-      // Normalize phone number
-      const normalizedPhone = this.normalizePhone(phoneNumber);
-
-      // Find or create customer
-      let customer = await this.storage.getCustomerByPhone(normalizedPhone);
-
-      if (!customer) {
-        // New lead - create customer
-        customer = await this.storage.createCustomer({
-          fullName: `לקוח ${normalizedPhone.slice(-4)}`, // Temporary name
-          phone: normalizedPhone,
-          stage: "lead_inbound",
-          waOptIn: true,
-          lastWhatsAppMsgAt: new Date(),
-        });
-        
-        console.log(`[Workflow] New lead created: ${customer.id}`);
-      } else {
-        // Update last message timestamp
-        await this.storage.updateCustomer(customer.id, {
-          lastWhatsAppMsgAt: new Date(),
-        });
+      // העבר לבוט החכם - הוא מטפל בכל הלוגיקה
+      try {
+        const bot = getWhatsAppBot();
+        await bot.handleMessage(phoneNumber, messageText);
+      } catch (botError: any) {
+        // אם הבוט לא מאותחל, נשתמש ב-workflow הישן
+        console.warn('[Workflow] Bot not initialized, using fallback:', botError.message);
+        throw botError; // יגיע ל-fallback
       }
-
-      // Advance workflow based on current stage
-      await this.advanceWorkflow(customer, messageText);
     } catch (error) {
       console.error("[Workflow] Error handling inbound message:", error);
+      // נסה לטפל גם דרך ה-workflow הישן כגיבוי
+      try {
+        const normalizedPhone = this.normalizePhone(phoneNumber);
+        let customer = await this.storage.getCustomerByPhone(normalizedPhone);
+        
+        if (!customer) {
+          customer = await this.storage.createCustomer({
+            fullName: `לקוח ${normalizedPhone.slice(-4)}`,
+            phone: normalizedPhone,
+            stage: "lead_inbound",
+            waOptIn: true,
+            lastWhatsAppMsgAt: new Date(),
+          });
+        }
+        
+        await this.advanceWorkflow(customer, messageText);
+      } catch (fallbackError) {
+        console.error("[Workflow] Fallback also failed:", fallbackError);
+      }
     }
   }
 

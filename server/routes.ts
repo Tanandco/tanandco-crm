@@ -10,7 +10,10 @@ import { customers, insertCustomerSchema, insertMembershipSchema, faceUploadToke
 import { z } from 'zod';
 import { whatsappService } from './services/whatsapp-service';
 import { cardcomService } from './services/cardcom-service';
+import { maxService } from './services/max-service';
+import { posService } from './services/pos-service';
 import { WorkflowService } from './services/workflow-service';
+import { initWhatsAppBot } from './services/whatsapp-bot';
 import { eq, sql } from 'drizzle-orm';
 import multer from 'multer';
 import XLSX from 'xlsx';
@@ -1376,6 +1379,9 @@ export function registerRoutes(app: express.Application) {
 
   // Initialize workflow service
   const workflowService = new WorkflowService(storage);
+  
+  // Initialize WhatsApp Bot
+  initWhatsAppBot(storage);
 
   // WhatsApp webhook verification (GET)
   app.get('/api/webhooks/whatsapp', (req, res) => {
@@ -1599,6 +1605,383 @@ export function registerRoutes(app: express.Application) {
       }
     } catch (error: any) {
       console.error('[Cardcom Webhook] Error:', error);
+    }
+  });
+
+  // ============================================================
+  // POS Payment Endpoints (מזומן, ביט, העברה, אפל פיי, גוגל פיי)
+  // ============================================================
+
+  // Process cash payment
+  app.post('/api/payments/pos/process', async (req, res) => {
+    try {
+      const { customerId, customerName, amount, currency, paymentMethod, items, cashReceived, change } = req.body;
+
+      if (!amount || !customerName || !items || !Array.isArray(items)) {
+        return res.status(400).json({ success: false, error: 'Missing required fields' });
+      }
+
+      // Generate transaction ID
+      const transactionId = `cash-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
+      // Create transaction record
+      await storage.createTransaction({
+        customerId: customerId || 'guest',
+        type: 'product',
+        amount: amount.toString(),
+        currency: currency || 'ILS',
+        status: 'completed',
+        paymentMethod: 'cash',
+        metadata: {
+          transactionId,
+          items,
+          cashReceived,
+          change,
+        },
+      });
+
+      // Open cash drawer
+      const drawerOpened = await posService.openCashDrawer();
+      if (!drawerOpened) {
+        console.warn('[POS] Cash drawer failed to open, but transaction recorded');
+      }
+
+      // Print receipt
+      const receiptPrinted = await posService.printReceipt({
+        transactionId,
+        customerName,
+        items: items.map((item: any) => ({
+          name: item.name,
+          quantity: item.quantity,
+          price: item.price,
+          total: item.price * item.quantity,
+        })),
+        subtotal: amount,
+        total: amount,
+        paymentMethod: 'מזומן',
+        change: change || 0,
+        date: new Date(),
+      });
+
+      if (!receiptPrinted) {
+        console.warn('[POS] Receipt failed to print, but transaction recorded');
+      }
+
+      // Send receipt via WhatsApp (if customer has phone)
+      try {
+        if (customerId && customerId !== 'guest') {
+          const customer = await storage.getCustomer(customerId);
+          if (customer && customer.phone && customer.waOptIn) {
+            await whatsappService.sendReceipt(
+              customer.phone,
+              customerName,
+              transactionId,
+              items.map((item: any) => ({
+                name: item.name,
+                quantity: item.quantity,
+                price: item.price,
+                total: item.price * item.quantity,
+              })),
+              amount,
+              undefined,
+              amount,
+              'מזומן',
+              change || 0,
+              new Date()
+            );
+            console.log(`[POS] Receipt sent via WhatsApp to ${customer.phone}`);
+          }
+        }
+      } catch (whatsappError: any) {
+        console.warn('[POS] Failed to send WhatsApp receipt:', whatsappError.message);
+        // Don't fail the transaction if WhatsApp fails
+      }
+
+      res.json({
+        success: true,
+        data: {
+          transactionId,
+          drawerOpened,
+          receiptPrinted,
+        },
+      });
+    } catch (error: any) {
+      console.error('[POS] Process payment failed:', error);
+      res.status(500).json({ success: false, error: error.message || 'Failed to process payment' });
+    }
+  });
+
+  // Process Bit payment
+  app.post('/api/payments/bit/process', async (req, res) => {
+    try {
+      const { customerId, customerName, amount, currency, items } = req.body;
+
+      if (!amount || !customerName || !items) {
+        return res.status(400).json({ success: false, error: 'Missing required fields' });
+      }
+
+      // Generate transaction ID
+      const transactionId = `bit-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
+      // Create transaction record
+      await storage.createTransaction({
+        customerId: customerId || 'guest',
+        type: 'product',
+        amount: amount.toString(),
+        currency: currency || 'ILS',
+        status: 'completed',
+        paymentMethod: 'bit',
+        metadata: {
+          transactionId,
+          items,
+        },
+      });
+
+      // Print receipt
+      await posService.printReceipt({
+        transactionId,
+        customerName,
+        items: items.map((item: any) => ({
+          name: item.name,
+          quantity: item.quantity,
+          price: item.price,
+          total: item.price * item.quantity,
+        })),
+        subtotal: amount,
+        total: amount,
+        paymentMethod: 'ביט',
+        date: new Date(),
+      });
+
+      // Send receipt via WhatsApp (if customer has phone)
+      try {
+        if (customerId && customerId !== 'guest') {
+          const customer = await storage.getCustomer(customerId);
+          if (customer && customer.phone && customer.waOptIn) {
+            await whatsappService.sendReceipt(
+              customer.phone,
+              customerName,
+              transactionId,
+              items.map((item: any) => ({
+                name: item.name,
+                quantity: item.quantity,
+                price: item.price,
+                total: item.price * item.quantity,
+              })),
+              amount,
+              undefined,
+              amount,
+              'ביט',
+              undefined,
+              new Date()
+            );
+            console.log(`[Bit] Receipt sent via WhatsApp to ${customer.phone}`);
+          }
+        }
+      } catch (whatsappError: any) {
+        console.warn('[Bit] Failed to send WhatsApp receipt:', whatsappError.message);
+      }
+
+      res.json({
+        success: true,
+        data: { transactionId },
+      });
+    } catch (error: any) {
+      console.error('[Bit] Process payment failed:', error);
+      res.status(500).json({ success: false, error: error.message || 'Failed to process Bit payment' });
+    }
+  });
+
+  // Process bank transfer
+  app.post('/api/payments/transfer/process', async (req, res) => {
+    try {
+      const { customerId, customerName, amount, currency, items } = req.body;
+
+      if (!amount || !customerName || !items) {
+        return res.status(400).json({ success: false, error: 'Missing required fields' });
+      }
+
+      // Generate transaction ID
+      const transactionId = `transfer-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
+      // Create transaction record (pending until confirmed)
+      await storage.createTransaction({
+        customerId: customerId || 'guest',
+        type: 'product',
+        amount: amount.toString(),
+        currency: currency || 'ILS',
+        status: 'pending',
+        paymentMethod: 'transfer',
+        metadata: {
+          transactionId,
+          items,
+          note: 'העברה בנקאית - ממתין לאישור',
+        },
+      });
+
+      // Send receipt via WhatsApp (if customer has phone) - even for pending transfers
+      try {
+        if (customerId && customerId !== 'guest') {
+          const customer = await storage.getCustomer(customerId);
+          if (customer && customer.phone && customer.waOptIn) {
+            await whatsappService.sendReceipt(
+              customer.phone,
+              customerName,
+              transactionId,
+              items.map((item: any) => ({
+                name: item.name,
+                quantity: item.quantity,
+                price: item.price,
+                total: item.price * item.quantity,
+              })),
+              amount,
+              undefined,
+              amount,
+              'העברה בנקאית (ממתין לאישור)',
+              undefined,
+              new Date()
+            );
+            console.log(`[Transfer] Receipt sent via WhatsApp to ${customer.phone}`);
+          }
+        }
+      } catch (whatsappError: any) {
+        console.warn('[Transfer] Failed to send WhatsApp receipt:', whatsappError.message);
+      }
+
+      res.json({
+        success: true,
+        data: { transactionId },
+        message: 'העברה בנקאית נרשמה. יש לאשר את התשלום ידנית.',
+      });
+    } catch (error: any) {
+      console.error('[Transfer] Process payment failed:', error);
+      res.status(500).json({ success: false, error: error.message || 'Failed to process transfer' });
+    }
+  });
+
+  // Process digital wallet (Apple Pay / Google Pay)
+  app.post('/api/payments/digital-wallet/process', async (req, res) => {
+    try {
+      const { customerId, customerName, amount, currency, walletType, items } = req.body;
+
+      if (!amount || !customerName || !walletType || !items) {
+        return res.status(400).json({ success: false, error: 'Missing required fields' });
+      }
+
+      // Generate transaction ID
+      const transactionId = `${walletType}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
+      // Create transaction record
+      await storage.createTransaction({
+        customerId: customerId || 'guest',
+        type: 'product',
+        amount: amount.toString(),
+        currency: currency || 'ILS',
+        status: 'completed',
+        paymentMethod: walletType,
+        metadata: {
+          transactionId,
+          items,
+        },
+      });
+
+      // Print receipt
+      await posService.printReceipt({
+        transactionId,
+        customerName,
+        items: items.map((item: any) => ({
+          name: item.name,
+          quantity: item.quantity,
+          price: item.price,
+          total: item.price * item.quantity,
+        })),
+        subtotal: amount,
+        total: amount,
+        paymentMethod: walletType === 'apple-pay' ? 'אפל פיי' : 'גוגל פיי',
+        date: new Date(),
+      });
+
+      // Send receipt via WhatsApp (if customer has phone)
+      try {
+        if (customerId && customerId !== 'guest') {
+          const customer = await storage.getCustomer(customerId);
+          if (customer && customer.phone && customer.waOptIn) {
+            await whatsappService.sendReceipt(
+              customer.phone,
+              customerName,
+              transactionId,
+              items.map((item: any) => ({
+                name: item.name,
+                quantity: item.quantity,
+                price: item.price,
+                total: item.price * item.quantity,
+              })),
+              amount,
+              undefined,
+              amount,
+              walletType === 'apple-pay' ? 'אפל פיי' : 'גוגל פיי',
+              undefined,
+              new Date()
+            );
+            console.log(`[Digital Wallet] Receipt sent via WhatsApp to ${customer.phone}`);
+          }
+        }
+      } catch (whatsappError: any) {
+        console.warn('[Digital Wallet] Failed to send WhatsApp receipt:', whatsappError.message);
+      }
+
+      res.json({
+        success: true,
+        data: { transactionId },
+      });
+    } catch (error: any) {
+      console.error('[Digital Wallet] Process payment failed:', error);
+      res.status(500).json({ success: false, error: error.message || 'Failed to process digital wallet payment' });
+    }
+  });
+
+  // Open cash drawer
+  app.post('/api/pos/drawer/open', async (req, res) => {
+    try {
+      const opened = await posService.openCashDrawer();
+      res.json({
+        success: opened,
+        message: opened ? 'מדפת מזומן נפתחה' : 'שגיאה בפתיחת מדפת מזומן',
+      });
+    } catch (error: any) {
+      console.error('[POS] Open drawer failed:', error);
+      res.status(500).json({ success: false, error: error.message || 'Failed to open drawer' });
+    }
+  });
+
+  // Print receipt
+  app.post('/api/pos/receipt/print', async (req, res) => {
+    try {
+      const { transactionId, customerName, items, subtotal, tax, total, paymentMethod, change, date } = req.body;
+
+      if (!transactionId || !customerName || !items || !total) {
+        return res.status(400).json({ success: false, error: 'Missing required fields' });
+      }
+
+      const printed = await posService.printReceipt({
+        transactionId,
+        customerName,
+        items,
+        subtotal: subtotal || total,
+        tax,
+        total,
+        paymentMethod: paymentMethod || 'לא צוין',
+        change: change || 0,
+        date: date ? new Date(date) : new Date(),
+      });
+
+      res.json({
+        success: printed,
+        message: printed ? 'קבלה הודפסה' : 'שגיאה בהדפסת קבלה',
+      });
+    } catch (error: any) {
+      console.error('[POS] Print receipt failed:', error);
+      res.status(500).json({ success: false, error: error.message || 'Failed to print receipt' });
     }
   });
 

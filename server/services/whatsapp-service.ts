@@ -222,6 +222,76 @@ class WhatsAppService {
   }
 
   /**
+   * Send receipt/invoice to customer via WhatsApp
+   * שליחת חשבונית לוואטסאפ
+   */
+  async sendReceipt(
+    to: string,
+    customerName: string,
+    transactionId: string,
+    items: Array<{
+      name: string;
+      quantity: number;
+      price: number;
+      total: number;
+    }>,
+    subtotal: number,
+    tax?: number,
+    total: number,
+    paymentMethod: string,
+    change?: number,
+    date: Date
+  ): Promise<boolean> {
+    try {
+      const dateStr = date.toLocaleString('he-IL', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+
+      // Build receipt message
+      let receipt = `🧾 *חשבונית - Tan & Co*\n\n`;
+      receipt += `📋 *מספר עסקה:* ${transactionId.slice(0, 12)}\n`;
+      receipt += `📅 *תאריך:* ${dateStr}\n`;
+      receipt += `👤 *לקוח:* ${customerName}\n`;
+      receipt += `\n${'='.repeat(30)}\n`;
+      receipt += `*פרטי רכישה:*\n\n`;
+
+      // Add items
+      for (const item of items) {
+        receipt += `• ${item.name}\n`;
+        receipt += `  ${item.quantity}x ₪${item.price.toFixed(2)} = ₪${item.total.toFixed(2)}\n`;
+      }
+
+      receipt += `\n${'='.repeat(30)}\n`;
+      receipt += `💰 *סה"כ:* ₪${total.toFixed(2)}\n`;
+
+      if (tax) {
+        receipt += `📊 *מע"מ:* ₪${tax.toFixed(2)}\n`;
+      }
+
+      receipt += `💳 *אמצעי תשלום:* ${paymentMethod}\n`;
+
+      if (change && change > 0) {
+        receipt += `💵 *עודף:* ₪${change.toFixed(2)}\n`;
+      }
+
+      receipt += `\n${'='.repeat(30)}\n`;
+      receipt += `📍 *כתובת:* רחוב הברזל 11, תל אביב\n`;
+      receipt += `📞 *טלפון:* 03-1234567\n`;
+      receipt += `\n✨ תודה על רכישתך! שיזוף נעים! 🌞\n`;
+      receipt += `\n_חשבונית זו נשלחה אוטומטית מהמערכת_`;
+
+      return await this.sendTextMessage(to, receipt);
+    } catch (error) {
+      console.error('[WhatsApp] Failed to send receipt:', error);
+      return false;
+    }
+  }
+
+  /**
    * Normalize phone number to international format
    */
   private normalizePhoneNumber(phone: string): string {

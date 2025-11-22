@@ -1,10 +1,11 @@
 // server/index.ts
-import "dotenv/config"; // טעינת משתני סביבה מ-.env
+import dotenv from "dotenv";
+dotenv.config({ override: true }); // טעינת משתני סביבה מ-.env (דורס משתני מערכת)
 import express, { type Request, type Response, type NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic } from "./vite";
 import { bioStarStartup } from "./services/biostar-startup";
-import { doorHealthHandler, doorOpenHandler } from "./biostar";
+import { doorHealthHandler, doorOpenHandler, emergencyDoorOpenHandler } from "./biostar";
 
 // ====== יצירת אפליקציית אקספרס ======
 const app = express();
@@ -39,6 +40,9 @@ app.use(express.urlencoded({ extended: false }));
 app.get("/api/biostar/health", doorHealthHandler);
 app.all("/api/biostar/open", doorOpenHandler);
 app.all("/api/door/open", doorOpenHandler);
+// ====== כפתור חירום - ללא תלות בשום גורם ======
+app.all("/api/emergency/door/open", emergencyDoorOpenHandler);
+app.all("/api/emergency/open", emergencyDoorOpenHandler);
 
 // ====== לוגים פשוטים ======
 app.use((req: Request, res: Response, next: NextFunction) => {
@@ -113,7 +117,7 @@ async function start() {
       const pathModule = await import("path");
       const { nanoid } = await import("nanoid");
       const fs = await import("fs");
-      
+
       const __filename = fileURLToPath(import.meta.url);
       const __dirname = pathModule.dirname(__filename);
       const clientTemplate = pathModule.resolve(__dirname, "../client/index.html");

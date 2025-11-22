@@ -254,3 +254,61 @@ export const doorOpenHandler: RequestHandler = async (req, res) => {
   }
 };
 
+// ====== EMERGENCY DOOR OPEN - NO DEPENDENCIES ======
+// כפתור חירום - פותח דלת ישירות ללא תלות בשום גורם
+export const emergencyDoorOpenHandler: RequestHandler = async (req, res) => {
+  // אין בדיקות - רק ניסיון ישיר לפתוח
+  const q = (req.query.doorId as string) ?? "";
+  const doorId = Number(q || DEFAULT_DOOR_ID || 1); // Default to door 1 if nothing specified
+
+  const trace: any[] = [];
+  try {
+    // ניסיון התחברות ישיר - ללא תלות ב-startup או services אחרים
+    let sid: string;
+    try {
+      sid = await login();
+    } catch (loginErr: any) {
+      trace.push({ step: "login failed", error: String(loginErr?.message || loginErr) });
+      // נסה שוב עם fallback
+      try {
+        sid = await loginV2();
+      } catch (e2: any) {
+        return res.status(500).json({ 
+          ok: false, 
+          error: "Cannot connect to BioStar server",
+          trace,
+          emergency: true
+        });
+      }
+    }
+
+    // נסה למצוא את הדלת
+    let entryDev: string | undefined;
+    try {
+      const doors = await listDoors(sid, trace);
+      const d = doors.find((x) => x.id === String(doorId));
+      entryDev = d?.entryDeviceId;
+    } catch (e: any) {
+      trace.push({ step: "list doors failed", error: String(e?.message || e), note: "continuing anyway" });
+    }
+
+    // נסה לפתוח - עם כל האפשרויות
+    const out = await openDoorInternal(sid, doorId, entryDev, trace);
+    
+    return res.status(out.ok ? 200 : 500).json({ 
+      ...out, 
+      trace, 
+      emergency: true,
+      message: out.ok ? "Door opened successfully (EMERGENCY MODE)" : "Failed to open door"
+    });
+  } catch (err: any) {
+    trace.push({ step: "exception", error: String(err?.message || err) });
+    return res.status(500).json({ 
+      ok: false, 
+      error: String(err?.message || err), 
+      trace,
+      emergency: true
+    });
+  }
+};
+
